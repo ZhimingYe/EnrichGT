@@ -14,13 +14,11 @@ setMethod("EnrichGT", signature(x = "data.frame"),function(x,...){
 
 })
 
-
-.genGT<-function(x,ClusterNum,P.adj=0.05,...){
+.enrichpws<-function(ID,geneID,k,sep="/"){
   require(proxy)
   require(text2vec)
-  InnerDF<-x
-  tokens_list <- strsplit(InnerDF$geneID, "/")
-  names(tokens_list)<-InnerDF$ID
+  tokens_list <- strsplit(geneID,sep)
+  names(tokens_list)<-ID
   tokens_iter <- text2vec::itoken(tokens_list, progressbar = FALSE)
   vocab <- text2vec::create_vocabulary(tokens_iter)
   vectorizer <- text2vec::vocab_vectorizer(vocab)
@@ -28,12 +26,15 @@ setMethod("EnrichGT", signature(x = "data.frame"),function(x,...){
   distance_matrix <- proxy::dist(dtm |> as.matrix(), method = "cosine")
   hc <- hclust(distance_matrix, method = "ward.D2")
   plot(hc)
-  k <- ClusterNum
   clusters <- cutree(hc, k = k)
   clusters<-clusters |> as.data.frame() |> tibble::rownames_to_column(var="ID") |> dplyr::rename(Cluster=".")
-  InnerDF<-InnerDF |> dplyr::left_join(clusters)
-  InnerDF$Cluster<-paste0("Cluster_",InnerDF$Cluster)
-  colnames(InnerDF)
+  clusters$Cluster<-paste0("Cluster_",clusters$Cluster)
+  return(clusters)
+}
+
+.genGT<-function(x,ClusterNum,P.adj=0.05,...){
+  InnerDF<-x
+  InnerDF<-InnerDF |> dplyr::left_join(enrichpws(InnerDF$ID,InnerDF$geneID,ClusterNum))
   InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::select(-c(pvalue,qvalue,BgRatio)) # Need Fix
   obj<-InnerDF |>
     dplyr::mutate(PCT=sapply(InnerDF$GeneRatio,function(x)eval(parse(text = x)))*100) |>
