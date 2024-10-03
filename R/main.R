@@ -32,9 +32,29 @@ setMethod("EnrichGT", signature(x = "data.frame"),function(x,...){
   return(clusters)
 }
 
-.genGT<-function(x,ClusterNum,P.adj=0.05,...){
+.genGT<-function(x,ClusterNum,P.adj=0.05,force,...){
   InnerDF<-x
-  InnerDF<-InnerDF |> dplyr::left_join(enrichpws(InnerDF$ID,InnerDF$geneID,ClusterNum))
+  ClusterNum0<-ClusterNum
+  if(!force){
+    ClusterNum<-dplyr::case_when(dim(x)[1]<10~1,
+                                 dim(x)[1]<20~2,
+                                 dim(x)[1]<30~2,
+                                 dim(x)[1]<40~3,
+                                 dim(x)[1]<50~3,
+                                 dim(x)[1]>=50~ClusterNum0)
+    if(ClusterNum>50){
+      message("Too many clusters! Try with max as 50...")
+      ClusterNum<-50
+    }
+    if(ClusterNum>dim(x)[1]/10 & dim(x)[1]>=50){
+      message("Too many clusters! Try with max as ncol/10...")
+      ClusterNum<-dim(x)[1]/11
+    }
+  }
+  else{
+    ClusterNum<-ClusterNum0
+  }
+  InnerDF<-InnerDF |> dplyr::left_join(.enrichpws(InnerDF$ID,InnerDF$geneID,ClusterNum))
   InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::select(-c(pvalue,qvalue,BgRatio)) # Need Fix
   obj<-InnerDF |>
     dplyr::mutate(PCT=sapply(InnerDF$GeneRatio,function(x)eval(parse(text = x)))*100) |>
