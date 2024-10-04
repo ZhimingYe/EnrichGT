@@ -8,6 +8,7 @@ Description: Parse and cluster biological enrichment result to great
     tables
 License: GPL-V3
 Imports: 
+    BiocManager,
     dplyr,
     fontawesome,
     glue,
@@ -21,3 +22,6 @@ Imports:
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.1
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
