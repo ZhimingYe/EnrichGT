@@ -1,17 +1,32 @@
 
 setGeneric("EnrichGT",function(x,ClusterNum,P.adj=0.05,...) standardGeneric("EnrichGT"))
 setMethod("EnrichGT", signature(x = "enrichResult"),function(x,...){
-  .genGT(x=x@result,...)
+  y<-.genGT(x=x@result,...)
+  return(y)
 })
 setMethod("EnrichGT", signature(x = "compareClusterResult"),function(x,...){
   x<-split(x@result,x@result$cluster)
-  .genGT(x=x,...)
+  y<-lapply(x, function(x).genGT(x))
+  return(y)
 })
 setMethod("EnrichGT", signature(x = "gseaResult"),function(x,...){
-  .genGSEAGT(x=x@result,...)
+  y<-.genGSEAGT(x=x@result,...)
+  return(y)
 })
 setMethod("EnrichGT", signature(x = "data.frame"),function(x,...){
-
+  if("NES"%in%colnames(x)){
+    y<-.genGSEAGT(x=x,...)
+    return(y)
+  }
+  else if("cluster"%in%colnames(x)){
+    x<-split(x,x$cluster)
+    y<-lapply(x, function(x).genGT(x))
+    return(y)
+  }
+  else{
+    y<-.genGT(x=x,...)
+    return(y)
+  }
 })
 
 .enrichpws<-function(ID,geneID,k,sep="/"){
