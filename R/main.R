@@ -79,6 +79,10 @@ setMethod("EnrichGT", signature(x = "data.frame"),function(x,...){
     message("Too many rows! It might be slow...\nWorking, but please consider increase P.adj ...")
   }
 }
+.checkRowNames<-function(x,TYPE){
+
+}
+
 .genGT<-function(x,ClusterNum,P.adj=0.05,force=F,...){
   InnerDF<-x
   ClusterNum0<-ClusterNum
@@ -92,12 +96,12 @@ setMethod("EnrichGT", signature(x = "data.frame"),function(x,...){
     dplyr::select(Description,ID,Count,Cluster,PCT,Padj,geneID) |>
     dplyr::mutate(geneID=gsub("/"," ,",geneID))|>
     gt::gt(groupname_col = "Cluster") |>
-    gtExtras::gt_plt_bar_pct(column = PCT, scaled = FALSE, fill = "blue", background = "lightblue") |>
-    gtExtras::gt_hulk_col_numeric(Padj) |>
-    gtExtras::gt_plt_bar(column = Count, scaled = TRUE,color = "#e64047")  |>
-    gtExtras::gt_merge_stack(col2 = ID, col1 = Description) |>
+    gt_hulk_col_numeric2(PCT,pal = RColorBrewer::brewer.pal(8,"PiYG") |> rev()) |>
+    gt_hulk_col_numeric2(Padj,pal = RColorBrewer::brewer.pal(8,"Spectral")) |>
+    gt_hulk_col_numeric2(Count,pal = RColorBrewer::brewer.pal(8,"PuBuGn") |> rev()) |>
+    gt_merge_stack2(col2 = ID, col1 = Description) |>
     gt::cols_width(Count ~ px(100),
-               PCT ~ px(200)) |>
+               PCT ~ px(100)) |>
     gt::tab_style(
       style = cell_text(size = px(13)),
       locations = cells_body()
