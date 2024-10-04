@@ -4,13 +4,17 @@ Title: Parse and cluster biological enrichment result to great tables
 Version: 0.1.0
 Author: Zhiming Ye
 Maintainer: Zhiming Ye <garnetcrow@hotmail.com>
-Description: Parse and cluster biological enrichment result to great tables
+Description: Parse and cluster biological enrichment result to great
+    tables
 License: GPL-V3
 Imports: 
     dplyr,
+    glue,
     gt,
-    gtExtras,
     proxy,
+    RColorBrewer,
+    rlang,
+    scales,
     text2vec,
     tibble
 Encoding: UTF-8
