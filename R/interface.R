@@ -14,3 +14,22 @@ EnrichGT<-function(x,ClusterNum=15,P.adj=0.05,...){
   res<-doEnrichGT(x,ClusterNum,P.adj,...)
   return(res)
 }
+
+
+.onAttach <- function(libname, pkgname) {
+  required_packages <- c(
+    "dplyr", "fontawesome", "glue", "gt", "proxy",
+    "RColorBrewer", "rlang", "scales", "text2vec",
+    "tibble", "clusterProfiler"
+  )
+  missing_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
+
+  if (length(missing_packages) > 0) {
+    package_message <- paste("The following packages are not installed but are required: ",
+                             paste(missing_packages, collapse = ", "))
+    package_message <- paste(package_message, "\nPlease install them using install.packages() or BiocManager::install() for Bioconductor packages.")
+    packageStartupMessage(package_message)
+  } else {
+    packageStartupMessage("View your enrichment result by entring result|>EnrichGT()|>print()")
+  }
+}
