@@ -42,12 +42,12 @@ setMethod("EnrichGT", signature(x = "data.frame"),function(x,...){
                                  dim(x)[1]<40~3,
                                  dim(x)[1]<50~3,
                                  dim(x)[1]>=50~ClusterNum0)
-    if(ClusterNum>50){
-      message("Too many clusters! Try with max as 50...")
-      ClusterNum<-50
+    if(ClusterNum>60){
+      message("Too many clusters! Try with max as 50...\nuse force=T to forbid the self-check")
+      ClusterNum<-60
     }
     if(ClusterNum>dim(x)[1]/10 & dim(x)[1]>=50){
-      message("Too many clusters! Try with max as ncol/10...")
+      message("Too many clusters! Try with max as ncol/10...\nuse force=T to forbid the self-check")
       ClusterNum<-dim(x)[1]/11
     }
   }
@@ -55,7 +55,14 @@ setMethod("EnrichGT", signature(x = "data.frame"),function(x,...){
     ClusterNum<-ClusterNum0
   }
   InnerDF<-InnerDF |> dplyr::left_join(.enrichpws(InnerDF$ID,InnerDF$geneID,ClusterNum))
+
   InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::select(-c(pvalue,qvalue,BgRatio)) # Need Fix
+  if(nrow(InnerDF)>1000&!force){
+    stop("Too many rows!(>1000), please subset! use force=T to forbid the self-check")
+  }
+  if(nrow(InnerDF)>750){
+    message("Too many rows! It might be slow...\nWorking, but please consider increase P.adj ...")
+  }
   obj<-InnerDF |>
     dplyr::mutate(PCT=sapply(InnerDF$GeneRatio,function(x)eval(parse(text = x)))*100) |>
     dplyr::mutate(Padj = signif(p.adjust, 2)) |>
