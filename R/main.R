@@ -1,21 +1,21 @@
 
-setGeneric("EnrichGT",function(x,ClusterNum,P.adj=0.05,...) standardGeneric("EnrichGT"))
-setMethod("EnrichGT", signature(x = "enrichResult"),function(x,...){
+setGeneric("doEnrichGT",function(x,ClusterNum,P.adj=0.05,...) standardGeneric("doEnrichGT"))
+setMethod("doEnrichGT", signature(x = "enrichResult"),function(x,...){
   y<-.genGT(x=x@result,...)
   return(y)
 })
-setMethod("EnrichGT", signature(x = "compareClusterResult"),function(x,...){
+setMethod("doEnrichGT", signature(x = "compareClusterResult"),function(x,...){
   try({x<-x |> dplyr::select(-cluster)})
   x<-x |> dplyr::rename(cluster=Cluster) |> dplyr::select(-Cluster)
   x<-split(x@result,x@result$cluster)
   y<-lapply(x, function(x).genGT(x))
   return(y)
 })
-setMethod("EnrichGT", signature(x = "gseaResult"),function(x,...){
+setMethod("doEnrichGT", signature(x = "gseaResult"),function(x,...){
   y<-.genGSEAGT(x=x@result,...)
   return(y)
 })
-setMethod("EnrichGT", signature(x = "data.frame"),function(x,...){
+setMethod("doEnrichGT", signature(x = "data.frame"),function(x,...){
   if("NES"%in%colnames(x)){
     y<-.genGSEAGT(x=x,...)
     return(y)
@@ -89,16 +89,24 @@ is_numeric_string <- function(x) {
   }
 }
 .checkRowNames<-function(x,TYPE){
-  enrichRescolnames<-c("ID","Description","GeneRatio","BgRatio","pvalue","p.adjust","qvalue","geneID","Count")
-  if(Type="enrich"){
-  if(sum(colnames(x)%in%c("ID","Description","GeneRatio","pvalue","p.adjust","geneID","Count"))==7){
-    return(T)
-    }
-    else{
-      stop(paste0("cols: ",paste(c("ID","Description","GeneRatio","pvalue","p.adjust","geneID","Count")[!c("ID","Description","GeneRatio","pvalue","p.adjust","geneID","Count")%in%colnames(x)],sep = ", "), "not found!"))
-    }
+  if(Type=="ORA"){
+    judge<-.TypeChecker(x,c("ID","Description","GeneRatio","pvalue","p.adjust","geneID","Count"))
+    return(judge)
   }
-
+  else if(Type=="GSEA"){
+    judge<-.TypeChecker(x,c("ID","Description","NES","pvalue","p.adjust","core_enrichment"))
+    return(judge)
+  }
+}
+.TypeChecker<-function(x,vec){
+  judgeinner<-F
+  if(sum(colnames(x)%in%vec)==length(vec)){
+    judgeinner<-T
+    return(judgeinner)
+  }
+  else{
+    stop(paste0("cols: ",paste(vec[!vec%in%colnames(x)],sep = ", "), "not found!"))
+  }
 }
 .get_object_name <- function(x) {
   deparse(substitute(x))
@@ -106,6 +114,7 @@ is_numeric_string <- function(x) {
 .genGT<-function(x,ClusterNum,P.adj=0.05,force=F,...){
   objname<-.get_object_name(x)
   InnerDF<-x
+  .checkRowNames(x,"ORA")
   ClusterNum0<-ClusterNum
   ClusterNum<-.genClusterNum(ClusterNum = ClusterNum0,force = force)
   InnerDF<-InnerDF |> dplyr::left_join(.enrichpws(InnerDF$ID,InnerDF$geneID,ClusterNum)) # Merge according to "ID"
@@ -132,6 +141,7 @@ is_numeric_string <- function(x) {
 .genGSEAGT<-function(x,ClusterNum,P.adj=0.05,force=F,...){
   objname<-.get_object_name(x)
   InnerDF<-x
+  .checkRowNames(x,"GSEA")
   ClusterNum0<-ClusterNum
   ClusterNum<-.genClusterNum(ClusterNum = ClusterNum0,force = force)
   InnerDF<-InnerDF |> dplyr::left_join(.enrichpws(InnerDF$ID,InnerDF$core_enrichment,ClusterNum)) # Merge according to "ID"

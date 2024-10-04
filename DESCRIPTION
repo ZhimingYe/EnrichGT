@@ -1,7 +1,7 @@
 Type: Package
 Package: EnrichGT
 Title: Parse and cluster biological enrichment result to great tables
-Version: 0.1.0
+Version: 0.1.1
 Author: Zhiming Ye
 Maintainer: Zhiming Ye <garnetcrow@hotmail.com>
 Description: Parse and cluster biological enrichment result to great
@@ -9,6 +9,7 @@ Description: Parse and cluster biological enrichment result to great
 License: GPL-V3
 Imports: 
     dplyr,
+    fontawesome,
     glue,
     gt,
     proxy,
