@@ -4,8 +4,7 @@
 # https://jthomasmock.github.io/gtExtras/index.html
 gt_merge_stack2<-function (gt_object, col1, col2, palette = c("black", "grey"),
           ..., small_cap = TRUE, font_size = c("14px", "10px"), font_weight = c("bold",
-                                                                                "bold"))
-{
+                                                                                "bold")){
   colors <- scales::col2hcl(palette, ...)
   col1_bare <- rlang::enexpr(col1) %>% rlang::as_string()
   row_name_var <- gt_object[["_boxhead"]][["var"]][which(gt_object[["_boxhead"]][["type"]] ==
@@ -40,8 +39,7 @@ gt_merge_stack2<-function (gt_object, col1, col2, palette = c("black", "grey"),
   })
 }
 
-gt_index2<-function (gt_object, column, as_vector = TRUE)
-{
+gt_index2<-function (gt_object, column, as_vector = TRUE){
   if (length(gt_object[["_row_groups"]]) >= 1) {
     gt_row_grps <- gt_object[["_row_groups"]]
     grp_vec_ord <- gt_object[["_stub_df"]] %>% dplyr::mutate(group_id = factor(group_id,
@@ -63,8 +61,7 @@ gt_index2<-function (gt_object, column, as_vector = TRUE)
     df_ordered
   }
 }
-gt_hulk_col_numeric2<-function (gt_object, columns = NULL,pal, domain = NULL, ..., trim = FALSE)
-{
+gt_hulk_col_numeric2<-function (gt_object, columns = NULL,pal, domain = NULL, ..., trim = FALSE){
   pal_hex <- pal
   if (isTRUE(trim))
     pal_hex <- pal_hex[2:6]
