@@ -47,10 +47,10 @@ setMethod("EnrichGT", signature(x = "data.frame"),function(x,...){
   return(clusters)
 }
 
-.genGT<-function(x,ClusterNum,P.adj=0.05,force,...){
-  InnerDF<-x
-  ClusterNum0<-ClusterNum
+
+.genClusterNum<-function(ClusterNum,force){
   if(!force){
+    ClusterNum0<-ClusterNum
     ClusterNum<-dplyr::case_when(dim(x)[1]<10~1,
                                  dim(x)[1]<20~2,
                                  dim(x)[1]<30~2,
@@ -69,15 +69,23 @@ setMethod("EnrichGT", signature(x = "data.frame"),function(x,...){
   else{
     ClusterNum<-ClusterNum0
   }
-  InnerDF<-InnerDF |> dplyr::left_join(.enrichpws(InnerDF$ID,InnerDF$geneID,ClusterNum))
-
-  InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::select(-c(pvalue,qvalue,BgRatio)) # Need Fix
-  if(nrow(InnerDF)>1000&!force){
+  return(ClusterNum)
+}
+.checkNrows<-function(x,force){
+  if(nrow(x)>1000&!force){
     stop("Too many rows!(>1000), please subset! use force=T to forbid the self-check")
   }
-  if(nrow(InnerDF)>750){
+  if(nrow(x)>750){
     message("Too many rows! It might be slow...\nWorking, but please consider increase P.adj ...")
   }
+}
+.genGT<-function(x,ClusterNum,P.adj=0.05,force=F,...){
+  InnerDF<-x
+  ClusterNum0<-ClusterNum
+  ClusterNum<-.genClusterNum(ClusterNum = ClusterNum0,force = force)
+  InnerDF<-InnerDF |> dplyr::left_join(.enrichpws(InnerDF$ID,InnerDF$geneID,ClusterNum)) # Merge according to "ID"
+  InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::select(-c(pvalue,qvalue,BgRatio)) # Need Fix
+  .checkNrows(InnerDF,force = force)
   obj<-InnerDF |>
     dplyr::mutate(PCT=sapply(InnerDF$GeneRatio,function(x)eval(parse(text = x)))*100) |>
     dplyr::mutate(Padj = signif(p.adjust, 2)) |>
