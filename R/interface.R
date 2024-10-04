@@ -10,11 +10,11 @@
 #' @export
 #'
 #' @author Zhiming Ye
-EnrichGT<-function(x,ClusterNum=15,P.adj=0.05,...){
-  res<-doEnrichGT(x,ClusterNum,P.adj,...)
+EnrichGT<-function(x,ClusterNum=15,P.adj=0.05,force=F,...){
+  objname<-deparse(substitute(x))
+  res<-doEnrichGT(x,ClusterNum,P.adj,force,objname=objname,...)
   return(res)
 }
-
 
 .onAttach <- function(libname, pkgname) {
   required_packages <- c(
