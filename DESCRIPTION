@@ -1,0 +1,23 @@
+Type: Package
+Package: EnrichGT
+Title: Parse and cluster biological enrichment result to great tables
+Version: 0.1.1
+Author: Zhiming Ye
+Maintainer: Zhiming Ye <garnetcrow@hotmail.com>
+Description: Parse and cluster biological enrichment result to great
+    tables
+License: GPL-V3
+Imports: 
+    dplyr,
+    fontawesome,
+    glue,
+    gt,
+    proxy,
+    RColorBrewer,
+    rlang,
+    scales,
+    text2vec,
+    tibble
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.1
