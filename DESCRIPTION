@@ -9,18 +9,19 @@ Description: Parse and cluster biological enrichment result to great
 License: GPL-V3
 Imports: 
     BiocManager,
+    clusterProfiler,
     dplyr,
     fontawesome,
     glue,
     gt,
     proxy,
     RColorBrewer,
+    ReactomePA,
     rlang,
     scales,
     text2vec,
     tibble
 Suggests: 
-    clusterProfiler,
     org.Hs.eg.db,
     testthat (>= 3.0.0),
     withr
