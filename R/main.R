@@ -41,7 +41,7 @@ setMethod("doEnrichGT", signature(x = "data.frame"),function(x,...){
   }
   x<-split(x,x$cluster)
   tryCatch({y<-lapply(x, function(x2)try({.genGT(x2,ClusterNum,P.adj=0.05,...)}))},error=function(e){
-    stop("Error: might be too few columns. ")
+    stop("[Message]Error: might be too few columns. ")
   })
   return(y)
 }
@@ -53,7 +53,7 @@ is_numeric_string <- function(x) {
   require(text2vec)
   tokens_list <- strsplit(geneID,sep)
   if(sum(is_numeric_string(unlist(tokens_list)))>length(unlist(tokens_list))*0.5){
-    warning("Please run setReadable first!")
+    message("[Message]Please run setReadable first!")
   }
   tokens_list<-lapply(tokens_list,function(x){
     x[is_numeric_string(x)]<-paste0("Gene_",x)
@@ -85,25 +85,24 @@ is_numeric_string <- function(x) {
                                  dim(x)[1]<50~3,
                                  dim(x)[1]>=50~ClusterNum0)
     if(ClusterNum>60){
-      message("Too many clusters! Try with max as 50...\nuse force=T to forbid the self-check")
+      message("[Message]Too many clusters! Try with max as 50...\nuse force=T to forbid the self-check")
       ClusterNum<-60
     }
     if(ClusterNum>dim(x)[1]/10 & dim(x)[1]>=50){
-      message("Too many clusters! Try with max as ncol/10...\nuse force=T to forbid the self-check")
+      message("[Message]Too many clusters! Try with max as ncol/10...\nuse force=T to forbid the self-check")
       ClusterNum<-dim(x)[1]/11
     }
   }
   else{
-    ClusterNum<-ClusterNum0
   }
   return(ClusterNum)
 }
 .checkNrows<-function(x,force){
   if(nrow(x)>1000&!force){
-    stop("Too many rows!(>1000), please subset! use force=T to forbid the self-check")
+    stop("[Message]Too many rows!(>1000), please subset! use force=T to forbid the self-check")
   }
   if(nrow(x)>750){
-    message("Too many rows! It might be slow...\nWorking, but please consider increase P.adj ...")
+    message("[Message]Too many rows! It might be slow...\nWorking, but please consider increase P.adj ...")
   }
 }
 .checkRowNames<-function(x,Type){
@@ -139,7 +138,7 @@ is_numeric_string <- function(x) {
     dplyr::mutate(PCT=sapply(InnerDF$GeneRatio,function(x)eval(parse(text = x)))*100) |>
     dplyr::mutate(Padj = signif(p.adjust, 2),PCT=signif(PCT, 2)) |>
     dplyr::select(Description,ID,Count,Cluster,PCT,Padj,geneID) |>
-    dplyr::mutate(geneID=gsub("/"," ,",geneID))|>
+    dplyr::mutate(geneID=gsub("/",", ",geneID))|>
     gt::gt(groupname_col = "Cluster") |>
     gt_hulk_col_numeric2(PCT,pal = RColorBrewer::brewer.pal(8,"PiYG") |> rev()) |>
     gt_hulk_col_numeric2(Padj,pal = RColorBrewer::brewer.pal(8,"Spectral")) |>
@@ -166,7 +165,7 @@ is_numeric_string <- function(x) {
     dplyr::mutate(Reg=ifelse(NES>0,"red","forestgreen")) |>
     dplyr::mutate(Padj = signif(p.adjust, 2),absNES=signif(absNES, 4)) |>
     dplyr::select(Description,ID,Reg,absNES,Cluster,Padj,core_enrichment) |>
-    dplyr::mutate(core_enrichment=gsub("/"," ,",core_enrichment))|>
+    dplyr::mutate(core_enrichment=gsub("/",", ",core_enrichment))|>
     gt::gt(groupname_col = "Cluster") |>
     gt_hulk_col_numeric2(Padj,pal = RColorBrewer::brewer.pal(8,"Spectral")) |>
     gt_hulk_col_numeric2(absNES,pal = RColorBrewer::brewer.pal(8,"PuBuGn") |> rev()) |>
