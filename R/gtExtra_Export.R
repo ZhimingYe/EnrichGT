@@ -6,7 +6,7 @@ gt_merge_stack2<-function (gt_object, col1, col2, palette = c("black", "grey"),
           ..., small_cap = TRUE, font_size = c("14px", "10px"), font_weight = c("bold",
                                                                                 "bold")){
   colors <- scales::col2hcl(palette, ...)
-  col1_bare <- rlang::enexpr(col1) %>% rlang::as_string()
+  col1_bare <- rlang::enexpr(col1) |> rlang::as_string()
   row_name_var <- gt_object[["_boxhead"]][["var"]][which(gt_object[["_boxhead"]][["type"]] ==
                                                            "stub")]
   data_in <- gt_index2(gt_object, column = {
@@ -14,7 +14,7 @@ gt_merge_stack2<-function (gt_object, col1, col2, palette = c("black", "grey"),
       col2
     }
   })
-  gt_object %>% text_transform(locations = if (isTRUE(row_name_var ==
+  gt_object |> text_transform(locations = if (isTRUE(row_name_var ==
                                                       col1_bare)) {
     cells_stub(rows = gt::everything())
   }
@@ -32,7 +32,7 @@ gt_merge_stack2<-function (gt_object, col1, col2, palette = c("black", "grey"),
       font_variant <- "normal"
     }
     glue::glue("<div style='line-height:{font_size[1]}'><span style='font-weight:{font_weight[1]};font-variant:{font_variant};color:{colors[1]};font-size:{font_size[1]}'>{x}</span></div>\n        <div style='line-height:{font_size[2]}'><span style ='font-weight:{font_weight[2]};color:{colors[2]};font-size:{font_size[2]}'>{data_in}</span></div>")
-  }) %>% cols_hide(columns = {
+  }) |> cols_hide(columns = {
     {
       col2
     }
@@ -42,16 +42,16 @@ gt_merge_stack2<-function (gt_object, col1, col2, palette = c("black", "grey"),
 gt_index2<-function (gt_object, column, as_vector = TRUE){
   if (length(gt_object[["_row_groups"]]) >= 1) {
     gt_row_grps <- gt_object[["_row_groups"]]
-    grp_vec_ord <- gt_object[["_stub_df"]] %>% dplyr::mutate(group_id = factor(group_id,
-                                                                               levels = gt_row_grps)) %>% dplyr::arrange(group_id) %>%
+    grp_vec_ord <- gt_object[["_stub_df"]] |> dplyr::mutate(group_id = factor(group_id,
+                                                                               levels = gt_row_grps)) |> dplyr::arrange(group_id) |>
       dplyr::pull(rownum_i)
-    df_ordered <- gt_object[["_data"]] %>% dplyr::slice(grp_vec_ord)
+    df_ordered <- gt_object[["_data"]] |> dplyr::slice(grp_vec_ord)
   }
   else {
     df_ordered <- gt_object[["_data"]]
   }
   if (isTRUE(as_vector)) {
-    df_ordered %>% dplyr::pull({
+    df_ordered |> dplyr::pull({
       {
         column
       }

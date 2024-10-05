@@ -123,7 +123,7 @@ is_numeric_string <- function(x) {
     return(judgeinner)
   }
   else{
-    stop(paste0("cols: ",paste(vec[!vec%in%colnames(x)],sep = ", "), "not found!"))
+    stop(paste0("cols: ",paste(vec[!vec%in%colnames(x)],sep = ", "), " not found!\n"))
   }
 }
 
