@@ -4,7 +4,7 @@ setMethod("doEnrichGT", signature(x = "enrichResult"),function(x,...){
   if(sum(grepl("^GO",names(x@geneSets)))>5){
     nsimp()
   }
-  y<-.genGT(x=x@result,ClusterNum,P.adj=0.05,nTop=nTop,...)
+  y<-.genGT(x=x@result,ClusterNum,P.adj=0.05,...)
   return(y)
 })
 setMethod("doEnrichGT", signature(x = "compareClusterResult"),function(x,...){
@@ -16,12 +16,12 @@ setMethod("doEnrichGT", signature(x = "compareClusterResult"),function(x,...){
   return(y)
 })
 setMethod("doEnrichGT", signature(x = "gseaResult"),function(x,...){
-  y<-.genGSEAGT(x=x@result,ClusterNum,P.adj=0.05,nTop=nTop,...)
+  y<-.genGSEAGT(x=x@result,ClusterNum,P.adj=0.05,...)
   return(y)
 })
 setMethod("doEnrichGT", signature(x = "data.frame"),function(x,...){
   if("NES"%in%colnames(x)){
-    y<-.genGSEAGT(x=x,ClusterNum,P.adj=0.05,nTop=nTop,...)
+    y<-.genGSEAGT(x=x,ClusterNum,P.adj=0.05,...)
     return(y)
   }
   else if("Cluster"%in%colnames(x)){
@@ -35,7 +35,7 @@ setMethod("doEnrichGT", signature(x = "data.frame"),function(x,...){
     if(sum(grepl("^GO",names(y$ID)))>5){
       nsimp()
     }
-    y<-.genGT(x=x,ClusterNum,P.adj=0.05,nTop=nTop,...)
+    y<-.genGT(x=x,ClusterNum,P.adj=0.05,...)
     return(y)
   }
 })
@@ -52,8 +52,13 @@ setMethod("doEnrichGT", signature(x = "data.frame"),function(x,...){
     dplyr::mutate(PCT=sapply(InnerDF$GeneRatio,function(x)eval(parse(text = x)))*100) |>
     dplyr::mutate(Padj = signif(p.adjust, 2),PCT=signif(PCT, 2)) |>
     dplyr::select(Description,ID,Count,Cluster,PCT,Padj,geneID) |>
-    dplyr::mutate(geneID=gsub("/",", ",geneID)) # |>
-  obj0 <-obj |> gt_ora()
+    dplyr::mutate(geneID=gsub("/",", ",geneID))
+  obj <- obj |>
+    dplyr::group_by(Cluster) |>
+    dplyr::arrange(Padj) |>
+    dplyr::slice_head(n = nTop) |>
+    dplyr::ungroup()
+  obj0 <-obj |> gt_ora(ClusterNum=ClusterNum,objname=objname)
   obj2 <-obj
   obj3 <-obj2 |> genMetaGM(type="ORA")
   obj3_1 <- obj3[[1]]
@@ -81,7 +86,7 @@ setMethod("doEnrichGT", signature(x = "data.frame"),function(x,...){
     dplyr::arrange(Padj) |>
     dplyr::slice_head(n = nTop) |>
     dplyr::ungroup()
-  obj0 <-obj |> gt_gsea()
+  obj0 <-obj |> gt_gsea(ClusterNum=ClusterNum,objname=objname)
   obj2 <- obj |> dplyr::mutate(Reg=ifelse(Reg=="red","UpReg","DownReg"))
   obj3 <-obj2 |> genMetaGM(type="GSEA")
   obj3_1 <- obj3[[1]]
