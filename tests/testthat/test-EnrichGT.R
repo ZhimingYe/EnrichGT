@@ -23,9 +23,9 @@ test_that("EnrichGT creates four HTML files", {
   kk <- enrichKEGG(gene         = gene,
                    organism     = 'hsa',
                    pvalueCutoff = 0.05)
-  EnrichGT(ego, ClusterNum = 15, P.adj = 1) |> gt::gtsave(file1)
+  EnrichGT(ego, ClusterNum = 15, P.adj = 1)@gt_object |> gt::gtsave(file1)
   expect_true(file.exists(file1), info = "test1.html should be created")
-  EnrichGT(kk, ClusterNum = 100, P.adj = 1) |> gt::gtsave(file2)
+  EnrichGT(kk, ClusterNum = 100, P.adj = 1)@gt_object |> gt::gtsave(file2)
   expect_true(file.exists(file2), info = "test2.html should be created")
   ego3 <- gseGO(geneList     = geneList,
                 OrgDb        = org.Hs.eg.db,
@@ -34,7 +34,7 @@ test_that("EnrichGT creates four HTML files", {
                 maxGSSize    = 500,
                 pvalueCutoff = 0.05,
                 verbose      = FALSE)
-  EnrichGT(ego3, ClusterNum = 100, P.adj = 1) |> gt::gtsave(file3)
+  EnrichGT(ego3, ClusterNum = 100, P.adj = 1)@gt_object |> gt::gtsave(file3)
   expect_true(file.exists(file3), info = "test3.html should be created")
   data(gcSample)
   ck <- compareCluster(geneCluster = gcSample, fun = enrichGO, OrgDb = org.Hs.eg.db, pvalueCutoff = 0.5, qvalueCutoff = 0.5,ont="BP")
@@ -43,7 +43,7 @@ test_that("EnrichGT creates four HTML files", {
   das<-ck@compareClusterResult$Cluster |> table()
 
   dza<-sd[[names(das[das==max(das)])]]
-  dza |> gt::gtsave(file4)
+  dza@gt_object |> gt::gtsave(file4)
   expect_true(file.exists(file4), info = "test4.html should be created")
 
 

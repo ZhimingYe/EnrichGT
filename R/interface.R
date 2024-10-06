@@ -13,12 +13,12 @@
 #' @export
 #'
 #' @author Zhiming Ye
-EnrichGT<-function(x,ClusterNum=15,P.adj=0.05,force=F,...){
+EnrichGT<-function(x,ClusterNum=15,P.adj=0.05,force=F,nTop=20,...){
   objname<-deparse(substitute(x))
   if(objname=="."){
     objname<-"`Magrittr` pipe conveyed object"
   }
-  res<-doEnrichGT(x,ClusterNum,P.adj,force,objname=objname,...)
+  res<-doEnrichGT(x,ClusterNum,P.adj,force,objname=objname,nTop=nTop,...)
   return(res)
 }
 
