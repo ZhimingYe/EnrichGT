@@ -1,3 +1,23 @@
+genMetaGM<-function(x,type){
+  if(type=="ORA"){
+    x <- x |> dplyr::rename(genelists=geneID)
+  }
+  else{
+    x <- x |> dplyr::rename(genelists=core_enrichment)
+  }
+  x$IDDs<-paste0(x$ID,"|",x$Description)
+  x2 <- split(x,x$Cluster)
+  x3 <- lapply(x2,function(y){
+    q <- strsplit(y$genelists,", ") |> unlist() |> table() |> names()
+    return(q)
+  })
+  x4 <- lapply(x2,function(y){
+    q <- y$IDDs |> table() |> names()
+    return(q)
+  })
+  return(list(`gene_modules`=x3,`pathway_clusters`=x4))
+}
+
 .cprres<-function(x,nTop,...){
 
   if("cluster"%in%colnames(x)){

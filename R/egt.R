@@ -40,7 +40,7 @@ setMethod("doEnrichGT", signature(x = "data.frame"),function(x,...){
   }
 })
 
-.genGT<-function(x,ClusterNum,P.adj=0.05,force=F,objname,...){
+.genGT<-function(x,ClusterNum,P.adj=0.05,force=F,objname,nTop,...){
   InnerDF<-x
   .checkRowNames(x,"ORA")
   ClusterNum0<-ClusterNum
@@ -53,11 +53,15 @@ setMethod("doEnrichGT", signature(x = "data.frame"),function(x,...){
     dplyr::mutate(Padj = signif(p.adjust, 2),PCT=signif(PCT, 2)) |>
     dplyr::select(Description,ID,Count,Cluster,PCT,Padj,geneID) |>
     dplyr::mutate(geneID=gsub("/",", ",geneID)) # |>
-  obj<-obj |> gt_ora()
+  obj0 <-obj |> gt_ora()
+  obj2 <-obj
+  obj3 <-obj2 |> genMetaGM(type="ORA")
+  obj3_1 <- obj3[[1]]
+  obj3_2 <- obj3[[2]]
   return(obj)
 }
 
-.genGSEAGT<-function(x,ClusterNum,P.adj=0.05,force=F,objname,...){
+.genGSEAGT<-function(x,ClusterNum,P.adj=0.05,force=F,objname,nTop,...){
   InnerDF<-x
   .checkRowNames(x,"GSEA")
   ClusterNum0<-ClusterNum
@@ -71,7 +75,16 @@ setMethod("doEnrichGT", signature(x = "data.frame"),function(x,...){
     dplyr::mutate(Padj = signif(p.adjust, 2),absNES=signif(absNES, 4)) |>
     dplyr::select(Description,ID,Reg,absNES,Cluster,Padj,core_enrichment) |>
     dplyr::mutate(core_enrichment=gsub("/",", ",core_enrichment))#|> need fix colors
-  obj<-obj |> gt_gsea()
+  obj <- obj |>
+    dplyr::group_by(Cluster) |>
+    dplyr::arrange(Padj) |>
+    dplyr::slice_head(n = nTop) |>
+    dplyr::ungroup()
+  obj0 <-obj |> gt_gsea()
+  obj2 <- obj |> dplyr::mutate(Reg=ifelse(Reg=="red","UpReg","DownReg"))
+  obj3 <-obj2 |> genMetaGM(type="GSEA")
+  obj3_1 <- obj3[[1]]
+  obj3_2 <- obj3[[2]]
   return(obj)
 }
 # attachment::att_amend_desc()
