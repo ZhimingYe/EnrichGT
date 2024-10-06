@@ -1,4 +1,4 @@
-gt_gsea<-function(x){
+gt_gsea<-function(x,ClusterNum,objname,...){
   y<-x |> gt::gt(groupname_col = "Cluster") |>
     gt_hulk_col_numeric2(Padj,pal = RColorBrewer::brewer.pal(8,"Spectral")) |>
     gt_hulk_col_numeric2(absNES,pal = RColorBrewer::brewer.pal(8,"PuBuGn") |> rev()) |>
@@ -21,7 +21,7 @@ gt_gsea<-function(x){
   return(y)
 }
 
-gt_ora<-function(x){
+gt_ora<-function(x,ClusterNum,objname,...){
   y<-x |> gt::gt(groupname_col = "Cluster") |>
     gt_hulk_col_numeric2(PCT,pal = RColorBrewer::brewer.pal(8,"PiYG") |> rev()) |>
     gt_hulk_col_numeric2(Padj,pal = RColorBrewer::brewer.pal(8,"Spectral")) |>
