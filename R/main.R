@@ -1,12 +1,18 @@
 
 setGeneric("doEnrichGT",function(x,ClusterNum,P.adj=0.05,...) standardGeneric("doEnrichGT"))
 setMethod("doEnrichGT", signature(x = "enrichResult"),function(x,...){
+  if(sum(grepl("^GO",names(x@geneSets)))>5){
+    message("\n=====[SUGGESTION]=====\nYou are passing an object from GO Enrichment.\nPlease ensure that `obj |> clusterProfiler::simplify()` is executed, to pre-simplify result,\nFor better enriched result.\n")
+  }
   y<-.genGT(x=x@result,ClusterNum,P.adj=0.05,...)
   return(y)
 })
 setMethod("doEnrichGT", signature(x = "compareClusterResult"),function(x,...){
   x<-x@compareClusterResult
   y<-.cprres(x)
+  if(sum(grepl("^GO",names(y$ID)))>5){
+    message("\n=====[SUGGESTION]=====\nYou are passing an object from GO Enrichment.\nPlease ensure that `obj |> clusterProfiler::simplify()` is executed, to pre-simplify result,\nFor better enriched result.\n")
+  }
   return(y)
 })
 setMethod("doEnrichGT", signature(x = "gseaResult"),function(x,...){
@@ -20,9 +26,15 @@ setMethod("doEnrichGT", signature(x = "data.frame"),function(x,...){
   }
   else if("Cluster"%in%colnames(x)){
     y<-.cprres(x)
+    if(sum(grepl("^GO",names(y$ID)))>5){
+      message("\n=====[SUGGESTION]=====\nYou are passing an object from GO Enrichment.\nPlease ensure that `obj |> clusterProfiler::simplify()` is executed, to pre-simplify result,\nFor better enriched result.\n")
+    }
     return(y)
   }
   else{
+    if(sum(grepl("^GO",names(y$ID)))>5){
+      message("\n=====[SUGGESTION]=====\nYou are passing an object from GO Enrichment.\nPlease ensure that `obj |> clusterProfiler::simplify()` is executed, to pre-simplify result,\nFor better enriched result.\n")
+    }
     y<-.genGT(x=x,ClusterNum,P.adj=0.05,...)
     return(y)
   }
