@@ -58,7 +58,8 @@ setMethod("doEnrichGT", signature(x = "data.frame"),function(x,...){
   obj3 <-obj2 |> genMetaGM(type="ORA")
   obj3_1 <- obj3[[1]]
   obj3_2 <- obj3[[2]]
-  return(obj)
+  objA <- new.egt(obj2,obj0,obj3_1,obj3_2)
+  return(objA)
 }
 
 .genGSEAGT<-function(x,ClusterNum,P.adj=0.05,force=F,objname,nTop,...){
@@ -85,6 +86,7 @@ setMethod("doEnrichGT", signature(x = "data.frame"),function(x,...){
   obj3 <-obj2 |> genMetaGM(type="GSEA")
   obj3_1 <- obj3[[1]]
   obj3_2 <- obj3[[2]]
-  return(obj)
+  objA <- new.egt(obj2,obj0,obj3_1,obj3_2)
+  return(objA)
 }
 # attachment::att_amend_desc()
