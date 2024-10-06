@@ -1,4 +1,4 @@
-.cprres<-function(x,...){
+.cprres<-function(x,nTop,...){
 
   if("cluster"%in%colnames(x)){
     colnames(x)[colnames(x)=="cluster"]<-"zzz"
@@ -11,7 +11,7 @@
     stop("Error.")
   }
   x<-split(x,x$cluster)
-  tryCatch({y<-lapply(x, function(x2)try({.genGT(x2,ClusterNum,P.adj=0.05,...)}))},error=function(e){
+  tryCatch({y<-lapply(x, function(x2)try({.genGT(x2,ClusterNum,P.adj=0.05,nTop=nTop,...)}))},error=function(e){
     stop("[Message]Error: might be too few columns. ")
   })
   return(y)
