@@ -10,11 +10,11 @@
 #'
 #' @details
 #'  For an ORA result, c("ID","Description","GeneRatio","pvalue","p.adjust","geneID","Count") should be contained; For GSEA, c("ID","Description","NES","pvalue","p.adjust","core_enrichment") should be contain. For `compareClusterResult`, a `compareClusterResult` object or a data-frame with additional `Cluster` column should be contained, others similar to ORA result.
-#' @return an `EnrichGT_obj` object. slot `enriched_result` contains a data.framw with enriched results. `gt_object` contains `gt` object. you can use `obj@gt_object` to get it and use functions from `gt` like `gtsave`. `gene_modules` is a list containing meta-gene modules of each cluster. `pathway_clusters` contains pathways names in each cluster.
+#' @return an `EnrichGT_obj` object. slot `enriched_result` contains a data.frame with enriched results. `gt_object` contains `gt` object. you can use `obj@gt_object` to get it and use functions from `gt` like `gtsave`. `gene_modules` is a list containing meta-gene modules of each cluster. `pathway_clusters` contains pathways names in each cluster.
 #' @export
 #'
 #' @author Zhiming Ye
-EnrichGT<-function(x,ClusterNum=15,P.adj=0.05,force=F,nTop=20,...){
+EnrichGT<-function(x,ClusterNum=15,P.adj=0.05,force=F,nTop=10,...){
   objname<-deparse(substitute(x))
   if(objname=="."){
     objname<-"`Magrittr` pipe conveyed object"
@@ -37,6 +37,9 @@ EnrichGT<-function(x,ClusterNum=15,P.adj=0.05,force=F,nTop=20,...){
     package_message <- paste(package_message, "\nPlease install them using install.packages() or BiocManager::install() for Bioconductor packages.")
     packageStartupMessage(package_message)
   } else {
+    require("dplyr")
+    require("tibble")
+    require("gt")
     packageStartupMessage("View your enrichment result by entring `EnrichGT(result)`\nby Zhiming Ye, https://github.com/ZhimingYe/EnrichGT")
   }
 }

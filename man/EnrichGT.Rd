@@ -20,7 +20,7 @@ EnrichGT(x, ClusterNum = 15, P.adj = 0.05, force = F, nTop = 20, ...)
 \item{...}{Others options.}
 }
 \value{
-an `EnrichGT_obj` object. slot `enriched_result` contains a data.framw with enriched results. `gt_object` contains `gt` object. you can use `obj@gt_object` to get it and use functions from `gt` like `gtsave`. `gene_modules` is a list containing meta-gene modules of each cluster. `pathway_clusters` contains pathways names in each cluster.
+an `EnrichGT_obj` object. slot `enriched_result` contains a data.frame with enriched results. `gt_object` contains `gt` object. you can use `obj@gt_object` to get it and use functions from `gt` like `gtsave`. `gene_modules` is a list containing meta-gene modules of each cluster. `pathway_clusters` contains pathways names in each cluster.
 }
 \description{
 Parse enrichment results and further clustering and visualizing

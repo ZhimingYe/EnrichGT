@@ -32,7 +32,7 @@ setMethod("doEnrichGT", signature(x = "data.frame"),function(x,...){
     return(y)
   }
   else{
-    if(sum(grepl("^GO",names(y$ID)))>5){
+    if(sum(grepl("^GO",names(x$ID)))>5){
       nsimp()
     }
     y<-.genGT(x=x,...)
