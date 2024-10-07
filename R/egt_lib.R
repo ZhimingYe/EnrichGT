@@ -18,8 +18,7 @@ genMetaGM<-function(x,type){
   return(list(`gene_modules`=x3,`pathway_clusters`=x4))
 }
 
-.cprres<-function(x,nTop,...){
-
+.cprres<-function(x,...){
   if("cluster"%in%colnames(x)){
     colnames(x)[colnames(x)=="cluster"]<-"zzz"
   }
@@ -31,7 +30,7 @@ genMetaGM<-function(x,type){
     stop("Error.")
   }
   x<-split(x,x$cluster)
-  tryCatch({y<-lapply(x, function(x2)try({.genGT(x2,ClusterNum,P.adj=0.05,...)}))},error=function(e){
+  tryCatch({y<-lapply(x, function(x2)try({.genGT(x2,...)}))},error=function(e){
     stop("[Message]Error: might be too few columns. ")
   })
   return(y)
@@ -89,8 +88,8 @@ is_numeric_string <- function(x) {
   return(ClusterNum)
 }
 .checkNrows<-function(x,force){
-  if(nrow(x)>1000&!force){
-    stop("[Message]Too many rows!(>1000), please subset! use force=T to forbid the self-check")
+  if(nrow(x)>3000&!force){
+    stop("[Message]Too many rows!(>3000), please subset! use force=T to forbid the self-check")
   }
   if(nrow(x)>750){
     message("[Message]Too many rows! It might be slow...\nWorking, but please consider increase P.adj ...")
