@@ -5,7 +5,7 @@ setClass("EnrichGT_obj",slots=list(enriched_result="data.frame",
 
 
 setMethod("show", "EnrichGT_obj", function(object) {
-  return(object@gt_object)
+  print(object@gt_object)
 })
 
 new.egt <- function(x1,x2,x3,x4){

@@ -4,7 +4,7 @@
 \alias{EnrichGT}
 \title{Parse enrichment results and further clustering and visualizing}
 \usage{
-EnrichGT(x, ClusterNum = 15, P.adj = 0.05, force = F, ...)
+EnrichGT(x, ClusterNum = 15, P.adj = 0.05, force = F, nTop = 20, ...)
 }
 \arguments{
 \item{x}{an enrichment result from `clusterProfiler`, or a `data.frame` containing result from `clusterProfier`}
@@ -13,10 +13,14 @@ EnrichGT(x, ClusterNum = 15, P.adj = 0.05, force = F, ...)
 
 \item{P.adj}{p.adjust cut-off. To avoid slow visualization, you can make stricter p-cut off.}
 
+\item{force}{ignore all auto-self-checks, which is useful}
+
+\item{nTop}{keep n top items according to p-adj in each cluster.}
+
 \item{...}{Others options.}
 }
 \value{
-a `gt` great table object or a `List` containing multiple `gt` objects for `compareClusterResult`.
+an `EnrichGT_obj` object. slot `enriched_result` contains a data.framw with enriched results. `gt_object` contains `gt` object. you can use `obj@gt_object` to get it and use functions from `gt` like `gtsave`. `gene_modules` is a list containing meta-gene modules of each cluster. `pathway_clusters` contains pathways names in each cluster.
 }
 \description{
 Parse enrichment results and further clustering and visualizing

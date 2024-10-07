@@ -1,31 +1,31 @@
 
-setGeneric("doEnrichGT",function(x,ClusterNum,P.adj=0.05,...) standardGeneric("doEnrichGT"))
+setGeneric("doEnrichGT",function(x,...) standardGeneric("doEnrichGT"))
 setMethod("doEnrichGT", signature(x = "enrichResult"),function(x,...){
   if(sum(grepl("^GO",names(x@geneSets)))>5){
     nsimp()
   }
-  y<-.genGT(x=x@result,ClusterNum,P.adj=0.05,...)
+  y<-.genGT(x=x@result,...)
   return(y)
 })
 setMethod("doEnrichGT", signature(x = "compareClusterResult"),function(x,...){
   x<-x@compareClusterResult
-  y<-.cprres(x,nTop=nTop)
+  y<-.cprres(x,...)
   if(sum(grepl("^GO",names(y$ID)))>5){
     nsimp()
   }
   return(y)
 })
 setMethod("doEnrichGT", signature(x = "gseaResult"),function(x,...){
-  y<-.genGSEAGT(x=x@result,ClusterNum,P.adj=0.05,...)
+  y<-.genGSEAGT(x=x@result,...)
   return(y)
 })
 setMethod("doEnrichGT", signature(x = "data.frame"),function(x,...){
   if("NES"%in%colnames(x)){
-    y<-.genGSEAGT(x=x,ClusterNum,P.adj=0.05,...)
+    y<-.genGSEAGT(x,...)
     return(y)
   }
   else if("Cluster"%in%colnames(x)){
-    y<-.cprres(x,nTop=nTop)
+    y<-.cprres(x,...)
     if(sum(grepl("^GO",names(y$ID)))>5){
       nsimp()
     }
@@ -35,7 +35,7 @@ setMethod("doEnrichGT", signature(x = "data.frame"),function(x,...){
     if(sum(grepl("^GO",names(y$ID)))>5){
       nsimp()
     }
-    y<-.genGT(x=x,ClusterNum,P.adj=0.05,...)
+    y<-.genGT(x=x,...)
     return(y)
   }
 })
