@@ -24,9 +24,11 @@ test_that("EnrichGT creates four HTML files", {
                    organism     = 'hsa',
                    pvalueCutoff = 0.05)
   EnrichGT(ego, ClusterNum = 15, P.adj = 1)@gt_object |> gt::gtsave(file1)
+
   expect_true(file.exists(file1), info = "test1.html should be created")
   EnrichGT(kk, ClusterNum = 100, P.adj = 1)@gt_object |> gt::gtsave(file2)
   expect_true(file.exists(file2), info = "test2.html should be created")
+  expect_true(nrow(EnrichGT(ego, ClusterNum = 10, P.adj = 1,nTop = 5)@enriched_result)==10,info="nTop.ora Works")
   ego3 <- gseGO(geneList     = geneList,
                 OrgDb        = org.Hs.eg.db,
                 ont          = "CC",
@@ -35,6 +37,7 @@ test_that("EnrichGT creates four HTML files", {
                 pvalueCutoff = 0.05,
                 verbose      = FALSE)
   EnrichGT(ego3, ClusterNum = 100, P.adj = 1)@gt_object |> gt::gtsave(file3)
+  expect_true(nrow(EnrichGT(ego3, ClusterNum = 3, P.adj = 1,nTop = 2)@enriched_result)==6,info="nTop.gsea Works")
   expect_true(file.exists(file3), info = "test3.html should be created")
   data(gcSample)
   ck <- compareCluster(geneCluster = gcSample, fun = enrichGO, OrgDb = org.Hs.eg.db, pvalueCutoff = 0.5, qvalueCutoff = 0.5,ont="BP")
