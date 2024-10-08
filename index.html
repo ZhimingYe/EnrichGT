@@ -47,22 +47,21 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="enrichgt">EnrichGT<a class="anchor" aria-label="anchor" href="#enrichgt"></a>
 </h1></div>
-<div class="section level3">
-<h3 id="overview">OverView<a class="anchor" aria-label="anchor" href="#overview"></a>
-</h3>
-<p><img src="Figs/EnrichGT.png"></p>
+<div class="section level2">
+<h2 id="overview">OverView<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p><img src="reference/figures/EnrichGT_2.png"></p>
 </div>
-<div class="section level3">
-<h3 id="challenges-in-biological-gene-enrichment-analysis">Challenges in Biological Gene Enrichment Analysis<a class="anchor" aria-label="anchor" href="#challenges-in-biological-gene-enrichment-analysis"></a>
-</h3>
+<div class="section level2">
+<h2 id="challenges-in-biological-gene-enrichment-analysis">Challenges in Biological Gene Enrichment Analysis<a class="anchor" aria-label="anchor" href="#challenges-in-biological-gene-enrichment-analysis"></a>
+</h2>
 <p>Gene enrichment analysis can often be misleading due to the redundancy within gene set databases and the limitations of most enrichment tools. Many tools, by default, only display a few top results and fail to filter out redundancy. This can result in both biological misinterpretation and valuable information being overlooked.</p>
 <p>For instance, high expression of certain immune genes can cause many immune-related gene sets to appear overrepresented. However, a closer look often reveals that these gene sets are derived from the same group of genes, which might represent only a small fraction (less than 10%) of the differentially expressed genes (DEGs). What about the other 90%? Do they hold no biological significance?</p>
 <hr>
 </div>
-</div>
-<div class="section level1">
-<h1 id="current-solutions">Current Solutions<a class="anchor" aria-label="anchor" href="#current-solutions"></a>
-</h1>
+<div class="section level2">
+<h2 id="current-solutions">Current Solutions<a class="anchor" aria-label="anchor" href="#current-solutions"></a>
+</h2>
 <p><code>EnrichGT</code> is based on <strong>clusterProfiler</strong>. <strong>clusterProfiler</strong> is one of the most powerful tools in R for enrichment analysis. It’s designed with pathway redundancy in mind and includes the <code><a href="https://rdrr.io/pkg/clusterProfiler/man/simplify-methods.html" class="external-link">clusterProfiler::simplify</a></code> function to address this issue. This method, based on <strong>GOSemSim</strong> for GO similarity evaluation, is scientifically robust and highly effective.</p>
 <p>However, there are some drawbacks:</p>
 <ul>
@@ -72,9 +71,9 @@
 <p>Using GOSemSim to measure the semantic similarity between pathways is, theoretically, the best way to tackle redundancy. However, in practical cases—especially in experimental bioinformatics validation—researchers are more focused on the genes behind these pathways rather than the pathways themselves.</p>
 <hr>
 </div>
-<div class="section level1">
-<h1 id="alternative-approaches">Alternative Approaches<a class="anchor" aria-label="anchor" href="#alternative-approaches"></a>
-</h1>
+<div class="section level2">
+<h2 id="alternative-approaches">Alternative Approaches<a class="anchor" aria-label="anchor" href="#alternative-approaches"></a>
+</h2>
 <p>Although clustering pathways based on gene overlap has received some criticism, it remains a viable approach in many situations. For this reason, I developed <strong>BioThemeFinder</strong> a few years ago to solve this problem. However, the tool is so awful (I am poor in coding…)</p>
 <p>Today, two excellent alternatives exist:</p>
 <ul>
@@ -86,9 +85,9 @@
 <p>However, both of these tools have a common limitation: their visualizations are optimized for publication purposes rather than for exploratory research. I often find myself exporting CSV files or struggling with RStudio’s preview pane to fully explore enrichment tables. This inspired me to develop a more efficient solution.</p>
 <hr>
 </div>
-<div class="section level1">
-<h1 id="goals-of-this-package">Goals of This Package<a class="anchor" aria-label="anchor" href="#goals-of-this-package"></a>
-</h1>
+<div class="section level2">
+<h2 id="goals-of-this-package">Goals of This Package<a class="anchor" aria-label="anchor" href="#goals-of-this-package"></a>
+</h2>
 <p>The main purpose of developing this package is to provide a <strong>lightweight and practical solution</strong> to the problems mentioned above. Specifically, this package aims to:</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>Cluster enrichment results</strong> based on hit genes or core enrichment from GSEA using term frequency analysis (from the output of the powerful <code>clusterProfiler</code>. This provides a clearer view of biological relevance by focusing on the genes that matter most.</p></li>
@@ -106,7 +105,7 @@
 <hr>
 <p>If you’re tired of redundant pathways cluttering your enrichment results or spending too much time on computational bottlenecks, this package is here to help.</p>
 </div>
-
+</div>
   </main><aside class="col-md-3"><div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
