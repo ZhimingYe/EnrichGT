@@ -135,13 +135,829 @@
 <span><span class="co">#&gt;     normalize</span></span>
 <span><span class="co">#&gt; Joining with `by = join_by(ID)`</span></span></code></pre></div>
 <p><img src="getStart_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
-<p>For further guidance, see <code>Articles</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">obj</span><span class="op">@</span><span class="va">gt_object</span></span></code></pre></div>
+<div id="tixsangema" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tixsangema table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#tixsangema thead, #tixsangema tbody, #tixsangema tfoot, #tixsangema tr, #tixsangema td, #tixsangema th {
+  border-style: none;
+}
+
+#tixsangema p {
+  margin: 0;
+  padding: 0;
+}
+
+#tixsangema .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#tixsangema .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#tixsangema .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#tixsangema .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#tixsangema .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#tixsangema .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tixsangema .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#tixsangema .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#tixsangema .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#tixsangema .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#tixsangema .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#tixsangema .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#tixsangema .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#tixsangema .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#tixsangema .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#tixsangema .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#tixsangema .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#tixsangema .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#tixsangema .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tixsangema .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#tixsangema .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#tixsangema .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#tixsangema .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tixsangema .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#tixsangema .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#tixsangema .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tixsangema .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tixsangema .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#tixsangema .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tixsangema .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#tixsangema .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tixsangema .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#tixsangema .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tixsangema .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#tixsangema .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tixsangema .gt_left {
+  text-align: left;
+}
+
+#tixsangema .gt_center {
+  text-align: center;
+}
+
+#tixsangema .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#tixsangema .gt_font_normal {
+  font-weight: normal;
+}
+
+#tixsangema .gt_font_bold {
+  font-weight: bold;
+}
+
+#tixsangema .gt_font_italic {
+  font-style: italic;
+}
+
+#tixsangema .gt_super {
+  font-size: 65%;
+}
+
+#tixsangema .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#tixsangema .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#tixsangema .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#tixsangema .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#tixsangema .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#tixsangema .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#tixsangema .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#tixsangema .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#tixsangema div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="table gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading">
+<td colspan="5" class="gt_heading gt_title gt_font_normal" style>Parse form: ego</td>
+    </tr>
+<tr class="gt_heading">
+<td colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Split into 15 Clusters. Generated by github@zhimingye/EnrichGT</td>
+    </tr>
+<tr class="gt_col_headings">
+<th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Description">Description</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Count">Count</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="PCT">PCT</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Padj">Padj</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="geneID">geneID</th>
+    </tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="gt_group_heading_row">
+<th colspan="5" class="gt_group_heading" scope="colgroup" id="Cluster_1">Cluster_1</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="Cluster_1  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">nuclear chromosome segregation</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0098813</span></div>
+</td>
+<td headers="Cluster_1  Count" class="gt_row gt_right" style="background-color: #EAE1EF; color: #000000; font-size: 13px;">33</td>
+<td headers="Cluster_1  PCT" class="gt_row gt_right" style="background-color: #DB6CA7; color: #FFFFFF; font-size: 13px;">17.0</td>
+<td headers="Cluster_1  Padj" class="gt_row gt_right" style="background-color: #D53E4F; color: #FFFFFF; font-size: 13px;">6.7e-18</td>
+<td headers="Cluster_1  geneID" class="gt_row gt_left" style="font-size: 13px;">CDCA8, CDC20, KIF23, CENPE, MYBL2, CCNB2, NDC80, TOP2A, NCAPH, ASPM, DLGAP5, UBE2C, NUSAP1, TPX2, TACC3, NEK2, CDK1, MAD2L1, KIF18A, CDT1, BIRC5, KIF11, TTK, NCAPG, AURKB, TRIP13, PRC1, KIFC1, KIF18B, AURKA, CCNB1, KIF4A, PTTG1</td>
+</tr>
+<tr>
+<td headers="Cluster_1  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">chromosome segregation</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0007059</span></div>
+</td>
+<td headers="Cluster_1  Count" class="gt_row gt_right" style="background-color: #FBF3F9; color: #000000; font-size: 13px;">37</td>
+<td headers="Cluster_1  PCT" class="gt_row gt_right" style="background-color: #C51B7D; color: #FFFFFF; font-size: 13px;">19.0</td>
+<td headers="Cluster_1  Padj" class="gt_row gt_right" style="background-color: #D53E4F; color: #FFFFFF; font-size: 13px;">6.7e-18</td>
+<td headers="Cluster_1  geneID" class="gt_row gt_left" style="font-size: 13px;">CDCA8, CDC20, KIF23, CENPE, MYBL2, CCNB2, NDC80, TOP2A, NCAPH, ASPM, DLGAP5, UBE2C, HJURP, SKA1, NUSAP1, TPX2, TACC3, NEK2, CENPM, CENPN, CDK1, MAD2L1, KIF18A, CDT1, BIRC5, KIF11, TTK, NCAPG, AURKB, TRIP13, PRC1, KIFC1, KIF18B, AURKA, CCNB1, KIF4A, PTTG1</td>
+</tr>
+<tr>
+<td headers="Cluster_1  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">mitotic sister chromatid segregation</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0000070</span></div>
+</td>
+<td headers="Cluster_1  Count" class="gt_row gt_right" style="background-color: #C2CAE2; color: #000000; font-size: 13px;">27</td>
+<td headers="Cluster_1  PCT" class="gt_row gt_right" style="background-color: #F3BCDD; color: #000000; font-size: 13px;">14.0</td>
+<td headers="Cluster_1  Padj" class="gt_row gt_right" style="background-color: #D53E4F; color: #FFFFFF; font-size: 13px;">2.1e-17</td>
+<td headers="Cluster_1  geneID" class="gt_row gt_left" style="font-size: 13px;">CDCA8, CDC20, KIF23, CENPE, MYBL2, NDC80, NCAPH, DLGAP5, UBE2C, NUSAP1, TPX2, NEK2, CDK1, MAD2L1, KIF18A, CDT1, BIRC5, KIF11, TTK, NCAPG, AURKB, TRIP13, PRC1, KIFC1, KIF18B, CCNB1, KIF4A</td>
+</tr>
+<tr>
+<td headers="Cluster_1  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">sister chromatid segregation</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0000819</span></div>
+</td>
+<td headers="Cluster_1  Count" class="gt_row gt_right" style="background-color: #D3D3E7; color: #000000; font-size: 13px;">29</td>
+<td headers="Cluster_1  PCT" class="gt_row gt_right" style="background-color: #ECA4CD; color: #000000; font-size: 13px;">15.0</td>
+<td headers="Cluster_1  Padj" class="gt_row gt_right" style="background-color: #D53E4F; color: #FFFFFF; font-size: 13px;">2.2e-17</td>
+<td headers="Cluster_1  geneID" class="gt_row gt_left" style="font-size: 13px;">CDCA8, CDC20, KIF23, CENPE, MYBL2, NDC80, TOP2A, NCAPH, DLGAP5, UBE2C, NUSAP1, TPX2, TACC3, NEK2, CDK1, MAD2L1, KIF18A, CDT1, BIRC5, KIF11, TTK, NCAPG, AURKB, TRIP13, PRC1, KIFC1, KIF18B, CCNB1, KIF4A</td>
+</tr>
+<tr>
+<td headers="Cluster_1  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">mitotic nuclear division</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0140014</span></div>
+</td>
+<td headers="Cluster_1  Count" class="gt_row gt_right" style="background-color: #DEDAEB; color: #000000; font-size: 13px;">31</td>
+<td headers="Cluster_1  PCT" class="gt_row gt_right" style="background-color: #E489BA; color: #000000; font-size: 13px;">16.0</td>
+<td headers="Cluster_1  Padj" class="gt_row gt_right" style="background-color: #D53E4F; color: #FFFFFF; font-size: 13px;">4.1e-17</td>
+<td headers="Cluster_1  geneID" class="gt_row gt_left" style="font-size: 13px;">CDCA8, CDC20, KIF23, CENPE, MYBL2, NDC80, NCAPH, DLGAP5, UBE2C, NUSAP1, TPX2, NEK2, UBE2S, CDK1, MAD2L1, KIF18A, CDT1, BIRC5, KIF11, TTK, NCAPG, AURKB, CHEK1, TRIP13, PRC1, KIFC1, KIF18B, AURKA, CCNB1, KIF4A, BMP4</td>
+</tr>
+<tr>
+<td headers="Cluster_1  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">nuclear division</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0000280</span></div>
+</td>
+<td headers="Cluster_1  Count" class="gt_row gt_right" style="background-color: #F7EEF6; color: #000000; font-size: 13px;">36</td>
+<td headers="Cluster_1  PCT" class="gt_row gt_right" style="background-color: #D04B92; color: #FFFFFF; font-size: 13px;">18.0</td>
+<td headers="Cluster_1  Padj" class="gt_row gt_right" style="background-color: #D53E4F; color: #FFFFFF; font-size: 13px;">5.3e-17</td>
+<td headers="Cluster_1  geneID" class="gt_row gt_left" style="font-size: 13px;">CDCA8, CDC20, KIF23, CENPE, MYBL2, CCNB2, NDC80, TOP2A, NCAPH, ASPM, DLGAP5, UBE2C, NUSAP1, TPX2, NEK2, RAD51AP1, UBE2S, CDK1, MAD2L1, KIF18A, CDT1, BIRC5, KIF11, TTK, NCAPG, AURKB, CHEK1, TRIP13, PRC1, KIFC1, KIF18B, AURKA, CCNB1, KIF4A, PTTG1, BMP4</td>
+</tr>
+<tr>
+<td headers="Cluster_1  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">organelle fission</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0048285</span></div>
+</td>
+<td headers="Cluster_1  Count" class="gt_row gt_right" style="background-color: #FBF3F9; color: #000000; font-size: 13px;">37</td>
+<td headers="Cluster_1  PCT" class="gt_row gt_right" style="background-color: #C51B7D; color: #FFFFFF; font-size: 13px;">19.0</td>
+<td headers="Cluster_1  Padj" class="gt_row gt_right" style="background-color: #D53E4F; color: #FFFFFF; font-size: 13px;">1.7e-16</td>
+<td headers="Cluster_1  geneID" class="gt_row gt_left" style="font-size: 13px;">CDCA8, CDC20, KIF23, CENPE, MYBL2, CCNB2, NDC80, TOP2A, NCAPH, ASPM, DLGAP5, UBE2C, NUSAP1, TPX2, NEK2, RAD51AP1, UBE2S, CDK1, MAD2L1, KIF18A, CDT1, BIRC5, KIF11, TTK, NCAPG, AURKB, CHEK1, TRIP13, PRC1, KIFC1, KIF18B, AURKA, CCNB1, KIF4A, PTTG1, BMP4, MAPT</td>
+</tr>
+<tr>
+<td headers="Cluster_1  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">microtubule cytoskeleton organization involved in mitosis</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:1902850</span></div>
+</td>
+<td headers="Cluster_1  Count" class="gt_row gt_right" style="background-color: #9BB9D9; color: #000000; font-size: 13px;">23</td>
+<td headers="Cluster_1  PCT" class="gt_row gt_right" style="background-color: #FDDFEF; color: #000000; font-size: 13px;">12.0</td>
+<td headers="Cluster_1  Padj" class="gt_row gt_right" style="background-color: #D53E4F; color: #FFFFFF; font-size: 13px;">1.9e-14</td>
+<td headers="Cluster_1  geneID" class="gt_row gt_left" style="font-size: 13px;">CDCA8, CDC20, KIF23, CENPE, MYBL2, NDC80, DLGAP5, NUSAP1, TPX2, TACC3, NEK2, CDK1, MAD2L1, PAX6, BIRC5, KIF11, TTK, AURKB, PRC1, KIFC1, AURKA, CCNB1, KIF4A</td>
+</tr>
+<tr>
+<td headers="Cluster_1  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">chromosome organization</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0051276</span></div>
+</td>
+<td headers="Cluster_1  Count" class="gt_row gt_right" style="background-color: #FFF7FB; color: #000000; font-size: 13px;">38</td>
+<td headers="Cluster_1  PCT" class="gt_row gt_right" style="background-color: #C51B7D; color: #FFFFFF; font-size: 13px;">19.0</td>
+<td headers="Cluster_1  Padj" class="gt_row gt_right" style="background-color: #D53E4F; color: #FFFFFF; font-size: 13px;">1.4e-13</td>
+<td headers="Cluster_1  geneID" class="gt_row gt_left" style="font-size: 13px;">CDC45, CDCA8, CDC20, KIF23, CENPE, MYBL2, NDC80, TOP2A, NCAPH, DLGAP5, UBE2C, HJURP, NUSAP1, TPX2, TACC3, NEK2, CENPN, CDK1, MAD2L1, GINS1, KIF18A, CDT1, BIRC5, KIF11, EZH2, TTK, NCAPG, AURKB, GINS2, TRIP13, PRC1, KIFC1, KIF18B, CCNB1, KIF4A, MCM5, PTTG1, MAPT</td>
+</tr>
+<tr>
+<td headers="Cluster_1  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">cell division</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0051301</span></div>
+</td>
+<td headers="Cluster_1  Count" class="gt_row gt_right" style="background-color: #FBF3F9; color: #000000; font-size: 13px;">37</td>
+<td headers="Cluster_1  PCT" class="gt_row gt_right" style="background-color: #C51B7D; color: #FFFFFF; font-size: 13px;">19.0</td>
+<td headers="Cluster_1  Padj" class="gt_row gt_right" style="background-color: #D53E4F; color: #FFFFFF; font-size: 13px;">2.5e-12</td>
+<td headers="Cluster_1  geneID" class="gt_row gt_left" style="font-size: 13px;">CDCA8, CDC20, KIF23, CENPE, CCNB2, NDC80, TOP2A, NCAPH, E2F8, ASPM, CEP55, UBE2C, SKA1, NUSAP1, CDCA3, TPX2, TACC3, NEK2, UBE2S, CCNA2, CDK1, ERCC6L, MAD2L1, PAX6, CDT1, BIRC5, KIF11, NCAPG, AURKB, PRC1, KIFC1, KIF18B, KIF20A, AURKA, CCNB1, KIF4A, PTTG1</td>
+</tr>
+<tr class="gt_group_heading_row">
+<th colspan="5" class="gt_group_heading" scope="colgroup" id="Cluster_2">Cluster_2</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="Cluster_2  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">female meiotic nuclear division</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0007143</span></div>
+</td>
+<td headers="Cluster_2  Count" class="gt_row gt_right" style="background-color: #057068; color: #FFFFFF; font-size: 13px;">7</td>
+<td headers="Cluster_2  PCT" class="gt_row gt_right" style="background-color: #62A42F; color: #FFFFFF; font-size: 13px;">3.6</td>
+<td headers="Cluster_2  Padj" class="gt_row gt_right" style="background-color: #D53E4F; color: #FFFFFF; font-size: 13px;">1.0e-05</td>
+<td headers="Cluster_2  geneID" class="gt_row gt_left" style="font-size: 13px;">CCNB2, NDC80, TOP2A, NCAPH, TTK, TRIP13, AURKA</td>
+</tr>
+<tr>
+<td headers="Cluster_2  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">meiotic nuclear division</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0140013</span></div>
+</td>
+<td headers="Cluster_2  Count" class="gt_row gt_right" style="background-color: #2388A4; color: #FFFFFF; font-size: 13px;">12</td>
+<td headers="Cluster_2  PCT" class="gt_row gt_right" style="background-color: #9BCE64; color: #000000; font-size: 13px;">6.1</td>
+<td headers="Cluster_2  Padj" class="gt_row gt_right" style="background-color: #D53F4F; color: #FFFFFF; font-size: 13px;">5.4e-05</td>
+<td headers="Cluster_2  geneID" class="gt_row gt_left" style="font-size: 13px;">CDC20, CCNB2, NDC80, TOP2A, NCAPH, ASPM, RAD51AP1, KIF18A, TTK, TRIP13, AURKA, PTTG1</td>
+</tr>
+<tr>
+<td headers="Cluster_2  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">meiotic cell cycle process</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:1903046</span></div>
+</td>
+<td headers="Cluster_2  Count" class="gt_row gt_right" style="background-color: #2388A4; color: #FFFFFF; font-size: 13px;">12</td>
+<td headers="Cluster_2  PCT" class="gt_row gt_right" style="background-color: #9BCE64; color: #000000; font-size: 13px;">6.1</td>
+<td headers="Cluster_2  Padj" class="gt_row gt_right" style="background-color: #D6404F; color: #FFFFFF; font-size: 13px;">1.8e-04</td>
+<td headers="Cluster_2  geneID" class="gt_row gt_left" style="font-size: 13px;">CDC20, CCNB2, NDC80, TOP2A, NCAPH, ASPM, RAD51AP1, KIF18A, TTK, TRIP13, AURKA, PTTG1</td>
+</tr>
+<tr>
+<td headers="Cluster_2  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">meiotic chromosome segregation</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0045132</span></div>
+</td>
+<td headers="Cluster_2  Count" class="gt_row gt_right" style="background-color: #057674; color: #FFFFFF; font-size: 13px;">8</td>
+<td headers="Cluster_2  PCT" class="gt_row gt_right" style="background-color: #6DAD36; color: #FFFFFF; font-size: 13px;">4.1</td>
+<td headers="Cluster_2  Padj" class="gt_row gt_right" style="background-color: #D7414F; color: #FFFFFF; font-size: 13px;">2.3e-04</td>
+<td headers="Cluster_2  geneID" class="gt_row gt_left" style="font-size: 13px;">CCNB2, NDC80, NCAPH, ASPM, TTK, TRIP13, AURKA, PTTG1</td>
+</tr>
+<tr>
+<td headers="Cluster_2  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">meiotic cell cycle</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0051321</span></div>
+</td>
+<td headers="Cluster_2  Count" class="gt_row gt_right" style="background-color: #2C8CAF; color: #FFFFFF; font-size: 13px;">13</td>
+<td headers="Cluster_2  PCT" class="gt_row gt_right" style="background-color: #A8D672; color: #000000; font-size: 13px;">6.6</td>
+<td headers="Cluster_2  Padj" class="gt_row gt_right" style="background-color: #D9454E; color: #FFFFFF; font-size: 13px;">5.8e-04</td>
+<td headers="Cluster_2  geneID" class="gt_row gt_left" style="font-size: 13px;">CDC20, CCNB2, NDC80, TOP2A, NCAPH, ASPM, NEK2, RAD51AP1, KIF18A, TTK, TRIP13, AURKA, PTTG1</td>
+</tr>
+<tr>
+<td headers="Cluster_2  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">DNA replication</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0006260</span></div>
+</td>
+<td headers="Cluster_2  Count" class="gt_row gt_right" style="background-color: #338FBB; color: #FFFFFF; font-size: 13px;">14</td>
+<td headers="Cluster_2  PCT" class="gt_row gt_right" style="background-color: #B4DE81; color: #000000; font-size: 13px;">7.1</td>
+<td headers="Cluster_2  Padj" class="gt_row gt_right" style="background-color: #DB484D; color: #FFFFFF; font-size: 13px;">8.8e-04</td>
+<td headers="Cluster_2  geneID" class="gt_row gt_left" style="font-size: 13px;">CDC45, MCM10, E2F8, RRM2, CCNA2, CDK1, GINS1, CDT1, GINS2, CHAF1B, CHEK1, DTL, MCM5, DACH1</td>
+</tr>
+<tr>
+<td headers="Cluster_2  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">meiosis I cell cycle process</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0061982</span></div>
+</td>
+<td headers="Cluster_2  Count" class="gt_row gt_right" style="background-color: #057674; color: #FFFFFF; font-size: 13px;">8</td>
+<td headers="Cluster_2  PCT" class="gt_row gt_right" style="background-color: #6DAD36; color: #FFFFFF; font-size: 13px;">4.1</td>
+<td headers="Cluster_2  Padj" class="gt_row gt_right" style="background-color: #EB6147; color: #FFFFFF; font-size: 13px;">3.2e-03</td>
+<td headers="Cluster_2  geneID" class="gt_row gt_left" style="font-size: 13px;">CDC20, CCNB2, NDC80, TOP2A, RAD51AP1, TRIP13, AURKA, PTTG1</td>
+</tr>
+<tr>
+<td headers="Cluster_2  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">female gamete generation</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0007292</span></div>
+</td>
+<td headers="Cluster_2  Count" class="gt_row gt_right" style="background-color: #047D81; color: #FFFFFF; font-size: 13px;">9</td>
+<td headers="Cluster_2  PCT" class="gt_row gt_right" style="background-color: #78B63C; color: #000000; font-size: 13px;">4.6</td>
+<td headers="Cluster_2  Padj" class="gt_row gt_right" style="background-color: #EC6247; color: #FFFFFF; font-size: 13px;">3.3e-03</td>
+<td headers="Cluster_2  geneID" class="gt_row gt_left" style="font-size: 13px;">CCNB2, NDC80, TOP2A, NCAPH, ASPM, TTK, TRIP13, AURKA, PGR</td>
+</tr>
+<tr>
+<td headers="Cluster_2  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">meiosis I</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0007127</span></div>
+</td>
+<td headers="Cluster_2  Count" class="gt_row gt_right" style="background-color: #057068; color: #FFFFFF; font-size: 13px;">7</td>
+<td headers="Cluster_2  PCT" class="gt_row gt_right" style="background-color: #62A42F; color: #FFFFFF; font-size: 13px;">3.6</td>
+<td headers="Cluster_2  Padj" class="gt_row gt_right" style="background-color: #FEC675; color: #000000; font-size: 13px;">1.1e-02</td>
+<td headers="Cluster_2  geneID" class="gt_row gt_left" style="font-size: 13px;">CCNB2, NDC80, TOP2A, RAD51AP1, TRIP13, AURKA, PTTG1</td>
+</tr>
+<tr>
+<td headers="Cluster_2  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">cell cycle DNA replication</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0044786</span></div>
+</td>
+<td headers="Cluster_2  Count" class="gt_row gt_right" style="background-color: #016450; color: #FFFFFF; font-size: 13px;">5</td>
+<td headers="Cluster_2  PCT" class="gt_row gt_right" style="background-color: #4D9221; color: #FFFFFF; font-size: 13px;">2.6</td>
+<td headers="Cluster_2  Padj" class="gt_row gt_right" style="background-color: #FED27F; color: #000000; font-size: 13px;">1.2e-02</td>
+<td headers="Cluster_2  geneID" class="gt_row gt_left" style="font-size: 13px;">CDC45, E2F8, GINS1, CDT1, DACH1</td>
+</tr>
+<tr class="gt_group_heading_row">
+<th colspan="5" class="gt_group_heading" scope="colgroup" id="Cluster_3">Cluster_3</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="Cluster_3  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">antimicrobial humoral immune response mediated by antimicrobial peptide</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0061844</span></div>
+</td>
+<td headers="Cluster_3  Count" class="gt_row gt_right" style="background-color: #047D81; color: #FFFFFF; font-size: 13px;">9</td>
+<td headers="Cluster_3  PCT" class="gt_row gt_right" style="background-color: #78B63C; color: #000000; font-size: 13px;">4.6</td>
+<td headers="Cluster_3  Padj" class="gt_row gt_right" style="background-color: #D53F4F; color: #FFFFFF; font-size: 13px;">4.4e-05</td>
+<td headers="Cluster_3  geneID" class="gt_row gt_left" style="font-size: 13px;">S100A9, S100A7, CXCL10, CXCL13, CXCL11, CAMP, CXCL9, GNLY, CXCL14</td>
+</tr>
+<tr>
+<td headers="Cluster_3  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">antimicrobial humoral response</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0019730</span></div>
+</td>
+<td headers="Cluster_3  Count" class="gt_row gt_right" style="background-color: #08828D; color: #FFFFFF; font-size: 13px;">10</td>
+<td headers="Cluster_3  PCT" class="gt_row gt_right" style="background-color: #83BE46; color: #000000; font-size: 13px;">5.1</td>
+<td headers="Cluster_3  Padj" class="gt_row gt_right" style="background-color: #D63F4F; color: #FFFFFF; font-size: 13px;">1.2e-04</td>
+<td headers="Cluster_3  geneID" class="gt_row gt_left" style="font-size: 13px;">S100A9, S100A7, CXCL10, CXCL13, CXCL11, CAMP, CXCL9, GNLY, RNASE4, CXCL14</td>
+</tr>
+<tr>
+<td headers="Cluster_3  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">chemokine-mediated signaling pathway</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0070098</span></div>
+</td>
+<td headers="Cluster_3  Count" class="gt_row gt_right" style="background-color: #057674; color: #FFFFFF; font-size: 13px;">8</td>
+<td headers="Cluster_3  PCT" class="gt_row gt_right" style="background-color: #6DAD36; color: #FFFFFF; font-size: 13px;">4.1</td>
+<td headers="Cluster_3  Padj" class="gt_row gt_right" style="background-color: #E5574A; color: #FFFFFF; font-size: 13px;">2.3e-03</td>
+<td headers="Cluster_3  geneID" class="gt_row gt_left" style="font-size: 13px;">CXCL10, CXCL13, CXCL11, CXCL9, CCL18, CCL8, ACKR1, CX3CR1</td>
+</tr>
+<tr>
+<td headers="Cluster_3  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">lymphocyte chemotaxis</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0048247</span></div>
+</td>
+<td headers="Cluster_3  Count" class="gt_row gt_right" style="background-color: #036A5C; color: #FFFFFF; font-size: 13px;">6</td>
+<td headers="Cluster_3  PCT" class="gt_row gt_right" style="background-color: #589B28; color: #FFFFFF; font-size: 13px;">3.1</td>
+<td headers="Cluster_3  Padj" class="gt_row gt_right" style="background-color: #EC6247; color: #FFFFFF; font-size: 13px;">3.3e-03</td>
+<td headers="Cluster_3  geneID" class="gt_row gt_left" style="font-size: 13px;">S100A7, CXCL10, CXCL13, CXCL11, CCL18, CCL8</td>
+</tr>
+<tr>
+<td headers="Cluster_3  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">granulocyte chemotaxis</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0071621</span></div>
+</td>
+<td headers="Cluster_3  Count" class="gt_row gt_right" style="background-color: #047D81; color: #FFFFFF; font-size: 13px;">9</td>
+<td headers="Cluster_3  PCT" class="gt_row gt_right" style="background-color: #78B63C; color: #000000; font-size: 13px;">4.6</td>
+<td headers="Cluster_3  Padj" class="gt_row gt_right" style="background-color: #EE6446; color: #FFFFFF; font-size: 13px;">3.5e-03</td>
+<td headers="Cluster_3  geneID" class="gt_row gt_left" style="font-size: 13px;">S100A9, S100A8, S100A7, CXCL10, CXCL13, CXCL11, CXCL9, CCL18, CCL8</td>
+</tr>
+<tr>
+<td headers="Cluster_3  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">response to chemokine</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:1990868</span></div>
+</td>
+<td headers="Cluster_3  Count" class="gt_row gt_right" style="background-color: #057674; color: #FFFFFF; font-size: 13px;">8</td>
+<td headers="Cluster_3  PCT" class="gt_row gt_right" style="background-color: #6DAD36; color: #FFFFFF; font-size: 13px;">4.1</td>
+<td headers="Cluster_3  Padj" class="gt_row gt_right" style="background-color: #F06745; color: #FFFFFF; font-size: 13px;">3.8e-03</td>
+<td headers="Cluster_3  geneID" class="gt_row gt_left" style="font-size: 13px;">CXCL10, CXCL13, CXCL11, CXCL9, CCL18, CCL8, ACKR1, CX3CR1</td>
+</tr>
+<tr>
+<td headers="Cluster_3  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">cellular response to chemokine</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:1990869</span></div>
+</td>
+<td headers="Cluster_3  Count" class="gt_row gt_right" style="background-color: #057674; color: #FFFFFF; font-size: 13px;">8</td>
+<td headers="Cluster_3  PCT" class="gt_row gt_right" style="background-color: #6DAD36; color: #FFFFFF; font-size: 13px;">4.1</td>
+<td headers="Cluster_3  Padj" class="gt_row gt_right" style="background-color: #F06745; color: #FFFFFF; font-size: 13px;">3.8e-03</td>
+<td headers="Cluster_3  geneID" class="gt_row gt_left" style="font-size: 13px;">CXCL10, CXCL13, CXCL11, CXCL9, CCL18, CCL8, ACKR1, CX3CR1</td>
+</tr>
+<tr>
+<td headers="Cluster_3  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">humoral immune response</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0006959</span></div>
+</td>
+<td headers="Cluster_3  Count" class="gt_row gt_right" style="background-color: #2388A4; color: #FFFFFF; font-size: 13px;">12</td>
+<td headers="Cluster_3  PCT" class="gt_row gt_right" style="background-color: #9BCE64; color: #000000; font-size: 13px;">6.1</td>
+<td headers="Cluster_3  Padj" class="gt_row gt_right" style="background-color: #F16944; color: #FFFFFF; font-size: 13px;">4.0e-03</td>
+<td headers="Cluster_3  geneID" class="gt_row gt_left" style="font-size: 13px;">S100A9, S100A7, CXCL10, CXCL13, CXCL11, CAMP, CXCL9, GNLY, RNASE4, C7, CXCL14, GATA3</td>
+</tr>
+<tr>
+<td headers="Cluster_3  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">neutrophil chemotaxis</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0030593</span></div>
+</td>
+<td headers="Cluster_3  Count" class="gt_row gt_right" style="background-color: #057674; color: #FFFFFF; font-size: 13px;">8</td>
+<td headers="Cluster_3  PCT" class="gt_row gt_right" style="background-color: #6DAD36; color: #FFFFFF; font-size: 13px;">4.1</td>
+<td headers="Cluster_3  Padj" class="gt_row gt_right" style="background-color: #F26B44; color: #FFFFFF; font-size: 13px;">4.2e-03</td>
+<td headers="Cluster_3  geneID" class="gt_row gt_left" style="font-size: 13px;">S100A9, S100A8, CXCL10, CXCL13, CXCL11, CXCL9, CCL18, CCL8</td>
+</tr>
+<tr>
+<td headers="Cluster_3  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">response to molecule of bacterial origin</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0002237</span></div>
+</td>
+<td headers="Cluster_3  Count" class="gt_row gt_right" style="background-color: #3D93C2; color: #FFFFFF; font-size: 13px;">15</td>
+<td headers="Cluster_3  PCT" class="gt_row gt_right" style="background-color: #C0E593; color: #000000; font-size: 13px;">7.7</td>
+<td headers="Cluster_3  Padj" class="gt_row gt_right" style="background-color: #F47044; color: #FFFFFF; font-size: 13px;">4.6e-03</td>
+<td headers="Cluster_3  geneID" class="gt_row gt_left" style="font-size: 13px;">S100A9, S100A8, S100A7, CXCL10, CXCL13, CXCL11, SLC7A5, CAMP, CXCL9, INAVA, IDO1, MAOB, PCK1, HMGCS2, CX3CR1</td>
+</tr>
+<tr class="gt_group_heading_row">
+<th colspan="5" class="gt_group_heading" scope="colgroup" id="Cluster_4">Cluster_4</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="Cluster_4  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">cell cycle G2/M phase transition</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0044839</span></div>
+</td>
+<td headers="Cluster_4  Count" class="gt_row gt_right" style="background-color: #188598; color: #FFFFFF; font-size: 13px;">11</td>
+<td headers="Cluster_4  PCT" class="gt_row gt_right" style="background-color: #8FC655; color: #000000; font-size: 13px;">5.6</td>
+<td headers="Cluster_4  Padj" class="gt_row gt_right" style="background-color: #D8424E; color: #FFFFFF; font-size: 13px;">3.6e-04</td>
+<td headers="Cluster_4  geneID" class="gt_row gt_left" style="font-size: 13px;">FOXM1, MELK, CCNB2, NDC80, CCNA2, CDK1, AURKB, CHEK1, DTL, AURKA, CCNB1</td>
+</tr>
+<tr>
+<td headers="Cluster_4  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">G2/M transition of mitotic cell cycle</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0000086</span></div>
+</td>
+<td headers="Cluster_4  Count" class="gt_row gt_right" style="background-color: #047D81; color: #FFFFFF; font-size: 13px;">9</td>
+<td headers="Cluster_4  PCT" class="gt_row gt_right" style="background-color: #78B63C; color: #000000; font-size: 13px;">4.6</td>
+<td headers="Cluster_4  Padj" class="gt_row gt_right" style="background-color: #F06845; color: #FFFFFF; font-size: 13px;">3.9e-03</td>
+<td headers="Cluster_4  geneID" class="gt_row gt_left" style="font-size: 13px;">FOXM1, MELK, CCNA2, CDK1, AURKB, CHEK1, DTL, AURKA, CCNB1</td>
+</tr>
+<tr class="gt_group_heading_row">
+<th colspan="5" class="gt_group_heading" scope="colgroup" id="Cluster_7">Cluster_7</th>
+    </tr>
+<tr class="gt_row_group_first">
+<td headers="Cluster_7  Description" class="gt_row gt_left" style="font-size: 13px;">
+<div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">microtubule-based movement</span></div>
+<div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0007018</span></div>
+</td>
+<td headers="Cluster_7  Count" class="gt_row gt_right" style="background-color: #2388A4; color: #FFFFFF; font-size: 13px;">12</td>
+<td headers="Cluster_7  PCT" class="gt_row gt_right" style="background-color: #9BCE64; color: #000000; font-size: 13px;">6.1</td>
+<td headers="Cluster_7  Padj" class="gt_row gt_right" style="background-color: #3288BD; color: #FFFFFF; font-size: 13px;">3.1e-02</td>
+<td headers="Cluster_7  geneID" class="gt_row gt_left" style="font-size: 13px;">KIF23, CENPE, DLGAP5, KIF18A, KIF11, KIFC1, KIF18B, KIF20A, KIF4A, MAPT, TRIM58, CFAP69</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>For further guidance, see other <code>Articles</code>.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="session-info">Session info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">sessioninfo</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html" class="external-link">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span></span>
