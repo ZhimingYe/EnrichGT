@@ -118,4 +118,9 @@ obj1<-res0|> EnrichGT(P.adj = 0.2,ClusterNum = 10,nTop = 10)
 obj@gt_object
 ```
 
+# Session info
+
+```{r}
+sessioninfo::session_info()
+```
 

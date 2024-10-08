@@ -15,6 +15,8 @@ install_github("ZhimingYe/EnrichGT")
 
 Please see `Articles` for examples and further help.
 
+------------------------------------------------------------------------
+
 ## Challenges in Biological Gene Enrichment Analysis
 
 Gene enrichment analysis can often be misleading due to the redundancy within gene set databases and the limitations of most enrichment tools. Many tools, by default, only display a few top results and fail to filter out redundancy. This can result in both biological misinterpretation and valuable information being overlooked.
