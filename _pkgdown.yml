@@ -2,6 +2,10 @@ url: https://zhimingye.github.io/EnrichGT/
 template:
   bootstrap: 5
 articles:
+- title: Get Start
+  navbar: ~
+  contents:
+  - getStart
 - title: Articles
   navbar: ~
   contents:

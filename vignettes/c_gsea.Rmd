@@ -27,7 +27,9 @@ Similar to ORA, for GSEA enrichment analysis (What is GSEA enrichment analysis? 
 
 This only shows results. For detailing usage, please see the Article of `ORA` (the before article). 
 
+::: {.warning}
 We encourage run `clusterProfiler::setReadable()` first before passing to `EnrichGT()`, to get gene symbols correctly (this is a bad example without `setReadable()`). 
+:::
 
 ```{r}
 suppressMessages({
@@ -47,7 +49,12 @@ ego3 <- gseGO(geneList     = geneList,
 (EnrichGT(ego3, ClusterNum = 100, P.adj = 1)@gt_object)
 ```
 
+After `setReadable()` was run: 
 
+```{r}
+ego3<-ego3 |> setReadable(OrgDb = org.Hs.eg.db,keyType = "ENTREZID")
+(EnrichGT(ego3, ClusterNum = 100, P.adj = 1)@gt_object)
+```
 
 # Session info
 
