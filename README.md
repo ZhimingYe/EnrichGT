@@ -2,7 +2,7 @@
 
 ### OverView
 
-![](Figs/EnrichGT.png)
+![](man/figures/EnrichGT.png)
 
 ### Challenges in Biological Gene Enrichment Analysis
 
