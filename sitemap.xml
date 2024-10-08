@@ -1,13 +1,39 @@
-<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>https://zhimingye.github.io/EnrichGT/404.html</loc></url>
-<url><loc>https://zhimingye.github.io/EnrichGT/authors.html</loc></url>
-<url><loc>https://zhimingye.github.io/EnrichGT/index.html</loc></url>
-<url><loc>https://zhimingye.github.io/EnrichGT/reference/BuildMultigroupDEGlist.html</loc></url>
-<url><loc>https://zhimingye.github.io/EnrichGT/reference/EnrichGT.html</loc></url>
-<url><loc>https://zhimingye.github.io/EnrichGT/reference/Ranked.GS.html</loc></url>
-<url><loc>https://zhimingye.github.io/EnrichGT/reference/doGO.html</loc></url>
-<url><loc>https://zhimingye.github.io/EnrichGT/reference/doKEGG.html</loc></url>
-<url><loc>https://zhimingye.github.io/EnrichGT/reference/doRA.html</loc></url>
-<url><loc>https://zhimingye.github.io/EnrichGT/reference/index.html</loc></url>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://zhimingye.github.io/EnrichGT/404.html</loc>
+  </url>
+  <url>
+    <loc>https://zhimingye.github.io/EnrichGT/articles/c_ora.html</loc>
+  </url>
+  <url>
+    <loc>https://zhimingye.github.io/EnrichGT/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://zhimingye.github.io/EnrichGT/authors.html</loc>
+  </url>
+  <url>
+    <loc>https://zhimingye.github.io/EnrichGT/index.html</loc>
+  </url>
+  <url>
+    <loc>https://zhimingye.github.io/EnrichGT/reference/BuildMultigroupDEGlist.html</loc>
+  </url>
+  <url>
+    <loc>https://zhimingye.github.io/EnrichGT/reference/EnrichGT.html</loc>
+  </url>
+  <url>
+    <loc>https://zhimingye.github.io/EnrichGT/reference/Ranked.GS.html</loc>
+  </url>
+  <url>
+    <loc>https://zhimingye.github.io/EnrichGT/reference/doGO.html</loc>
+  </url>
+  <url>
+    <loc>https://zhimingye.github.io/EnrichGT/reference/doKEGG.html</loc>
+  </url>
+  <url>
+    <loc>https://zhimingye.github.io/EnrichGT/reference/doRA.html</loc>
+  </url>
+  <url>
+    <loc>https://zhimingye.github.io/EnrichGT/reference/index.html</loc>
+  </url>
 </urlset>
-
