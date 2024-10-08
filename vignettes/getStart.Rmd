@@ -54,7 +54,12 @@ Then, run  `obj |> EnrichGT()` !
 obj <- ego |> EnrichGT()
 ```
 
-For further guidance, see `Articles`.  
+```{r}
+obj@gt_object
+```
+
+
+For further guidance, see other `Articles`.  
 
 # Session info
 
