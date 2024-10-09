@@ -49,7 +49,12 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   y2<-y2[!duplicated(y2$ID),]
   y2<-y2[!duplicated(y2$Description),]
   y2<-as.data.frame(y2)
-  y3<-.genGT(y2,...)
+  if("NES"%in%colnames(y2)){
+    y3<-.genGSEAGT(y2,...)
+  }
+  else{
+    y3<-.genGT(y2,...)
+  }
   return(y3)
 })
 
