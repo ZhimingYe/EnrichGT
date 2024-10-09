@@ -39,9 +39,30 @@ setMethod("doEnrichGT", signature(x = "data.frame"),function(x,...){
     return(y)
   }
 })
+setMethod("doEnrichGT", signature(x = "list"),function(x,...){
+  y<-lapply(x, function(z){
+    q<-cpres_internal_getter(z)
+    return(q)
+  })
+  y2<-do.call(rbind,y)
+  y2<-y2 |> as.data.frame()
+  y2<-y2[!duplicated(y2$ID),]
+  y2<-y2[!duplicated(y2$Description),]
+  y2<-as.data.frame(y2)
+  if("NES"%in%colnames(y2)){
+    y3<-.genGSEAGT(y2,...)
+  }
+  else{
+    y3<-.genGT(y2,...)
+  }
+  return(y3)
+})
 
 .genGT<-function(x,ClusterNum,P.adj=0.05,force=F,objname,nTop,...){
   InnerDF<-x
+  if(dim(x)[1]==0){
+    stop("no enrichment result contains")
+  }
   .checkRowNames(x,"ORA")
   ClusterNum0<-ClusterNum
   ClusterNum<-.genClusterNum(x=x,ClusterNum = ClusterNum0,force = force) |> round()
@@ -69,6 +90,9 @@ setMethod("doEnrichGT", signature(x = "data.frame"),function(x,...){
 
 .genGSEAGT<-function(x,ClusterNum,P.adj=0.05,force=F,objname,nTop,...){
   InnerDF<-x
+  if(dim(x)[1]==0){
+    stop("no enrichment result contains")
+  }
   .checkRowNames(x,"GSEA")
   ClusterNum0<-ClusterNum
   ClusterNum<-.genClusterNum(x=x,ClusterNum = ClusterNum0,force = force) |> round()

@@ -31,7 +31,7 @@ genMetaGM<-function(x,type){
   }
   x<-split(x,x$cluster)
   tryCatch({y<-lapply(x, function(x2)try({.genGT(x2,...)}))},error=function(e){
-    stop("[Message]Error: might be too few columns. ")
+    stop("[EnrichGT]Error: might be too few columns. ")
   })
   return(y)
 }
@@ -43,7 +43,7 @@ is_numeric_string <- function(x) {
   require(text2vec)
   tokens_list <- strsplit(geneID,sep)
   if(sum(is_numeric_string(unlist(tokens_list)))>length(unlist(tokens_list))*0.5){
-    message("[Message]Please run setReadable first!")
+    message_egt("Please run setReadable first!")
   }
   tokens_list<-lapply(tokens_list,function(x){
     x[is_numeric_string(x)]<-paste0("Gene_",x)
@@ -75,11 +75,11 @@ is_numeric_string <- function(x) {
                                  dim(x)[1]<50~3,
                                  dim(x)[1]>=50~ClusterNum0)
     if(ClusterNum>60){
-      message("[Message]Too many clusters! Try with max as 50...\nuse force=T to forbid the self-check")
+      message_egt("Too many clusters! Try with max as 50...\nuse force=T to forbid the self-check")
       ClusterNum<-60
     }
     if(ClusterNum>dim(x)[1]/10 & dim(x)[1]>=50){
-      message("[Message]Too many clusters! Try with max as ncol/10...\nuse force=T to forbid the self-check")
+      message_egt("Too many clusters! Try with max as ncol/10...\nuse force=T to forbid the self-check")
       ClusterNum<-dim(x)[1]/11
     }
   }
@@ -88,11 +88,11 @@ is_numeric_string <- function(x) {
   return(ClusterNum)
 }
 .checkNrows<-function(x,force){
-  if(nrow(x)>3000&!force){
-    stop("[Message]Too many rows!(>3000), please subset! use force=T to forbid the self-check")
+  if(nrow(x)>10000&!force){
+    stop("[EnrichGT]Too many rows!(>10000), please subset! use force=T to forbid the self-check")
   }
   if(nrow(x)>750){
-    message("[Message]Too many rows! It might be slow...\nWorking, but please consider increase P.adj ...")
+    message_egt("Too many rows! It might be slow...\nWorking, but please consider increase P.adj ...")
   }
 }
 .checkRowNames<-function(x,Type){

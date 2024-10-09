@@ -14,7 +14,7 @@ Ranked.GS<-function(Gene,log2FC,FromType = "SYMBOL",OrgDB=org.Hs.eg.db){
   require(clusterProfiler)
   ENTREZIDtable<-clusterProfiler::bitr(Genetable$Gene,fromType = FromType,toType = "ENTREZID",OrgDb = OrgDB)
   colnames(ENTREZIDtable)[1]<-"Gene"
-  Genetable<-Genetable%>%left_join(ENTREZIDtable)%>%arrange(desc(log2FC))
+  Genetable<-Genetable|>dplyr::left_join(ENTREZIDtable)|>dplyr::arrange(desc(log2FC))
   GSElist<-as.numeric(Genetable$log2FC)
   names(GSElist)<-Genetable$ENTREZID
   GSElist = sort(GSElist, decreasing = TRUE)
@@ -34,8 +34,8 @@ Ranked.GS<-function(Gene,log2FC,FromType = "SYMBOL",OrgDB=org.Hs.eg.db){
 #'
 doGO<-function(GS,ont="BP",PVal=0.01,QVal=0.05,OrgDB=org.Hs.eg.db){
   require(clusterProfiler)
-  GeneList<-GS%>%unique()%>%clusterProfiler::bitr(fromType = "SYMBOL",toType = "ENTREZID",OrgDb = OrgDB)
-  EnrichGO<-clusterProfiler::enrichGO(GeneList$ENTREZID,ont = ont,OrgDb = OrgDB,pvalueCutoff = PVal,qvalueCutoff = QVal)%>%clusterProfiler::setReadable(OrgDb=OrgDB,keyType = "ENTREZID")
+  GeneList<-GS|>unique()|>clusterProfiler::bitr(fromType = "SYMBOL",toType = "ENTREZID",OrgDb = OrgDB)
+  EnrichGO<-clusterProfiler::enrichGO(GeneList$ENTREZID,ont = ont,OrgDb = OrgDB,pvalueCutoff = PVal,qvalueCutoff = QVal)|>clusterProfiler::setReadable(OrgDb=OrgDB,keyType = "ENTREZID")
   return(EnrichGO)
 }
 #' @title ORA KEGG analysis by clusterProfiler by symbol identifiers.
@@ -52,8 +52,8 @@ doGO<-function(GS,ont="BP",PVal=0.01,QVal=0.05,OrgDB=org.Hs.eg.db){
 #'
 doKEGG<-function(GS,PVal=0.01,QVal=0.05,Organism="hsa",OrgDB=org.Hs.eg.db){
   require(clusterProfiler)
-  GeneList<-GS%>%unique()%>%clusterProfiler::bitr(fromType = "SYMBOL",toType = "ENTREZID",OrgDb = OrgDB)
-  EnrichKEGG<-clusterProfiler::enrichKEGG(GeneList$ENTREZID,pvalueCutoff = PVal,qvalueCutoff = QVal,organism=Organism)%>%clusterProfiler::setReadable(OrgDb=OrgDB,keyType = "ENTREZID")
+  GeneList<-GS|>unique()|>clusterProfiler::bitr(fromType = "SYMBOL",toType = "ENTREZID",OrgDb = OrgDB)
+  EnrichKEGG<-clusterProfiler::enrichKEGG(GeneList$ENTREZID,pvalueCutoff = PVal,qvalueCutoff = QVal,organism=Organism)|>clusterProfiler::setReadable(OrgDb=OrgDB,keyType = "ENTREZID")
   return(EnrichKEGG)
 }
 #' @title ORA Reactome analysis by clusterProfiler by symbol identifiers.
@@ -71,8 +71,8 @@ doKEGG<-function(GS,PVal=0.01,QVal=0.05,Organism="hsa",OrgDB=org.Hs.eg.db){
 doRA<-function(GS,PVal=0.01,QVal=0.05,Organism="human",OrgDB=org.Hs.eg.db){
   require(clusterProfiler)
   require(ReactomePA)
-  GeneList<-GS%>%unique()%>%clusterProfiler::bitr(fromType = "SYMBOL",toType = "ENTREZID",OrgDb = OrgDB)
-  EnrichRA<-ReactomePA::enrichPathway(GeneList$ENTREZID,pvalueCutoff = PVal,qvalueCutoff = QVal,organism=Organism)%>%clusterProfiler::setReadable(OrgDb=OrgDB,keyType = "ENTREZID")
+  GeneList<-GS|>unique()|>clusterProfiler::bitr(fromType = "SYMBOL",toType = "ENTREZID",OrgDb = OrgDB)
+  EnrichRA<-ReactomePA::enrichPathway(GeneList$ENTREZID,pvalueCutoff = PVal,qvalueCutoff = QVal,organism=Organism)|>clusterProfiler::setReadable(OrgDb=OrgDB,keyType = "ENTREZID")
   return(EnrichRA)
 }
 #' @title Build up a DEG data frame for clusterProfiler multi-group ORA analysis
@@ -91,7 +91,7 @@ BuildMultigroupDEGlist<-function(Gene,Group,OrgDB=org.Hs.eg.db){
   ENTREZIDtable <- clusterProfiler::bitr(Genetable$Gene, fromType = "SYMBOL",
                                          toType = "ENTREZID", OrgDb = OrgDB)
   colnames(ENTREZIDtable)[1] <- "Gene"
-  Genetable <- Genetable %>% left_join(ENTREZIDtable)
+  Genetable <- Genetable |> left_join(ENTREZIDtable)
   return(Genetable)
 }
 
