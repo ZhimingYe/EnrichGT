@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">EnrichGT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,6 +44,7 @@
     <a class="dropdown-item" href="../articles/getStart.html">Get Start</a>
     <a class="dropdown-item" href="../articles/c_ora.html">Clustering and viewing ORA results</a>
     <a class="dropdown-item" href="../articles/c_gsea.html">Clustering and viewing GSEA results</a>
+    <a class="dropdown-item" href="../articles/c_fusing.html">Fusing multiple enrichment results generated from different databases</a>
     <a class="dropdown-item" href="../articles/c_multi_grp.html">Clustering and viewing compareClusterResult</a>
   </div>
 </li>
@@ -86,8 +87,11 @@
 <span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
 <span><span class="co">#&gt; Loading required package: tibble</span></span>
 <span><span class="co">#&gt; Loading required package: gt</span></span>
-<span><span class="co">#&gt; View your enrichment result by entring `EnrichGT(result)`</span></span>
-<span><span class="co">#&gt; by Zhiming Ye, https://github.com/ZhimingYe/EnrichGT</span></span></code></pre></div>
+<span><span class="co">#&gt; Loading required package: cli</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">EnrichGT</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> View your enrichment result by entring `EnrichGT(result)`</span></span>
+<span><span class="co">#&gt; → by Zhiming Ye, https://github.com/ZhimingYe/EnrichGT</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="get-start">Get Start<a class="anchor" aria-label="anchor" href="#get-start"></a>
 </h2>
@@ -108,7 +112,8 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">ego</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/EnrichGT.html">EnrichGT</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; =====[SUGGESTION]=====</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">EnrichGT message:</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> =====[SUGGESTION]=====</span></span>
 <span><span class="co">#&gt; You are passing an object from GO Enrichment.</span></span>
 <span><span class="co">#&gt; Please ensure that `obj |&gt; clusterProfiler::simplify()` is executed, to pre-simplify result,</span></span>
 <span><span class="co">#&gt; For better enriched result.</span></span>
@@ -137,23 +142,23 @@
 <p><img src="getStart_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">obj</span><span class="op">@</span><span class="va">gt_object</span></span></code></pre></div>
-<div id="tixsangema" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#tixsangema table {
+<div id="quvelcknoz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#quvelcknoz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#tixsangema thead, #tixsangema tbody, #tixsangema tfoot, #tixsangema tr, #tixsangema td, #tixsangema th {
+#quvelcknoz thead, #quvelcknoz tbody, #quvelcknoz tfoot, #quvelcknoz tr, #quvelcknoz td, #quvelcknoz th {
   border-style: none;
 }
 
-#tixsangema p {
+#quvelcknoz p {
   margin: 0;
   padding: 0;
 }
 
-#tixsangema .gt_table {
+#quvelcknoz .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -179,12 +184,12 @@
   border-left-color: #D3D3D3;
 }
 
-#tixsangema .gt_caption {
+#quvelcknoz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#tixsangema .gt_title {
+#quvelcknoz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -196,7 +201,7 @@
   border-bottom-width: 0;
 }
 
-#tixsangema .gt_subtitle {
+#quvelcknoz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -208,7 +213,7 @@
   border-top-width: 0;
 }
 
-#tixsangema .gt_heading {
+#quvelcknoz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -220,13 +225,13 @@
   border-right-color: #D3D3D3;
 }
 
-#tixsangema .gt_bottom_border {
+#quvelcknoz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tixsangema .gt_col_headings {
+#quvelcknoz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -241,7 +246,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tixsangema .gt_col_heading {
+#quvelcknoz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -261,7 +266,7 @@
   overflow-x: hidden;
 }
 
-#tixsangema .gt_column_spanner_outer {
+#quvelcknoz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -273,15 +278,15 @@
   padding-right: 4px;
 }
 
-#tixsangema .gt_column_spanner_outer:first-child {
+#quvelcknoz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tixsangema .gt_column_spanner_outer:last-child {
+#quvelcknoz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tixsangema .gt_column_spanner {
+#quvelcknoz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -293,11 +298,11 @@
   width: 100%;
 }
 
-#tixsangema .gt_spanner_row {
+#quvelcknoz .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#tixsangema .gt_group_heading {
+#quvelcknoz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -323,7 +328,7 @@
   text-align: left;
 }
 
-#tixsangema .gt_empty_group_heading {
+#quvelcknoz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -338,15 +343,15 @@
   vertical-align: middle;
 }
 
-#tixsangema .gt_from_md > :first-child {
+#quvelcknoz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tixsangema .gt_from_md > :last-child {
+#quvelcknoz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tixsangema .gt_row {
+#quvelcknoz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -365,7 +370,7 @@
   overflow-x: hidden;
 }
 
-#tixsangema .gt_stub {
+#quvelcknoz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -378,7 +383,7 @@
   padding-right: 5px;
 }
 
-#tixsangema .gt_stub_row_group {
+#quvelcknoz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -392,15 +397,15 @@
   vertical-align: top;
 }
 
-#tixsangema .gt_row_group_first td {
+#quvelcknoz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#tixsangema .gt_row_group_first th {
+#quvelcknoz .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#tixsangema .gt_summary_row {
+#quvelcknoz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -410,16 +415,16 @@
   padding-right: 5px;
 }
 
-#tixsangema .gt_first_summary_row {
+#quvelcknoz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#tixsangema .gt_first_summary_row.thick {
+#quvelcknoz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#tixsangema .gt_last_summary_row {
+#quvelcknoz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -429,7 +434,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#tixsangema .gt_grand_summary_row {
+#quvelcknoz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -439,7 +444,7 @@
   padding-right: 5px;
 }
 
-#tixsangema .gt_first_grand_summary_row {
+#quvelcknoz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -449,7 +454,7 @@
   border-top-color: #D3D3D3;
 }
 
-#tixsangema .gt_last_grand_summary_row_top {
+#quvelcknoz .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -459,11 +464,11 @@
   border-bottom-color: #D3D3D3;
 }
 
-#tixsangema .gt_striped {
+#quvelcknoz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tixsangema .gt_table_body {
+#quvelcknoz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -472,7 +477,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#tixsangema .gt_footnotes {
+#quvelcknoz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -486,7 +491,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tixsangema .gt_footnote {
+#quvelcknoz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -495,7 +500,7 @@
   padding-right: 5px;
 }
 
-#tixsangema .gt_sourcenotes {
+#quvelcknoz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -509,7 +514,7 @@
   border-right-color: #D3D3D3;
 }
 
-#tixsangema .gt_sourcenote {
+#quvelcknoz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -517,72 +522,72 @@
   padding-right: 5px;
 }
 
-#tixsangema .gt_left {
+#quvelcknoz .gt_left {
   text-align: left;
 }
 
-#tixsangema .gt_center {
+#quvelcknoz .gt_center {
   text-align: center;
 }
 
-#tixsangema .gt_right {
+#quvelcknoz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tixsangema .gt_font_normal {
+#quvelcknoz .gt_font_normal {
   font-weight: normal;
 }
 
-#tixsangema .gt_font_bold {
+#quvelcknoz .gt_font_bold {
   font-weight: bold;
 }
 
-#tixsangema .gt_font_italic {
+#quvelcknoz .gt_font_italic {
   font-style: italic;
 }
 
-#tixsangema .gt_super {
+#quvelcknoz .gt_super {
   font-size: 65%;
 }
 
-#tixsangema .gt_footnote_marks {
+#quvelcknoz .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#tixsangema .gt_asterisk {
+#quvelcknoz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#tixsangema .gt_indent_1 {
+#quvelcknoz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#tixsangema .gt_indent_2 {
+#quvelcknoz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#tixsangema .gt_indent_3 {
+#quvelcknoz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#tixsangema .gt_indent_4 {
+#quvelcknoz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#tixsangema .gt_indent_5 {
+#quvelcknoz .gt_indent_5 {
   text-indent: 25px;
 }
 
-#tixsangema .katex-display {
+#quvelcknoz .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#tixsangema div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#quvelcknoz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -987,7 +992,7 @@
 <span><span class="co">#&gt;  blob               1.2.4      <span style="color: #555555;">2023-03-17</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  bslib              0.6.1      <span style="color: #555555;">2023-11-28</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  cachem             1.0.8      <span style="color: #555555;">2023-05-01</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
-<span><span class="co">#&gt;  cli                3.6.3      <span style="color: #555555;">2024-06-21</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.3)</span></span></span>
+<span><span class="co">#&gt;  cli              * 3.6.3      <span style="color: #555555;">2024-06-21</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.3)</span></span></span>
 <span><span class="co">#&gt;  clusterProfiler  * 4.10.1     <span style="color: #555555;">2024-03-09</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor 3.18 (R 4.3.3)</span></span></span>
 <span><span class="co">#&gt;  codetools          0.2-19     <span style="color: #555555;">2023-02-01</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.3)</span></span></span>
 <span><span class="co">#&gt;  colorspace         2.1-0      <span style="color: #555555;">2023-01-23</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
@@ -999,7 +1004,7 @@
 <span><span class="co">#&gt;  digest             0.6.35     <span style="color: #555555;">2024-03-11</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  DOSE               3.28.2     <span style="color: #555555;">2023-12-12</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor 3.18 (R 4.3.2)</span></span></span>
 <span><span class="co">#&gt;  dplyr            * 1.1.4      <span style="color: #555555;">2023-11-17</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
-<span><span class="co">#&gt;  EnrichGT         * 0.2.3      <span style="color: #555555;">2024-10-08</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
+<span><span class="co">#&gt;  EnrichGT         * 0.2.5      <span style="color: #555555;">2024-10-09</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
 <span><span class="co">#&gt;  enrichplot         1.22.0     <span style="color: #555555;">2023-11-06</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  evaluate           0.23       <span style="color: #555555;">2023-11-01</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  fansi              1.0.6      <span style="color: #555555;">2023-12-08</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
