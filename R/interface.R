@@ -40,6 +40,9 @@ EnrichGT<-function(x,ClusterNum=15,P.adj=0.05,force=F,nTop=10,...){
     require("dplyr")
     require("tibble")
     require("gt")
-    packageStartupMessage("View your enrichment result by entring `EnrichGT(result)`\nby Zhiming Ye, https://github.com/ZhimingYe/EnrichGT")
+    require("cli")
+    cli::cli_h1("EnrichGT")
+    cli::cli_alert_info("View your enrichment result by entring `EnrichGT(result)`")
+    cli::cli_alert("by Zhiming Ye, https://github.com/ZhimingYe/EnrichGT")
   }
 }

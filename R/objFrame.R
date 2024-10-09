@@ -19,7 +19,7 @@ new.egt <- function(x1,x2,x3,x4){
     objegt@pathway_clusters <- x4
     flag0<-T
   },error=function(e){
-    message("Failed to create EnrichGT object! Please re-check your input.")
+    message_egt("Failed to create EnrichGT object! Please re-check your input.")
     flag0<-F
   })
   if(flag0==F){
