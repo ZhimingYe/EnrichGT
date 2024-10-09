@@ -4,7 +4,7 @@
 \alias{EnrichGT}
 \title{Parse enrichment results and further clustering and visualizing}
 \usage{
-EnrichGT(x, ClusterNum = 15, P.adj = 0.05, force = F, nTop = 20, ...)
+EnrichGT(x, ClusterNum = 15, P.adj = 0.05, force = F, nTop = 10, ...)
 }
 \arguments{
 \item{x}{an enrichment result from `clusterProfiler`, or a `data.frame` containing result from `clusterProfier`}
