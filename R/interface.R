@@ -1,7 +1,7 @@
 
 #' Parse enrichment results and further clustering and visualizing
 #'
-#' @param x an enrichment result from `clusterProfiler`, or a `data.frame` containing result from `clusterProfier`
+#' @param x an enrichment result from `clusterProfiler`, or a `data.frame` containing result from `clusterProfier`. To perform fusing multi-database enrichment results, please give a `list` object.
 #' @param ClusterNum how many cluster will be clustered
 #' @param P.adj p.adjust cut-off. To avoid slow visualization, you can make stricter p-cut off.
 #' @param force ignore all auto-self-checks, which is useful

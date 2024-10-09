@@ -7,7 +7,7 @@
 EnrichGT(x, ClusterNum = 15, P.adj = 0.05, force = F, nTop = 10, ...)
 }
 \arguments{
-\item{x}{an enrichment result from `clusterProfiler`, or a `data.frame` containing result from `clusterProfier`}
+\item{x}{an enrichment result from `clusterProfiler`, or a `data.frame` containing result from `clusterProfier`. To perform fusing multi-database enrichment results, please give a `list` object.}
 
 \item{ClusterNum}{how many cluster will be clustered}
 
