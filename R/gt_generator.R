@@ -1,4 +1,7 @@
-gt_gsea<-function(x,ClusterNum,objname,...){
+gt_gsea<-function(x,ClusterNum,objname,objname2=NULL,...){
+  if(!is.null(objname2)){
+    objname<-objname2
+  }
   orderlist<-fix_order(x$Cluster)
   orderlist<-orderlist[orderlist%in%x$Cluster]
   y<-x |> gt::gt(groupname_col = "Cluster") |>
@@ -24,7 +27,10 @@ gt_gsea<-function(x,ClusterNum,objname,...){
   return(y)
 }
 
-gt_ora<-function(x,ClusterNum,objname,...){
+gt_ora<-function(x,ClusterNum,objname,objname2=NULL,...){
+  if(!is.null(objname2)){
+    objname<-objname2
+  }
   orderlist<-fix_order(x$Cluster)
   orderlist<-orderlist[orderlist%in%x$Cluster]
   y<-x |> gt::gt(groupname_col = "Cluster") |>

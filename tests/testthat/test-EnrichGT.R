@@ -10,6 +10,7 @@ test_that("EnrichGT creates four HTML files", {
   file2 <- file.path(tmp_dir, "test2.html")
   file3 <- file.path(tmp_dir, "test3.html")
   file4 <- file.path(tmp_dir, "test4.html")
+  file5 <- file.path(tmp_dir, "test5.html")
   data(geneList, package="DOSE")
   gene <- names(geneList)[abs(geneList) > 2]
   ego <- enrichGO(gene          = gene,
@@ -49,6 +50,6 @@ test_that("EnrichGT creates four HTML files", {
   dza@gt_object |> gt::gtsave(file4)
   expect_true(file.exists(file4), info = "test4.html should be created")
 
-
-
+  EnrichGT(list(ego,kk), ClusterNum = 15, P.adj = 1)@gt_object |> gt::gtsave(file5)
+  expect_true(file.exists(file5), info = "test5.html should be created")
 })
