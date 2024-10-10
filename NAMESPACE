@@ -3,6 +3,7 @@
 export(BuildMultigroupDEGlist)
 export(EnrichGT)
 export(Ranked.GS)
+export(compareGT)
 export(doGO)
 export(doKEGG)
 export(doRA)
