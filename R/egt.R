@@ -53,7 +53,7 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   return(y3)
 })
 
-.genGT<-function(x,ClusterNum,P.adj=0.05,force=F,objname,nTop,...){
+.genGT<-function(x,ClusterNum,P.adj=0.05,force=F,objname,nTop,method,...){
   InnerDF<-x
   if(dim(x)[1]==0){
     stop("no enrichment result contains")
@@ -61,7 +61,8 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   .checkRowNames(x,"ORA")
   ClusterNum0<-ClusterNum
   ClusterNum<-.genClusterNum(x=x,ClusterNum = ClusterNum0,force = force) |> round()
-  InnerDF<-InnerDF |> dplyr::left_join(.enrichpws(InnerDF$ID,InnerDF$geneID,ClusterNum)) # Merge according to "ID"
+  clsObj<-.enrichpws(InnerDF$ID,InnerDF$geneID,ClusterNum,method)
+  InnerDF<-InnerDF |> dplyr::left_join(clsObj[[1]]) # Merge according to "ID"
   InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::select(ID,Description,GeneRatio,`p.adjust`,geneID,Cluster,Count) # Need Fix
   .checkNrows(InnerDF,force = force)
   obj<-InnerDF |>
@@ -79,11 +80,11 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   obj3 <-obj2 |> genMetaGM(type="ORA")
   obj3_1 <- obj3[[1]]
   obj3_2 <- obj3[[2]]
-  objA <- new.egt(obj2,obj0,obj3_1,obj3_2)
+  objA <- new.egt(obj2,obj0,obj3_1,obj3_2,clsObj[[2]])
   return(objA)
 }
 
-.genGSEAGT<-function(x,ClusterNum,P.adj=0.05,force=F,objname,nTop,...){
+.genGSEAGT<-function(x,ClusterNum,P.adj=0.05,force=F,objname,nTop,method,...){
   InnerDF<-x
   if(dim(x)[1]==0){
     stop("no enrichment result contains")
@@ -91,7 +92,8 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   .checkRowNames(x,"GSEA")
   ClusterNum0<-ClusterNum
   ClusterNum<-.genClusterNum(x=x,ClusterNum = ClusterNum0,force = force) |> round()
-  InnerDF<-InnerDF |> dplyr::left_join(.enrichpws(InnerDF$ID,InnerDF$core_enrichment,ClusterNum)) # Merge according to "ID"
+  clsObj<-.enrichpws(InnerDF$ID,InnerDF$core_enrichment,ClusterNum,method)
+  InnerDF<-InnerDF |> dplyr::left_join(clsObj[[1]]) # Merge according to "ID"
   InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,abs(NES)>=0.9,p.adjust<P.adj) |> dplyr::select(ID,Description,NES,`p.adjust`,Cluster,core_enrichment) # Need Fix
   .checkNrows(InnerDF,force = force)
   obj<-InnerDF |>
@@ -110,7 +112,7 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   obj3 <-obj2 |> genMetaGM(type="GSEA")
   obj3_1 <- obj3[[1]]
   obj3_2 <- obj3[[2]]
-  objA <- new.egt(obj2,obj0,obj3_1,obj3_2)
+  objA <- new.egt(obj2,obj0,obj3_1,obj3_2,clsObj[[2]])
   return(objA)
 }
 # attachment::att_amend_desc()

@@ -38,7 +38,7 @@ genMetaGM<-function(x,type){
 is_numeric_string <- function(x) {
   grepl("^-?\\d+(\\.\\d+)?$", x)
 }
-.enrichpws<-function(ID,geneID,k,sep="/"){
+.enrichpws<-function(ID,geneID,k,method,sep="/"){
   require(proxy)
   require(text2vec)
   tokens_list <- strsplit(geneID,sep)
@@ -55,13 +55,13 @@ is_numeric_string <- function(x) {
   vectorizer <- text2vec::vocab_vectorizer(vocab)
   dtm <- text2vec::create_dtm(tokens_iter, vectorizer)
   distance_matrix <- proxy::dist(dtm |> as.matrix(), method = "cosine")
-  hc <- hclust(distance_matrix, method = "ward.D2")
+  hc <- hclust(distance_matrix, method = method)
   plot(hc)
   clusters <- cutree(hc, k = k)
   clusters<-clusters |> as.data.frame() |> tibble::rownames_to_column(var="ID")
   colnames(clusters)[2]<-"Cluster"
   clusters$Cluster<-paste0("Cluster_",clusters$Cluster)
-  return(clusters)
+  return(list(`clusters`=clusters,`hc`=hc))
 }
 
 
