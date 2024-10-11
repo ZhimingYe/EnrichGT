@@ -1,3 +1,17 @@
+## EnrichGT 0.2.8
+
+### Package major update
+
+-   `EnrichGT()` now supports changing `hclust()` methods, like using ward.D, ward.D2, average ...
+
+-   `EnrichGT_obj` now contains a slot `clustering_tree` containg the cluster tree `hclust` object, for further analysing and drawing figures.
+
+### Others
+
+-   Add benchmark markdown file
+
+-   Refine the help pages
+
 ## EnrichGT 0.2.7
 
 ### Package major update
