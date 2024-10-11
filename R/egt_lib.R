@@ -27,11 +27,11 @@ genMetaGM<-function(x,type){
     x<-x |> dplyr::filter(cluster%in%names(table(x$cluster)[table(x$cluster)>10]))
   }
   else{
-    stop("Error.")
+    cli::cli_abort("Error.")
   }
   x<-split(x,x$cluster)
   tryCatch({y<-lapply(x, function(x2)try({.genGT(x2,...)}))},error=function(e){
-    stop("[EnrichGT]Error: might be too few columns. ")
+    cli::cli_abort("[EnrichGT]Error: might be too few columns. ")
   })
   return(y)
 }
@@ -89,7 +89,7 @@ is_numeric_string <- function(x) {
 }
 .checkNrows<-function(x,force){
   if(nrow(x)>10000&!force){
-    stop("[EnrichGT]Too many rows!(>10000), please subset! use force=T to forbid the self-check")
+    cli::cli_abort("[EnrichGT]Too many rows!(>10000), please subset! use force=T to forbid the self-check")
   }
   if(nrow(x)>750){
     message_egt("Too many rows! It might be slow...\nWorking, but please consider increase P.adj ...")
@@ -112,6 +112,6 @@ is_numeric_string <- function(x) {
     return(judgeinner)
   }
   else{
-    stop(paste0("cols: ",paste(vec[!vec%in%colnames(x)],sep = ", "), " not found!\n"))
+    cli::cli_abort(paste0("cols: ",paste(vec[!vec%in%colnames(x)],sep = ", "), " not found!\n"))
   }
 }

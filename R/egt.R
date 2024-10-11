@@ -56,13 +56,13 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
 .genGT<-function(x,ClusterNum,P.adj=0.05,force=F,objname,nTop,method,...){
   InnerDF<-x
   if(dim(x)[1]==0){
-    stop("no enrichment result contains")
+    cli::cli_abort("no enrichment result contains")
   }
   .checkRowNames(x,"ORA")
   ClusterNum0<-ClusterNum
   ClusterNum<-.genClusterNum(x=x,ClusterNum = ClusterNum0,force = force) |> round()
   clsObj<-.enrichpws(InnerDF$ID,InnerDF$geneID,ClusterNum,method)
-  InnerDF<-InnerDF |> dplyr::left_join(clsObj[[1]]) # Merge according to "ID"
+  suppressMessages({InnerDF<-InnerDF |> dplyr::left_join(clsObj[[1]])}) # Merge according to "ID"
   InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::select(ID,Description,GeneRatio,`p.adjust`,geneID,Cluster,Count) # Need Fix
   InnerDF_raw<-InnerDF
   .checkNrows(InnerDF,force = force)
@@ -88,13 +88,13 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
 .genGSEAGT<-function(x,ClusterNum,P.adj=0.05,force=F,objname,nTop,method,...){
   InnerDF<-x
   if(dim(x)[1]==0){
-    stop("no enrichment result contains")
+    cli::cli_abort("no enrichment result contains")
   }
   .checkRowNames(x,"GSEA")
   ClusterNum0<-ClusterNum
   ClusterNum<-.genClusterNum(x=x,ClusterNum = ClusterNum0,force = force) |> round()
   clsObj<-.enrichpws(InnerDF$ID,InnerDF$core_enrichment,ClusterNum,method)
-  InnerDF<-InnerDF |> dplyr::left_join(clsObj[[1]]) # Merge according to "ID"
+  suppressMessages({InnerDF<-InnerDF |> dplyr::left_join(clsObj[[1]])}) # Merge according to "ID"
   InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,abs(NES)>=0.9,p.adjust<P.adj) |> dplyr::select(ID,Description,NES,`p.adjust`,Cluster,core_enrichment) # Need Fix
   InnerDF_raw<-InnerDF
   .checkNrows(InnerDF,force = force)
