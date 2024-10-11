@@ -10,9 +10,29 @@ test_that("EnrichGT creates four HTML files", {
   file2 <- file.path(tmp_dir, "test2.html")
   file3 <- file.path(tmp_dir, "test3.html")
   file4 <- file.path(tmp_dir, "test4.html")
+  file5 <- file.path(tmp_dir, "test5.html")
   data(geneList, package="DOSE")
   gene <- names(geneList)[abs(geneList) > 2]
+  gene1 <- names(geneList)[abs(geneList) > 1]
+  gene1a<-gene1[sample(1000,400)]
+  gene1b<-gene1[sample(1000,400)]
   ego <- enrichGO(gene          = gene,
+                  universe      = names(geneList),
+                  OrgDb         = org.Hs.eg.db,
+                  ont           = "CC",
+                  pAdjustMethod = "BH",
+                  pvalueCutoff  = 0.01,
+                  qvalueCutoff  = 0.05,
+                  readable      = TRUE)
+  egoa <- enrichGO(gene          = gene1a,
+                  universe      = names(geneList),
+                  OrgDb         = org.Hs.eg.db,
+                  ont           = "CC",
+                  pAdjustMethod = "BH",
+                  pvalueCutoff  = 0.01,
+                  qvalueCutoff  = 0.05,
+                  readable      = TRUE)
+  egob <- enrichGO(gene          = gene1b,
                   universe      = names(geneList),
                   OrgDb         = org.Hs.eg.db,
                   ont           = "CC",
@@ -23,9 +43,14 @@ test_that("EnrichGT creates four HTML files", {
   kk <- enrichKEGG(gene         = gene,
                    organism     = 'hsa',
                    pvalueCutoff = 0.05)
-  EnrichGT(ego, ClusterNum = 15, P.adj = 1)@gt_object |> gt::gtsave(file1)
-
+  obj1<-EnrichGT(ego, ClusterNum = 15, P.adj = 1,method = "average")
+  obj2<-EnrichGT(ego, ClusterNum = 15, P.adj = 1)
+  obj1@gt_object |> gt::gtsave(file1)
   expect_true(file.exists(file1), info = "test1.html should be created")
+  expect_true(obj1@clustering_tree[["method"]]=="average",info="method works!")
+  expect_true(obj2@clustering_tree[["method"]]=="ward.D2",info="method works_2!")
+  compareGT(egoa,egob)->dd
+  expect_true(dd[["Overlap_Control"]]@clustering_tree[["dist.method"]]=="cosine",info = "cprgt works!")
   EnrichGT(kk, ClusterNum = 100, P.adj = 1)@gt_object |> gt::gtsave(file2)
   expect_true(file.exists(file2), info = "test2.html should be created")
   expect_true(nrow(EnrichGT(ego, ClusterNum = 10, P.adj = 1,nTop = 5)@enriched_result)==10,info="nTop.ora Works")
@@ -49,6 +74,6 @@ test_that("EnrichGT creates four HTML files", {
   dza@gt_object |> gt::gtsave(file4)
   expect_true(file.exists(file4), info = "test4.html should be created")
 
-
-
+  EnrichGT(list(ego,kk), ClusterNum = 15, P.adj = 1)@gt_object |> gt::gtsave(file5)
+  expect_true(file.exists(file5), info = "test5.html should be created")
 })

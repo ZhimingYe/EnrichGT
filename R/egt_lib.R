@@ -27,18 +27,18 @@ genMetaGM<-function(x,type){
     x<-x |> dplyr::filter(cluster%in%names(table(x$cluster)[table(x$cluster)>10]))
   }
   else{
-    stop("Error.")
+    cli::cli_abort("Error.")
   }
   x<-split(x,x$cluster)
   tryCatch({y<-lapply(x, function(x2)try({.genGT(x2,...)}))},error=function(e){
-    stop("[EnrichGT]Error: might be too few columns. ")
+    cli::cli_abort("[EnrichGT]Error: might be too few columns. ")
   })
   return(y)
 }
 is_numeric_string <- function(x) {
   grepl("^-?\\d+(\\.\\d+)?$", x)
 }
-.enrichpws<-function(ID,geneID,k,sep="/"){
+.enrichpws<-function(ID,geneID,k,method,sep="/"){
   require(proxy)
   require(text2vec)
   tokens_list <- strsplit(geneID,sep)
@@ -55,13 +55,13 @@ is_numeric_string <- function(x) {
   vectorizer <- text2vec::vocab_vectorizer(vocab)
   dtm <- text2vec::create_dtm(tokens_iter, vectorizer)
   distance_matrix <- proxy::dist(dtm |> as.matrix(), method = "cosine")
-  hc <- hclust(distance_matrix, method = "ward.D2")
+  hc <- hclust(distance_matrix, method = method)
   plot(hc)
   clusters <- cutree(hc, k = k)
   clusters<-clusters |> as.data.frame() |> tibble::rownames_to_column(var="ID")
   colnames(clusters)[2]<-"Cluster"
   clusters$Cluster<-paste0("Cluster_",clusters$Cluster)
-  return(clusters)
+  return(list(`clusters`=clusters,`hc`=hc))
 }
 
 
@@ -89,7 +89,7 @@ is_numeric_string <- function(x) {
 }
 .checkNrows<-function(x,force){
   if(nrow(x)>10000&!force){
-    stop("[EnrichGT]Too many rows!(>10000), please subset! use force=T to forbid the self-check")
+    cli::cli_abort("[EnrichGT]Too many rows!(>10000), please subset! use force=T to forbid the self-check")
   }
   if(nrow(x)>750){
     message_egt("Too many rows! It might be slow...\nWorking, but please consider increase P.adj ...")
@@ -112,6 +112,6 @@ is_numeric_string <- function(x) {
     return(judgeinner)
   }
   else{
-    stop(paste0("cols: ",paste(vec[!vec%in%colnames(x)],sep = ", "), " not found!\n"))
+    cli::cli_abort(paste0("cols: ",paste(vec[!vec%in%colnames(x)],sep = ", "), " not found!\n"))
   }
 }
