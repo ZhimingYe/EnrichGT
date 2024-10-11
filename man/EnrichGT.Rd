@@ -39,6 +39,10 @@ you can use `obj@gt_object` to get it and use functions from `gt` like `gtsave`.
 `gene_modules` is a list containing meta-gene modules of each cluster.
 
 `pathway_clusters` contains pathways names in each cluster.
+
+`clustering_tree` contains the clustering tree object from `hclust()`, you can use other packages like `ggtree` for further visualization and analysis.
+
+`raw_enriched_result` contains raw table without selecting `nTop`.
 }
 \description{
 Cluster enrichment results based on hit genes for ORA (e.g, typical GO enrichment) or core enrichment from GSEA using term frequency analysis. This provides a clearer view of biological relevance by focusing on the genes that matter most.

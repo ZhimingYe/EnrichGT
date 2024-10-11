@@ -64,6 +64,7 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   clsObj<-.enrichpws(InnerDF$ID,InnerDF$geneID,ClusterNum,method)
   InnerDF<-InnerDF |> dplyr::left_join(clsObj[[1]]) # Merge according to "ID"
   InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::select(ID,Description,GeneRatio,`p.adjust`,geneID,Cluster,Count) # Need Fix
+  InnerDF_raw<-InnerDF
   .checkNrows(InnerDF,force = force)
   obj<-InnerDF |>
     dplyr::mutate(PCT=sapply(InnerDF$GeneRatio,function(x)eval(parse(text = x)))*100) |>
@@ -80,7 +81,7 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   obj3 <-obj2 |> genMetaGM(type="ORA")
   obj3_1 <- obj3[[1]]
   obj3_2 <- obj3[[2]]
-  objA <- new.egt(obj2,obj0,obj3_1,obj3_2,clsObj[[2]])
+  objA <- new.egt(obj2,obj0,obj3_1,obj3_2,clsObj[[2]],InnerDF_raw)
   return(objA)
 }
 
@@ -95,6 +96,7 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   clsObj<-.enrichpws(InnerDF$ID,InnerDF$core_enrichment,ClusterNum,method)
   InnerDF<-InnerDF |> dplyr::left_join(clsObj[[1]]) # Merge according to "ID"
   InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,abs(NES)>=0.9,p.adjust<P.adj) |> dplyr::select(ID,Description,NES,`p.adjust`,Cluster,core_enrichment) # Need Fix
+  InnerDF_raw<-InnerDF
   .checkNrows(InnerDF,force = force)
   obj<-InnerDF |>
     dplyr::mutate(absNES=abs(NES)) |>
@@ -112,7 +114,7 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   obj3 <-obj2 |> genMetaGM(type="GSEA")
   obj3_1 <- obj3[[1]]
   obj3_2 <- obj3[[2]]
-  objA <- new.egt(obj2,obj0,obj3_1,obj3_2,clsObj[[2]])
+  objA <- new.egt(obj2,obj0,obj3_1,obj3_2,clsObj[[2]],InnerDF_raw)
   return(objA)
 }
 # attachment::att_amend_desc()

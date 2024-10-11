@@ -37,6 +37,10 @@
 #'
 #' `pathway_clusters` contains pathways names in each cluster.
 #'
+#' `clustering_tree` contains the clustering tree object from `hclust()`, you can use other packages like `ggtree` for further visualization and analysis.
+#'
+#' `raw_enriched_result` contains raw table without selecting `nTop`.
+#'
 #' @export
 #'
 #' @author Zhiming Ye
