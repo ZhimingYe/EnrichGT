@@ -104,5 +104,11 @@ ggplot(df00,aes(x=Package,y=Time))+geom_col(aes(fill=Package))+theme_bw()
 
 
 
+# Session info
+
+```{r}
+sessioninfo::session_info()
+```
+
 
 

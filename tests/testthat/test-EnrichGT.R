@@ -48,7 +48,7 @@ test_that("EnrichGT creates four HTML files", {
   obj1@gt_object |> gt::gtsave(file1)
   expect_true(file.exists(file1), info = "test1.html should be created")
   expect_true(obj1@clustering_tree[["method"]]=="average",info="method works!")
-  expect_true(obj2@clustering_tree[["method"]]=="cosine",info="method works_2!")
+  expect_true(obj2@clustering_tree[["method"]]=="ward.D2",info="method works_2!")
   compareGT(egoa,egob)->dd
   expect_true(dd[["Overlap_Control"]]@clustering_tree[["dist.method"]]=="cosine",info = "cprgt works!")
   EnrichGT(kk, ClusterNum = 100, P.adj = 1)@gt_object |> gt::gtsave(file2)
