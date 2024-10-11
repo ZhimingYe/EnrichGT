@@ -13,6 +13,7 @@ compareGT(
   P.adj = 0.05,
   force = F,
   nTop = 10,
+  method = "ward.D2",
   ...
 )
 }
@@ -33,16 +34,24 @@ compareGT(
 
 \item{nTop}{keep n top items according to p-adj in each cluster.}
 
+\item{method}{the agglomeration method to be used. This should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2", "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median" (= WPGMC) or "centroid" (= UPGMC).}
+
 \item{...}{Others options.}
 }
 \value{
-`List` containing multiple `EnrichGT_obj` objects. The `List` contains objects with overlapped enriched terms, unique enrich terms. In each slot, slot `enriched_result` contains a data.frame with enriched results. `gt_object` contains `gt` object. you can use `obj@gt_object` to get it and use functions from `gt` like `gtsave`. `gene_modules` is a list containing meta-gene modules of each cluster. `pathway_clusters` contains pathways names in each cluster.
+`List` containing multiple `EnrichGT_obj` objects.
+
+The `List` contains objects with overlapped enriched terms, unique enrich terms.
 }
 \description{
-2-Group Comparison of enrichment results and further clustering and visualizing
+See `?EnrichGT()`
 }
 \details{
-Execute `obj.test` VS `obj.ctrl` tests, showing pathway overlaps (or differences) and meta-gene modules of test group and control group. Supports ORA and GSEA results (enriched object or data.frame). !WARNING!: `obj.test` and `obj.ctrl` should come from same database (e.g. GO Biological Process(GOBP)).
+Execute `obj.test` VS `obj.ctrl` tests, showing pathway overlaps (or differences) and meta-gene modules of test group and control group.
+
+Supports ORA and GSEA results (enriched object or data.frame).
+
+!WARNING!: `obj.test` and `obj.ctrl` should come from same database (e.g. GO Biological Process(GOBP)).
 }
 \author{
 Zhiming Ye
