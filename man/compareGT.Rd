@@ -36,7 +36,7 @@ compareGT(
 \item{...}{Others options.}
 }
 \value{
-an `EnrichGT_obj` object. slot `enriched_result` contains a data.frame with enriched results. `gt_object` contains `gt` object. you can use `obj@gt_object` to get it and use functions from `gt` like `gtsave`. `gene_modules` is a list containing meta-gene modules of each cluster. `pathway_clusters` contains pathways names in each cluster.
+`List` containing multiple `EnrichGT_obj` objects. The `List` contains objects with overlapped enriched terms, unique enrich terms. In each slot, slot `enriched_result` contains a data.frame with enriched results. `gt_object` contains `gt` object. you can use `obj@gt_object` to get it and use functions from `gt` like `gtsave`. `gene_modules` is a list containing meta-gene modules of each cluster. `pathway_clusters` contains pathways names in each cluster.
 }
 \description{
 2-Group Comparison of enrichment results and further clustering and visualizing

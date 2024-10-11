@@ -4,7 +4,15 @@
 \alias{EnrichGT}
 \title{Parse enrichment results and further clustering and visualizing}
 \usage{
-EnrichGT(x, ClusterNum = 15, P.adj = 0.05, force = F, nTop = 10, ...)
+EnrichGT(
+  x,
+  ClusterNum = 17,
+  P.adj = 0.05,
+  force = F,
+  nTop = 10,
+  method = "ward.D2",
+  ...
+)
 }
 \arguments{
 \item{x}{an enrichment result from `clusterProfiler`, or a `data.frame` containing result from `clusterProfier`. To perform fusing multi-database enrichment results, please give a `list` object.}
@@ -17,16 +25,38 @@ EnrichGT(x, ClusterNum = 15, P.adj = 0.05, force = F, nTop = 10, ...)
 
 \item{nTop}{keep n top items according to p-adj in each cluster.}
 
+\item{method}{the agglomeration method to be used. This should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2", "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median" (= WPGMC) or "centroid" (= UPGMC).}
+
 \item{...}{Others options.}
 }
 \value{
-an `EnrichGT_obj` object. slot `enriched_result` contains a data.frame with enriched results. `gt_object` contains `gt` object. you can use `obj@gt_object` to get it and use functions from `gt` like `gtsave`. `gene_modules` is a list containing meta-gene modules of each cluster. `pathway_clusters` contains pathways names in each cluster.
+an `EnrichGT_obj` object.
+
+slot `enriched_result` contains a data.frame with enriched results. `gt_object` contains `gt` object.
+
+you can use `obj@gt_object` to get it and use functions from `gt` like `gtsave`.
+
+`gene_modules` is a list containing meta-gene modules of each cluster.
+
+`pathway_clusters` contains pathways names in each cluster.
 }
 \description{
-Parse enrichment results and further clustering and visualizing
+Cluster enrichment results based on hit genes for ORA (e.g, typical GO enrichment) or core enrichment from GSEA using term frequency analysis. This provides a clearer view of biological relevance by focusing on the genes that matter most.
+
+Gene enrichment analysis can often be misleading due to the redundancy within gene set databases and the limitations of most enrichment tools. Many tools, by default, only display a few top results and fail to filter out redundancy. This can result in both biological misinterpretation and valuable information being overlooked.
+
+For instance, high expression of certain immune genes can cause many immune-related gene sets to appear overrepresented. However, a closer look often reveals that these gene sets are derived from the same group of genes, which might represent only a small fraction. Less than 1/10 of the differentially expressed genes (DEGs). What about the other 9/10?  Do they hold no biological significance?
+
+The main purpose of developing this package is to provide a lightweight and practical solution to the problems mentioned above.
 }
 \details{
-For an ORA result, c("ID","Description","GeneRatio","pvalue","p.adjust","geneID","Count") should be contained; For GSEA, c("ID","Description","NES","pvalue","p.adjust","core_enrichment") should be contain. For `compareClusterResult`, a `compareClusterResult` object or a data-frame with additional `Cluster` column should be contained, others similar to ORA result.
+For an ORA result, c("ID","Description","GeneRatio","pvalue","p.adjust","geneID","Count") should be contained;
+
+ For GSEA, c("ID","Description","NES","pvalue","p.adjust","core_enrichment") should be contain.
+
+ For `compareClusterResult`, a `compareClusterResult` object or a data-frame with additional `Cluster` column should be contained, others similar to ORA result.
+
+ To perform fusing multi-database enrichment results, please give a `list` object.
 }
 \author{
 Zhiming Ye
