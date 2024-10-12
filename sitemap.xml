@@ -16,6 +16,9 @@
     <loc>https://zhimingye.github.io/EnrichGT/articles/c_gsea.html</loc>
   </url>
   <url>
+    <loc>https://zhimingye.github.io/EnrichGT/articles/c_infreg.html</loc>
+  </url>
+  <url>
     <loc>https://zhimingye.github.io/EnrichGT/articles/c_multi_grp.html</loc>
   </url>
   <url>
@@ -62,5 +65,8 @@
   </url>
   <url>
     <loc>https://zhimingye.github.io/EnrichGT/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://zhimingye.github.io/EnrichGT/reference/infering_regulator_act.html</loc>
   </url>
 </urlset>

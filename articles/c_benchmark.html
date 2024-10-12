@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">EnrichGT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.8.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,6 +47,7 @@
     <a class="dropdown-item" href="../articles/c_fusing.html">Fusing multiple enrichment results generated from different databases</a>
     <a class="dropdown-item" href="../articles/c_multi_grp.html">Clustering and viewing compareClusterResult</a>
     <a class="dropdown-item" href="../articles/c_compareGT.html">Comparison of 2 enrichment results and further clustering</a>
+    <a class="dropdown-item" href="../articles/c_infreg.html">Infering Pathway or Transcript Factors activity from EnrichGT meta-gene modules</a>
     <a class="dropdown-item" href="../articles/c_benchmark.html">Benchmark of enriched result interpreter (VS Other packages)</a>
   </div>
 </li>
@@ -144,14 +145,14 @@ seconds.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">start_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/simplifyEnrichment/man/simplifyGO.html" class="external-link">simplifyGO</a></span><span class="op">(</span><span class="va">mat</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Cluster 1709 terms by 'binary_cut'... 33 clusters, used 10.09878 secs.</span></span>
+<span><span class="co">#&gt; Cluster 1709 terms by 'binary_cut'... 33 clusters, used 10.8387 secs.</span></span>
 <span><span class="co">#&gt; Perform keywords enrichment for 9 GO lists...</span></span></code></pre></div>
 <p><img src="c_benchmark_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">end_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">t1</span><span class="op">&lt;-</span> <span class="va">end_time</span> <span class="op">-</span> <span class="va">start_time</span></span>
 <span><span class="va">t1</span></span>
-<span><span class="co">#&gt; Time difference of 1.346436 mins</span></span></code></pre></div>
+<span><span class="co">#&gt; Time difference of 1.413719 mins</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="enrichgt">EnrichGT<a class="anchor" aria-label="anchor" href="#enrichgt"></a>
@@ -163,21 +164,6 @@ seconds.</p>
 <span><span class="co">#&gt; You are passing an object from GO Enrichment.</span></span>
 <span><span class="co">#&gt; Please ensure that `obj |&gt; clusterProfiler::simplify()` is executed, to pre-simplify result,</span></span>
 <span><span class="co">#&gt; For better enriched result.</span></span>
-<span><span class="co">#&gt; Loading required package: proxy</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'proxy'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:IRanges':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     as.matrix</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:S4Vectors':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     as.matrix</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     as.dist, dist</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     as.matrix</span></span>
 <span><span class="co">#&gt; Loading required package: text2vec</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'text2vec'</span></span>
@@ -189,23 +175,23 @@ seconds.</p>
 <p><img src="c_benchmark_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">obj</span><span class="op">@</span><span class="va">gt_object</span></span></code></pre></div>
-<div id="lycbtwmffs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#lycbtwmffs table {
+<div id="rktxiqyrhu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rktxiqyrhu table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#lycbtwmffs thead, #lycbtwmffs tbody, #lycbtwmffs tfoot, #lycbtwmffs tr, #lycbtwmffs td, #lycbtwmffs th {
+#rktxiqyrhu thead, #rktxiqyrhu tbody, #rktxiqyrhu tfoot, #rktxiqyrhu tr, #rktxiqyrhu td, #rktxiqyrhu th {
   border-style: none;
 }
 
-#lycbtwmffs p {
+#rktxiqyrhu p {
   margin: 0;
   padding: 0;
 }
 
-#lycbtwmffs .gt_table {
+#rktxiqyrhu .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -231,12 +217,12 @@ seconds.</p>
   border-left-color: #D3D3D3;
 }
 
-#lycbtwmffs .gt_caption {
+#rktxiqyrhu .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#lycbtwmffs .gt_title {
+#rktxiqyrhu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -248,7 +234,7 @@ seconds.</p>
   border-bottom-width: 0;
 }
 
-#lycbtwmffs .gt_subtitle {
+#rktxiqyrhu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -260,7 +246,7 @@ seconds.</p>
   border-top-width: 0;
 }
 
-#lycbtwmffs .gt_heading {
+#rktxiqyrhu .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -272,13 +258,13 @@ seconds.</p>
   border-right-color: #D3D3D3;
 }
 
-#lycbtwmffs .gt_bottom_border {
+#rktxiqyrhu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lycbtwmffs .gt_col_headings {
+#rktxiqyrhu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -293,7 +279,7 @@ seconds.</p>
   border-right-color: #D3D3D3;
 }
 
-#lycbtwmffs .gt_col_heading {
+#rktxiqyrhu .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -313,7 +299,7 @@ seconds.</p>
   overflow-x: hidden;
 }
 
-#lycbtwmffs .gt_column_spanner_outer {
+#rktxiqyrhu .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -325,15 +311,15 @@ seconds.</p>
   padding-right: 4px;
 }
 
-#lycbtwmffs .gt_column_spanner_outer:first-child {
+#rktxiqyrhu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lycbtwmffs .gt_column_spanner_outer:last-child {
+#rktxiqyrhu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lycbtwmffs .gt_column_spanner {
+#rktxiqyrhu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -345,11 +331,11 @@ seconds.</p>
   width: 100%;
 }
 
-#lycbtwmffs .gt_spanner_row {
+#rktxiqyrhu .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#lycbtwmffs .gt_group_heading {
+#rktxiqyrhu .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -375,7 +361,7 @@ seconds.</p>
   text-align: left;
 }
 
-#lycbtwmffs .gt_empty_group_heading {
+#rktxiqyrhu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -390,15 +376,15 @@ seconds.</p>
   vertical-align: middle;
 }
 
-#lycbtwmffs .gt_from_md > :first-child {
+#rktxiqyrhu .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lycbtwmffs .gt_from_md > :last-child {
+#rktxiqyrhu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lycbtwmffs .gt_row {
+#rktxiqyrhu .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -417,7 +403,7 @@ seconds.</p>
   overflow-x: hidden;
 }
 
-#lycbtwmffs .gt_stub {
+#rktxiqyrhu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -430,7 +416,7 @@ seconds.</p>
   padding-right: 5px;
 }
 
-#lycbtwmffs .gt_stub_row_group {
+#rktxiqyrhu .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -444,15 +430,15 @@ seconds.</p>
   vertical-align: top;
 }
 
-#lycbtwmffs .gt_row_group_first td {
+#rktxiqyrhu .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#lycbtwmffs .gt_row_group_first th {
+#rktxiqyrhu .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#lycbtwmffs .gt_summary_row {
+#rktxiqyrhu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -462,16 +448,16 @@ seconds.</p>
   padding-right: 5px;
 }
 
-#lycbtwmffs .gt_first_summary_row {
+#rktxiqyrhu .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#lycbtwmffs .gt_first_summary_row.thick {
+#rktxiqyrhu .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#lycbtwmffs .gt_last_summary_row {
+#rktxiqyrhu .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -481,7 +467,7 @@ seconds.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#lycbtwmffs .gt_grand_summary_row {
+#rktxiqyrhu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -491,7 +477,7 @@ seconds.</p>
   padding-right: 5px;
 }
 
-#lycbtwmffs .gt_first_grand_summary_row {
+#rktxiqyrhu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -501,7 +487,7 @@ seconds.</p>
   border-top-color: #D3D3D3;
 }
 
-#lycbtwmffs .gt_last_grand_summary_row_top {
+#rktxiqyrhu .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -511,11 +497,11 @@ seconds.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#lycbtwmffs .gt_striped {
+#rktxiqyrhu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lycbtwmffs .gt_table_body {
+#rktxiqyrhu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -524,7 +510,7 @@ seconds.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#lycbtwmffs .gt_footnotes {
+#rktxiqyrhu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -538,7 +524,7 @@ seconds.</p>
   border-right-color: #D3D3D3;
 }
 
-#lycbtwmffs .gt_footnote {
+#rktxiqyrhu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -547,7 +533,7 @@ seconds.</p>
   padding-right: 5px;
 }
 
-#lycbtwmffs .gt_sourcenotes {
+#rktxiqyrhu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -561,7 +547,7 @@ seconds.</p>
   border-right-color: #D3D3D3;
 }
 
-#lycbtwmffs .gt_sourcenote {
+#rktxiqyrhu .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -569,72 +555,72 @@ seconds.</p>
   padding-right: 5px;
 }
 
-#lycbtwmffs .gt_left {
+#rktxiqyrhu .gt_left {
   text-align: left;
 }
 
-#lycbtwmffs .gt_center {
+#rktxiqyrhu .gt_center {
   text-align: center;
 }
 
-#lycbtwmffs .gt_right {
+#rktxiqyrhu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lycbtwmffs .gt_font_normal {
+#rktxiqyrhu .gt_font_normal {
   font-weight: normal;
 }
 
-#lycbtwmffs .gt_font_bold {
+#rktxiqyrhu .gt_font_bold {
   font-weight: bold;
 }
 
-#lycbtwmffs .gt_font_italic {
+#rktxiqyrhu .gt_font_italic {
   font-style: italic;
 }
 
-#lycbtwmffs .gt_super {
+#rktxiqyrhu .gt_super {
   font-size: 65%;
 }
 
-#lycbtwmffs .gt_footnote_marks {
+#rktxiqyrhu .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#lycbtwmffs .gt_asterisk {
+#rktxiqyrhu .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#lycbtwmffs .gt_indent_1 {
+#rktxiqyrhu .gt_indent_1 {
   text-indent: 5px;
 }
 
-#lycbtwmffs .gt_indent_2 {
+#rktxiqyrhu .gt_indent_2 {
   text-indent: 10px;
 }
 
-#lycbtwmffs .gt_indent_3 {
+#rktxiqyrhu .gt_indent_3 {
   text-indent: 15px;
 }
 
-#lycbtwmffs .gt_indent_4 {
+#rktxiqyrhu .gt_indent_4 {
   text-indent: 20px;
 }
 
-#lycbtwmffs .gt_indent_5 {
+#rktxiqyrhu .gt_indent_5 {
   text-indent: 25px;
 }
 
-#lycbtwmffs .katex-display {
+#rktxiqyrhu .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#lycbtwmffs div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#rktxiqyrhu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2253,7 +2239,7 @@ seconds.</p>
 <code class="sourceCode R"><span><span class="va">end_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">t2</span> <span class="op">&lt;-</span><span class="va">end_time</span> <span class="op">-</span> <span class="va">start_time</span></span>
 <span><span class="va">t2</span></span>
-<span><span class="co">#&gt; Time difference of 1.597152 secs</span></span></code></pre></div>
+<span><span class="co">#&gt; Time difference of 1.763355 secs</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="apear">aPEAR<a class="anchor" aria-label="anchor" href="#apear"></a>
@@ -2272,7 +2258,7 @@ seconds.</p>
 <code class="sourceCode R"><span><span class="va">end_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">t3</span> <span class="op">&lt;-</span><span class="va">end_time</span> <span class="op">-</span> <span class="va">start_time</span></span>
 <span><span class="va">t3</span></span>
-<span><span class="co">#&gt; Time difference of 5.683677 mins</span></span></code></pre></div>
+<span><span class="co">#&gt; Time difference of 5.709913 mins</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="compare-calculation-times">Compare Calculation Times<a class="anchor" aria-label="anchor" href="#compare-calculation-times"></a>
@@ -2406,7 +2392,7 @@ use almost 5 mins…</p>
 <span><span class="co">#&gt;  plyr                 1.8.9      <span style="color: #555555;">2023-10-02</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  png                  0.1-8      <span style="color: #555555;">2022-11-29</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  polyclip             1.10-6     <span style="color: #555555;">2023-09-27</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
-<span><span class="co">#&gt;  proxy              * 0.4-27     <span style="color: #555555;">2022-06-09</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
+<span><span class="co">#&gt;  proxy                0.4-27     <span style="color: #555555;">2022-06-09</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  proxyC               0.4.1      <span style="color: #555555;">2024-04-07</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  purrr              * 1.0.2      <span style="color: #555555;">2023-08-10</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  qvalue               2.34.0     <span style="color: #555555;">2023-10-26</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>

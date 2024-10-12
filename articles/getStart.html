@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">EnrichGT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.8.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,6 +47,7 @@
     <a class="dropdown-item" href="../articles/c_fusing.html">Fusing multiple enrichment results generated from different databases</a>
     <a class="dropdown-item" href="../articles/c_multi_grp.html">Clustering and viewing compareClusterResult</a>
     <a class="dropdown-item" href="../articles/c_compareGT.html">Comparison of 2 enrichment results and further clustering</a>
+    <a class="dropdown-item" href="../articles/c_infreg.html">Infering Pathway or Transcript Factors activity from EnrichGT meta-gene modules</a>
     <a class="dropdown-item" href="../articles/c_benchmark.html">Benchmark of enriched result interpreter (VS Other packages)</a>
   </div>
 </li>
@@ -120,21 +121,6 @@
 <span><span class="co">#&gt; You are passing an object from GO Enrichment.</span></span>
 <span><span class="co">#&gt; Please ensure that `obj |&gt; clusterProfiler::simplify()` is executed, to pre-simplify result,</span></span>
 <span><span class="co">#&gt; For better enriched result.</span></span>
-<span><span class="co">#&gt; Loading required package: proxy</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'proxy'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:IRanges':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     as.matrix</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:S4Vectors':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     as.matrix</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     as.dist, dist</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     as.matrix</span></span>
 <span><span class="co">#&gt; Loading required package: text2vec</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'text2vec'</span></span>
@@ -144,23 +130,23 @@
 <p><img src="getStart_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">obj</span><span class="op">@</span><span class="va">gt_object</span></span></code></pre></div>
-<div id="jcpsdiulnv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jcpsdiulnv table {
+<div id="dbhdxhxnvf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#dbhdxhxnvf table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jcpsdiulnv thead, #jcpsdiulnv tbody, #jcpsdiulnv tfoot, #jcpsdiulnv tr, #jcpsdiulnv td, #jcpsdiulnv th {
+#dbhdxhxnvf thead, #dbhdxhxnvf tbody, #dbhdxhxnvf tfoot, #dbhdxhxnvf tr, #dbhdxhxnvf td, #dbhdxhxnvf th {
   border-style: none;
 }
 
-#jcpsdiulnv p {
+#dbhdxhxnvf p {
   margin: 0;
   padding: 0;
 }
 
-#jcpsdiulnv .gt_table {
+#dbhdxhxnvf .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -186,12 +172,12 @@
   border-left-color: #D3D3D3;
 }
 
-#jcpsdiulnv .gt_caption {
+#dbhdxhxnvf .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jcpsdiulnv .gt_title {
+#dbhdxhxnvf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -203,7 +189,7 @@
   border-bottom-width: 0;
 }
 
-#jcpsdiulnv .gt_subtitle {
+#dbhdxhxnvf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -215,7 +201,7 @@
   border-top-width: 0;
 }
 
-#jcpsdiulnv .gt_heading {
+#dbhdxhxnvf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -227,13 +213,13 @@
   border-right-color: #D3D3D3;
 }
 
-#jcpsdiulnv .gt_bottom_border {
+#dbhdxhxnvf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jcpsdiulnv .gt_col_headings {
+#dbhdxhxnvf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -248,7 +234,7 @@
   border-right-color: #D3D3D3;
 }
 
-#jcpsdiulnv .gt_col_heading {
+#dbhdxhxnvf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -268,7 +254,7 @@
   overflow-x: hidden;
 }
 
-#jcpsdiulnv .gt_column_spanner_outer {
+#dbhdxhxnvf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -280,15 +266,15 @@
   padding-right: 4px;
 }
 
-#jcpsdiulnv .gt_column_spanner_outer:first-child {
+#dbhdxhxnvf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jcpsdiulnv .gt_column_spanner_outer:last-child {
+#dbhdxhxnvf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jcpsdiulnv .gt_column_spanner {
+#dbhdxhxnvf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -300,11 +286,11 @@
   width: 100%;
 }
 
-#jcpsdiulnv .gt_spanner_row {
+#dbhdxhxnvf .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jcpsdiulnv .gt_group_heading {
+#dbhdxhxnvf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -330,7 +316,7 @@
   text-align: left;
 }
 
-#jcpsdiulnv .gt_empty_group_heading {
+#dbhdxhxnvf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -345,15 +331,15 @@
   vertical-align: middle;
 }
 
-#jcpsdiulnv .gt_from_md > :first-child {
+#dbhdxhxnvf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jcpsdiulnv .gt_from_md > :last-child {
+#dbhdxhxnvf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jcpsdiulnv .gt_row {
+#dbhdxhxnvf .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -372,7 +358,7 @@
   overflow-x: hidden;
 }
 
-#jcpsdiulnv .gt_stub {
+#dbhdxhxnvf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -385,7 +371,7 @@
   padding-right: 5px;
 }
 
-#jcpsdiulnv .gt_stub_row_group {
+#dbhdxhxnvf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -399,15 +385,15 @@
   vertical-align: top;
 }
 
-#jcpsdiulnv .gt_row_group_first td {
+#dbhdxhxnvf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jcpsdiulnv .gt_row_group_first th {
+#dbhdxhxnvf .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jcpsdiulnv .gt_summary_row {
+#dbhdxhxnvf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -417,16 +403,16 @@
   padding-right: 5px;
 }
 
-#jcpsdiulnv .gt_first_summary_row {
+#dbhdxhxnvf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jcpsdiulnv .gt_first_summary_row.thick {
+#dbhdxhxnvf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jcpsdiulnv .gt_last_summary_row {
+#dbhdxhxnvf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -436,7 +422,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#jcpsdiulnv .gt_grand_summary_row {
+#dbhdxhxnvf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -446,7 +432,7 @@
   padding-right: 5px;
 }
 
-#jcpsdiulnv .gt_first_grand_summary_row {
+#dbhdxhxnvf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -456,7 +442,7 @@
   border-top-color: #D3D3D3;
 }
 
-#jcpsdiulnv .gt_last_grand_summary_row_top {
+#dbhdxhxnvf .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -466,11 +452,11 @@
   border-bottom-color: #D3D3D3;
 }
 
-#jcpsdiulnv .gt_striped {
+#dbhdxhxnvf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jcpsdiulnv .gt_table_body {
+#dbhdxhxnvf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -479,7 +465,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#jcpsdiulnv .gt_footnotes {
+#dbhdxhxnvf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -493,7 +479,7 @@
   border-right-color: #D3D3D3;
 }
 
-#jcpsdiulnv .gt_footnote {
+#dbhdxhxnvf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -502,7 +488,7 @@
   padding-right: 5px;
 }
 
-#jcpsdiulnv .gt_sourcenotes {
+#dbhdxhxnvf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -516,7 +502,7 @@
   border-right-color: #D3D3D3;
 }
 
-#jcpsdiulnv .gt_sourcenote {
+#dbhdxhxnvf .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -524,72 +510,72 @@
   padding-right: 5px;
 }
 
-#jcpsdiulnv .gt_left {
+#dbhdxhxnvf .gt_left {
   text-align: left;
 }
 
-#jcpsdiulnv .gt_center {
+#dbhdxhxnvf .gt_center {
   text-align: center;
 }
 
-#jcpsdiulnv .gt_right {
+#dbhdxhxnvf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jcpsdiulnv .gt_font_normal {
+#dbhdxhxnvf .gt_font_normal {
   font-weight: normal;
 }
 
-#jcpsdiulnv .gt_font_bold {
+#dbhdxhxnvf .gt_font_bold {
   font-weight: bold;
 }
 
-#jcpsdiulnv .gt_font_italic {
+#dbhdxhxnvf .gt_font_italic {
   font-style: italic;
 }
 
-#jcpsdiulnv .gt_super {
+#dbhdxhxnvf .gt_super {
   font-size: 65%;
 }
 
-#jcpsdiulnv .gt_footnote_marks {
+#dbhdxhxnvf .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jcpsdiulnv .gt_asterisk {
+#dbhdxhxnvf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jcpsdiulnv .gt_indent_1 {
+#dbhdxhxnvf .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jcpsdiulnv .gt_indent_2 {
+#dbhdxhxnvf .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jcpsdiulnv .gt_indent_3 {
+#dbhdxhxnvf .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jcpsdiulnv .gt_indent_4 {
+#dbhdxhxnvf .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jcpsdiulnv .gt_indent_5 {
+#dbhdxhxnvf .gt_indent_5 {
   text-indent: 25px;
 }
 
-#jcpsdiulnv .katex-display {
+#dbhdxhxnvf .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#jcpsdiulnv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#dbhdxhxnvf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1067,7 +1053,7 @@
 <span><span class="co">#&gt;  plyr               1.8.9      <span style="color: #555555;">2023-10-02</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  png                0.1-8      <span style="color: #555555;">2022-11-29</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  polyclip           1.10-6     <span style="color: #555555;">2023-09-27</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
-<span><span class="co">#&gt;  proxy            * 0.4-27     <span style="color: #555555;">2022-06-09</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
+<span><span class="co">#&gt;  proxy              0.4-27     <span style="color: #555555;">2022-06-09</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  purrr            * 1.0.2      <span style="color: #555555;">2023-08-10</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  qvalue             2.34.0     <span style="color: #555555;">2023-10-26</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  R6                 2.5.1      <span style="color: #555555;">2021-08-19</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
