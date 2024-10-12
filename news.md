@@ -1,3 +1,12 @@
+## EnrichGT 0.2.9
+
+### Package major update
+
+-   `infering_regulator_act()` to infer pathway or transcript factors activity from EnrichGT meta-gene modules. 
+
+-   This will be the end of new functions of `EnrichGT` package. 
+
+
 ## EnrichGT 0.2.8.x
 
 ### Package major update
