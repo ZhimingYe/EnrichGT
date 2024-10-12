@@ -45,11 +45,31 @@ test_that("EnrichGT creates four HTML files", {
                    pvalueCutoff = 0.05)
   obj1<-EnrichGT(ego, ClusterNum = 15, P.adj = 1,method = "average")
   obj2<-EnrichGT(ego, ClusterNum = 15, P.adj = 1)
+  gene_up <- names(geneList)[(geneList) > 1]
+  gene_down <- names(geneList)[(geneList) < (-1)]
+  ego_up <- enrichGO(gene          = gene_up,
+                     universe      = names(geneList),
+                     OrgDb         = org.Hs.eg.db,
+                     ont           = "BP",
+                     pAdjustMethod = "BH",
+                     pvalueCutoff  = 0.5,
+                     qvalueCutoff  = 0.5,
+                     readable      = TRUE)
+
+  ego_down <- enrichGO(gene          = gene_down,
+                       universe      = names(geneList),
+                       OrgDb         = org.Hs.eg.db,
+                       ont           = "BP",
+                       pAdjustMethod = "BH",
+                       pvalueCutoff  = 0.5,
+                       qvalueCutoff  = 0.5,
+                       readable      = TRUE)
+
   obj1@gt_object |> gt::gtsave(file1)
   expect_true(file.exists(file1), info = "test1.html should be created")
   expect_true(obj1@clustering_tree[["method"]]=="average",info="method works!")
   expect_true(obj2@clustering_tree[["method"]]=="ward.D2",info="method works_2!")
-  compareGT(egoa,egob)->dd
+  dd<-compareGT(obj.test = ego_up,obj.ctrl = ego_down)
   expect_true(dd[["Overlap_Control"]]@clustering_tree[["dist.method"]]=="cosine",info = "cprgt works!")
   EnrichGT(kk, ClusterNum = 100, P.adj = 1)@gt_object |> gt::gtsave(file2)
   expect_true(file.exists(file2), info = "test2.html should be created")
