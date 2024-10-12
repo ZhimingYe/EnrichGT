@@ -39,7 +39,7 @@ is_numeric_string <- function(x) {
   grepl("^-?\\d+(\\.\\d+)?$", x)
 }
 .enrichpws<-function(ID,geneID,k,method,sep="/"){
-  require(proxy)
+
   require(text2vec)
   tokens_list <- strsplit(geneID,sep)
   if(sum(is_numeric_string(unlist(tokens_list)))>length(unlist(tokens_list))*0.5){
