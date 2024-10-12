@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">EnrichGT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.8.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,6 +29,7 @@
     <a class="dropdown-item" href="../articles/c_gsea.html">Clustering and viewing GSEA results</a>
     <a class="dropdown-item" href="../articles/c_fusing.html">Fusing multiple enrichment results generated from different databases</a>
     <a class="dropdown-item" href="../articles/c_multi_grp.html">Clustering and viewing compareClusterResult</a>
+    <a class="dropdown-item" href="../articles/c_compareGT.html">Comparison of 2 enrichment results and further clustering</a>
     <a class="dropdown-item" href="../articles/c_benchmark.html">Benchmark of enriched result interpreter (VS Other packages)</a>
   </div>
 </li>
@@ -49,6 +50,20 @@
       
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.8" id="enrichgt-028x">EnrichGT 0.2.8.x<a class="anchor" aria-label="anchor" href="#enrichgt-028x"></a></h2>
+<div class="section level3">
+<h3 id="package-major-update-0-2-8">Package major update<a class="anchor" aria-label="anchor" href="#package-major-update-0-2-8"></a></h3>
+<ul><li><p><code><a href="../reference/EnrichGT.html">EnrichGT()</a></code> now supports changing <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust()</a></code> methods, like using ward.D, ward.D2, average …</p></li>
+<li><p><code>EnrichGT_obj</code> now contains a slot <code>clustering_tree</code> containg the cluster tree <code>hclust</code> object, for further analysing and drawing figures.</p></li>
+<li><p><code>EnrichGT_obj</code> now contains raw table. (0.2.8.5)</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="others-0-2-8">Others<a class="anchor" aria-label="anchor" href="#others-0-2-8"></a></h3>
+<ul><li><p>Add benchmark markdown file</p></li>
+<li><p>Refine the help pages</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.7" id="enrichgt-027">EnrichGT 0.2.7<a class="anchor" aria-label="anchor" href="#enrichgt-027"></a></h2>
 <div class="section level3">

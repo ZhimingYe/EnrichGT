@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">EnrichGT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.8.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,6 +46,7 @@
     <a class="dropdown-item" href="../articles/c_gsea.html">Clustering and viewing GSEA results</a>
     <a class="dropdown-item" href="../articles/c_fusing.html">Fusing multiple enrichment results generated from different databases</a>
     <a class="dropdown-item" href="../articles/c_multi_grp.html">Clustering and viewing compareClusterResult</a>
+    <a class="dropdown-item" href="../articles/c_compareGT.html">Comparison of 2 enrichment results and further clustering</a>
     <a class="dropdown-item" href="../articles/c_benchmark.html">Benchmark of enriched result interpreter (VS Other packages)</a>
   </div>
 </li>
@@ -166,8 +167,6 @@ outputs a beautifully formatted result wrapped by gt.</p>
 <span><span class="co">#&gt;  The Innovation. 2021, 2(3):100141</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">ego</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/EnrichGT.html">EnrichGT</a></span><span class="op">(</span>P.adj <span class="op">=</span> <span class="fl">0.2</span>,ClusterNum <span class="op">=</span> <span class="fl">10</span>,nTop <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">EnrichGT message:</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> =====[SUGGESTION]=====</span></span>
 <span><span class="co">#&gt; You are passing an object from GO Enrichment.</span></span>
 <span><span class="co">#&gt; Please ensure that `obj |&gt; clusterProfiler::simplify()` is executed, to pre-simplify result,</span></span>
@@ -192,8 +191,7 @@ outputs a beautifully formatted result wrapped by gt.</p>
 <span><span class="co">#&gt; Attaching package: 'text2vec'</span></span>
 <span><span class="co">#&gt; The following object is masked from 'package:BiocGenerics':</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     normalize</span></span>
-<span><span class="co">#&gt; Joining with `by = join_by(ID)`</span></span></code></pre></div>
+<span><span class="co">#&gt;     normalize</span></span></code></pre></div>
 <p><img src="c_ora_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 <p>You can define how many clusters and how many top terms would be
 shown. And you can adjust the p-adj cut-off.</p>
@@ -204,12 +202,15 @@ shown. And you can adjust the p-adj cut-off.</p>
 <p>The created <code>obj</code> contains several slots:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">obj</span>,max.level<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Formal class 'EnrichGT_obj' [package "EnrichGT"] with 4 slots</span></span>
-<span><span class="co">#&gt;   ..@ enriched_result : tibble [34 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
-<span><span class="co">#&gt;   ..@ gt_object       :List of 17</span></span>
+<span><span class="co">#&gt; Formal class 'EnrichGT_obj' [package "EnrichGT"] with 6 slots</span></span>
+<span><span class="co">#&gt;   ..@ enriched_result    : tibble [34 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;   ..@ gt_object          :List of 17</span></span>
 <span><span class="co">#&gt;   .. ..- attr(*, "class")= chr [1:2] "gt_tbl" "list"</span></span>
-<span><span class="co">#&gt;   ..@ gene_modules    :List of 7</span></span>
-<span><span class="co">#&gt;   ..@ pathway_clusters:List of 7</span></span></code></pre></div>
+<span><span class="co">#&gt;   ..@ gene_modules       :List of 7</span></span>
+<span><span class="co">#&gt;   ..@ pathway_clusters   :List of 7</span></span>
+<span><span class="co">#&gt;   ..@ clustering_tree    :List of 7</span></span>
+<span><span class="co">#&gt;   .. ..- attr(*, "class")= chr "hclust"</span></span>
+<span><span class="co">#&gt;   ..@ raw_enriched_result:'data.frame':  147 obs. of  7 variables:</span></span></code></pre></div>
 <p>Simply enter <code>obj</code> in console also can returns a rendered
 gt view in <code>viewer</code> plane in RStudio.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -219,23 +220,23 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
 <code>obj@gt_object</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">obj</span><span class="op">@</span><span class="va">gt_object</span></span></code></pre></div>
-<div id="enbgwvzfom" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#enbgwvzfom table {
+<div id="oxhcqrjquj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#oxhcqrjquj table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#enbgwvzfom thead, #enbgwvzfom tbody, #enbgwvzfom tfoot, #enbgwvzfom tr, #enbgwvzfom td, #enbgwvzfom th {
+#oxhcqrjquj thead, #oxhcqrjquj tbody, #oxhcqrjquj tfoot, #oxhcqrjquj tr, #oxhcqrjquj td, #oxhcqrjquj th {
   border-style: none;
 }
 
-#enbgwvzfom p {
+#oxhcqrjquj p {
   margin: 0;
   padding: 0;
 }
 
-#enbgwvzfom .gt_table {
+#oxhcqrjquj .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -261,12 +262,12 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   border-left-color: #D3D3D3;
 }
 
-#enbgwvzfom .gt_caption {
+#oxhcqrjquj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#enbgwvzfom .gt_title {
+#oxhcqrjquj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -278,7 +279,7 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   border-bottom-width: 0;
 }
 
-#enbgwvzfom .gt_subtitle {
+#oxhcqrjquj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -290,7 +291,7 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   border-top-width: 0;
 }
 
-#enbgwvzfom .gt_heading {
+#oxhcqrjquj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -302,13 +303,13 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   border-right-color: #D3D3D3;
 }
 
-#enbgwvzfom .gt_bottom_border {
+#oxhcqrjquj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#enbgwvzfom .gt_col_headings {
+#oxhcqrjquj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -323,7 +324,7 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   border-right-color: #D3D3D3;
 }
 
-#enbgwvzfom .gt_col_heading {
+#oxhcqrjquj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -343,7 +344,7 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   overflow-x: hidden;
 }
 
-#enbgwvzfom .gt_column_spanner_outer {
+#oxhcqrjquj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -355,15 +356,15 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   padding-right: 4px;
 }
 
-#enbgwvzfom .gt_column_spanner_outer:first-child {
+#oxhcqrjquj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#enbgwvzfom .gt_column_spanner_outer:last-child {
+#oxhcqrjquj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#enbgwvzfom .gt_column_spanner {
+#oxhcqrjquj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -375,11 +376,11 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   width: 100%;
 }
 
-#enbgwvzfom .gt_spanner_row {
+#oxhcqrjquj .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#enbgwvzfom .gt_group_heading {
+#oxhcqrjquj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -405,7 +406,7 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   text-align: left;
 }
 
-#enbgwvzfom .gt_empty_group_heading {
+#oxhcqrjquj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -420,15 +421,15 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   vertical-align: middle;
 }
 
-#enbgwvzfom .gt_from_md > :first-child {
+#oxhcqrjquj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#enbgwvzfom .gt_from_md > :last-child {
+#oxhcqrjquj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#enbgwvzfom .gt_row {
+#oxhcqrjquj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -447,7 +448,7 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   overflow-x: hidden;
 }
 
-#enbgwvzfom .gt_stub {
+#oxhcqrjquj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -460,7 +461,7 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   padding-right: 5px;
 }
 
-#enbgwvzfom .gt_stub_row_group {
+#oxhcqrjquj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -474,15 +475,15 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   vertical-align: top;
 }
 
-#enbgwvzfom .gt_row_group_first td {
+#oxhcqrjquj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#enbgwvzfom .gt_row_group_first th {
+#oxhcqrjquj .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#enbgwvzfom .gt_summary_row {
+#oxhcqrjquj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -492,16 +493,16 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   padding-right: 5px;
 }
 
-#enbgwvzfom .gt_first_summary_row {
+#oxhcqrjquj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#enbgwvzfom .gt_first_summary_row.thick {
+#oxhcqrjquj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#enbgwvzfom .gt_last_summary_row {
+#oxhcqrjquj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -511,7 +512,7 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   border-bottom-color: #D3D3D3;
 }
 
-#enbgwvzfom .gt_grand_summary_row {
+#oxhcqrjquj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -521,7 +522,7 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   padding-right: 5px;
 }
 
-#enbgwvzfom .gt_first_grand_summary_row {
+#oxhcqrjquj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -531,7 +532,7 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   border-top-color: #D3D3D3;
 }
 
-#enbgwvzfom .gt_last_grand_summary_row_top {
+#oxhcqrjquj .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -541,11 +542,11 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   border-bottom-color: #D3D3D3;
 }
 
-#enbgwvzfom .gt_striped {
+#oxhcqrjquj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#enbgwvzfom .gt_table_body {
+#oxhcqrjquj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -554,7 +555,7 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   border-bottom-color: #D3D3D3;
 }
 
-#enbgwvzfom .gt_footnotes {
+#oxhcqrjquj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -568,7 +569,7 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   border-right-color: #D3D3D3;
 }
 
-#enbgwvzfom .gt_footnote {
+#oxhcqrjquj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -577,7 +578,7 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   padding-right: 5px;
 }
 
-#enbgwvzfom .gt_sourcenotes {
+#oxhcqrjquj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -591,7 +592,7 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   border-right-color: #D3D3D3;
 }
 
-#enbgwvzfom .gt_sourcenote {
+#oxhcqrjquj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -599,72 +600,72 @@ use all <code>gt</code> functions on it like gt::gtsave() by calling
   padding-right: 5px;
 }
 
-#enbgwvzfom .gt_left {
+#oxhcqrjquj .gt_left {
   text-align: left;
 }
 
-#enbgwvzfom .gt_center {
+#oxhcqrjquj .gt_center {
   text-align: center;
 }
 
-#enbgwvzfom .gt_right {
+#oxhcqrjquj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#enbgwvzfom .gt_font_normal {
+#oxhcqrjquj .gt_font_normal {
   font-weight: normal;
 }
 
-#enbgwvzfom .gt_font_bold {
+#oxhcqrjquj .gt_font_bold {
   font-weight: bold;
 }
 
-#enbgwvzfom .gt_font_italic {
+#oxhcqrjquj .gt_font_italic {
   font-style: italic;
 }
 
-#enbgwvzfom .gt_super {
+#oxhcqrjquj .gt_super {
   font-size: 65%;
 }
 
-#enbgwvzfom .gt_footnote_marks {
+#oxhcqrjquj .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#enbgwvzfom .gt_asterisk {
+#oxhcqrjquj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#enbgwvzfom .gt_indent_1 {
+#oxhcqrjquj .gt_indent_1 {
   text-indent: 5px;
 }
 
-#enbgwvzfom .gt_indent_2 {
+#oxhcqrjquj .gt_indent_2 {
   text-indent: 10px;
 }
 
-#enbgwvzfom .gt_indent_3 {
+#oxhcqrjquj .gt_indent_3 {
   text-indent: 15px;
 }
 
-#enbgwvzfom .gt_indent_4 {
+#oxhcqrjquj .gt_indent_4 {
   text-indent: 20px;
 }
 
-#enbgwvzfom .gt_indent_5 {
+#oxhcqrjquj .gt_indent_5 {
   text-indent: 25px;
 }
 
-#enbgwvzfom .katex-display {
+#oxhcqrjquj .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#enbgwvzfom div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#oxhcqrjquj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1150,28 +1151,27 @@ re-producing results. Like this:</p>
 <h4 id="do-enrichgt">do EnrichGT<a class="anchor" aria-label="anchor" href="#do-enrichgt"></a>
 </h4>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">obj1</span><span class="op">&lt;-</span><span class="va">res0</span><span class="op">|&gt;</span> <span class="fu"><a href="../reference/EnrichGT.html">EnrichGT</a></span><span class="op">(</span>P.adj <span class="op">=</span> <span class="fl">0.2</span>,ClusterNum <span class="op">=</span> <span class="fl">10</span>,nTop <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Joining with `by = join_by(ID)`</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">obj1</span><span class="op">&lt;-</span><span class="va">res0</span><span class="op">|&gt;</span> <span class="fu"><a href="../reference/EnrichGT.html">EnrichGT</a></span><span class="op">(</span>P.adj <span class="op">=</span> <span class="fl">0.2</span>,ClusterNum <span class="op">=</span> <span class="fl">10</span>,nTop <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <p><img src="c_ora_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">obj</span><span class="op">@</span><span class="va">gt_object</span></span></code></pre></div>
-<div id="gbsxdtcyog" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#gbsxdtcyog table {
+<div id="fdybsumsfu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#fdybsumsfu table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#gbsxdtcyog thead, #gbsxdtcyog tbody, #gbsxdtcyog tfoot, #gbsxdtcyog tr, #gbsxdtcyog td, #gbsxdtcyog th {
+#fdybsumsfu thead, #fdybsumsfu tbody, #fdybsumsfu tfoot, #fdybsumsfu tr, #fdybsumsfu td, #fdybsumsfu th {
   border-style: none;
 }
 
-#gbsxdtcyog p {
+#fdybsumsfu p {
   margin: 0;
   padding: 0;
 }
 
-#gbsxdtcyog .gt_table {
+#fdybsumsfu .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1197,12 +1197,12 @@ re-producing results. Like this:</p>
   border-left-color: #D3D3D3;
 }
 
-#gbsxdtcyog .gt_caption {
+#fdybsumsfu .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#gbsxdtcyog .gt_title {
+#fdybsumsfu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1214,7 +1214,7 @@ re-producing results. Like this:</p>
   border-bottom-width: 0;
 }
 
-#gbsxdtcyog .gt_subtitle {
+#fdybsumsfu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1226,7 +1226,7 @@ re-producing results. Like this:</p>
   border-top-width: 0;
 }
 
-#gbsxdtcyog .gt_heading {
+#fdybsumsfu .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1238,13 +1238,13 @@ re-producing results. Like this:</p>
   border-right-color: #D3D3D3;
 }
 
-#gbsxdtcyog .gt_bottom_border {
+#fdybsumsfu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#gbsxdtcyog .gt_col_headings {
+#fdybsumsfu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1259,7 +1259,7 @@ re-producing results. Like this:</p>
   border-right-color: #D3D3D3;
 }
 
-#gbsxdtcyog .gt_col_heading {
+#fdybsumsfu .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1279,7 +1279,7 @@ re-producing results. Like this:</p>
   overflow-x: hidden;
 }
 
-#gbsxdtcyog .gt_column_spanner_outer {
+#fdybsumsfu .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1291,15 +1291,15 @@ re-producing results. Like this:</p>
   padding-right: 4px;
 }
 
-#gbsxdtcyog .gt_column_spanner_outer:first-child {
+#fdybsumsfu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#gbsxdtcyog .gt_column_spanner_outer:last-child {
+#fdybsumsfu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#gbsxdtcyog .gt_column_spanner {
+#fdybsumsfu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1311,11 +1311,11 @@ re-producing results. Like this:</p>
   width: 100%;
 }
 
-#gbsxdtcyog .gt_spanner_row {
+#fdybsumsfu .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#gbsxdtcyog .gt_group_heading {
+#fdybsumsfu .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1341,7 +1341,7 @@ re-producing results. Like this:</p>
   text-align: left;
 }
 
-#gbsxdtcyog .gt_empty_group_heading {
+#fdybsumsfu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1356,15 +1356,15 @@ re-producing results. Like this:</p>
   vertical-align: middle;
 }
 
-#gbsxdtcyog .gt_from_md > :first-child {
+#fdybsumsfu .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#gbsxdtcyog .gt_from_md > :last-child {
+#fdybsumsfu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#gbsxdtcyog .gt_row {
+#fdybsumsfu .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1383,7 +1383,7 @@ re-producing results. Like this:</p>
   overflow-x: hidden;
 }
 
-#gbsxdtcyog .gt_stub {
+#fdybsumsfu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1396,7 +1396,7 @@ re-producing results. Like this:</p>
   padding-right: 5px;
 }
 
-#gbsxdtcyog .gt_stub_row_group {
+#fdybsumsfu .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1410,15 +1410,15 @@ re-producing results. Like this:</p>
   vertical-align: top;
 }
 
-#gbsxdtcyog .gt_row_group_first td {
+#fdybsumsfu .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#gbsxdtcyog .gt_row_group_first th {
+#fdybsumsfu .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#gbsxdtcyog .gt_summary_row {
+#fdybsumsfu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1428,16 +1428,16 @@ re-producing results. Like this:</p>
   padding-right: 5px;
 }
 
-#gbsxdtcyog .gt_first_summary_row {
+#fdybsumsfu .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#gbsxdtcyog .gt_first_summary_row.thick {
+#fdybsumsfu .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#gbsxdtcyog .gt_last_summary_row {
+#fdybsumsfu .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1447,7 +1447,7 @@ re-producing results. Like this:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#gbsxdtcyog .gt_grand_summary_row {
+#fdybsumsfu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1457,7 +1457,7 @@ re-producing results. Like this:</p>
   padding-right: 5px;
 }
 
-#gbsxdtcyog .gt_first_grand_summary_row {
+#fdybsumsfu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1467,7 +1467,7 @@ re-producing results. Like this:</p>
   border-top-color: #D3D3D3;
 }
 
-#gbsxdtcyog .gt_last_grand_summary_row_top {
+#fdybsumsfu .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1477,11 +1477,11 @@ re-producing results. Like this:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#gbsxdtcyog .gt_striped {
+#fdybsumsfu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#gbsxdtcyog .gt_table_body {
+#fdybsumsfu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1490,7 +1490,7 @@ re-producing results. Like this:</p>
   border-bottom-color: #D3D3D3;
 }
 
-#gbsxdtcyog .gt_footnotes {
+#fdybsumsfu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1504,7 +1504,7 @@ re-producing results. Like this:</p>
   border-right-color: #D3D3D3;
 }
 
-#gbsxdtcyog .gt_footnote {
+#fdybsumsfu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1513,7 +1513,7 @@ re-producing results. Like this:</p>
   padding-right: 5px;
 }
 
-#gbsxdtcyog .gt_sourcenotes {
+#fdybsumsfu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1527,7 +1527,7 @@ re-producing results. Like this:</p>
   border-right-color: #D3D3D3;
 }
 
-#gbsxdtcyog .gt_sourcenote {
+#fdybsumsfu .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1535,72 +1535,72 @@ re-producing results. Like this:</p>
   padding-right: 5px;
 }
 
-#gbsxdtcyog .gt_left {
+#fdybsumsfu .gt_left {
   text-align: left;
 }
 
-#gbsxdtcyog .gt_center {
+#fdybsumsfu .gt_center {
   text-align: center;
 }
 
-#gbsxdtcyog .gt_right {
+#fdybsumsfu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#gbsxdtcyog .gt_font_normal {
+#fdybsumsfu .gt_font_normal {
   font-weight: normal;
 }
 
-#gbsxdtcyog .gt_font_bold {
+#fdybsumsfu .gt_font_bold {
   font-weight: bold;
 }
 
-#gbsxdtcyog .gt_font_italic {
+#fdybsumsfu .gt_font_italic {
   font-style: italic;
 }
 
-#gbsxdtcyog .gt_super {
+#fdybsumsfu .gt_super {
   font-size: 65%;
 }
 
-#gbsxdtcyog .gt_footnote_marks {
+#fdybsumsfu .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#gbsxdtcyog .gt_asterisk {
+#fdybsumsfu .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#gbsxdtcyog .gt_indent_1 {
+#fdybsumsfu .gt_indent_1 {
   text-indent: 5px;
 }
 
-#gbsxdtcyog .gt_indent_2 {
+#fdybsumsfu .gt_indent_2 {
   text-indent: 10px;
 }
 
-#gbsxdtcyog .gt_indent_3 {
+#fdybsumsfu .gt_indent_3 {
   text-indent: 15px;
 }
 
-#gbsxdtcyog .gt_indent_4 {
+#fdybsumsfu .gt_indent_4 {
   text-indent: 20px;
 }
 
-#gbsxdtcyog .gt_indent_5 {
+#fdybsumsfu .gt_indent_5 {
   text-indent: 25px;
 }
 
-#gbsxdtcyog .katex-display {
+#fdybsumsfu .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#gbsxdtcyog div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#fdybsumsfu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2003,7 +2003,7 @@ re-producing results. Like this:</p>
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
-<span><span class="co">#&gt;  date     2024-10-11</span></span>
+<span><span class="co">#&gt;  date     2024-10-12</span></span>
 <span><span class="co">#&gt;  pandoc   3.1.11 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Packages ───────────────────────────────────────────────────────────────────</span></span></span>
@@ -2033,7 +2033,7 @@ re-producing results. Like this:</p>
 <span><span class="co">#&gt;  digest             0.6.35     <span style="color: #555555;">2024-03-11</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  DOSE               3.28.2     <span style="color: #555555;">2023-12-12</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor 3.18 (R 4.3.2)</span></span></span>
 <span><span class="co">#&gt;  dplyr            * 1.1.4      <span style="color: #555555;">2023-11-17</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
-<span><span class="co">#&gt;  EnrichGT         * 0.2.5      <span style="color: #555555;">2024-10-09</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
+<span><span class="co">#&gt;  EnrichGT         * 0.2.8.5    <span style="color: #555555;">2024-10-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
 <span><span class="co">#&gt;  enrichplot         1.22.0     <span style="color: #555555;">2023-11-06</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  evaluate           0.23       <span style="color: #555555;">2023-11-01</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  fansi              1.0.6      <span style="color: #555555;">2023-12-08</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>

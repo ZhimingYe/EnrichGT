@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">EnrichGT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.8.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,6 +46,7 @@
     <a class="dropdown-item" href="../articles/c_gsea.html">Clustering and viewing GSEA results</a>
     <a class="dropdown-item" href="../articles/c_fusing.html">Fusing multiple enrichment results generated from different databases</a>
     <a class="dropdown-item" href="../articles/c_multi_grp.html">Clustering and viewing compareClusterResult</a>
+    <a class="dropdown-item" href="../articles/c_compareGT.html">Comparison of 2 enrichment results and further clustering</a>
     <a class="dropdown-item" href="../articles/c_benchmark.html">Benchmark of enriched result interpreter (VS Other packages)</a>
   </div>
 </li>
@@ -115,8 +116,6 @@
 <p>Then, run <code>obj |&gt; EnrichGT()</code> !</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="va">ego</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/EnrichGT.html">EnrichGT</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">EnrichGT message:</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> =====[SUGGESTION]=====</span></span>
 <span><span class="co">#&gt; You are passing an object from GO Enrichment.</span></span>
 <span><span class="co">#&gt; Please ensure that `obj |&gt; clusterProfiler::simplify()` is executed, to pre-simplify result,</span></span>
@@ -141,28 +140,27 @@
 <span><span class="co">#&gt; Attaching package: 'text2vec'</span></span>
 <span><span class="co">#&gt; The following object is masked from 'package:BiocGenerics':</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     normalize</span></span>
-<span><span class="co">#&gt; Joining with `by = join_by(ID)`</span></span></code></pre></div>
+<span><span class="co">#&gt;     normalize</span></span></code></pre></div>
 <p><img src="getStart_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">obj</span><span class="op">@</span><span class="va">gt_object</span></span></code></pre></div>
-<div id="eklsfdyjml" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#eklsfdyjml table {
+<div id="jcpsdiulnv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jcpsdiulnv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#eklsfdyjml thead, #eklsfdyjml tbody, #eklsfdyjml tfoot, #eklsfdyjml tr, #eklsfdyjml td, #eklsfdyjml th {
+#jcpsdiulnv thead, #jcpsdiulnv tbody, #jcpsdiulnv tfoot, #jcpsdiulnv tr, #jcpsdiulnv td, #jcpsdiulnv th {
   border-style: none;
 }
 
-#eklsfdyjml p {
+#jcpsdiulnv p {
   margin: 0;
   padding: 0;
 }
 
-#eklsfdyjml .gt_table {
+#jcpsdiulnv .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -188,12 +186,12 @@
   border-left-color: #D3D3D3;
 }
 
-#eklsfdyjml .gt_caption {
+#jcpsdiulnv .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#eklsfdyjml .gt_title {
+#jcpsdiulnv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -205,7 +203,7 @@
   border-bottom-width: 0;
 }
 
-#eklsfdyjml .gt_subtitle {
+#jcpsdiulnv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -217,7 +215,7 @@
   border-top-width: 0;
 }
 
-#eklsfdyjml .gt_heading {
+#jcpsdiulnv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -229,13 +227,13 @@
   border-right-color: #D3D3D3;
 }
 
-#eklsfdyjml .gt_bottom_border {
+#jcpsdiulnv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#eklsfdyjml .gt_col_headings {
+#jcpsdiulnv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -250,7 +248,7 @@
   border-right-color: #D3D3D3;
 }
 
-#eklsfdyjml .gt_col_heading {
+#jcpsdiulnv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -270,7 +268,7 @@
   overflow-x: hidden;
 }
 
-#eklsfdyjml .gt_column_spanner_outer {
+#jcpsdiulnv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -282,15 +280,15 @@
   padding-right: 4px;
 }
 
-#eklsfdyjml .gt_column_spanner_outer:first-child {
+#jcpsdiulnv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#eklsfdyjml .gt_column_spanner_outer:last-child {
+#jcpsdiulnv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#eklsfdyjml .gt_column_spanner {
+#jcpsdiulnv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -302,11 +300,11 @@
   width: 100%;
 }
 
-#eklsfdyjml .gt_spanner_row {
+#jcpsdiulnv .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#eklsfdyjml .gt_group_heading {
+#jcpsdiulnv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -332,7 +330,7 @@
   text-align: left;
 }
 
-#eklsfdyjml .gt_empty_group_heading {
+#jcpsdiulnv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -347,15 +345,15 @@
   vertical-align: middle;
 }
 
-#eklsfdyjml .gt_from_md > :first-child {
+#jcpsdiulnv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#eklsfdyjml .gt_from_md > :last-child {
+#jcpsdiulnv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#eklsfdyjml .gt_row {
+#jcpsdiulnv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -374,7 +372,7 @@
   overflow-x: hidden;
 }
 
-#eklsfdyjml .gt_stub {
+#jcpsdiulnv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -387,7 +385,7 @@
   padding-right: 5px;
 }
 
-#eklsfdyjml .gt_stub_row_group {
+#jcpsdiulnv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -401,15 +399,15 @@
   vertical-align: top;
 }
 
-#eklsfdyjml .gt_row_group_first td {
+#jcpsdiulnv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#eklsfdyjml .gt_row_group_first th {
+#jcpsdiulnv .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#eklsfdyjml .gt_summary_row {
+#jcpsdiulnv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -419,16 +417,16 @@
   padding-right: 5px;
 }
 
-#eklsfdyjml .gt_first_summary_row {
+#jcpsdiulnv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#eklsfdyjml .gt_first_summary_row.thick {
+#jcpsdiulnv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#eklsfdyjml .gt_last_summary_row {
+#jcpsdiulnv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -438,7 +436,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#eklsfdyjml .gt_grand_summary_row {
+#jcpsdiulnv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -448,7 +446,7 @@
   padding-right: 5px;
 }
 
-#eklsfdyjml .gt_first_grand_summary_row {
+#jcpsdiulnv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -458,7 +456,7 @@
   border-top-color: #D3D3D3;
 }
 
-#eklsfdyjml .gt_last_grand_summary_row_top {
+#jcpsdiulnv .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -468,11 +466,11 @@
   border-bottom-color: #D3D3D3;
 }
 
-#eklsfdyjml .gt_striped {
+#jcpsdiulnv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#eklsfdyjml .gt_table_body {
+#jcpsdiulnv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -481,7 +479,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#eklsfdyjml .gt_footnotes {
+#jcpsdiulnv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -495,7 +493,7 @@
   border-right-color: #D3D3D3;
 }
 
-#eklsfdyjml .gt_footnote {
+#jcpsdiulnv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -504,7 +502,7 @@
   padding-right: 5px;
 }
 
-#eklsfdyjml .gt_sourcenotes {
+#jcpsdiulnv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -518,7 +516,7 @@
   border-right-color: #D3D3D3;
 }
 
-#eklsfdyjml .gt_sourcenote {
+#jcpsdiulnv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -526,72 +524,72 @@
   padding-right: 5px;
 }
 
-#eklsfdyjml .gt_left {
+#jcpsdiulnv .gt_left {
   text-align: left;
 }
 
-#eklsfdyjml .gt_center {
+#jcpsdiulnv .gt_center {
   text-align: center;
 }
 
-#eklsfdyjml .gt_right {
+#jcpsdiulnv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#eklsfdyjml .gt_font_normal {
+#jcpsdiulnv .gt_font_normal {
   font-weight: normal;
 }
 
-#eklsfdyjml .gt_font_bold {
+#jcpsdiulnv .gt_font_bold {
   font-weight: bold;
 }
 
-#eklsfdyjml .gt_font_italic {
+#jcpsdiulnv .gt_font_italic {
   font-style: italic;
 }
 
-#eklsfdyjml .gt_super {
+#jcpsdiulnv .gt_super {
   font-size: 65%;
 }
 
-#eklsfdyjml .gt_footnote_marks {
+#jcpsdiulnv .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#eklsfdyjml .gt_asterisk {
+#jcpsdiulnv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#eklsfdyjml .gt_indent_1 {
+#jcpsdiulnv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#eklsfdyjml .gt_indent_2 {
+#jcpsdiulnv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#eklsfdyjml .gt_indent_3 {
+#jcpsdiulnv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#eklsfdyjml .gt_indent_4 {
+#jcpsdiulnv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#eklsfdyjml .gt_indent_5 {
+#jcpsdiulnv .gt_indent_5 {
   text-indent: 25px;
 }
 
-#eklsfdyjml .katex-display {
+#jcpsdiulnv .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#eklsfdyjml div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#jcpsdiulnv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -601,7 +599,7 @@
 <td colspan="5" class="gt_heading gt_title gt_font_normal" style>Parse form: ego</td>
     </tr>
 <tr class="gt_heading">
-<td colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Split into 15 Clusters. Generated by github@zhimingye/EnrichGT</td>
+<td colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Split into 17 Clusters. Generated by github@zhimingye/EnrichGT</td>
     </tr>
 <tr class="gt_col_headings">
 <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Description">Description</th>
@@ -945,17 +943,17 @@
 <td headers="Cluster_4  geneID" class="gt_row gt_left" style="font-size: 13px;">FOXM1, MELK, CCNA2, CDK1, AURKB, CHEK1, DTL, AURKA, CCNB1</td>
 </tr>
 <tr class="gt_group_heading_row">
-<th colspan="5" class="gt_group_heading" scope="colgroup" id="Cluster_7">Cluster_7</th>
+<th colspan="5" class="gt_group_heading" scope="colgroup" id="Cluster_8">Cluster_8</th>
     </tr>
 <tr class="gt_row_group_first">
-<td headers="Cluster_7  Description" class="gt_row gt_left" style="font-size: 13px;">
+<td headers="Cluster_8  Description" class="gt_row gt_left" style="font-size: 13px;">
 <div style="line-height:14px"><span style="font-weight:bold;font-variant:small-caps;color:#000000;font-size:14px">microtubule-based movement</span></div>
 <div style="line-height:10px"><span style="font-weight:bold;color:#BEBEBE;font-size:10px">GO:0007018</span></div>
 </td>
-<td headers="Cluster_7  Count" class="gt_row gt_right" style="background-color: #2388A4; color: #FFFFFF; font-size: 13px;">12</td>
-<td headers="Cluster_7  PCT" class="gt_row gt_right" style="background-color: #9BCE64; color: #000000; font-size: 13px;">6.1</td>
-<td headers="Cluster_7  Padj" class="gt_row gt_right" style="background-color: #3288BD; color: #FFFFFF; font-size: 13px;">3.1e-02</td>
-<td headers="Cluster_7  geneID" class="gt_row gt_left" style="font-size: 13px;">KIF23, CENPE, DLGAP5, KIF18A, KIF11, KIFC1, KIF18B, KIF20A, KIF4A, MAPT, TRIM58, CFAP69</td>
+<td headers="Cluster_8  Count" class="gt_row gt_right" style="background-color: #2388A4; color: #FFFFFF; font-size: 13px;">12</td>
+<td headers="Cluster_8  PCT" class="gt_row gt_right" style="background-color: #9BCE64; color: #000000; font-size: 13px;">6.1</td>
+<td headers="Cluster_8  Padj" class="gt_row gt_right" style="background-color: #3288BD; color: #FFFFFF; font-size: 13px;">3.1e-02</td>
+<td headers="Cluster_8  geneID" class="gt_row gt_left" style="font-size: 13px;">KIF23, CENPE, DLGAP5, KIF18A, KIF11, KIFC1, KIF18B, KIF20A, KIF4A, MAPT, TRIM58, CFAP69</td>
 </tr>
 </tbody>
 </table>
@@ -978,7 +976,7 @@
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
-<span><span class="co">#&gt;  date     2024-10-11</span></span>
+<span><span class="co">#&gt;  date     2024-10-12</span></span>
 <span><span class="co">#&gt;  pandoc   3.1.11 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Packages ───────────────────────────────────────────────────────────────────</span></span></span>
@@ -1008,7 +1006,7 @@
 <span><span class="co">#&gt;  digest             0.6.35     <span style="color: #555555;">2024-03-11</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  DOSE               3.28.2     <span style="color: #555555;">2023-12-12</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor 3.18 (R 4.3.2)</span></span></span>
 <span><span class="co">#&gt;  dplyr            * 1.1.4      <span style="color: #555555;">2023-11-17</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
-<span><span class="co">#&gt;  EnrichGT         * 0.2.5      <span style="color: #555555;">2024-10-09</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
+<span><span class="co">#&gt;  EnrichGT         * 0.2.8.5    <span style="color: #555555;">2024-10-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
 <span><span class="co">#&gt;  enrichplot         1.22.0     <span style="color: #555555;">2023-11-06</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  evaluate           0.23       <span style="color: #555555;">2023-11-01</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  fansi              1.0.6      <span style="color: #555555;">2023-12-08</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>

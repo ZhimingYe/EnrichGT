@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">EnrichGT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.8.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,6 +46,7 @@
     <a class="dropdown-item" href="../articles/c_gsea.html">Clustering and viewing GSEA results</a>
     <a class="dropdown-item" href="../articles/c_fusing.html">Fusing multiple enrichment results generated from different databases</a>
     <a class="dropdown-item" href="../articles/c_multi_grp.html">Clustering and viewing compareClusterResult</a>
+    <a class="dropdown-item" href="../articles/c_compareGT.html">Comparison of 2 enrichment results and further clustering</a>
     <a class="dropdown-item" href="../articles/c_benchmark.html">Benchmark of enriched result interpreter (VS Other packages)</a>
   </div>
 </li>
@@ -133,86 +134,93 @@ informations.</p>
 <span><span class="co">#&gt; Attaching package: 'text2vec'</span></span>
 <span><span class="co">#&gt; The following object is masked from 'package:BiocGenerics':</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     normalize</span></span>
-<span><span class="co">#&gt; Joining with `by = join_by(ID)`</span></span></code></pre></div>
+<span><span class="co">#&gt;     normalize</span></span></code></pre></div>
 <p><img src="c_multi_grp_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; Joining with `by = join_by(ID)`</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">EnrichGT message:</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">───────────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Too many rows! It might be slow... Working, but please consider increase</span></span>
-<span><span class="co">#&gt; P.adj ...</span></span></code></pre>
-<p><img src="c_multi_grp_files/figure-html/unnamed-chunk-2-2.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; Joining with `by = join_by(ID)`</span></span></code></pre>
-<p><img src="c_multi_grp_files/figure-html/unnamed-chunk-2-3.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; Joining with `by = join_by(ID)`</span></span></code></pre>
-<p><img src="c_multi_grp_files/figure-html/unnamed-chunk-2-4.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; Joining with `by = join_by(ID)`</span></span></code></pre>
-<p><img src="c_multi_grp_files/figure-html/unnamed-chunk-2-5.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; Joining with `by = join_by(ID)`</span></span></code></pre>
-<p><img src="c_multi_grp_files/figure-html/unnamed-chunk-2-6.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; Joining with `by = join_by(ID)`</span></span></code></pre>
-<p><img src="c_multi_grp_files/figure-html/unnamed-chunk-2-7.png" width="700"></p>
-<pre><code><span><span class="co">#&gt; Joining with `by = join_by(ID)`</span></span></code></pre>
-<p><img src="c_multi_grp_files/figure-html/unnamed-chunk-2-8.png" width="700"></p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Too many rows! It might be slow...</span></span>
+<span><span class="co">#&gt; Working, but please consider increase P.adj ...</span></span></code></pre>
+<p><img src="c_multi_grp_files/figure-html/unnamed-chunk-2-2.png" width="700"><img src="c_multi_grp_files/figure-html/unnamed-chunk-2-3.png" width="700"><img src="c_multi_grp_files/figure-html/unnamed-chunk-2-4.png" width="700"><img src="c_multi_grp_files/figure-html/unnamed-chunk-2-5.png" width="700"><img src="c_multi_grp_files/figure-html/unnamed-chunk-2-6.png" width="700"><img src="c_multi_grp_files/figure-html/unnamed-chunk-2-7.png" width="700"><img src="c_multi_grp_files/figure-html/unnamed-chunk-2-8.png" width="700"></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">sd</span>,max.level<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 8</span></span>
-<span><span class="co">#&gt;  $ X1:Formal class 'EnrichGT_obj' [package "EnrichGT"] with 4 slots</span></span>
-<span><span class="co">#&gt;   .. ..@ enriched_result : tibble [30 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
-<span><span class="co">#&gt;   .. ..@ gt_object       :List of 17</span></span>
+<span><span class="co">#&gt;  $ X1:Formal class 'EnrichGT_obj' [package "EnrichGT"] with 6 slots</span></span>
+<span><span class="co">#&gt;   .. ..@ enriched_result    : tibble [30 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;   .. ..@ gt_object          :List of 17</span></span>
 <span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr [1:2] "gt_tbl" "list"</span></span>
-<span><span class="co">#&gt;   .. ..@ gene_modules    :List of 3</span></span>
-<span><span class="co">#&gt;   .. ..@ pathway_clusters:List of 3</span></span>
-<span><span class="co">#&gt;  $ X2:Formal class 'EnrichGT_obj' [package "EnrichGT"] with 4 slots</span></span>
-<span><span class="co">#&gt;   .. ..@ enriched_result : tibble [30 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
-<span><span class="co">#&gt;   .. ..@ gt_object       :List of 17</span></span>
+<span><span class="co">#&gt;   .. ..@ gene_modules       :List of 3</span></span>
+<span><span class="co">#&gt;   .. ..@ pathway_clusters   :List of 3</span></span>
+<span><span class="co">#&gt;   .. ..@ clustering_tree    :List of 7</span></span>
+<span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr "hclust"</span></span>
+<span><span class="co">#&gt;   .. ..@ raw_enriched_result:'data.frame':   146 obs. of  7 variables:</span></span>
+<span><span class="co">#&gt;  $ X2:Formal class 'EnrichGT_obj' [package "EnrichGT"] with 6 slots</span></span>
+<span><span class="co">#&gt;   .. ..@ enriched_result    : tibble [30 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;   .. ..@ gt_object          :List of 17</span></span>
 <span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr [1:2] "gt_tbl" "list"</span></span>
-<span><span class="co">#&gt;   .. ..@ gene_modules    :List of 3</span></span>
-<span><span class="co">#&gt;   .. ..@ pathway_clusters:List of 3</span></span>
-<span><span class="co">#&gt;  $ X3:Formal class 'EnrichGT_obj' [package "EnrichGT"] with 4 slots</span></span>
-<span><span class="co">#&gt;   .. ..@ enriched_result : tibble [30 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
-<span><span class="co">#&gt;   .. ..@ gt_object       :List of 17</span></span>
+<span><span class="co">#&gt;   .. ..@ gene_modules       :List of 3</span></span>
+<span><span class="co">#&gt;   .. ..@ pathway_clusters   :List of 3</span></span>
+<span><span class="co">#&gt;   .. ..@ clustering_tree    :List of 7</span></span>
+<span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr "hclust"</span></span>
+<span><span class="co">#&gt;   .. ..@ raw_enriched_result:'data.frame':   874 obs. of  7 variables:</span></span>
+<span><span class="co">#&gt;  $ X3:Formal class 'EnrichGT_obj' [package "EnrichGT"] with 6 slots</span></span>
+<span><span class="co">#&gt;   .. ..@ enriched_result    : tibble [30 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;   .. ..@ gt_object          :List of 17</span></span>
 <span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr [1:2] "gt_tbl" "list"</span></span>
-<span><span class="co">#&gt;   .. ..@ gene_modules    :List of 3</span></span>
-<span><span class="co">#&gt;   .. ..@ pathway_clusters:List of 3</span></span>
-<span><span class="co">#&gt;  $ X4:Formal class 'EnrichGT_obj' [package "EnrichGT"] with 4 slots</span></span>
-<span><span class="co">#&gt;   .. ..@ enriched_result : tibble [30 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
-<span><span class="co">#&gt;   .. ..@ gt_object       :List of 17</span></span>
+<span><span class="co">#&gt;   .. ..@ gene_modules       :List of 3</span></span>
+<span><span class="co">#&gt;   .. ..@ pathway_clusters   :List of 3</span></span>
+<span><span class="co">#&gt;   .. ..@ clustering_tree    :List of 7</span></span>
+<span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr "hclust"</span></span>
+<span><span class="co">#&gt;   .. ..@ raw_enriched_result:'data.frame':   492 obs. of  7 variables:</span></span>
+<span><span class="co">#&gt;  $ X4:Formal class 'EnrichGT_obj' [package "EnrichGT"] with 6 slots</span></span>
+<span><span class="co">#&gt;   .. ..@ enriched_result    : tibble [30 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;   .. ..@ gt_object          :List of 17</span></span>
 <span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr [1:2] "gt_tbl" "list"</span></span>
-<span><span class="co">#&gt;   .. ..@ gene_modules    :List of 3</span></span>
-<span><span class="co">#&gt;   .. ..@ pathway_clusters:List of 3</span></span>
-<span><span class="co">#&gt;  $ X5:Formal class 'EnrichGT_obj' [package "EnrichGT"] with 4 slots</span></span>
-<span><span class="co">#&gt;   .. ..@ enriched_result : tibble [30 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
-<span><span class="co">#&gt;   .. ..@ gt_object       :List of 17</span></span>
+<span><span class="co">#&gt;   .. ..@ gene_modules       :List of 3</span></span>
+<span><span class="co">#&gt;   .. ..@ pathway_clusters   :List of 3</span></span>
+<span><span class="co">#&gt;   .. ..@ clustering_tree    :List of 7</span></span>
+<span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr "hclust"</span></span>
+<span><span class="co">#&gt;   .. ..@ raw_enriched_result:'data.frame':   623 obs. of  7 variables:</span></span>
+<span><span class="co">#&gt;  $ X5:Formal class 'EnrichGT_obj' [package "EnrichGT"] with 6 slots</span></span>
+<span><span class="co">#&gt;   .. ..@ enriched_result    : tibble [30 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;   .. ..@ gt_object          :List of 17</span></span>
 <span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr [1:2] "gt_tbl" "list"</span></span>
-<span><span class="co">#&gt;   .. ..@ gene_modules    :List of 3</span></span>
-<span><span class="co">#&gt;   .. ..@ pathway_clusters:List of 3</span></span>
-<span><span class="co">#&gt;  $ X6:Formal class 'EnrichGT_obj' [package "EnrichGT"] with 4 slots</span></span>
-<span><span class="co">#&gt;   .. ..@ enriched_result : tibble [30 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
-<span><span class="co">#&gt;   .. ..@ gt_object       :List of 17</span></span>
+<span><span class="co">#&gt;   .. ..@ gene_modules       :List of 3</span></span>
+<span><span class="co">#&gt;   .. ..@ pathway_clusters   :List of 3</span></span>
+<span><span class="co">#&gt;   .. ..@ clustering_tree    :List of 7</span></span>
+<span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr "hclust"</span></span>
+<span><span class="co">#&gt;   .. ..@ raw_enriched_result:'data.frame':   728 obs. of  7 variables:</span></span>
+<span><span class="co">#&gt;  $ X6:Formal class 'EnrichGT_obj' [package "EnrichGT"] with 6 slots</span></span>
+<span><span class="co">#&gt;   .. ..@ enriched_result    : tibble [30 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;   .. ..@ gt_object          :List of 17</span></span>
 <span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr [1:2] "gt_tbl" "list"</span></span>
-<span><span class="co">#&gt;   .. ..@ gene_modules    :List of 3</span></span>
-<span><span class="co">#&gt;   .. ..@ pathway_clusters:List of 3</span></span>
-<span><span class="co">#&gt;  $ X7:Formal class 'EnrichGT_obj' [package "EnrichGT"] with 4 slots</span></span>
-<span><span class="co">#&gt;   .. ..@ enriched_result : tibble [30 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
-<span><span class="co">#&gt;   .. ..@ gt_object       :List of 17</span></span>
+<span><span class="co">#&gt;   .. ..@ gene_modules       :List of 3</span></span>
+<span><span class="co">#&gt;   .. ..@ pathway_clusters   :List of 3</span></span>
+<span><span class="co">#&gt;   .. ..@ clustering_tree    :List of 7</span></span>
+<span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr "hclust"</span></span>
+<span><span class="co">#&gt;   .. ..@ raw_enriched_result:'data.frame':   389 obs. of  7 variables:</span></span>
+<span><span class="co">#&gt;  $ X7:Formal class 'EnrichGT_obj' [package "EnrichGT"] with 6 slots</span></span>
+<span><span class="co">#&gt;   .. ..@ enriched_result    : tibble [30 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;   .. ..@ gt_object          :List of 17</span></span>
 <span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr [1:2] "gt_tbl" "list"</span></span>
-<span><span class="co">#&gt;   .. ..@ gene_modules    :List of 3</span></span>
-<span><span class="co">#&gt;   .. ..@ pathway_clusters:List of 3</span></span>
-<span><span class="co">#&gt;  $ X8:Formal class 'EnrichGT_obj' [package "EnrichGT"] with 4 slots</span></span>
-<span><span class="co">#&gt;   .. ..@ enriched_result : tibble [30 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
-<span><span class="co">#&gt;   .. ..@ gt_object       :List of 17</span></span>
+<span><span class="co">#&gt;   .. ..@ gene_modules       :List of 3</span></span>
+<span><span class="co">#&gt;   .. ..@ pathway_clusters   :List of 3</span></span>
+<span><span class="co">#&gt;   .. ..@ clustering_tree    :List of 7</span></span>
+<span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr "hclust"</span></span>
+<span><span class="co">#&gt;   .. ..@ raw_enriched_result:'data.frame':   520 obs. of  7 variables:</span></span>
+<span><span class="co">#&gt;  $ X8:Formal class 'EnrichGT_obj' [package "EnrichGT"] with 6 slots</span></span>
+<span><span class="co">#&gt;   .. ..@ enriched_result    : tibble [30 × 7] (S3: tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;   .. ..@ gt_object          :List of 17</span></span>
 <span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr [1:2] "gt_tbl" "list"</span></span>
-<span><span class="co">#&gt;   .. ..@ gene_modules    :List of 3</span></span>
-<span><span class="co">#&gt;   .. ..@ pathway_clusters:List of 3</span></span></code></pre></div>
+<span><span class="co">#&gt;   .. ..@ gene_modules       :List of 3</span></span>
+<span><span class="co">#&gt;   .. ..@ pathway_clusters   :List of 3</span></span>
+<span><span class="co">#&gt;   .. ..@ clustering_tree    :List of 7</span></span>
+<span><span class="co">#&gt;   .. .. ..- attr(*, "class")= chr "hclust"</span></span>
+<span><span class="co">#&gt;   .. ..@ raw_enriched_result:'data.frame':   298 obs. of  7 variables:</span></span></code></pre></div>
 <p>Return a <code>list</code> containing <code>EnrichGT_obj</code> of
 each <code>compareClusterResult</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="session-info">Session info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">sessioninfo</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html" class="external-link">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span></span>
@@ -224,7 +232,7 @@ each <code>compareClusterResult</code>.</p>
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
-<span><span class="co">#&gt;  date     2024-10-11</span></span>
+<span><span class="co">#&gt;  date     2024-10-12</span></span>
 <span><span class="co">#&gt;  pandoc   3.1.11 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Packages ───────────────────────────────────────────────────────────────────</span></span></span>
@@ -254,7 +262,7 @@ each <code>compareClusterResult</code>.</p>
 <span><span class="co">#&gt;  digest             0.6.35     <span style="color: #555555;">2024-03-11</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  DOSE               3.28.2     <span style="color: #555555;">2023-12-12</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor 3.18 (R 4.3.2)</span></span></span>
 <span><span class="co">#&gt;  dplyr            * 1.1.4      <span style="color: #555555;">2023-11-17</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
-<span><span class="co">#&gt;  EnrichGT         * 0.2.5      <span style="color: #555555;">2024-10-09</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
+<span><span class="co">#&gt;  EnrichGT         * 0.2.8.5    <span style="color: #555555;">2024-10-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
 <span><span class="co">#&gt;  enrichplot         1.22.0     <span style="color: #555555;">2023-11-06</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  evaluate           0.23       <span style="color: #555555;">2023-11-01</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  fansi              1.0.6      <span style="color: #555555;">2023-12-08</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
