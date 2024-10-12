@@ -11,6 +11,14 @@ install_github("ZhimingYe/EnrichGT")
 
 Description and help pages: <https://zhimingye.github.io/EnrichGT/>
 
+------------------------------------------------------------------------
+
+`EnrichGT` is based on the enrichment result from the powerful `clusterProfiler`. When using this, you should cite `clusterProfiler` and `ReactomePA`:
+
+1.  T Wu<sup>\#</sup>, E Hu<sup>\#</sup>, S Xu, M Chen, P Guo, Z Dai, T Feng, L Zhou, W Tang, L Zhan, X Fu, S Liu, X Bo<sup>\*</sup>, **G Yu**<sup>\*</sup>. clusterProfiler 4.0: A universal enrichment tool for interpreting omics data. ***The Innovation***. 2021, 2(3):100141. doi: [10.1016/j.xinn.2021.100141](https://doi.org/10.1016/j.xinn.2021.100141)
+
+2.  **G Yu**, QY He^\*^. ReactomePA: an R/Bioconductor package for reactome pathway analysis and visualization. ***Molecular BioSystems***. 2016, 12(2):477-479. doi: [10.1039/C5MB00663E](https://doi.org/10.1039/C5MB00663E)
+
 ### OverView
 
 The main purpose of developing this package is to provide a **lightweight and practical solution** to the problems mentioned above. Specifically, this package aims to:
@@ -29,11 +37,3 @@ The main purpose of developing this package is to provide a **lightweight and pr
 5.  **Seamless Integration with Publishing Tools** : Another significant advantage of using the `gt` package is its seamless integration with modern publishing systems like **rmarkdown** and **quarto**. This ensures that your results can be easily shared and published in a professional format, while also allowing for interactive exploration during the research phase.
 
 6.  **Infering Pathway and TF Activity**: derived from clustering-based meta-gene modules, infer regulatory transcription factors and pathway activity.
-
-### Acknowledgement
-
-`EnrichGT` is based on the enrichment result from the powerful `clusterProfiler`. When using this, you should cite `clusterProfiler` and `ReactomePA`:
-
-1.  T Wu<sup>\#</sup>, E Hu<sup>\#</sup>, S Xu, M Chen, P Guo, Z Dai, T Feng, L Zhou, W Tang, L Zhan, X Fu, S Liu, X Bo<sup>\*</sup>, **G Yu**<sup>\*</sup>. clusterProfiler 4.0: A universal enrichment tool for interpreting omics data. ***The Innovation***. 2021, 2(3):100141. doi: [10.1016/j.xinn.2021.100141](https://doi.org/10.1016/j.xinn.2021.100141)
-
-2.  **G Yu**, QY He^\*^. ReactomePA: an R/Bioconductor package for reactome pathway analysis and visualization. ***Molecular BioSystems***. 2016, 12(2):477-479. doi: [10.1039/C5MB00663E](https://doi.org/10.1039/C5MB00663E)
