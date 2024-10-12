@@ -10,5 +10,7 @@ articles:
   - c_gsea
   - c_fusing
   - c_multi_grp
+  - c_compareGT
+  - c_infreg
   - c_benchmark
 

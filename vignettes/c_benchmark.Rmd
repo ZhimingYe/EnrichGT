@@ -89,20 +89,7 @@ t3
 
 # Compare Calculation Times
 
-
-```{r}
-
-df00<-data.frame(Package=c("simplifyEnrichment","EnrichGT","aPEAR"),Time=c(10.1,t2,t3))# In simplifyEnrichment, it will cluster word cloud. We don't Calculate this part of time
-
-df00
-```
-
-```{r}
-ggplot(df00,aes(x=Package,y=Time))+geom_col(aes(fill=Package))+theme_bw()
-
-```
-
-
+You can see the `EnrichGT()` is the fastest, only using ~2s. `simplifyEnrichment` takes ~10s, and `aPEAR` use almost 5 mins...
 
 # Session info
 

@@ -1,0 +1,89 @@
+---
+title: "Infering Pathway or Transcript Factors activity from EnrichGT meta-gene modules"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Infering Pathway or Transcript Factors activity from EnrichGT meta-gene modules}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(EnrichGT)
+```
+
+# Databases
+
+This is inspired from Saez-Rodriguez Lab's `decoupleR` package, <https://saezlab.github.io/decoupleR/>.
+
+[PROGENy](https://saezlab.github.io/progeny/) is a comprehensive resource containing a curated collection of pathways and their target genes, with weights for each interaction.
+
+[CollecTRI](https://github.com/saezlab/CollecTRI) is a comprehensive resource containing a curated collection of TFs and their transcriptional targets compiled from 12 different resources. This collection provides an increased coverage of transcription factors and a superior performance in identifying perturbed TFs compared to our previous.
+
+See `EnrichGT::infering_regulator_act()` for help.
+
+# You should setReadable first
+
+Like this: if your data is only contains gene symbols (like TP53, SIGLEC1, CD68...), please ignore this part.
+
+``` r
+enrichedObj |> setReadable(OrgDb = xxx,keyType = "ENTREZID") |> EnrichGT()
+
+# orgDb can be org.Hs.eg.db, org.Mm.eg.db. 
+```
+
+# Example
+
+## Generate `EnrichGT_obj` object
+
+```{r}
+suppressMessages({
+  library(tidyverse)
+  library(gt)
+  library(clusterProfiler)
+  library(org.Hs.eg.db)
+  })
+library(enrichplot) # for viewing enrichment result
+data(geneList, package="DOSE")
+gene <- names(geneList)[(geneList) > 1]
+ego <- enrichGO(gene          = gene,
+                  universe      = names(geneList),
+                  OrgDb         = org.Hs.eg.db,
+                  ont           = "BP",
+                  pAdjustMethod = "BH",
+                  pvalueCutoff  = 0.5,
+                  qvalueCutoff  = 0.5,
+                  readable      = TRUE)
+enrichGT_obj <- ego |> EnrichGT()
+```
+
+## Pathway Infering
+
+```{r}
+pw_res<-enrichGT_obj |> infering_regulator_act(DB = "progeny", species = "human")
+enrichplot::dotplot(pw_res)
+```
+
+
+## TF activity infering
+
+```{r}
+tf_res<-enrichGT_obj |> infering_regulator_act(DB = "collectri", species = "human")
+enrichplot::dotplot(tf_res)
+```
+
+
+# Session Info
+
+```{r}
+sessioninfo::session_info()
+```
+
+
+
