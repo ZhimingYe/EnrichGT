@@ -15,6 +15,14 @@ install_github("ZhimingYe/EnrichGT")
 
 Please see `Articles` for examples and further help.
 
+### Acknowledgement
+
+`EnrichGT` is based on the enrichment result from the powerful `clusterProfiler`. When using this, you should cite `clusterProfiler` and `ReactomePA`:
+
+1.  T Wu<sup>\#</sup>, E Hu<sup>\#</sup>, S Xu, M Chen, P Guo, Z Dai, T Feng, L Zhou, W Tang, L Zhan, X Fu, S Liu, X Bo<sup>\*</sup>, **G Yu**<sup>\*</sup>. clusterProfiler 4.0: A universal enrichment tool for interpreting omics data. ***The Innovation***. 2021, 2(3):100141. doi: [10.1016/j.xinn.2021.100141](https://doi.org/10.1016/j.xinn.2021.100141)
+
+2.  **G Yu**, QY He^\*^. ReactomePA: an R/Bioconductor package for reactome pathway analysis and visualization. ***Molecular BioSystems***. 2016, 12(2):477-479. doi: [10.1039/C5MB00663E](https://doi.org/10.1039/C5MB00663E)
+
 ------------------------------------------------------------------------
 
 ## Why EnrichGT?
