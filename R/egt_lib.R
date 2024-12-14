@@ -115,3 +115,15 @@ is_numeric_string <- function(x) {
     cli::cli_abort(paste0("cols: ",paste(vec[!vec%in%colnames(x)],sep = ", "), " not found!\n"))
   }
 }
+.egtUMAP <- function(x){
+  mat<-x@document_term_matrix
+  umap_result <- umap::umap(mat)
+  umap_df <- data.frame(UMAP1 = umap_result$layout[, 1],
+                        UMAP2 = umap_result$layout[, 2],
+                        Cluster = as.factor(clusters))
+  ggplot(umap_df, aes(x = UMAP1, y = UMAP2, color = Cluster)) +
+    geom_point(size = 2) +
+    labs(title = "UMAP Visualization with Hierarchical Clustering",
+         x = "UMAP1", y = "UMAP2") +
+    theme_minimal()
+}
