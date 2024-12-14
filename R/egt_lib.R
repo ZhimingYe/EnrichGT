@@ -56,7 +56,6 @@ is_numeric_string <- function(x) {
   dtm <- text2vec::create_dtm(tokens_iter, vectorizer)
   distance_matrix <- proxy::dist(dtm |> as.matrix(), method = "cosine")
   hc <- hclust(distance_matrix, method = method)
-  plot(hc)
   clusters <- cutree(hc, k = k)
   clusters<-clusters |> as.data.frame() |> tibble::rownames_to_column(var="ID")
   colnames(clusters)[2]<-"Cluster"
