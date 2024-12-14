@@ -61,7 +61,7 @@ is_numeric_string <- function(x) {
   clusters<-clusters |> as.data.frame() |> tibble::rownames_to_column(var="ID")
   colnames(clusters)[2]<-"Cluster"
   clusters$Cluster<-paste0("Cluster_",clusters$Cluster)
-  return(list(`clusters`=clusters,`hc`=hc))
+  return(list(`clusters`=clusters,`hc`=hc,`dtm`=dtm))
 }
 
 
