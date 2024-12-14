@@ -52,9 +52,9 @@ ORA2dp<-function(x,ntop = 7,low.col="#78cfe5",hi.col="#ff6f81",...){
     cli::cli_abort("Not EnrichGT object! Please run `EnrichGT()` first.")
   })
   tryCatch({
-    df <- x@enriched_result %>%
-      group_by(Cluster) %>%
-      slice_min(order_by = Count, n = ntop, with_ties = FALSE) %>%
+    df <- x@enriched_result |>
+      group_by(Cluster) |>
+      slice_min(order_by = Count, n = ntop, with_ties = FALSE) |>
       ungroup()
   },error=function(e){
     cli::cli_alert_warning("Subset ERROR! ")
@@ -77,9 +77,9 @@ GSEA2dp<-function(x,ntop = 7,low.col="#78cfe5",hi.col="#ff6f81",...){
     cli::cli_abort("Not EnrichGT object! Please run `EnrichGT()` first.")
   })
   tryCatch({
-    df <- x@enriched_result %>%
-      group_by(Cluster) %>%
-      slice_min(order_by = absNES, n = ntop, with_ties = FALSE) %>%
+    df <- x@enriched_result |>
+      group_by(Cluster) |>
+      slice_min(order_by = absNES, n = ntop, with_ties = FALSE) |>
       ungroup()
   },error=function(e){
     cli::cli_alert_warning("Subset ERROR! ")
