@@ -57,7 +57,7 @@ EnrichGT<-function(x,ClusterNum=17,P.adj=0.05,force=F,nTop=10,method="ward.D2",.
   required_packages <- c(
     "dplyr", "fontawesome", "glue", "gt", "proxy",
     "RColorBrewer", "rlang", "scales", "text2vec",
-    "tibble", "clusterProfiler", "ReactomePA"
+    "tibble", "clusterProfiler", "ReactomePA","forcats","ggplot2"
   )
   missing_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
 
