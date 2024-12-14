@@ -14,7 +14,7 @@
 #' @export
 #' @author Zhiming Ye, Saez-Rodriguez Lab (The decoupleR package, https://saezlab.github.io/decoupleR/)
 #'
-infering_regulator_act <- function(x,DB="collectri",species="human"){
+egtInfer <- function(x,DB="collectri",species="human"){
   genelist <- tryCatch(x@gene_modules,error=function(e){
     cli::cli_abort("NOT an enrichGT object. ")
   })
