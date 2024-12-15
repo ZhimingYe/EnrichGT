@@ -2,7 +2,7 @@ setClass("EnrichGT_obj",slots=list(enriched_result="data.frame",
                                          gt_object="gt_tbl",
                                          gene_modules="list",
                                          pathway_clusters="list",
-                                         document_term_matrix="matrix",
+                                         document_term_matrix="dgCMatrix",
                                          clustering_tree="hclust",
                                          raw_enriched_result="data.frame"))
 
