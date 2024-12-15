@@ -6,6 +6,7 @@
 #' @param ntop Show top N in each cluster
 #' @param low.col the color for the lowest
 #' @param hi.col the color for the highest
+#' @param max_len_descript the label format length, default as 40.
 #' @param ... Other param
 #'
 #' @returns a ggplot2 object
@@ -42,7 +43,17 @@ egtPlot <- function(x,...){
   return(figure0)
 }
 
-
+shorten_labels_words <- function(label, max_length = 40) {
+  sapply(label, function(l) {
+    words <- unlist(strsplit(l, " "))
+    cumulative_length <- cumsum(nchar(words) + 1)
+    if (max(cumulative_length) <= max_length) {
+      return(l)
+    }
+    cutoff <- max(which(cumulative_length <= max_length))
+    paste(paste(words[1:cutoff], collapse = " "), "...")
+  })
+}
 
 #' Visualize results generated form `EnrichGT()` using UMAP
 #'
@@ -61,7 +72,7 @@ egtScatter <- function(x,...){
   return(px)
 }
 
-ORA2dp<-function(x,ntop = 7,low.col="#78cfe5",hi.col="#ff6f81",...){
+ORA2dp<-function(x,ntop = 7,low.col="#78cfe5",hi.col="#ff6f81",max_len_descript=40,...){
   if(is.list(x)){
     cli::cli_abort("For a list object, please run plotting for every object inside list, instead of the whole list.")
   }
@@ -81,12 +92,12 @@ ORA2dp<-function(x,ntop = 7,low.col="#78cfe5",hi.col="#ff6f81",...){
     cli::cli_alert_warning("Subset ERROR! ")
     df <-x@enriched_result
   })
-
+  df$Description<-shorten_labels_words(df$Description,max_length = max_len_descript)
   px<-ggplot(df,aes(x = PCT, y = fct_reorder(Description, PCT), size=Count, color=Padj))+geom_point()+scale_color_continuous(low=low.col, high=hi.col, name = "adjustedP",guide=guide_colorbar(reverse=F))+scale_size(range=c(2, 8))+xlab("Gene Ratio")+ylab("Gene Sets")+facet_grid(Cluster~.,scales="free",space="free_y")+theme_bw()
   return(px)
 }
 
-GSEA2dp<-function(x,ntop = 7,low.col="#78cfe5",hi.col="#ff6f81",...){
+GSEA2dp<-function(x,ntop = 7,low.col="#78cfe5",hi.col="#ff6f81",max_len_descript=40,...){
   if(is.list(x)){
     cli::cli_abort("For a list object, please run plotting for every object inside list, instead of the whole list.")
   }
@@ -107,6 +118,7 @@ GSEA2dp<-function(x,ntop = 7,low.col="#78cfe5",hi.col="#ff6f81",...){
     df <-x@enriched_result
   })
   df$NES<-ifelse(df$Reg=="UpReg",df$absNES*(1),df$absNES*(-1))
+  df$Description<-shorten_labels_words(df$Description,max_length = max_len_descript)
   px<-ggplot(df,aes(x = NES, y = fct_reorder(Description, absNES), fill=Padj))+geom_col()+scale_fill_continuous(low=low.col, high=hi.col, name = "adjustedP",guide=guide_colorbar(reverse=F))+scale_size(range=c(2, 8))+xlab("Normalize Enrichment Score(NES)")+ylab("Gene Sets")+facet_grid(Cluster~.,scales="free",space="free_y")+theme_bw()
   return(px)
 }

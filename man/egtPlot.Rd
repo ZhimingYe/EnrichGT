@@ -16,6 +16,8 @@ egtPlot(x, ...)
 \item{low.col}{the color for the lowest}
 
 \item{hi.col}{the color for the highest}
+
+\item{max_len_descript}{the label format length, default as 40.}
 }
 \value{
 a ggplot2 object
