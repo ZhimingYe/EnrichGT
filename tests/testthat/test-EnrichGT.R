@@ -45,8 +45,8 @@ test_that("EnrichGT creates four HTML files", {
                    pvalueCutoff = 0.05)
   obj1<-EnrichGT(ego, ClusterNum = 15, P.adj = 1,method = "average")
   obj2<-EnrichGT(ego, ClusterNum = 15, P.adj = 1)
-  objaa<-EnrichGT:::infering_regulator_act(obj2)
-  objab<-EnrichGT:::infering_regulator_act(obj2,DB = "progeny")
+  objaa<-EnrichGT:::egtInfer(obj2)
+  objab<-EnrichGT:::egtInfer(obj2,DB = "progeny")
   expect_true(dim(objaa@compareClusterResult)[1]>10,"tf infer is ok")
   expect_true(dim(objab@compareClusterResult)[1]>10,"act infer is ok")
   gene_up <- names(geneList)[(geneList) > 1]
