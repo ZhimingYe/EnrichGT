@@ -60,7 +60,7 @@ is_numeric_string <- function(x) {
   clusters<-clusters |> as.data.frame() |> tibble::rownames_to_column(var="ID")
   colnames(clusters)[2]<-"Cluster"
   clusters$Cluster<-paste0("Cluster_",clusters$Cluster)
-  return(list(`clusters`=clusters,`hc`=hc))
+  return(list(`clusters`=clusters,`hc`=hc,`dtm`=dtm))
 }
 
 
@@ -114,6 +114,34 @@ is_numeric_string <- function(x) {
     cli::cli_abort(paste0("cols: ",paste(vec[!vec%in%colnames(x)],sep = ", "), " not found!\n"))
   }
 }
+
+
+#' @importFrom umap umap
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 geom_point
+#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 theme_classic
+#' @importFrom ggrepel geom_text_repel
+.egtUMAP <- function(x){
+  mat<-x@document_term_matrix
+  umap_result <- umap::umap(mat)
+  umap_df <- data.frame(ID=rownames(umap_result[["layout"]]),
+                        UMAP1 = umap_result$layout[, 1],
+                        UMAP2 = umap_result$layout[, 2])
+  udf<-x@enriched_result |> left_join(umap_df,by="ID")
+  fig<-ggplot(udf, aes(x = UMAP1, y = UMAP2, color = Cluster)) +
+    geom_point(size = 2) +
+    geom_text_repel(aes(label = Description),
+                    size = 3,
+                    max.overlaps = 20,
+                    box.padding = 0.3,
+                    point.padding = 0.2) +
+    labs(title = "Enrichment Results",
+         x = "UMAP1", y = "UMAP2") +
+    theme_classic()
+  return(fig)
+}
+
 cocol <- function(n,favor=1,returnColor=F) {
   if(favor == 3){
     colorSpace <- c('#E41A1C','#377EB8','#4DAF4A','#984EA3','#F29403','#F781BF','#BC9DCC','#A65628','#54B0E4','#222F75','#1B9E77','#B2DF8A',

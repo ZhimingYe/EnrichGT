@@ -1,7 +1,7 @@
 Type: Package
 Package: EnrichGT
 Title: Parse and cluster biological enrichment result to great tables
-Version: 0.3.1
+Version: 0.3.2
 Author: Zhiming Ye
 Maintainer: Zhiming Ye <garnetcrow@hotmail.com>
 Description: Parse and cluster biological enrichment result to great
@@ -15,8 +15,9 @@ Imports:
     cli,
     dplyr,
     fontawesome,
-    forcats,
     ggplot2,
+    ggrepel,
+    forcats,
     glue,
     grDevices,
     gt,
@@ -27,12 +28,15 @@ Imports:
     scales,
     stringr,
     text2vec,
-    tibble
+    tibble,
+    umap
 Suggests: 
     aPEAR,
     clusterProfiler,
     enrichplot,
     ReactomePA,
+    aPEAR,
+    enrichplot,
     knitr,
     org.Hs.eg.db,
     rmarkdown,

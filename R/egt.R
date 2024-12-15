@@ -81,7 +81,7 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   obj3 <-obj2 |> genMetaGM(type="ORA")
   obj3_1 <- obj3[[1]]
   obj3_2 <- obj3[[2]]
-  objA <- new.egt(obj2,obj0,obj3_1,obj3_2,clsObj[[2]],InnerDF_raw)
+  objA <- new.egt(obj2,obj0,obj3_1,obj3_2,clsObj[[3]],clsObj[[2]],InnerDF_raw)
   return(objA)
 }
 
@@ -114,7 +114,7 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   obj3 <-obj2 |> genMetaGM(type="GSEA")
   obj3_1 <- obj3[[1]]
   obj3_2 <- obj3[[2]]
-  objA <- new.egt(obj2,obj0,obj3_1,obj3_2,clsObj[[2]],InnerDF_raw)
+  objA <- new.egt(obj2,obj0,obj3_1,obj3_2,clsObj[[3]],clsObj[[2]],InnerDF_raw)
   return(objA)
 }
 # attachment::att_amend_desc()
