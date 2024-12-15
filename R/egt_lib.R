@@ -115,15 +115,32 @@ is_numeric_string <- function(x) {
     cli::cli_abort(paste0("cols: ",paste(vec[!vec%in%colnames(x)],sep = ", "), " not found!\n"))
   }
 }
+
+
+
+
+#' @importFrom umap umap
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 geom_point
+#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 theme_classic
+#' @importFrom ggrepel geom_text_repel
 .egtUMAP <- function(x){
   mat<-x@document_term_matrix
   umap_result <- umap::umap(mat)
-  umap_df <- data.frame(UMAP1 = umap_result$layout[, 1],
-                        UMAP2 = umap_result$layout[, 2],
-                        Cluster = as.factor(clusters))
-  ggplot(umap_df, aes(x = UMAP1, y = UMAP2, color = Cluster)) +
+  umap_df <- data.frame(ID=rownames(umap_result[["layout"]]),
+                        UMAP1 = umap_result$layout[, 1],
+                        UMAP2 = umap_result$layout[, 2])
+  udf<-x@enriched_result |> left_join(umap_df,by="ID")
+  fig<-ggplot(udf, aes(x = UMAP1, y = UMAP2, color = Cluster)) +
     geom_point(size = 2) +
-    labs(title = "UMAP Visualization with Hierarchical Clustering",
+    geom_text_repel(aes(label = Description),
+                    size = 3,
+                    max.overlaps = 20,
+                    box.padding = 0.3,
+                    point.padding = 0.2) +
+    labs(title = "Enrichment Results",
          x = "UMAP1", y = "UMAP2") +
-    theme_minimal()
+    theme_classic()
+  return(fig)
 }
