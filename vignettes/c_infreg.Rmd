@@ -26,7 +26,7 @@ This is inspired from Saez-Rodriguez Lab's `decoupleR` package, <https://saezlab
 
 [CollecTRI](https://github.com/saezlab/CollecTRI) is a comprehensive resource containing a curated collection of TFs and their transcriptional targets compiled from 12 different resources. This collection provides an increased coverage of transcription factors and a superior performance in identifying perturbed TFs compared to our previous.
 
-See `EnrichGT::infering_regulator_act()` for help.
+See `EnrichGT::egtInfer()` for help.
 
 # You should setReadable first
 
@@ -66,16 +66,16 @@ enrichGT_obj <- ego |> EnrichGT()
 ## Pathway Infering
 
 ```{r}
-pw_res<-enrichGT_obj |> infering_regulator_act(DB = "progeny", species = "human")
-enrichplot::dotplot(pw_res)
+pw_res<-enrichGT_obj |> egtInfer(DB = "progeny", species = "human")
+enrichplot::cnetplot(pw_res)
 ```
 
 
 ## TF activity infering
 
 ```{r}
-tf_res<-enrichGT_obj |> infering_regulator_act(DB = "collectri", species = "human")
-enrichplot::dotplot(tf_res)
+tf_res<-enrichGT_obj |> egtInfer(DB = "collectri", species = "human")
+enrichplot::cnetplot(tf_res)
 ```
 
 

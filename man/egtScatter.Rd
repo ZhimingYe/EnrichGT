@@ -2,8 +2,7 @@
 % Please edit documentation in R/figures.R
 \name{egtScatter}
 \alias{egtScatter}
-\title{Visualize results generated form `EnrichGT()` using UMAP
-A word frequency matrix represents the frequency of words or tokens across different documents or text samples. Each row corresponds to a document, and each column represents a word or token, with the cell values indicating the frequency of the respective word in that document.However, high-dimensional data like word frequency matrices can be challenging to interpret directly. To make such data easier to analyze, we can reduce its dimensionality and visualize the patterns or clusters in a 2D or 3D space. UMAP (Uniform Manifold Approximation and Projection) is a powerful, non-linear dimensionality reduction technique widely used for this purpose.}
+\title{Visualize results generated form `EnrichGT()` using UMAP}
 \usage{
 egtScatter(x, ...)
 }
@@ -16,7 +15,6 @@ egtScatter(x, ...)
 a ggplot2 object
 }
 \description{
-Visualize results generated form `EnrichGT()` using UMAP
 A word frequency matrix represents the frequency of words or tokens across different documents or text samples. Each row corresponds to a document, and each column represents a word or token, with the cell values indicating the frequency of the respective word in that document.However, high-dimensional data like word frequency matrices can be challenging to interpret directly. To make such data easier to analyze, we can reduce its dimensionality and visualize the patterns or clusters in a 2D or 3D space. UMAP (Uniform Manifold Approximation and Projection) is a powerful, non-linear dimensionality reduction technique widely used for this purpose.
 }
 \author{

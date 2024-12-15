@@ -1,3 +1,13 @@
+## EnrichGT 0.3.9
+
+### Package major update
+
+-   add `egtPlot()` and `egtScatter()` for visualization
+
+-   rename `infering_regulator_act()` to `egtInfer()`
+
+
+
 ## EnrichGT 0.2.9
 
 ### Package major update

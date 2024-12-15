@@ -1,4 +1,6 @@
 #' Visualize results generated form `EnrichGT()` using simple plot
+#'
+#' @description
 #' This plot is the most widely like `enrichplot::dotplot()`used method to visualize enriched terms. It shows the enrichment scores (e.g. p values) and gene ratio or NES as dot size and color / or bar height. Users can specify the number of terms using `ntop` or selected terms to color via the `low.col` and `hi.col`.
 #' @param x an EnrichGT object
 #' @param ntop Show top N in each cluster
@@ -43,6 +45,8 @@ egtPlot <- function(x,...){
 
 
 #' Visualize results generated form `EnrichGT()` using UMAP
+#'
+#' @description
 #' A word frequency matrix represents the frequency of words or tokens across different documents or text samples. Each row corresponds to a document, and each column represents a word or token, with the cell values indicating the frequency of the respective word in that document.However, high-dimensional data like word frequency matrices can be challenging to interpret directly. To make such data easier to analyze, we can reduce its dimensionality and visualize the patterns or clusters in a 2D or 3D space. UMAP (Uniform Manifold Approximation and Projection) is a powerful, non-linear dimensionality reduction technique widely used for this purpose.
 #'
 #' @param x an EnrichGT object

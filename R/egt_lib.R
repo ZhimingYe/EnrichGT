@@ -45,8 +45,8 @@ is_numeric_string <- function(x) {
 #' @importFrom text2vec create_dtm
 #' @importFrom proxy dist
 .enrichpws<-function(ID,geneID,k,method,sep="/"){
-  cli::cli_blockquote("Package `text2vec` loading...")
-  suppressPackageStartupMessages(require(text2vec))
+  # cli::cli_blockquote("Package `text2vec` loading...")
+  # suppressPackageStartupMessages(require(text2vec))
   tokens_list <- strsplit(geneID,sep)
   if(sum(is_numeric_string(unlist(tokens_list)))>length(unlist(tokens_list))*0.5){
     message_egt("Please run setReadable first!")

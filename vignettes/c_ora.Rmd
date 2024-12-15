@@ -118,6 +118,20 @@ obj1<-res0|> EnrichGT(P.adj = 0.2,ClusterNum = 10,nTop = 10)
 obj@gt_object
 ```
 
+# Visualize
+
+## Dot Plot
+
+```{r fig.height=9, fig.width=7}
+egtPlot(obj)
+```
+
+## UMAP visualization
+
+```{r fig.height=7, fig.width=7}
+egtScatter(obj)
+```
+
 # Session info
 
 ```{r}

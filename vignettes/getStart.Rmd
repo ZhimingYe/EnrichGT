@@ -61,6 +61,20 @@ obj@gt_object
 
 For further guidance, see other `Articles`.  
 
+# Visualize
+
+## Dot Plot
+
+```{r fig.height=9, fig.width=7}
+egtPlot(obj)
+```
+
+## UMAP visualization
+
+```{r fig.height=7, fig.width=7}
+egtScatter(obj)
+```
+
 # Session info
 
 ```{r}

@@ -56,6 +56,21 @@ ego3<-ego3 |> setReadable(OrgDb = org.Hs.eg.db,keyType = "ENTREZID")
 (EnrichGT(ego3, ClusterNum = 100, P.adj = 1)@gt_object)
 ```
 
+# Visualize
+
+## Dot Plot
+
+```{r fig.height=9, fig.width=7}
+obj<-EnrichGT(ego3, ClusterNum = 100, P.adj = 1)
+egtPlot(obj)
+```
+
+## UMAP visualization
+
+```{r fig.height=7, fig.width=7}
+egtScatter(obj)
+```
+
 # Session info
 
 ```{r}
