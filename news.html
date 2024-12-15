@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="index.html">EnrichGT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,17 +53,25 @@
 
 
 <div class="section level2">
-<h2 id="enrichgt-029">EnrichGT 0.2.9<a class="anchor" aria-label="anchor" href="#enrichgt-029"></a></h2>
+<h2 id="enrichgt-039">EnrichGT 0.3.9<a class="anchor" aria-label="anchor" href="#enrichgt-039"></a></h2>
 <div class="section level3">
 <h3 id="package-major-update">Package major update<a class="anchor" aria-label="anchor" href="#package-major-update"></a></h3>
-<ul><li><p><code><a href="reference/infering_regulator_act.html">infering_regulator_act()</a></code> to infer pathway or transcript factors activity from EnrichGT meta-gene modules.</p></li>
+<ul><li><p>add <code><a href="reference/egtPlot.html">egtPlot()</a></code> and <code><a href="reference/egtScatter.html">egtScatter()</a></code> for visualization</p></li>
+<li><p>rename <code>infering_regulator_act()</code> to <code><a href="reference/egtInfer.html">egtInfer()</a></code></p></li>
+</ul></div>
+</div>
+<div class="section level2">
+<h2 id="enrichgt-029">EnrichGT 0.2.9<a class="anchor" aria-label="anchor" href="#enrichgt-029"></a></h2>
+<div class="section level3">
+<h3 id="package-major-update-1">Package major update<a class="anchor" aria-label="anchor" href="#package-major-update-1"></a></h3>
+<ul><li><p><code>infering_regulator_act()</code> to infer pathway or transcript factors activity from EnrichGT meta-gene modules.</p></li>
 <li><p>This will be the end of new functions of <code>EnrichGT</code> package.</p></li>
 </ul></div>
 </div>
 <div class="section level2">
 <h2 id="enrichgt-028x">EnrichGT 0.2.8.x<a class="anchor" aria-label="anchor" href="#enrichgt-028x"></a></h2>
 <div class="section level3">
-<h3 id="package-major-update-1">Package major update<a class="anchor" aria-label="anchor" href="#package-major-update-1"></a></h3>
+<h3 id="package-major-update-2">Package major update<a class="anchor" aria-label="anchor" href="#package-major-update-2"></a></h3>
 <ul><li><p><code><a href="reference/EnrichGT.html">EnrichGT()</a></code> now supports changing <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust()</a></code> methods, like using ward.D, ward.D2, average …</p></li>
 <li><p><code>EnrichGT_obj</code> now contains a slot <code>clustering_tree</code> containg the cluster tree <code>hclust</code> object, for further analysing and drawing figures.</p></li>
 <li><p><code>EnrichGT_obj</code> now contains raw table. (0.2.8.5)</p></li>
@@ -77,14 +85,14 @@
 <div class="section level2">
 <h2 id="enrichgt-027">EnrichGT 0.2.7<a class="anchor" aria-label="anchor" href="#enrichgt-027"></a></h2>
 <div class="section level3">
-<h3 id="package-major-update-2">Package major update<a class="anchor" aria-label="anchor" href="#package-major-update-2"></a></h3>
+<h3 id="package-major-update-3">Package major update<a class="anchor" aria-label="anchor" href="#package-major-update-3"></a></h3>
 <ul><li>Add <code>CompareGT()</code> function (beta)</li>
 </ul></div>
 </div>
 <div class="section level2">
 <h2 id="enrichgt-025">EnrichGT 0.2.5<a class="anchor" aria-label="anchor" href="#enrichgt-025"></a></h2>
 <div class="section level3">
-<h3 id="package-major-update-3">Package major update<a class="anchor" aria-label="anchor" href="#package-major-update-3"></a></h3>
+<h3 id="package-major-update-4">Package major update<a class="anchor" aria-label="anchor" href="#package-major-update-4"></a></h3>
 <ul><li><p>Bug fix</p></li>
 <li><p><code><a href="reference/EnrichGT.html">EnrichGT()</a></code> supports a list containing multiple source enrichment results (e.g., GO and KEGG enrichment for a same DEG list), and fusing them. User can gain <a href="https://metascape.org/" class="external-link">Metascape like multi-DB enrichment</a> result by using the fusing function (See Articles).</p></li>
 </ul></div>
@@ -92,7 +100,7 @@
 <div class="section level2">
 <h2 id="enrichgt-020">EnrichGT 0.2.0<a class="anchor" aria-label="anchor" href="#enrichgt-020"></a></h2>
 <div class="section level3">
-<h3 id="package-major-update-4">Package major update<a class="anchor" aria-label="anchor" href="#package-major-update-4"></a></h3>
+<h3 id="package-major-update-5">Package major update<a class="anchor" aria-label="anchor" href="#package-major-update-5"></a></h3>
 <ul><li><p>Bug fix in generating results.</p></li>
 <li><p>Add <code>EnrichGT_obj</code> S4 object. It not only returns <code>gt</code> HTML tables, users can extract enriched tables, meta-gene modules, pathway modules in it.</p></li>
 </ul></div>
@@ -105,7 +113,7 @@
 <div class="section level2">
 <h2 id="enrichgt-017">EnrichGT 0.1.7<a class="anchor" aria-label="anchor" href="#enrichgt-017"></a></h2>
 <div class="section level3">
-<h3 id="package-major-update-5">Package major update<a class="anchor" aria-label="anchor" href="#package-major-update-5"></a></h3>
+<h3 id="package-major-update-6">Package major update<a class="anchor" aria-label="anchor" href="#package-major-update-6"></a></h3>
 <ul><li><p>add <code><a href="reference/doGO.html">doGO()</a></code>, <code><a href="reference/doKEGG.html">doKEGG()</a></code>, <code><a href="reference/doRA.html">doRA()</a></code> wrapper for ORA enrichment.</p></li>
 <li><p>add <code><a href="reference/BuildMultigroupDEGlist.html">BuildMultigroupDEGlist()</a></code> and <code><a href="reference/Ranked.GS.html">Ranked.GS()</a></code> for simplifying procedure of multi-group enrichment and <code>GSEA</code>.</p></li>
 </ul></div>
@@ -113,7 +121,7 @@
 <div class="section level2">
 <h2 id="enrichgt-012">EnrichGT 0.1.2<a class="anchor" aria-label="anchor" href="#enrichgt-012"></a></h2>
 <div class="section level3">
-<h3 id="package-major-update-6">Package major update<a class="anchor" aria-label="anchor" href="#package-major-update-6"></a></h3>
+<h3 id="package-major-update-7">Package major update<a class="anchor" aria-label="anchor" href="#package-major-update-7"></a></h3>
 <ul><li><p>Support GSEA results.</p></li>
 <li><p>Give up <code>ggplot2</code> figures in <code>gt</code> object for speed up. Though the result is much ugly than before :)</p></li>
 <li><p>Intelligent sensing the cluster numbers.</p></li>

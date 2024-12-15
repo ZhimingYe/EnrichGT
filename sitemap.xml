@@ -64,9 +64,15 @@
     <loc>https://zhimingye.github.io/EnrichGT/reference/doRA.html</loc>
   </url>
   <url>
-    <loc>https://zhimingye.github.io/EnrichGT/reference/index.html</loc>
+    <loc>https://zhimingye.github.io/EnrichGT/reference/egtInfer.html</loc>
   </url>
   <url>
-    <loc>https://zhimingye.github.io/EnrichGT/reference/infering_regulator_act.html</loc>
+    <loc>https://zhimingye.github.io/EnrichGT/reference/egtPlot.html</loc>
+  </url>
+  <url>
+    <loc>https://zhimingye.github.io/EnrichGT/reference/egtScatter.html</loc>
+  </url>
+  <url>
+    <loc>https://zhimingye.github.io/EnrichGT/reference/index.html</loc>
   </url>
 </urlset>

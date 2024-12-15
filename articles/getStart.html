@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">EnrichGT</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,6 +93,7 @@
 <span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
 <span><span class="co">#&gt; Loading required package: tibble</span></span>
 <span><span class="co">#&gt; Loading required package: gt</span></span>
+<span><span class="co">#&gt; Loading required package: Matrix</span></span>
 <span><span class="co">#&gt; Loading required package: cli</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">EnrichGT</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────</span></span></span>
@@ -120,33 +121,26 @@
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> =====[SUGGESTION]=====</span></span>
 <span><span class="co">#&gt; You are passing an object from GO Enrichment.</span></span>
 <span><span class="co">#&gt; Please ensure that `obj |&gt; clusterProfiler::simplify()` is executed, to pre-simplify result,</span></span>
-<span><span class="co">#&gt; For better enriched result.</span></span>
-<span><span class="co">#&gt; Loading required package: text2vec</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'text2vec'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:BiocGenerics':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     normalize</span></span></code></pre></div>
-<p><img src="getStart_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<span><span class="co">#&gt; For better enriched result.</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">obj</span><span class="op">@</span><span class="va">gt_object</span></span></code></pre></div>
-<div id="dbhdxhxnvf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#dbhdxhxnvf table {
+<div id="hgcpjwbxhb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hgcpjwbxhb table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#dbhdxhxnvf thead, #dbhdxhxnvf tbody, #dbhdxhxnvf tfoot, #dbhdxhxnvf tr, #dbhdxhxnvf td, #dbhdxhxnvf th {
+#hgcpjwbxhb thead, #hgcpjwbxhb tbody, #hgcpjwbxhb tfoot, #hgcpjwbxhb tr, #hgcpjwbxhb td, #hgcpjwbxhb th {
   border-style: none;
 }
 
-#dbhdxhxnvf p {
+#hgcpjwbxhb p {
   margin: 0;
   padding: 0;
 }
 
-#dbhdxhxnvf .gt_table {
+#hgcpjwbxhb .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -172,12 +166,12 @@
   border-left-color: #D3D3D3;
 }
 
-#dbhdxhxnvf .gt_caption {
+#hgcpjwbxhb .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#dbhdxhxnvf .gt_title {
+#hgcpjwbxhb .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -189,7 +183,7 @@
   border-bottom-width: 0;
 }
 
-#dbhdxhxnvf .gt_subtitle {
+#hgcpjwbxhb .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -201,7 +195,7 @@
   border-top-width: 0;
 }
 
-#dbhdxhxnvf .gt_heading {
+#hgcpjwbxhb .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -213,13 +207,13 @@
   border-right-color: #D3D3D3;
 }
 
-#dbhdxhxnvf .gt_bottom_border {
+#hgcpjwbxhb .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dbhdxhxnvf .gt_col_headings {
+#hgcpjwbxhb .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -234,7 +228,7 @@
   border-right-color: #D3D3D3;
 }
 
-#dbhdxhxnvf .gt_col_heading {
+#hgcpjwbxhb .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -254,7 +248,7 @@
   overflow-x: hidden;
 }
 
-#dbhdxhxnvf .gt_column_spanner_outer {
+#hgcpjwbxhb .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -266,15 +260,15 @@
   padding-right: 4px;
 }
 
-#dbhdxhxnvf .gt_column_spanner_outer:first-child {
+#hgcpjwbxhb .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dbhdxhxnvf .gt_column_spanner_outer:last-child {
+#hgcpjwbxhb .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dbhdxhxnvf .gt_column_spanner {
+#hgcpjwbxhb .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -286,11 +280,11 @@
   width: 100%;
 }
 
-#dbhdxhxnvf .gt_spanner_row {
+#hgcpjwbxhb .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#dbhdxhxnvf .gt_group_heading {
+#hgcpjwbxhb .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -316,7 +310,7 @@
   text-align: left;
 }
 
-#dbhdxhxnvf .gt_empty_group_heading {
+#hgcpjwbxhb .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -331,15 +325,15 @@
   vertical-align: middle;
 }
 
-#dbhdxhxnvf .gt_from_md > :first-child {
+#hgcpjwbxhb .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dbhdxhxnvf .gt_from_md > :last-child {
+#hgcpjwbxhb .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dbhdxhxnvf .gt_row {
+#hgcpjwbxhb .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -358,7 +352,7 @@
   overflow-x: hidden;
 }
 
-#dbhdxhxnvf .gt_stub {
+#hgcpjwbxhb .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -371,7 +365,7 @@
   padding-right: 5px;
 }
 
-#dbhdxhxnvf .gt_stub_row_group {
+#hgcpjwbxhb .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -385,15 +379,15 @@
   vertical-align: top;
 }
 
-#dbhdxhxnvf .gt_row_group_first td {
+#hgcpjwbxhb .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#dbhdxhxnvf .gt_row_group_first th {
+#hgcpjwbxhb .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#dbhdxhxnvf .gt_summary_row {
+#hgcpjwbxhb .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -403,16 +397,16 @@
   padding-right: 5px;
 }
 
-#dbhdxhxnvf .gt_first_summary_row {
+#hgcpjwbxhb .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#dbhdxhxnvf .gt_first_summary_row.thick {
+#hgcpjwbxhb .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#dbhdxhxnvf .gt_last_summary_row {
+#hgcpjwbxhb .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -422,7 +416,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#dbhdxhxnvf .gt_grand_summary_row {
+#hgcpjwbxhb .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -432,7 +426,7 @@
   padding-right: 5px;
 }
 
-#dbhdxhxnvf .gt_first_grand_summary_row {
+#hgcpjwbxhb .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -442,7 +436,7 @@
   border-top-color: #D3D3D3;
 }
 
-#dbhdxhxnvf .gt_last_grand_summary_row_top {
+#hgcpjwbxhb .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -452,11 +446,11 @@
   border-bottom-color: #D3D3D3;
 }
 
-#dbhdxhxnvf .gt_striped {
+#hgcpjwbxhb .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dbhdxhxnvf .gt_table_body {
+#hgcpjwbxhb .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -465,7 +459,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#dbhdxhxnvf .gt_footnotes {
+#hgcpjwbxhb .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -479,7 +473,7 @@
   border-right-color: #D3D3D3;
 }
 
-#dbhdxhxnvf .gt_footnote {
+#hgcpjwbxhb .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -488,7 +482,7 @@
   padding-right: 5px;
 }
 
-#dbhdxhxnvf .gt_sourcenotes {
+#hgcpjwbxhb .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -502,7 +496,7 @@
   border-right-color: #D3D3D3;
 }
 
-#dbhdxhxnvf .gt_sourcenote {
+#hgcpjwbxhb .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -510,72 +504,72 @@
   padding-right: 5px;
 }
 
-#dbhdxhxnvf .gt_left {
+#hgcpjwbxhb .gt_left {
   text-align: left;
 }
 
-#dbhdxhxnvf .gt_center {
+#hgcpjwbxhb .gt_center {
   text-align: center;
 }
 
-#dbhdxhxnvf .gt_right {
+#hgcpjwbxhb .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dbhdxhxnvf .gt_font_normal {
+#hgcpjwbxhb .gt_font_normal {
   font-weight: normal;
 }
 
-#dbhdxhxnvf .gt_font_bold {
+#hgcpjwbxhb .gt_font_bold {
   font-weight: bold;
 }
 
-#dbhdxhxnvf .gt_font_italic {
+#hgcpjwbxhb .gt_font_italic {
   font-style: italic;
 }
 
-#dbhdxhxnvf .gt_super {
+#hgcpjwbxhb .gt_super {
   font-size: 65%;
 }
 
-#dbhdxhxnvf .gt_footnote_marks {
+#hgcpjwbxhb .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#dbhdxhxnvf .gt_asterisk {
+#hgcpjwbxhb .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#dbhdxhxnvf .gt_indent_1 {
+#hgcpjwbxhb .gt_indent_1 {
   text-indent: 5px;
 }
 
-#dbhdxhxnvf .gt_indent_2 {
+#hgcpjwbxhb .gt_indent_2 {
   text-indent: 10px;
 }
 
-#dbhdxhxnvf .gt_indent_3 {
+#hgcpjwbxhb .gt_indent_3 {
   text-indent: 15px;
 }
 
-#dbhdxhxnvf .gt_indent_4 {
+#hgcpjwbxhb .gt_indent_4 {
   text-indent: 20px;
 }
 
-#dbhdxhxnvf .gt_indent_5 {
+#hgcpjwbxhb .gt_indent_5 {
   text-indent: 25px;
 }
 
-#dbhdxhxnvf .katex-display {
+#hgcpjwbxhb .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#dbhdxhxnvf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#hgcpjwbxhb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -948,10 +942,28 @@
 </div>
 </div>
 <div class="section level2">
+<h2 id="visualize">Visualize<a class="anchor" aria-label="anchor" href="#visualize"></a>
+</h2>
+<div class="section level3">
+<h3 id="dot-plot">Dot Plot<a class="anchor" aria-label="anchor" href="#dot-plot"></a>
+</h3>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/egtPlot.html">egtPlot</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></code></pre></div>
+<p><img src="getStart_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+</div>
+<div class="section level3">
+<h3 id="umap-visualization">UMAP visualization<a class="anchor" aria-label="anchor" href="#umap-visualization"></a>
+</h3>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/egtScatter.html">egtScatter</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></code></pre></div>
+<p><img src="getStart_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
+</div>
+</div>
+<div class="section level2">
 <h2 id="session-info">Session info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">sessioninfo</span><span class="fu">::</span><span class="fu"><a href="https://r-lib.github.io/sessioninfo/reference/session_info.html" class="external-link">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">sessioninfo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sessioninfo/man/session_info.html" class="external-link">session_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span></span>
 <span><span class="co">#&gt;  version  R version 4.3.3 (2024-02-29)</span></span>
@@ -962,14 +974,15 @@
 <span><span class="co">#&gt;  collate  en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  ctype    en_US.UTF-8</span></span>
 <span><span class="co">#&gt;  tz       Asia/Shanghai</span></span>
-<span><span class="co">#&gt;  date     2024-10-12</span></span>
-<span><span class="co">#&gt;  pandoc   3.1.11 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/ (via rmarkdown)</span></span>
+<span><span class="co">#&gt;  date     2024-12-15</span></span>
+<span><span class="co">#&gt;  pandoc   3.2 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/aarch64/ (via rmarkdown)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Packages ───────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">package         </span> <span style="color: #555555; font-style: italic;">*</span> <span style="color: #555555; font-style: italic;">version   </span> <span style="color: #555555; font-style: italic;">date (UTC)</span> <span style="color: #555555; font-style: italic;">lib</span> <span style="color: #555555; font-style: italic;">source</span></span></span>
 <span><span class="co">#&gt;  AnnotationDbi    * 1.64.1     <span style="color: #555555;">2023-11-02</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  ape                5.7-1      <span style="color: #555555;">2023-03-13</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  aplot              0.2.2      <span style="color: #555555;">2023-10-06</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
+<span><span class="co">#&gt;  askpass            1.2.0      <span style="color: #555555;">2023-09-03</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  Biobase          * 2.62.0     <span style="color: #555555;">2023-10-26</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  BiocGenerics     * 0.48.1     <span style="color: #555555;">2023-11-02</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  BiocParallel       1.36.0     <span style="color: #555555;">2023-10-26</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
@@ -992,7 +1005,7 @@
 <span><span class="co">#&gt;  digest             0.6.35     <span style="color: #555555;">2024-03-11</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  DOSE               3.28.2     <span style="color: #555555;">2023-12-12</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor 3.18 (R 4.3.2)</span></span></span>
 <span><span class="co">#&gt;  dplyr            * 1.1.4      <span style="color: #555555;">2023-11-17</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
-<span><span class="co">#&gt;  EnrichGT         * 0.2.8.5    <span style="color: #555555;">2024-10-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
+<span><span class="co">#&gt;  EnrichGT         * 0.3.9      <span style="color: #555555;">2024-12-15</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">local</span></span></span>
 <span><span class="co">#&gt;  enrichplot         1.22.0     <span style="color: #555555;">2023-11-06</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  evaluate           0.23       <span style="color: #555555;">2023-11-01</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  fansi              1.0.6      <span style="color: #555555;">2023-12-08</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
@@ -1025,7 +1038,7 @@
 <span><span class="co">#&gt;  HDO.db             0.99.1     <span style="color: #555555;">2024-03-18</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  highr              0.10       <span style="color: #555555;">2022-12-22</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  hms                1.1.3      <span style="color: #555555;">2023-03-21</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
-<span><span class="co">#&gt;  htmltools          0.5.7      <span style="color: #555555;">2023-11-03</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
+<span><span class="co">#&gt;  htmltools          0.5.8.1    <span style="color: #555555;">2024-04-04</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  httr               1.4.7      <span style="color: #555555;">2023-08-15</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  igraph             2.0.3      <span style="color: #555555;">2024-03-13</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  IRanges          * 2.36.0     <span style="color: #555555;">2023-10-26</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
@@ -1033,6 +1046,7 @@
 <span><span class="co">#&gt;  jsonlite           1.8.8      <span style="color: #555555;">2023-12-04</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  KEGGREST           1.42.0     <span style="color: #555555;">2023-10-26</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  knitr              1.45       <span style="color: #555555;">2023-10-30</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
+<span><span class="co">#&gt;  labeling           0.4.3      <span style="color: #555555;">2023-08-29</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  lattice            0.22-5     <span style="color: #555555;">2023-10-24</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.3)</span></span></span>
 <span><span class="co">#&gt;  lazyeval           0.2.2      <span style="color: #555555;">2019-03-15</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  lgr                0.4.4      <span style="color: #555555;">2022-09-05</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
@@ -1040,11 +1054,12 @@
 <span><span class="co">#&gt;  lubridate        * 1.9.3      <span style="color: #555555;">2023-09-27</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  magrittr           2.0.3      <span style="color: #555555;">2022-03-30</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  MASS               7.3-60.0.1 <span style="color: #555555;">2024-01-13</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.3)</span></span></span>
-<span><span class="co">#&gt;  Matrix             1.6-5      <span style="color: #555555;">2024-01-11</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.3)</span></span></span>
+<span><span class="co">#&gt;  Matrix           * 1.6-5      <span style="color: #555555;">2024-01-11</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.3)</span></span></span>
 <span><span class="co">#&gt;  memoise            2.0.1      <span style="color: #555555;">2021-11-26</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  mlapi              0.1.1      <span style="color: #555555;">2022-04-24</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  munsell            0.5.0      <span style="color: #555555;">2018-06-12</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  nlme               3.1-164    <span style="color: #555555;">2023-11-27</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.3)</span></span></span>
+<span><span class="co">#&gt;  openssl            2.1.1      <span style="color: #555555;">2023-09-25</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  org.Hs.eg.db     * 3.18.0     <span style="color: #555555;">2024-03-18</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  patchwork          1.2.0      <span style="color: #555555;">2024-01-08</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  pillar             1.9.0      <span style="color: #555555;">2023-03-22</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
@@ -1063,10 +1078,12 @@
 <span><span class="co">#&gt;  RCurl              1.98-1.14  <span style="color: #555555;">2024-01-09</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  readr            * 2.1.5      <span style="color: #555555;">2024-01-10</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  reshape2           1.4.4      <span style="color: #555555;">2020-04-09</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
+<span><span class="co">#&gt;  reticulate         1.35.0     <span style="color: #555555;">2024-01-31</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  RhpcBLASctl        0.23-42    <span style="color: #555555;">2023-02-11</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  rlang              1.1.3      <span style="color: #555555;">2024-01-10</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  rmarkdown          2.26       <span style="color: #555555;">2024-03-05</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  rsparse            0.5.2      <span style="color: #555555;">2024-06-28</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.3)</span></span></span>
+<span><span class="co">#&gt;  RSpectra           0.16-1     <span style="color: #555555;">2022-04-24</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  RSQLite            2.3.5      <span style="color: #555555;">2024-01-21</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  rstudioapi         0.15.0     <span style="color: #555555;">2023-07-07</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  S4Vectors        * 0.40.2     <span style="color: #555555;">2023-11-25</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor 3.18 (R 4.3.2)</span></span></span>
@@ -1078,7 +1095,7 @@
 <span><span class="co">#&gt;  stringi            1.8.3      <span style="color: #555555;">2023-12-11</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  stringr          * 1.5.1      <span style="color: #555555;">2023-11-14</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  systemfonts        1.1.0      <span style="color: #555555;">2024-05-15</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.3)</span></span></span>
-<span><span class="co">#&gt;  text2vec         * 0.6.4      <span style="color: #555555;">2023-11-09</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
+<span><span class="co">#&gt;  text2vec           0.6.4      <span style="color: #555555;">2023-11-09</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  textshaping        0.3.7      <span style="color: #555555;">2023-10-09</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  tibble           * 3.2.1      <span style="color: #555555;">2023-03-20</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  tidygraph          1.3.1      <span style="color: #555555;">2024-01-30</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
@@ -1090,12 +1107,13 @@
 <span><span class="co">#&gt;  treeio             1.26.0     <span style="color: #555555;">2023-11-06</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  tweenr             2.0.3      <span style="color: #555555;">2024-02-26</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  tzdb               0.4.0      <span style="color: #555555;">2023-05-12</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
+<span><span class="co">#&gt;  umap               0.2.10.0   <span style="color: #555555;">2023-02-01</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  utf8               1.2.4      <span style="color: #555555;">2023-10-22</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  vctrs              0.6.5      <span style="color: #555555;">2023-12-01</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  viridis            0.6.5      <span style="color: #555555;">2024-01-29</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  viridisLite        0.4.2      <span style="color: #555555;">2023-05-02</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.0)</span></span></span>
 <span><span class="co">#&gt;  withr              3.0.0      <span style="color: #555555;">2024-01-16</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
-<span><span class="co">#&gt;  xfun               0.42       <span style="color: #555555;">2024-02-08</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
+<span><span class="co">#&gt;  xfun               0.49.10    <span style="color: #555555;">2024-12-12</span> <span style="color: #555555;">[1]</span> <span style="color: #BB00BB; font-weight: bold;">https://yihui.r-universe.dev (R 4.3.3)</span></span></span>
 <span><span class="co">#&gt;  xml2               1.3.6      <span style="color: #555555;">2023-12-04</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>
 <span><span class="co">#&gt;  XVector            0.42.0     <span style="color: #555555;">2023-10-26</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">Bioconductor</span></span></span>
 <span><span class="co">#&gt;  yaml               2.3.8      <span style="color: #555555;">2023-12-11</span> <span style="color: #555555;">[1]</span> <span style="color: #555555;">CRAN (R 4.3.1)</span></span></span>

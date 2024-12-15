@@ -1,4 +1,4 @@
-pandoc: 3.1.11
+pandoc: '3.2'
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
@@ -10,7 +10,7 @@ articles:
   c_multi_grp: c_multi_grp.html
   c_ora: c_ora.html
   getStart: getStart.html
-last_built: 2024-10-12T07:44Z
+last_built: 2024-12-15T05:10Z
 urls:
   reference: https://zhimingye.github.io/EnrichGT/reference
   article: https://zhimingye.github.io/EnrichGT/articles
