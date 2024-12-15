@@ -64,6 +64,9 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   clsObj<-.enrichpws(InnerDF$ID,InnerDF$geneID,ClusterNum,method)
   suppressMessages({InnerDF<-InnerDF |> dplyr::left_join(clsObj[[1]])}) # Merge according to "ID"
   InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::select(ID,Description,GeneRatio,`p.adjust`,geneID,Cluster,Count) # Need Fix
+  if(nrow(InnerDF)<2){
+    cli::cli_abort("No useable enriched result, because each term candidated genes is too low. E.g. only 3 genes take part in a pathway.")
+  }
   InnerDF_raw<-InnerDF
   .checkNrows(InnerDF,force = force)
   obj<-InnerDF |>
@@ -96,6 +99,9 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   clsObj<-.enrichpws(InnerDF$ID,InnerDF$core_enrichment,ClusterNum,method)
   suppressMessages({InnerDF<-InnerDF |> dplyr::left_join(clsObj[[1]])}) # Merge according to "ID"
   InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,abs(NES)>=0.9,p.adjust<P.adj) |> dplyr::select(ID,Description,NES,`p.adjust`,Cluster,core_enrichment) # Need Fix
+  if(nrow(InnerDF)<2){
+    cli::cli_abort("No useable enriched result, because each term candidated genes is too low. E.g. only 3 genes take part in a pathway.")
+  }
   InnerDF_raw<-InnerDF
   .checkNrows(InnerDF,force = force)
   obj<-InnerDF |>
