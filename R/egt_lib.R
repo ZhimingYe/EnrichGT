@@ -38,6 +38,12 @@ genMetaGM<-function(x,type){
 is_numeric_string <- function(x) {
   grepl("^-?\\d+(\\.\\d+)?$", x)
 }
+
+#' @importFrom text2vec itoken
+#' @importFrom text2vec create_vocabulary
+#' @importFrom text2vec vocab_vectorizer
+#' @importFrom text2vec create_dtm
+#' @importFrom proxy dist
 .enrichpws<-function(ID,geneID,k,method,sep="/"){
   cli::cli_blockquote("Package `text2vec` loading...")
   suppressPackageStartupMessages(require(text2vec))

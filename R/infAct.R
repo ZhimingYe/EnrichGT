@@ -12,6 +12,7 @@
 #'
 #' @return a `compareCluster` result from `clusterProfiler`
 #' @export
+#' @importFrom stringr str_to_title
 #' @author Zhiming Ye, Saez-Rodriguez Lab (The decoupleR package, https://saezlab.github.io/decoupleR/)
 #'
 egtInfer <- function(x,DB="collectri",species="human"){
@@ -40,7 +41,7 @@ dbParser<-function(DB,species){
   else if(type=="2"){
     data("pws_mouse")
     tdb0<-pws_mouse |> dplyr::filter(p_value<0.1) |> dplyr::mutate(Direction=ifelse(weight>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
-    tdb0$target<-stringr::str_to_title(tdb0$target)
+    tdb0$target <- str_to_title(tdb0$target)
   }
   else if(type=="3"){
     data("TF_human")
@@ -49,7 +50,7 @@ dbParser<-function(DB,species){
   else{
     data("TF_mouse")
     tdb0<-TF_mouse |> dplyr::mutate(Direction=ifelse(mor>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
-    tdb0$target<-stringr::str_to_title(tdb0$target)
+    tdb0$target <- str_to_title(tdb0$target)
   }
   return(tdb0)
 }

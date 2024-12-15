@@ -2,14 +2,15 @@
 % Please edit documentation in R/figures.R
 \name{egtPlot}
 \alias{egtPlot}
-\title{Visualize results generated form `EnrichGT()` using ggplot2}
+\title{Visualize results generated form `EnrichGT()` using simple plot
+This plot is the most widely like `enrichplot::dotplot()`used method to visualize enriched terms. It shows the enrichment scores (e.g. p values) and gene ratio or NES as dot size and color / or bar height. Users can specify the number of terms using `ntop` or selected terms to color via the `low.col` and `hi.col`.}
 \usage{
 egtPlot(x, ...)
 }
 \arguments{
 \item{x}{an EnrichGT object}
 
-\item{...}{}
+\item{...}{Other param}
 
 \item{ntop}{Show top N in each cluster}
 
@@ -21,7 +22,8 @@ egtPlot(x, ...)
 a ggplot2 object
 }
 \description{
-Visualize results generated form `EnrichGT()` using ggplot2
+Visualize results generated form `EnrichGT()` using simple plot
+This plot is the most widely like `enrichplot::dotplot()`used method to visualize enriched terms. It shows the enrichment scores (e.g. p values) and gene ratio or NES as dot size and color / or bar height. Users can specify the number of terms using `ntop` or selected terms to color via the `low.col` and `hi.col`.
 }
 \author{
 Zhiming Ye
