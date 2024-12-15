@@ -17,8 +17,11 @@ Imports:
     fontawesome,
     ggplot2,
     ggrepel,
+    forcats,
     glue,
+    grDevices,
     gt,
+    methods,
     proxy,
     RColorBrewer,
     rlang,
@@ -28,7 +31,9 @@ Imports:
     tibble,
     umap
 Suggests: 
+    aPEAR,
     clusterProfiler,
+    enrichplot,
     ReactomePA,
     aPEAR,
     enrichplot,
