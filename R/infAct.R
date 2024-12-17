@@ -19,8 +19,7 @@ egtInfer <- function(x,DB="collectri",species="human"){
   genelist <- tryCatch(x@gene_modules,error=function(e){
     cli::cli_abort("NOT an enrichGT object. ")
   })
-  if(!require("clusterProfiler")){cli::cli_abort("Please install clusterProfiler form BioCondutor. ")}
-  InferedCpres <- clusterProfiler::compareCluster(geneCluster = genelist, fun = clusterProfiler::enricher,pvalueCutoff = 1 ,qvalueCutoff = 1 ,minGSSize=2,TERM2GENE=(dbParser(DB,species)))
+  InferedCpres <- doEnrich(genelist,p_val_cut_off = 1 ,min_geneset_size=2,max_geneset_size=1000,database=(dbParser(DB,species)))
   return(InferedCpres)
 }
 

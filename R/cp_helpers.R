@@ -11,8 +11,8 @@
 #'
 Ranked.GS<-function(Gene,log2FC,FromType = "SYMBOL",OrgDB=org.Hs.eg.db){
   Genetable<-data.frame(Gene=Gene,log2FC=log2FC)
-  require(clusterProfiler)
-  ENTREZIDtable<-clusterProfiler::bitr(Genetable$Gene,fromType = FromType,toType = "ENTREZID",OrgDb = OrgDB)
+  # require(clusterProfiler)
+  # ENTREZIDtable<-clusterProfiler::bitr(Genetable$Gene,fromType = FromType,toType = "ENTREZID",OrgDb = OrgDB)
   colnames(ENTREZIDtable)[1]<-"Gene"
   Genetable<-Genetable|>dplyr::left_join(ENTREZIDtable)|>dplyr::arrange(desc(log2FC))
   GSElist<-as.numeric(Genetable$log2FC)
@@ -57,6 +57,7 @@ getGMTFile <- function (gmtfile) {
 #' @param background_genes background genes. If missing, the all genes listed in the database
 #' @param min_geneset_size minimal size of genes annotated for testing
 #' @param max_geneset_size maximal size of genes annotated for testing
+#' @param multi_cores multi_cores
 #'
 #' @returns
 #' @export
@@ -87,7 +88,22 @@ doEnrich <- function(genes,database,p_adj_methods="BH",p_val_cut_off=0.5,backgro
   return(result)
 }
 
-
+#' GSEA analysis by EnrichGT
+#' @description
+#' A warpper of fgsea::fgsea
+#'
+#' @param genes a vector of gene id
+#' @param database a database
+#' @param p_adj_methods one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
+#' @param p_val_cut_off adjusted pvalue cutoff on enrichment tests to report
+#' @param background_genes background genes. If missing, the all genes listed in the database
+#' @param min_geneset_size minimal size of genes annotated for testing
+#' @param max_geneset_size maximal size of genes annotated for testing
+#' @param multi_cores multi_cores
+#'
+#' @returns
+#' @export
+#' @examples
 doGSEA <- function(genes,database,min_geneset_size=10,max_geneset_size=500,gseaParam=1){
   tryCatch({
     if(ncol(database)!=2&ncol(database)!=3){
