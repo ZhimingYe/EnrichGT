@@ -81,6 +81,11 @@ doEnrich <- function(genes,database,p_adj_methods="BH",p_val_cut_off=0.5,backgro
       })
     },mc.cores = multi_cores)
   }
+  tryCatch({
+    result <- result |> dplyr::filter(pvalue<p_val_cut_off)
+  },error=function(e){
+    cli::cli_abort("No useable result! ")
+  })
   return(result)
 }
 
@@ -112,7 +117,7 @@ doGSEA <- function(genes,database,min_geneset_size=10,max_geneset_size=500,gseaP
   }else{
     db0 <- data.frame(ID = database$term, term = database$term)
   }
-  db0 <- db0 |> dplyr::mutate(CheckDup = paste0(ID,term)) |> dplyr::filter(!duplicated(CheckDup)) |> dplyr::select(-CheckDup) |> dplyr::rename(TERMs = term)
+  db0 <- db0 |> dplyr::mutate(CheckDup = paste0(ID,term)) |> dplyr::filter(!duplicated(CheckDup)) |> dplyr::select(-CheckDup) |> dplyr::rename(pathway = term) # Because of output is pathway
   colnames(database) <- c("term", "gene")
   database2 <- split(database$gene,database$term)
   fgseaRes <- fgsea::fgsea(pathways = database2,
@@ -120,5 +125,18 @@ doGSEA <- function(genes,database,min_geneset_size=10,max_geneset_size=500,gseaP
                     minSize  = min_geneset_size,
                     maxSize  = max_geneset_size,
                     gseaParam=gseaParam)
-  return(fgseaRes)
+  fgseaRes <- fgseaRes |> left_join(db0,by="pathway")
+  fgseaRes2 <- data.frame(ID = fgseaRes$ID,
+                          Description = fgseaRes$pathway,
+                          ES = fgseaRes$ES
+                          NES = fgseaRes$NES,
+                          pvalue = fgseaRes$pval,
+                          p.adjust = fgseaRes$padj,
+                          core_enrichment = sapply(fgseaRes$leadingEdge,function(x)paste(x,collapse ="/")))
+  tryCatch({
+    fgseaRes2 <- fgseaRes2 |> dplyr::filter(pvalue<p_val_cut_off)
+  },error=function(e){
+    cli::cli_abort("No useable result! ")
+  })
+  return(fgseaRes2)
 }
