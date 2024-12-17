@@ -44,7 +44,7 @@
 #' @export
 #'
 #' @author Zhiming Ye
-EnrichGT<-function(x,ClusterNum=17,P.adj=0.05,force=F,nTop=10,method="ward.D2",...){
+egt_recluster_analysis<-function(x,ClusterNum=17,P.adj=0.05,force=F,nTop=10,method="ward.D2",...){
   objname<-deparse(substitute(x))
   if(objname=="."){
     objname<-"`Magrittr` pipe conveyed object"
