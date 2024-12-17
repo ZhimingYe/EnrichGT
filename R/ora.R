@@ -6,8 +6,10 @@ parse_gs<-function(gset){
   return(list(background_genes=0,gene_sets=gene_sets))
 }
 
-##' @importFrom qvalue qvalue
-##' @importFrom stats p.adjust
+#' @importFrom qvalue qvalue
+#' @importFrom stats p.adjust
+#' @useDynLib EnrichGT
+#' @importFrom Rcpp sourceCpp
 doEnrich_Internal <- function(genes,database,p_adj_methods,p_val_cut_off,background_genes,min_geneset_size,max_geneset_size){
   tryCatch({
     if(ncol(database)!=2&ncol(database)!=3){

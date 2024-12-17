@@ -1,7 +1,7 @@
 Type: Package
 Package: EnrichGT
 Title: Parse and cluster biological enrichment result to great tables
-Version: 0.4.2
+Version: 0.4.3
 Author: Zhiming Ye
 Maintainer: Zhiming Ye <garnetcrow@hotmail.com>
 Description: Parse and cluster biological enrichment result to great
@@ -30,6 +30,7 @@ Imports:
     proxy,
     qvalue,
     RColorBrewer,
+    Rcpp,
     reactome.db,
     rlang,
     scales,
