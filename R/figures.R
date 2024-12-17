@@ -34,7 +34,7 @@
 #' @importFrom methods is
 #' @importFrom forcats fct_reorder
 #' @author Zhiming Ye
-egtPlot <- function(x,...){
+egt_plot_results <- function(x,...){
   if(sum(colnames(x@enriched_result)=="absNES")==0){
     figure0<-ORA2dp(x,...)
   }else{
@@ -67,7 +67,7 @@ shorten_labels_words <- function(label, max_length = 40) {
 #' @export
 #'
 #' @author Zhiming Ye
-egtScatter <- function(x,...){
+egt_plot_umap <- function(x,...){
   px<-.egtUMAP(x,...)
   return(px)
 }

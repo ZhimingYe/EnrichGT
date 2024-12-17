@@ -74,7 +74,7 @@ setMethod("cpres_internal_getter", signature(x = "data.frame"),function(x,...){
 #' @export
 #'
 #' @author Zhiming Ye
-compareGT<-function(obj.test,obj.ctrl,name.test=NULL,name.ctrl=NULL,ClusterNum=15,P.adj=0.05,force=F,nTop=10,method="ward.D2",...){
+egt_compare_groups<-function(obj.test,obj.ctrl,name.test=NULL,name.ctrl=NULL,ClusterNum=15,P.adj=0.05,force=F,nTop=10,method="ward.D2",...){
   testdf<-cpres_internal_getter(obj.test)
   ctrldf<-cpres_internal_getter(obj.ctrl)
   overlapped <- testdf$ID[testdf$ID%in%ctrldf$ID]
