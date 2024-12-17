@@ -55,10 +55,12 @@ database_from_gmt <- function (gmtfile) {
 #' To accelerate the computation in ORA analysis, `EnrichGT` have implemented a function that leverages C++ for high-performance computation. The core algorithm utilizes hash tables for efficient lookup and counting of genes across categories. Also It provides multi-Core parallel calculation by package `parallel`.
 #'
 #' @usage res <- egt_enrichment_analysis(genes = DEGtable$Genes,
-#' database = database_GO_BP())
+#' database = database_GO_BP()) # Load database would be slow. You can preload it.
 #'
-#' @usage res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
-#' database = database_GO_ALL())
+#' @usage goAll <- database_GO_ALL()
+#'
+#' res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
+#' database = goAll) # When use a database many times, you can pre-load it like this.
 #'
 #' @usage res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
 #' database = database_from_gmt("MsigDB_Hallmark.gmt"))
@@ -120,7 +122,20 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
     },mc.cores = multi_cores)
   }
   tryCatch({
-    result <- result |> dplyr::filter(pvalue<p_val_cut_off)
+    if(is.data.frame(result)){
+      result <- result |> dplyr::filter(pvalue<p_val_cut_off) |> dplyr::arrange(pvalue)
+    }else if(is.list(result)){
+      result <- lapply(result,function(x){
+        if(is.data.frame(x)){
+          if(nrow(x)>1){
+            z <- x |> dplyr::filter(pvalue<p_val_cut_off) |> dplyr::arrange(pvalue)
+            return(z)
+          }
+        }
+
+        })
+    }
+
   },error=function(e){
     cli::cli_abort("No useable result! ")
   })
@@ -194,7 +209,7 @@ egt_gsea_analysis <- function(genes,database,p_val_cut_off=0.5,min_geneset_size=
                           p.adjust = fgseaRes$padj,
                           core_enrichment = sapply(fgseaRes$leadingEdge,function(x)paste(x,collapse ="/")))
   tryCatch({
-    fgseaRes2 <- fgseaRes2 |> dplyr::filter(pvalue<p_val_cut_off)
+    fgseaRes2 <- fgseaRes2 |> dplyr::filter(pvalue<p_val_cut_off) |> dplyr::arrange(desc(NES))
   },error=function(e){
     cli::cli_abort("No useable result! ")
   })

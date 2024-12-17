@@ -5,10 +5,12 @@
 \title{A C++ accelerated universal enrichment analyzer (Over-Representation Analysis (ORA))}
 \usage{
 res <- egt_enrichment_analysis(genes = DEGtable$Genes,
-database = database_GO_BP())
+database = database_GO_BP()) # Load database would be slow. You can preload it.
+
+goAll <- database_GO_ALL()
 
 res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
-database = database_GO_ALL())
+database = goAll) # When use a database many times, you can pre-load it like this.
 
 res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
 database = database_from_gmt("MsigDB_Hallmark.gmt"))

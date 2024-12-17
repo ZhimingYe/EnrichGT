@@ -20,4 +20,7 @@ re_enrich2
 egt_plot_results(re_enrich)
 egt_plot_umap(re_enrich)
 
-
+DEGexample_DownReg <- DEGexample |> dplyr::filter(pvalue<0.05,log2FoldChange<(-0.7))
+DEGexample_Highest <- DEGexample |> dplyr::filter(pvalue<0.05,log2FoldChange>1.4)
+geneList <- list(A = DEGexample_UpReg$...1,B = DEGexample_DownReg$...1,C = DEGexample_Highest$...1)
+ora_result_list <- egt_enrichment_analysis(genes = geneList,database = dbgobp)

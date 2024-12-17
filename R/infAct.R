@@ -15,7 +15,7 @@
 #' @importFrom stringr str_to_title
 #' @author Zhiming Ye, Saez-Rodriguez Lab (The decoupleR package, https://saezlab.github.io/decoupleR/)
 #'
-egtInfer <- function(x,DB="collectri",species="human"){
+egt_infer <- function(x,DB="collectri",species="human"){
   genelist <- tryCatch(x@gene_modules,error=function(e){
     cli::cli_abort("NOT an enrichGT object. ")
   })

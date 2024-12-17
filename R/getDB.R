@@ -115,7 +115,10 @@ dbParser<-function(DB,species){
 
 
 #' @rdname get_database
-#' @title Get database form Gene ontology or Reactome Pathways
+#' @title Get database for enrichment
+#' @description
+#' This would be slow. You can pre-load them and use them many time, instead of call this functionn many times.
+#'
 #' @param OrgDB org.DB form bioconductor, can be org.Hs.eg.db or org.Mm.eg.db,... GO and Reactome should add this, progeny and collectri do not.
 #' @returns a data.frame with ID, terms and genes
 #' @export

@@ -10,7 +10,7 @@
 \alias{database_progeny_mouse}
 \alias{database_CollecTRI_human}
 \alias{database_CollecTRI_mouse}
-\title{Get database form Gene ontology or Reactome Pathways}
+\title{Get database for enrichment}
 \usage{
 database_GO_BP(OrgDB = org.Hs.eg.db)
 
@@ -37,5 +37,5 @@ database_CollecTRI_mouse()
 a data.frame with ID, terms and genes
 }
 \description{
-Get database form Gene ontology or Reactome Pathways
+This would be slow. You can pre-load them and use them many time, instead of call this functionn many times.
 }

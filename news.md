@@ -1,92 +1,67 @@
-## EnrichGT 0.3.9
+# EnrichGT 0.3.9
 
-### Package major update
+- add `egtPlot()` and `egtScatter()` for visualization
 
--   add `egtPlot()` and `egtScatter()` for visualization
+- rename `infering_regulator_act()` to `egtInfer()`
 
--   rename `infering_regulator_act()` to `egtInfer()`
+# EnrichGT 0.2.9
 
+- `infering_regulator_act()` to infer pathway or transcript factors activity from EnrichGT meta-gene modules.
 
+- This will be the end of new functions of `EnrichGT` package.
 
-## EnrichGT 0.2.9
+# EnrichGT 0.2.8.x
 
-### Package major update
+- `EnrichGT()` now supports changing `hclust()` methods, like using ward.D, ward.D2, average ...
 
--   `infering_regulator_act()` to infer pathway or transcript factors activity from EnrichGT meta-gene modules. 
+- `EnrichGT_obj` now contains a slot `clustering_tree` containg the cluster tree `hclust` object, for further analysing and drawing figures.
 
--   This will be the end of new functions of `EnrichGT` package. 
+- `EnrichGT_obj` now contains raw table. (0.2.8.5)
 
+- Add benchmark markdown file
 
-## EnrichGT 0.2.8.x
+- Refine the help pages
 
-### Package major update
+# EnrichGT 0.2.7
 
--   `EnrichGT()` now supports changing `hclust()` methods, like using ward.D, ward.D2, average ...
+- Add `CompareGT()` function (beta)
 
--   `EnrichGT_obj` now contains a slot `clustering_tree` containg the cluster tree `hclust` object, for further analysing and drawing figures.
+# EnrichGT 0.2.5
 
--   `EnrichGT_obj` now contains raw table. (0.2.8.5)
+- Bug fix
 
-### Others
+- `EnrichGT()` supports a list containing multiple source enrichment results (e.g., GO and KEGG enrichment for a same DEG list), and fusing them. User can gain [Metascape like multi-DB enrichment](https://metascape.org/) result by using the fusing function (See Articles).
 
--   Add benchmark markdown file
+# EnrichGT 0.2.0
 
--   Refine the help pages
+- Bug fix in generating results.
 
-## EnrichGT 0.2.7
+- Add `EnrichGT_obj` S4 object. It not only returns `gt` HTML tables, users can extract enriched tables, meta-gene modules, pathway modules in it.
 
-### Package major update
+- Split `main.R` to multiple files, for better managing of codes.
 
--   Add `CompareGT()` function (beta)
+- Add package vignettes.
 
-## EnrichGT 0.2.5
+# EnrichGT 0.1.7
 
-### Package major update
+- add `doGO()`, `doKEGG()`, `doRA()` wrapper for ORA enrichment.
 
--   Bug fix
+- add `BuildMultigroupDEGlist()` and `Ranked.GS()` for simplifying procedure of multi-group enrichment and `GSEA`.
 
--   `EnrichGT()` supports a list containing multiple source enrichment results (e.g., GO and KEGG enrichment for a same DEG list), and fusing them. User can gain [Metascape like multi-DB enrichment](https://metascape.org/) result by using the fusing function (See Articles).
+# EnrichGT 0.1.2
 
-## EnrichGT 0.2.0
+- Support GSEA results.
 
-### Package major update
+- Give up `ggplot2` figures in `gt` object for speed up. Though the result is much ugly than before :)
 
--   Bug fix in generating results.
+- Intelligent sensing the cluster numbers.
 
--   Add `EnrichGT_obj` S4 object. It not only returns `gt` HTML tables, users can extract enriched tables, meta-gene modules, pathway modules in it.
+- Provide self-check of column names, if `setReadable()` before, etc.
 
-### Others
+- Auto check package dependencies when start-up.
 
--   Split `main.R` to multiple files, for better managing of codes.
+# EnrichGT 0.1.0
 
--   Add package vignettes.
+- Initial codes for generating `gt` objects for ORA objects.
 
-## EnrichGT 0.1.7
-
-### Package major update
-
--   add `doGO()`, `doKEGG()`, `doRA()` wrapper for ORA enrichment.
-
--   add `BuildMultigroupDEGlist()` and `Ranked.GS()` for simplifying procedure of multi-group enrichment and `GSEA`.
-
-## EnrichGT 0.1.2
-
-### Package major update
-
--   Support GSEA results.
-
--   Give up `ggplot2` figures in `gt` object for speed up. Though the result is much ugly than before :)
-
--   Intelligent sensing the cluster numbers.
-
--   Provide self-check of column names, if `setReadable()` before, etc.
-
-### Others
-
--   Auto check package dependencies when start-up.
-
-## EnrichGT 0.1.0
-
--   Initial codes for generating `gt` objects for ORA objects.
-
--   Initial codes for enrichment, use `text2vec` package to parse core enriched genes.
+- Initial codes for enrichment, use `text2vec` package to parse core enriched genes.
