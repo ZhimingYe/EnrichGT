@@ -1,11 +1,12 @@
 
 
-db_getter_env <- new.env()
-db_getter_env$database_GO <- function(ONTOLOGY, OrgDB) {
-  require(dplyr)
-  require(tibble)
-  require(AnnotationDbi)
-  require(GO.db)
+db_getter_env<-new.env()
+
+database_GO <- function(ONTOLOGY, OrgDB) {
+  loadNamespace("dplyr")
+  loadNamespace("tibble")
+  loadNamespace("AnnotationDbi")
+  loadNamespace("GO.db")
 
 
   go_annotations <- AnnotationDbi::select(
@@ -34,11 +35,11 @@ db_getter_env$database_GO <- function(ONTOLOGY, OrgDB) {
 # Function fetching Reactome is cited from https://github.com/YuLab-SMU/ReactomePA/blob/devel/R/gseAnalyzer.R
 # with several modifies
 # (c) Guangchuang Yu @ SMU ReactomePA
-db_getter_env$database_RA <- function(OrgDB) {
-  require(dplyr)
-  require(tibble)
-  require(AnnotationDbi)
-  require(reactome.db)
+database_RA <- function(OrgDB) {
+  loadNamespace("dplyr")
+  loadNamespace("tibble")
+  loadNamespace("AnnotationDbi")
+  loadNamespace("reactome.db")
   eg <- AnnotationDbi::keys(org.Hs.eg.db, keytype=c("ENTREZID"))
   eg2 <- AnnotationDbi::select(org.Hs.eg.db, keys = eg,
                                keytype = "ENTREZID", columns = c("ENTREZID", "SYMBOL"))
@@ -68,6 +69,8 @@ db_getter_env$database_RA <- function(OrgDB) {
   df<-df[,c(1,3,4)]
   return(df)
 }
+
+
 
 dbParser<-function(DB,species){
   type<-case_when((DB=="progeny"&species=="human")~"1",
@@ -110,32 +113,57 @@ dbParser<-function(DB,species){
 #' @returns a data.frame with ID, terms and genes
 #' @export
 database_GO_BP <- function(OrgDB=org.Hs.eg.db){
-  result <- db_getter_env$database_GO(ONTOLOGY="BP",OrgDB=OrgDB)
-  return(result)
+  assign("database_GO",database_GO,envir = db_getter_env)
+  eval({
+    suppressWarnings(try({rm(x)}))
+    x <- database_GO(ONTOLOGY="BP",OrgDB=OrgDB)
+  },envir = db_getter_env)
+  x <- db_getter_env$x
+  return(x)
 }
 #' @rdname get_database
 #' @export
 database_GO_CC <- function(OrgDB=org.Hs.eg.db){
-  result <- db_getter_env$database_GO(ONTOLOGY="CC",OrgDB=OrgDB)
-  return(result)
+  assign("database_GO",database_GO,envir = db_getter_env)
+  eval({
+    suppressWarnings(try({rm(x)}))
+    x <- database_GO(ONTOLOGY="CC",OrgDB=OrgDB)
+  },envir = db_getter_env)
+  x <- db_getter_env$x
+  return(x)
 }
 #' @rdname get_database
 #' @export
 database_GO_MF <- function(OrgDB=org.Hs.eg.db){
-  result <- db_getter_env$database_GO(ONTOLOGY="MF",OrgDB=OrgDB)
-  return(result)
+  assign("database_GO",database_GO,envir = db_getter_env)
+  eval({
+    suppressWarnings(try({rm(x)}))
+    x <- database_GO(ONTOLOGY="MF",OrgDB=OrgDB)
+  },envir = db_getter_env)
+  x <- db_getter_env$x
+  return(x)
 }
 #' @rdname get_database
 #' @export
 database_GO_ALL <- function(OrgDB=org.Hs.eg.db){
-  result <- db_getter_env$database_GO(ONTOLOGY="ALL",OrgDB=OrgDB)
-  return(result)
+  assign("database_GO",database_GO,envir = db_getter_env)
+  eval({
+    suppressWarnings(try({rm(x)}))
+    x <- database_GO(ONTOLOGY="ALL",OrgDB=OrgDB)
+  },envir = db_getter_env)
+  x <- db_getter_env$x
+  return(x)
 }
 #' @rdname get_database
 #' @export
 database_Reactome <- function(OrgDB=org.Hs.eg.db){
-  result <- db_getter_env$database_RA(OrgDB=OrgDB)
-  return(result)
+  assign("database_RA",database_RA,envir = db_getter_env)
+  eval({
+    suppressWarnings(try({rm(x)}))
+    x <- database_RA(OrgDB=OrgDB)
+  },envir = db_getter_env)
+  x <- db_getter_env$x
+  return(x)
 }
 #' @rdname get_database
 #' @export
