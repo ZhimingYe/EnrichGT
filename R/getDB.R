@@ -3,32 +3,33 @@
 db_getter_env<-new.env()
 
 database_GO <- function(ONTOLOGY, OrgDB) {
+
   loadNamespace("dplyr")
   loadNamespace("tibble")
   loadNamespace("AnnotationDbi")
   loadNamespace("GO.db")
 
-
-  go_annotations <- AnnotationDbi::select(
-    OrgDB,
-    keys = keys(OrgDB, keytype = "SYMBOL"),
-    columns = c("GO", "ONTOLOGY"),
-    keytype = "SYMBOL"
-  )
-  if (ONTOLOGY != "ALL"){
-    bp_annotations <- go_annotations |> dplyr::filter(ONTOLOGY == ONTOLOGY)
+  goterms <- AnnotationDbi::Ontology(GO.db::GOTERM)
+  if (ONTOLOGY != "ALL") {
+    goterms <- goterms[goterms == ONTOLOGY]
   }
-
-  bp_annotations <- na.omit(bp_annotations)
-
+  go2gene <- suppressMessages(
+    AnnotationDbi::mapIds(OrgDB, keys=names(goterms), column="SYMBOL",
+                          keytype=c("GOALL"), multiVals='list')
+  )
+  goAnno <- stack(go2gene)
+  goAnno <- unique(goAnno[!is.na(goAnno[,1]), ])
   go_terms <- AnnotationDbi::Term(GO.db::GOTERM)
-  go_terms <- as.data.frame(go_terms) |>
-    rownames_to_column(var = "GO") |>
-    dplyr::left_join(bp_annotations, by = "GO") |>
-    dplyr::select(GO, go_terms, SYMBOL) |>
+  go_terms <- as.data.frame(go_terms) |> rownames_to_column(var = "ind")
+  goAnno <- goAnno |> dplyr::left_join(go_terms, by = "ind") |>
+    dplyr::select(ind, go_terms, values) |>
     na.omit()
-
-  return(go_terms)
+  cli::cli_h1("Suggection")
+  cli::cli_alert_info("Loading databases will take long long time, please pre-load them to environment, and avoiding loading them again and again when doing analysis in a same database.")
+  cli::cli_alert("For Example:")
+  cli::cli_code("GOBPdata <- database_GO_BP(org.Hs.eg.db)")
+  cli::cli_code("ora_result <- egt_enrichment_analysis(genes = Genes,database = GOBPdata)")
+  return(goAnno)
 }
 
 
@@ -36,6 +37,7 @@ database_GO <- function(ONTOLOGY, OrgDB) {
 # with several modifies
 # (c) Guangchuang Yu @ SMU ReactomePA
 database_RA <- function(OrgDB) {
+
   loadNamespace("dplyr")
   loadNamespace("tibble")
   loadNamespace("AnnotationDbi")
@@ -67,6 +69,11 @@ database_RA <- function(OrgDB) {
   df<-df |> left_join(PATHID2NAME,by="ID")
   df<-df |> left_join(eg2,by="ENTREZID")
   df<-df[,c(1,3,4)]
+  cli::cli_h1("Suggection")
+  cli::cli_alert_info("Loading databases will take long long time, please pre-load them to environment, and avoiding loading them again and again when doing analysis in a same database.")
+  cli::cli_alert("For Example:")
+  cli::cli_code("GOBPdata <- database_Reactome(org.Hs.eg.db)")
+  cli::cli_code("ora_result <- egt_enrichment_analysis(genes = Genes,database = GOBPdata)")
   return(df)
 }
 
@@ -114,55 +121,35 @@ dbParser<-function(DB,species){
 #' @export
 database_GO_BP <- function(OrgDB=org.Hs.eg.db){
   assign("database_GO",database_GO,envir = db_getter_env)
-  eval({
-    suppressWarnings(try({rm(x)}))
-    x <- database_GO(ONTOLOGY="BP",OrgDB=OrgDB)
-  },envir = db_getter_env)
-  x <- db_getter_env$x
+  x <- db_getter_env$database_GO(ONTOLOGY="BP",OrgDB=OrgDB)
   return(x)
 }
 #' @rdname get_database
 #' @export
 database_GO_CC <- function(OrgDB=org.Hs.eg.db){
   assign("database_GO",database_GO,envir = db_getter_env)
-  eval({
-    suppressWarnings(try({rm(x)}))
-    x <- database_GO(ONTOLOGY="CC",OrgDB=OrgDB)
-  },envir = db_getter_env)
-  x <- db_getter_env$x
+  x <- db_getter_env$database_GO(ONTOLOGY="CC",OrgDB=OrgDB)
   return(x)
 }
 #' @rdname get_database
 #' @export
 database_GO_MF <- function(OrgDB=org.Hs.eg.db){
   assign("database_GO",database_GO,envir = db_getter_env)
-  eval({
-    suppressWarnings(try({rm(x)}))
-    x <- database_GO(ONTOLOGY="MF",OrgDB=OrgDB)
-  },envir = db_getter_env)
-  x <- db_getter_env$x
+  x <- db_getter_env$database_GO(ONTOLOGY="MF",OrgDB=OrgDB)
   return(x)
 }
 #' @rdname get_database
 #' @export
 database_GO_ALL <- function(OrgDB=org.Hs.eg.db){
   assign("database_GO",database_GO,envir = db_getter_env)
-  eval({
-    suppressWarnings(try({rm(x)}))
-    x <- database_GO(ONTOLOGY="ALL",OrgDB=OrgDB)
-  },envir = db_getter_env)
-  x <- db_getter_env$x
+  x <- db_getter_env$database_GO(ONTOLOGY="ALL",OrgDB=OrgDB)
   return(x)
 }
 #' @rdname get_database
 #' @export
 database_Reactome <- function(OrgDB=org.Hs.eg.db){
   assign("database_RA",database_RA,envir = db_getter_env)
-  eval({
-    suppressWarnings(try({rm(x)}))
-    x <- database_RA(OrgDB=OrgDB)
-  },envir = db_getter_env)
-  x <- db_getter_env$x
+  x <- db_getter_env$database_RA(OrgDB)
   return(x)
 }
 #' @rdname get_database

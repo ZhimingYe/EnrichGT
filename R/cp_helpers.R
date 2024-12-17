@@ -164,7 +164,7 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
 #' @returns a data frame
 #' @export
 #' @author warpped from fgsea package.
-egt_gsea_analysis <- function(genes,database,min_geneset_size=10,max_geneset_size=500,gseaParam=1){
+egt_gsea_analysis <- function(genes,database,p_val_cut_off=0.5,min_geneset_size=10,max_geneset_size=500,gseaParam=1){
   tryCatch({
     if(ncol(database)!=2&ncol(database)!=3){
       cli::cli_abort("Not valid database")

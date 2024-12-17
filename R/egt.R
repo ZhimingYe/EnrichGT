@@ -55,8 +55,9 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
 
 .genGT<-function(x,ClusterNum,P.adj=0.05,force=F,objname,nTop,method,...){
   InnerDF<-x
-  if(dim(x)[1]==0){
-    cli::cli_abort("no enrichment result contains")
+  InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05)
+  if(dim(x)[1]<=5){
+    cli::cli_abort("less than 5 enrichment result satisfied that the origin P<0.05(not adjusted)")
   }
   .checkRowNames(x,"ORA")
   ClusterNum0<-ClusterNum
@@ -90,8 +91,9 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
 
 .genGSEAGT<-function(x,ClusterNum,P.adj=0.05,force=F,objname,nTop,method,...){
   InnerDF<-x
-  if(dim(x)[1]==0){
-    cli::cli_abort("no enrichment result contains")
+  InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05)
+  if(dim(x)[1]<=5){
+    cli::cli_abort("less than 5 enrichment result satisfied that the origin P<0.05(not adjusted)")
   }
   .checkRowNames(x,"GSEA")
   ClusterNum0<-ClusterNum

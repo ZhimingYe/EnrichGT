@@ -27,6 +27,8 @@ Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_G
 
 You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using `database_from_gmt(FILE_PATH)`.}
 
+\item{p_val_cut_off}{adjusted pvalue cutoff on enrichment tests to report}
+
 \item{min_geneset_size}{minimal size of genes annotated for testing}
 
 \item{max_geneset_size}{maximal size of genes annotated for testing}
@@ -34,8 +36,6 @@ You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gse
 \item{gseaParam}{pass to fgsea}
 
 \item{p_adj_methods}{one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"}
-
-\item{p_val_cut_off}{adjusted pvalue cutoff on enrichment tests to report}
 }
 \value{
 a data frame

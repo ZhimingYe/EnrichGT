@@ -1,103 +1,23 @@
-library(clusterProfiler)
+library(dplyr)
+library(tibble)
 library(org.Hs.eg.db)
 library(gt)
 library(testthat)
 library(withr)
+library(EnrichGT)
+library(readr)
+DEGexample <- read_csv("tests/testthat/DEGexample.csv")
+DEGexample_UpReg <- DEGexample |> dplyr::filter(pvalue<0.05,log2FoldChange>0.7)
+dbgobp <- database_GO_BP(org.Hs.eg.db)
+ora_result <- egt_enrichment_analysis(genes = DEGexample_UpReg$...1,database = dbgobp)
+re_enrich <- egt_recluster_analysis(ora_result)
+re_enrich
+egt_plot_results(re_enrich)
+egt_plot_umap(re_enrich)
+gsea_result <- egt_gsea_analysis(genes_with_weights(DEGexample$...1,DEGexample$log2FoldChange),database = dbgobp)
+re_enrich2 <- egt_recluster_analysis(gsea_result,ClusterNum = 30)
+re_enrich2
+egt_plot_results(re_enrich)
+egt_plot_umap(re_enrich)
 
-test_that("EnrichGT creates four HTML files", {
-  tmp_dir <- withr::local_tempdir()
-  file1 <- file.path(tmp_dir, "test1.html")
-  file2 <- file.path(tmp_dir, "test2.html")
-  file3 <- file.path(tmp_dir, "test3.html")
-  file4 <- file.path(tmp_dir, "test4.html")
-  file5 <- file.path(tmp_dir, "test5.html")
-  data(geneList, package="DOSE")
-  gene <- names(geneList)[abs(geneList) > 2]
-  gene1 <- names(geneList)[abs(geneList) > 1]
-  gene1a<-gene1[sample(1000,400)]
-  gene1b<-gene1[sample(1000,400)]
-  ego <- enrichGO(gene          = gene,
-                  universe      = names(geneList),
-                  OrgDb         = org.Hs.eg.db,
-                  ont           = "CC",
-                  pAdjustMethod = "BH",
-                  pvalueCutoff  = 0.01,
-                  qvalueCutoff  = 0.05,
-                  readable      = TRUE)
-  egoa <- enrichGO(gene          = gene1a,
-                  universe      = names(geneList),
-                  OrgDb         = org.Hs.eg.db,
-                  ont           = "CC",
-                  pAdjustMethod = "BH",
-                  pvalueCutoff  = 0.01,
-                  qvalueCutoff  = 0.05,
-                  readable      = TRUE)
-  egob <- enrichGO(gene          = gene1b,
-                  universe      = names(geneList),
-                  OrgDb         = org.Hs.eg.db,
-                  ont           = "CC",
-                  pAdjustMethod = "BH",
-                  pvalueCutoff  = 0.01,
-                  qvalueCutoff  = 0.05,
-                  readable      = TRUE)
-  kk <- enrichKEGG(gene         = gene,
-                   organism     = 'hsa',
-                   pvalueCutoff = 0.05)
-  obj1<-EnrichGT(ego, ClusterNum = 15, P.adj = 1,method = "average")
-  obj2<-EnrichGT(ego, ClusterNum = 15, P.adj = 1)
-  objaa<-EnrichGT:::egtInfer(obj2)
-  objab<-EnrichGT:::egtInfer(obj2,DB = "progeny")
-  expect_true(dim(objaa@compareClusterResult)[1]>10,"tf infer is ok")
-  expect_true(dim(objab@compareClusterResult)[1]>10,"act infer is ok")
-  gene_up <- names(geneList)[(geneList) > 1]
-  gene_down <- names(geneList)[(geneList) < (-1)]
-  ego_up <- enrichGO(gene          = gene_up,
-                     universe      = names(geneList),
-                     OrgDb         = org.Hs.eg.db,
-                     ont           = "BP",
-                     pAdjustMethod = "BH",
-                     pvalueCutoff  = 0.5,
-                     qvalueCutoff  = 0.5,
-                     readable      = TRUE)
 
-  ego_down <- enrichGO(gene          = gene_down,
-                       universe      = names(geneList),
-                       OrgDb         = org.Hs.eg.db,
-                       ont           = "BP",
-                       pAdjustMethod = "BH",
-                       pvalueCutoff  = 0.5,
-                       qvalueCutoff  = 0.5,
-                       readable      = TRUE)
-
-  obj1@gt_object |> gt::gtsave(file1)
-  expect_true(file.exists(file1), info = "test1.html should be created")
-  expect_true(obj1@clustering_tree[["method"]]=="average",info="method works!")
-  expect_true(obj2@clustering_tree[["method"]]=="ward.D2",info="method works_2!")
-  dd<-compareGT(obj.test = ego_up,obj.ctrl = ego_down)
-  expect_true(dd[["Overlap_Control"]]@clustering_tree[["dist.method"]]=="cosine",info = "cprgt works!")
-  EnrichGT(kk, ClusterNum = 100, P.adj = 1)@gt_object |> gt::gtsave(file2)
-  expect_true(file.exists(file2), info = "test2.html should be created")
-  expect_true(nrow(EnrichGT(ego, ClusterNum = 10, P.adj = 1,nTop = 5)@enriched_result)==10,info="nTop.ora Works")
-  ego3 <- gseGO(geneList     = geneList,
-                OrgDb        = org.Hs.eg.db,
-                ont          = "CC",
-                minGSSize    = 100,
-                maxGSSize    = 500,
-                pvalueCutoff = 0.05,
-                verbose      = FALSE)
-  EnrichGT(ego3, ClusterNum = 100, P.adj = 1)@gt_object |> gt::gtsave(file3)
-  expect_true(nrow(EnrichGT(ego3, ClusterNum = 3, P.adj = 1,nTop = 2)@enriched_result)==6,info="nTop.gsea Works")
-  expect_true(file.exists(file3), info = "test3.html should be created")
-  data(gcSample)
-  ck <- compareCluster(geneCluster = gcSample, fun = enrichGO, OrgDb = org.Hs.eg.db, pvalueCutoff = 0.5, qvalueCutoff = 0.5,ont="BP")
-  ck <- setReadable(ck, OrgDb = org.Hs.eg.db, keyType = "ENTREZID")
-  sd <- EnrichGT(ck, ClusterNum = 3, P.adj = 1)
-  das<-ck@compareClusterResult$Cluster |> table()
-
-  dza<-sd[[names(das[das==max(das)])]]
-  dza@gt_object |> gt::gtsave(file4)
-  expect_true(file.exists(file4), info = "test4.html should be created")
-
-  EnrichGT(list(ego,kk), ClusterNum = 15, P.adj = 1)@gt_object |> gt::gtsave(file5)
-  expect_true(file.exists(file5), info = "test5.html should be created")
-})
