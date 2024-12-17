@@ -22,38 +22,3 @@ egtInfer <- function(x,DB="collectri",species="human"){
   InferedCpres <- doEnrich(genelist,p_val_cut_off = 1 ,min_geneset_size=2,max_geneset_size=1000,database=(dbParser(DB,species)))
   return(InferedCpres)
 }
-
-dbParser<-function(DB,species){
-  type<-case_when((DB=="progeny"&species=="human")~"1",
-                  (DB=="progeny"&species=="mouse")~"2",
-                  (DB=="collectri"&species=="human")~"3",
-                  (DB=="collectri"&species=="mouse")~"4",
-                  T~"Error"
-  )
-  if(type=="Error"){
-    cli::cli_abort("Please check your DB and species Input! ")
-  }
-  if(type=="1"){
-    data("pws_human")
-    tdb0<-pws_human |> dplyr::filter(p_value<0.1) |> dplyr::mutate(Direction=ifelse(weight>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
-  }
-  else if(type=="2"){
-    data("pws_mouse")
-    tdb0<-pws_mouse |> dplyr::filter(p_value<0.1) |> dplyr::mutate(Direction=ifelse(weight>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
-    tdb0$target <- str_to_title(tdb0$target)
-  }
-  else if(type=="3"){
-    data("TF_human")
-    tdb0<-TF_human |> dplyr::mutate(Direction=ifelse(mor>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
-  }
-  else{
-    data("TF_mouse")
-    tdb0<-TF_mouse |> dplyr::mutate(Direction=ifelse(mor>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
-    tdb0$target <- str_to_title(tdb0$target)
-  }
-  return(tdb0)
-}
-
-
-
-

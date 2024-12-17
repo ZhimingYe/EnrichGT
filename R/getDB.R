@@ -14,8 +14,10 @@ db_getter_env$database_GO <- function(ONTOLOGY, OrgDB) {
     columns = c("GO", "ONTOLOGY"),
     keytype = "SYMBOL"
   )
+  if (ONTOLOGY != "ALL"){
+    bp_annotations <- go_annotations |> dplyr::filter(ONTOLOGY == ONTOLOGY)
+  }
 
-  bp_annotations <- go_annotations |> dplyr::filter(ONTOLOGY == ONTOLOGY)
   bp_annotations <- na.omit(bp_annotations)
 
   go_terms <- AnnotationDbi::Term(GO.db::GOTERM)
@@ -62,30 +64,96 @@ db_getter_env$database_RA <- function(OrgDB) {
   PATHID2NAME<-as.data.frame(PATHID2NAME) |> rownames_to_column(var="ID")
   colnames(df)<-c("ID","ENTREZID")
   df<-df |> left_join(PATHID2NAME,by="ID")
-  df<-df |> left_join(eg2)
+  df<-df |> left_join(eg2,by="ENTREZID")
   df<-df[,c(1,3,4)]
   return(df)
 }
 
+dbParser<-function(DB,species){
+  type<-case_when((DB=="progeny"&species=="human")~"1",
+                  (DB=="progeny"&species=="mouse")~"2",
+                  (DB=="collectri"&species=="human")~"3",
+                  (DB=="collectri"&species=="mouse")~"4",
+                  T~"Error"
+  )
+  if(type=="Error"){
+    cli::cli_abort("Please check your DB and species Input! ")
+  }
+  if(type=="1"){
+    data("pws_human")
+    tdb0<-pws_human |> dplyr::filter(p_value<0.1) |> dplyr::mutate(Direction=ifelse(weight>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
+  }
+  else if(type=="2"){
+    data("pws_mouse")
+    tdb0<-pws_mouse |> dplyr::filter(p_value<0.1) |> dplyr::mutate(Direction=ifelse(weight>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
+    tdb0$target <- str_to_title(tdb0$target)
+  }
+  else if(type=="3"){
+    data("TF_human")
+    tdb0<-TF_human |> dplyr::mutate(Direction=ifelse(mor>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
+  }
+  else{
+    data("TF_mouse")
+    tdb0<-TF_mouse |> dplyr::mutate(Direction=ifelse(mor>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
+    tdb0$target <- str_to_title(tdb0$target)
+  }
+  return(tdb0)
+}
 
+
+
+
+
+#' @rdname get_database
+#' @title Get database form Gene ontology or Reactome Pathways
+#' @param OrgDB org.DB form bioconductor, can be org.Hs.eg.db or org.Mm.eg.db,... GO and Reactome should add this, progeny and collectri do not.
+#' @returns a data.frame with ID, terms and genes
+#' @export
 database_GO_BP <- function(OrgDB=org.Hs.eg.db){
   result <- db_getter_env$database_GO(ONTOLOGY="BP",OrgDB=OrgDB)
   return(result)
 }
-
+#' @rdname get_database
+#' @export
 database_GO_CC <- function(OrgDB=org.Hs.eg.db){
   result <- db_getter_env$database_GO(ONTOLOGY="CC",OrgDB=OrgDB)
   return(result)
 }
-
+#' @rdname get_database
+#' @export
 database_GO_MF <- function(OrgDB=org.Hs.eg.db){
   result <- db_getter_env$database_GO(ONTOLOGY="MF",OrgDB=OrgDB)
   return(result)
 }
-
+#' @rdname get_database
+#' @export
+database_GO_ALL <- function(OrgDB=org.Hs.eg.db){
+  result <- db_getter_env$database_GO(ONTOLOGY="ALL",OrgDB=OrgDB)
+  return(result)
+}
+#' @rdname get_database
+#' @export
 database_Reactome <- function(OrgDB=org.Hs.eg.db){
   result <- db_getter_env$database_RA(OrgDB=OrgDB)
   return(result)
 }
-
-
+#' @rdname get_database
+#' @export
+database_progeny_human <- function(){
+  return(dbParser("progeny","human"))
+}
+#' @rdname get_database
+#' @export
+database_progeny_mouse <- function(){
+  return(dbParser("progeny","mouse"))
+}
+#' @rdname get_database
+#' @export
+database_CollecTRI_human <- function(){
+  return(dbParser("collectri","human"))
+}
+#' @rdname get_database
+#' @export
+database_CollecTRI_mouse <- function(){
+  return(dbParser("collectri","mouse"))
+}

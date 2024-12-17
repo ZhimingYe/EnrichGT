@@ -1,22 +1,18 @@
-#' @title Return ranked gene list which is use for "GSEA" and "cnetplot" in package "clusterProfiler"
+#' @title Return ranked gene list which is use for "GSEA"
 #'
 #' @param Gene A vector containing genes
-#' @param log2FC A vector containg log2FC
-#' @param FromType default is "SYMBOL"
-#' @param OrgDB default as org.Hs.eg.db
+#' @param Weight A vector contain weight of genes, typically like log2FC from DEG analysis
 #'
 #' @return A ranked named numeric vector. Names of the numbers is the ENTREZID.
 #' @export
 #' @author Zhiming Ye
 #'
-Ranked.GS<-function(Gene,log2FC,FromType = "SYMBOL",OrgDB=org.Hs.eg.db){
-  Genetable<-data.frame(Gene=Gene,log2FC=log2FC)
-  # require(clusterProfiler)
-  # ENTREZIDtable<-clusterProfiler::bitr(Genetable$Gene,fromType = FromType,toType = "ENTREZID",OrgDb = OrgDB)
-  colnames(ENTREZIDtable)[1]<-"Gene"
-  Genetable<-Genetable|>dplyr::left_join(ENTREZIDtable)|>dplyr::arrange(desc(log2FC))
-  GSElist<-as.numeric(Genetable$log2FC)
-  names(GSElist)<-Genetable$ENTREZID
+Ranked.GS<-function(Gene,Weight){
+  log2FC <- Weight
+  Genetable <- data.frame(Gene=Gene,log2FC=log2FC)
+  Genetable <- Genetable |> dplyr::arrange(desc(log2FC))
+  GSElist <- as.numeric(Genetable$log2FC)
+  names(GSElist)<-Genetable$Gene
   GSElist = sort(GSElist, decreasing = TRUE)
   return(GSElist)
 }
@@ -96,10 +92,9 @@ doEnrich <- function(genes,database,p_adj_methods="BH",p_val_cut_off=0.5,backgro
 #' @param database a database
 #' @param p_adj_methods one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
 #' @param p_val_cut_off adjusted pvalue cutoff on enrichment tests to report
-#' @param background_genes background genes. If missing, the all genes listed in the database
 #' @param min_geneset_size minimal size of genes annotated for testing
 #' @param max_geneset_size maximal size of genes annotated for testing
-#' @param multi_cores multi_cores
+#' @param gseaParam pass to fgsea
 #'
 #' @returns
 #' @export
@@ -119,7 +114,7 @@ doGSEA <- function(genes,database,min_geneset_size=10,max_geneset_size=500,gseaP
   }
   db0 <- db0 |> dplyr::mutate(CheckDup = paste0(ID,term)) |> dplyr::filter(!duplicated(CheckDup)) |> dplyr::select(-CheckDup) |> dplyr::rename(TERMs = term)
   colnames(database) <- c("term", "gene")
-  database2 <- split(database,database$term)
+  database2 <- split(database$gene,database$term)
   fgseaRes <- fgsea::fgsea(pathways = database2,
                     stats    = genes,
                     minSize  = min_geneset_size,

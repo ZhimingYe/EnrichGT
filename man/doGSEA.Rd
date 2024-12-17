@@ -21,13 +21,11 @@ doGSEA(
 
 \item{max_geneset_size}{maximal size of genes annotated for testing}
 
+\item{gseaParam}{pass to fgsea}
+
 \item{p_adj_methods}{one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"}
 
 \item{p_val_cut_off}{adjusted pvalue cutoff on enrichment tests to report}
-
-\item{background_genes}{background genes. If missing, the all genes listed in the database}
-
-\item{multi_cores}{multi_cores}
 }
 \description{
 A warpper of fgsea::fgsea

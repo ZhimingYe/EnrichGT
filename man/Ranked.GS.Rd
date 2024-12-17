@@ -2,24 +2,20 @@
 % Please edit documentation in R/cp_helpers.R
 \name{Ranked.GS}
 \alias{Ranked.GS}
-\title{Return ranked gene list which is use for "GSEA" and "cnetplot" in package "clusterProfiler"}
+\title{Return ranked gene list which is use for "GSEA"}
 \usage{
-Ranked.GS(Gene, log2FC, FromType = "SYMBOL", OrgDB = org.Hs.eg.db)
+Ranked.GS(Gene, Weight)
 }
 \arguments{
 \item{Gene}{A vector containing genes}
 
-\item{log2FC}{A vector containg log2FC}
-
-\item{FromType}{default is "SYMBOL"}
-
-\item{OrgDB}{default as org.Hs.eg.db}
+\item{Weight}{A vector contain weight of genes, typically like log2FC from DEG analysis}
 }
 \value{
 A ranked named numeric vector. Names of the numbers is the ENTREZID.
 }
 \description{
-Return ranked gene list which is use for "GSEA" and "cnetplot" in package "clusterProfiler"
+Return ranked gene list which is use for "GSEA"
 }
 \author{
 Zhiming Ye
