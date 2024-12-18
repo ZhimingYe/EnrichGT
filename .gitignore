@@ -1,0 +1,13 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.pdf
+.DS_Store
+docs
+inst/doc
+*.csv
+*.rds
+dotfiles*
+workflowR_*
+dev/*
