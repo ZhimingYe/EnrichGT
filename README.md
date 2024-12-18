@@ -1,8 +1,4 @@
-# EnrichGT
-
-![](man/figures/EnrichGT_2.png)
-
-### Installation
+## Installation
 
 ```{r}
 library(devtools)
@@ -14,7 +10,7 @@ install_github("ZhimingYe/EnrichGT")
 **EnrichGT <- ** Fast, light weight enrichment analysis + explainable re-clustered HTML tables
 
 
-```{mermaid}
+```mermaid
 
 graph LR
     subgraph Enrichment Analysis
