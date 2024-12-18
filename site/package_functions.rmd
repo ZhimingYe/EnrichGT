@@ -16,6 +16,8 @@ knit: litedown:::knit
 
 # Appendix {.appendix}
 
+## [Back to Package Homepage](index.html)
+
 ## Package Metadata
 
 ```{r, echo = FALSE}
