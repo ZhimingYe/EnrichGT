@@ -3,33 +3,30 @@ name: Deploy to gh-pages
 on:
   push:
     branches:
-      - main  # 触发条件为main分支的推送
+      - main  # 触发条件：main分支更新时
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout main branch
+      uses: actions/checkout@v2
 
-      - name: Set up Git
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "github-actions@github.com"
+    - name: Deploy to gh-pages
+      run: |
+        # 配置 Git 用户
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
 
-      - name: Checkout gh-pages branch
-        run: |
-          git fetch origin gh-pages:gh-pages
-          git checkout gh-pages
+        # Checkout gh-pages 分支
+        git fetch origin gh-pages || git checkout --orphan gh-pages
+        git reset --hard origin/gh-pages
 
-      - name: Copy _site to gh-pages branch
-        run: |
-          rm -rf *  # 清空当前的 gh-pages 内容
-          cp -r site/_site/* .  # 将 _site 文件夹中的内容复制到当前目录
+        # 复制 site/_site 目录的内容到 gh-pages 分支
+        cp -r site/_site/* .
 
-      - name: Commit and push changes
-        run: |
-          git add .
-          git commit -m "Deploy update to gh-pages"
-          git push origin gh-pages
+        # 提交并推送更新到 gh-pages 分支
+        git add .
+        git commit -m "Deploy _site to gh-pages"
+        git push origin gh-pages
