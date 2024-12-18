@@ -146,8 +146,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <div id="quarto-announcement" data-announcement-id="358471314e40b995cd7f1cab229b564e" class="alert alert-primary hidden"><i class="bi bi-info-circle quarto-announcement-icon"></i><div class="quarto-announcement-content">
-<p><strong>EnrichGT &lt;- </strong> Fast, light weight enrichment analysis + explainable re-clustered HTML tables</p>
+  <div id="quarto-announcement" data-announcement-id="14765f2f13011edb176e062ef7d052b4" class="alert alert-primary hidden"><i class="bi bi-info-circle quarto-announcement-icon"></i><div class="quarto-announcement-content">
+<p><strong>Version 0.5</strong> Release (2024-12)</p>
 </div></div>
 </header>
 <!-- content -->
@@ -159,34 +159,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a>
+  <ul class="collapse">
+  <li><a href="#highlights" id="toc-highlights" class="nav-link" data-scroll-target="#highlights">Highlights</a></li>
+  <li><a href="#workflows" id="toc-workflows" class="nav-link" data-scroll-target="#workflows">Workflows</a></li>
+  </ul></li>
   <li><a href="#install-enrichgt" id="toc-install-enrichgt" class="nav-link" data-scroll-target="#install-enrichgt">Install EnrichGT</a></li>
   <li><a href="#meet-enrichgt" id="toc-meet-enrichgt" class="nav-link" data-scroll-target="#meet-enrichgt">Meet EnrichGT</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#core-function" id="toc-core-function" class="nav-link" data-scroll-target="#core-function">Core Function</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#enrichment-of-genes" id="toc-enrichment-of-genes" class="nav-link" data-scroll-target="#enrichment-of-genes">Enrichment of genes</a></li>
   <li><a href="#enrichment-of-weighted-genes-gsea" id="toc-enrichment-of-weighted-genes-gsea" class="nav-link" data-scroll-target="#enrichment-of-weighted-genes-gsea">Enrichment of weighted genes (GSEA)</a></li>
   </ul></li>
-  <li><a href="#featured-function" id="toc-featured-function" class="nav-link" data-scroll-target="#featured-function">Featured Function</a>
-  <ul>
+  <li><a href="#re-enrich-function" id="toc-re-enrich-function" class="nav-link" data-scroll-target="#re-enrich-function">Re-ENRICH Function</a>
+  <ul class="collapse">
   <li><a href="#enrichment-of-enriched-results" id="toc-enrichment-of-enriched-results" class="nav-link" data-scroll-target="#enrichment-of-enriched-results">Enrichment of Enriched Results</a></li>
   </ul></li>
   <li><a href="#html-reports-gt-table" id="toc-html-reports-gt-table" class="nav-link" data-scroll-target="#html-reports-gt-table">HTML reports (gt table)</a></li>
   <li><a href="#ploting-functions" id="toc-ploting-functions" class="nav-link" data-scroll-target="#ploting-functions">Ploting functions</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#dot-plot" id="toc-dot-plot" class="nav-link" data-scroll-target="#dot-plot">Dot Plot</a></li>
   <li><a href="#umap-plot" id="toc-umap-plot" class="nav-link" data-scroll-target="#umap-plot">UMAP Plot</a></li>
   </ul></li>
   <li><a href="#databases-helpers" id="toc-databases-helpers" class="nav-link" data-scroll-target="#databases-helpers">DataBases Helpers</a>
-  <ul>
-  <li><a href="#built-in-database-form-annotationdbi" id="toc-built-in-database-form-annotationdbi" class="nav-link" data-scroll-target="#built-in-database-form-annotationdbi">Built in database form AnnotationDbi</a>
   <ul class="collapse">
-  <li><a href="#go-database" id="toc-go-database" class="nav-link" data-scroll-target="#go-database">GO Database</a></li>
-  <li><a href="#reactome-database" id="toc-reactome-database" class="nav-link" data-scroll-target="#reactome-database">Reactome Database</a></li>
-  <li><a href="#progeny-database" id="toc-progeny-database" class="nav-link" data-scroll-target="#progeny-database">Progeny Database</a></li>
-  <li><a href="#collectri-database" id="toc-collectri-database" class="nav-link" data-scroll-target="#collectri-database">CollecTRI Database</a></li>
-  </ul></li>
+  <li><a href="#built-in-database-form-annotationdbi" id="toc-built-in-database-form-annotationdbi" class="nav-link" data-scroll-target="#built-in-database-form-annotationdbi">Built in database form AnnotationDbi</a></li>
   <li><a href="#read-addition-gene-sets-from-local" id="toc-read-addition-gene-sets-from-local" class="nav-link" data-scroll-target="#read-addition-gene-sets-from-local">Read Addition Gene Sets from local</a></li>
   <li><a href="#where-is-kegg" id="toc-where-is-kegg" class="nav-link" data-scroll-target="#where-is-kegg">Where is KEGG?</a></li>
   <li><a href="#reading-is-slow" id="toc-reading-is-slow" class="nav-link" data-scroll-target="#reading-is-slow">Reading is slow?</a></li>
@@ -233,6 +231,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level1">
 <h1>Overview</h1>
+<section id="highlights" class="level2">
+<h2 class="anchored" data-anchor-id="highlights">Highlights</h2>
+<ul>
+<li><p>Efficient C++-based functions for rapid enrichment analysis;</p></li>
+<li><p>Simple input format, empowering new bioinformatic users;</p></li>
+<li><p>Re-clustering of enriched results provides clear and actionable insights</p></li>
+<li><p>User-friendly HTML output docs that is easy to read and interpret</p></li>
+</ul>
+</section>
+<section id="workflows" class="level2">
+<h2 class="anchored" data-anchor-id="workflows">Workflows</h2>
 <p>The functions from <code>EnrichGT</code> are starting with “egt_” or “database_”.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
@@ -290,6 +299,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+</section>
 </section>
 <section id="install-enrichgt" class="level1">
 <h1>Install EnrichGT</h1>
@@ -389,7 +399,7 @@ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ora_result <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGexample_UpReg<span class="sc">$</span>...<span class="dv">1</span>,<span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
-✔ success loaded database, time used : 17.3381569385529</code></pre>
+✔ success loaded database, time used : 15.9615151882172</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ora_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -474,8 +484,8 @@ How to build pre-ranked gene set?
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>                         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="featured-function" class="level2">
-<h2 class="anchored" data-anchor-id="featured-function">Featured Function</h2>
+<section id="re-enrich-function" class="level2">
+<h2 class="anchored" data-anchor-id="re-enrich-function">Re-ENRICH Function</h2>
 <section id="enrichment-of-enriched-results" class="level3">
 <h3 class="anchored" data-anchor-id="enrichment-of-enriched-results">Enrichment of Enriched Results</h3>
 <p>The enriched result is too messy? Clean up it!</p>
@@ -610,7 +620,7 @@ Warning
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_umap</span>(re_enrich)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: ggrepel: 19 unlabeled data points (too many overlaps). Consider
+<pre><code>Warning: ggrepel: 22 unlabeled data points (too many overlaps). Consider
 increasing max.overlaps</code></pre>
 </div>
 <div class="cell-output-display">
@@ -676,7 +686,7 @@ How to specify species?
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">database_GO_MF</span>(org.Hs.eg.db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ success loaded database, time used : 5.21585512161255</code></pre>
+<pre><code>✔ success loaded database, time used : 5.38016104698181</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>test_reload <span class="ot">&lt;-</span> <span class="fu">database_GO_MF</span>(org.Hs.eg.db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
