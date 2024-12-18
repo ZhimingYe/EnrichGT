@@ -11,3 +11,5 @@ inst/doc
 dotfiles*
 workflowR_*
 dev/*
+site/
+src/
