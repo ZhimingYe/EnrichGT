@@ -6,6 +6,15 @@ Please see the package website: <https://zhimingye.github.io/EnrichGT/>
 
 ![](https://zhimingye.github.io/EnrichGT/enrichGTTable.jpg)
 
+-   Efficient C++-based functions for rapid enrichment analysis;
+
+-   Simple input format, empowering new bioinformatic users;
+
+-   Re-clustering of enriched results provides clear and actionable insights
+
+-   User-friendly HTML output docs that is easy to read and interpret
+
+
 ``` mermaid
 
 graph LR
@@ -52,7 +61,6 @@ graph LR
     CC --> P2
 
     MG --> I
-
 ```
 
 # Install EnrichGT
