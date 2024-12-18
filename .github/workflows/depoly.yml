@@ -1,56 +1,39 @@
-name: Deploy to gh_pages
+name: Deploy to gh-pages
 
 on:
   push:
     branches:
-      - main
+      - main  # 监听main分支的更新
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 检出 main 分支的代码
-      - name: Checkout main branch
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+    - name: Checkout the code
+      uses: actions/checkout@v3
 
-      # 设置 Git 用户信息
-      - name: Set up Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+    - name: Set up Node.js (optional, depending on your project)
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
 
-      # 复制 site/_site 内容到临时目录
-      - name: Copy _site content
-        run: |
-          mkdir temp
-          cp -r site/_site/* temp/
+    - name: Install dependencies (optional)
+      run: |
+        npm install  # 如果需要安装依赖，可以加入此步
 
-      # 检出 gh_pages 分支
-      - name: Checkout gh_pages branch
-        run: |
-          git checkout gh_pages
+    - name: Build site (optional, if you need to build your site)
+      run: |
+        # 在这里放置构建你网站的命令，比如：
+        # npm run build
+        # 如果你的网站已经是预构建好的内容，可以跳过此步骤
+        echo "Build complete"
 
-      # 将临时目录内容覆盖到当前分支
-      - name: Overwrite gh_pages with _site
-        run: |
-          rm -rf *
-          cp -r temp/* .
-
-      # 添加所有更改
-      - name: Add changes
-        run: git add --all
-
-      # 提交更改
-      - name: Commit changes
-        run: |
-          git commit -m "Update gh_pages with latest _site" || echo "No changes to commit"
-
-      # 强制推送到 gh_pages 分支
-      - name: Push to gh_pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git push origin gh_pages --force
+    - name: Deploy to gh-pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        branch: gh-pages  # 目标分支
+        folder: site/_site  # 源文件夹
+        clean: true  # 清理目标分支中的其他文件
+        force_orphan: true  # 强制覆盖并创建一个没有历史的孤立分支
+        token: ${{ secrets.GITHUB_TOKEN }}  # GitHub token 用于认证
