@@ -2,6 +2,8 @@
 
 **EnrichGT \<-** Fast, light weight enrichment analysis + explainable re-clustered HTML tables
 
+Please see the package website: <https://zhimingye.github.io/EnrichGT/>
+
 ![](https://zhimingye.github.io/EnrichGT/enrichGTTable.jpg)
 
 ``` mermaid
@@ -52,8 +54,6 @@ graph LR
     MG --> I
 
 ```
-
-Description and help pages: <https://zhimingye.github.io/EnrichGT/>
 
 # Install EnrichGT
 
