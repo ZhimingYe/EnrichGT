@@ -52,7 +52,7 @@ You can use `? function` to get further help when installed.
 
 ### Enrichment of genes
 
-This is a `C++` accelerated over representation analysis tool. 
+This is a `C++` accelerated over representation analysis tool.
 
 ::: {.callout-note collapse="true"}
 #### The difference from other tools
@@ -205,12 +205,10 @@ re_enrichment_results <- egt_recluster_analysis(
 )
 ```
 
-
 ```{r}
 #| include: false
 re_enrich <- egt_recluster_analysis(ora_result)
 ```
-
 
 You can see the structure of `egt_obj`. The first slot is the result table, and the second slot contains gt table.
 
@@ -218,14 +216,13 @@ You can see the structure of `egt_obj`. The first slot is the result table, and 
 str(re_enrich,max.level = 2)
 ```
 
-
 ## HTML reports (gt table)
 
 Also, because of the messy result table is hardly to read, `EnrichGT` help you convert it into pretty `gt` HTML tables. This only supports the re-enriched results.
 
 ![](enrichGTTable.jpg)
 
-The `gt_object` is a pure object of `gt` package, you can use any [function](https://gt.rstudio.com/articles/gt.html) on it, like:
+The `gt_object` is a pure object of `gt` package, you can use any [function](https://gt.rstudio.com/reference/index.html) on it, like:
 
 ``` r
 re_enrichment_results@gt_object |> gt_save("test.html") # Save it use basic gt functions. 
@@ -297,7 +294,7 @@ For Transcript Factors infer, `database_CollecTRI_human()` and `database_CollecT
 
 ### Read Addition Gene Sets from local
 
-EnrichGT supports reading \`GMT\` files, You can obtain \`GMT\` files from MsigDB.
+EnrichGT supports reading \`GMT\` files, You can obtain \`GMT\` files from [MsigDB](https://www.gsea-msigdb.org/gsea/msigdb/index.jsp).
 
 ``` r
 database_from_gmt("Path_to_your_Gmt_file.gmt")
@@ -305,7 +302,7 @@ database_from_gmt("Path_to_your_Gmt_file.gmt")
 
 ### Where is KEGG?
 
-KEGG limited the commercial usage. And you should use the `KEGG REST` API to download it. I have no time to achieve it now. But you can use KEGG Database from MsigDB instead ([KEGG_MED](https://www.gsea-msigdb.org/gsea/msigdb/human/genesets.jsp?collection=CP:KEGG_MEDICUS) and [KEGG_Classical](https://www.gsea-msigdb.org/gsea/msigdb/human/genesets.jsp?collection=CP:KEGG_LEGACY)).
+KEGG limited the commercial usage. And you should use the `KEGG REST` API to download it. I have no time to achieve it now. But you can use KEGG Database from [MsigDB](https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp#C2) instead ([KEGG_MED](https://www.gsea-msigdb.org/gsea/msigdb/human/genesets.jsp?collection=CP:KEGG_MEDICUS) and [KEGG_Classical](https://www.gsea-msigdb.org/gsea/msigdb/human/genesets.jsp?collection=CP:KEGG_LEGACY)).
 
 ### Reading is slow?
 

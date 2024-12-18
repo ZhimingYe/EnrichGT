@@ -1,0 +1,52 @@
+name: Deploy to gh_pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 步骤 1: 检出 main 分支的代码
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          persist-credentials: false  # 重要：防止覆盖令牌
+
+      # 步骤 2: 设置 Git 用户信息
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # 步骤 3: 打包 site/_site 目录内容
+      - name: Archive site/_site
+        run: |
+          mkdir -p ../_site_temp
+          cp -r site/_site/* ../_site_temp/
+
+      # 步骤 4: 检出 gh_pages 分支
+      - name: Checkout gh_pages branch
+        uses: actions/checkout@v3
+        with:
+          ref: gh_pages
+          persist-credentials: false
+
+      # 步骤 5: 复制文件到 gh_pages 分支
+      - name: Copy files to gh_pages
+        run: |
+          rm -rf *  # 根据需要清理目标分支内容，谨慎使用
+          cp -r ../_site_temp/* ./
+
+      # 步骤 6: 提交并推送更改
+      - name: Commit and Push changes
+        run: |
+          git add .
+          git commit -m "Update gh_pages with latest site/_site from main" || echo "No changes to commit"
+          git push origin gh_pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
