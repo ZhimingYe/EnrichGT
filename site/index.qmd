@@ -1,0 +1,257 @@
+---
+title: "EnrichGT Document"
+author: "Zhiming Ye"
+date: "2024-12-18"
+format: 
+  html:
+    embed-resources: true
+toc: true
+toc-depth: 5
+toc-expand: true
+---
+
+```{r}
+#| message: false
+#| warning: false
+#| include: false
+library(litedown)
+litedown::fuse("./package_functions.rmd")
+```
+
+# Install EnrichGT
+
+``` r
+install.packages("pak")
+pak::pkg_install("ZhimingYe/EnrichGT")
+```
+
+or
+
+``` r
+library(devtools)
+install_github("ZhimingYe/EnrichGT")
+```
+
+The `AnnotationDbi`, `fgsea`, `reactome.db` and `GO.db` were from BioConductor and might be slow to install. If you can't install, please re-check your web connections or update your R and BioConductor, or use [Posit Package Manager](https://packagemanager.posit.co/) to install when using old R.
+
+# Meet EnrichGT
+
+::: callout-important
+See [package function page](package_functions.html) for further information (For example, how to use a function)
+
+You can use `? function` to get further help when installed.
+
+``` r
+?egt_recluster_analysis
+```
+:::
+
+## Core Function
+
+### Enrichment of genes
+
+This is a `C++` accelerated over representation analysis tool.
+
+``` r
+res <- egt_enrichment_analysis(genes = DEGtable$Genes,
+database = database_GO_BP())
+
+res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",
+                                         "You can add more genes"),
+database = database_GO_ALL())
+
+res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",
+                                         "You can add more genes"),
+database = database_from_gmt("MsigDB_Hallmark.gmt"))
+```
+
+::: callout-tip
+#### Have many sources of genes?
+
+This function also support many groups of genes, you can input a `list`.
+
+``` r
+# For many groups of genes
+res <- egt_enrichment_analysis(list(Macrophages=c("CD169","CD68","CD163"),
+Fibroblast=c("COL1A2","COL1A3"),"You can add more groups"),
+ database = database_from_gmt("panglaoDB.gmt"))
+```
+:::
+
+### Enrichment of weighted genes (GSEA)
+
+Genes with specific weights (e.g. the log2FC) can use GSEA method. It should input a pre-ranked geneset. This use `C++` accelerated `fgsea::fgsea()` as backend, so it is also very fast.
+
+::: callout-note
+#### How to build pre-ranked gene set?
+
+`genes_with_weights(genes,weights)` function is used to build the pre-ranked gene set for GSEA analysis.
+:::
+
+``` r
+# From DEG analysis Results
+res <- egt_gsea_analysis(genes = 
+                           genes_with_weights(genes = DEG$genes, 
+                                              weights = DEG$log2FoldChange),
+                         database = database_GO_BP()
+                         )
+
+# From PCA
+res <- egt_gsea_analysis(genes = genes_with_weights(genes = PCA_res$genes,
+                                                    weights =PCA_res$PC1_loading),
+                         database = database_from_gmt("MsigDB_Hallmark.gmt")
+                         )
+```
+
+## Featured Function
+
+### Enrichment of Enriched Results
+
+The enriched result is too messy? Clean up it!
+
+::: callout-tip
+#### Form clusterProfiler ?
+
+This can also supports the results from `clusterProfiler`, so you can use **any tool** to do this.
+:::
+
+::: {.callout-note collapse="true"}
+#### Why the `re-enrichment` is necessary?
+
+##### Challenges in Biological Gene Enrichment Analysis
+
+Gene enrichment analysis can often be misleading due to the redundancy within gene set databases and the limitations of most enrichment tools. Many tools, by default, only display a few top results and fail to filter out redundancy. This can result in both biological misinterpretation and valuable information being overlooked.
+
+For instance, high expression of certain immune genes can cause many immune-related gene sets to appear overrepresented. However, a closer look often reveals that these gene sets are derived from the same group of genes, which might represent only a small fraction (less than 10%) of the differentially expressed genes (DEGs). What about the other 90%? Do they hold no biological significance?
+
+##### Current Solutions
+
+**clusterProfiler** is one of the most powerful tools in R for enrichment analysis. It's designed with pathway redundancy in mind and includes the `clusterProfiler::simplify` function to address this issue. This method, based on **GOSemSim** for GO similarity evaluation, is scientifically robust and highly effective.
+
+However, there are some drawbacks:
+
+-   GOSemSim is not fast, particularly when dealing with large or complex gene sets.
+
+-   It doesn't support databases like KEGG or Reactome.
+
+Using GOSemSim to measure the semantic similarity between pathways is, theoretically, the best way to tackle redundancy. However, in practical cases—especially in experimental bioinformatics validation—researchers are more focused on the genes behind these pathways rather than the pathways themselves.
+
+##### Alternative Approaches
+
+Although clustering pathways based on gene overlap has received some criticism, it remains a viable approach in many situations. For this reason, I developed **BioThemeFinder** a few years ago to solve this problem. However, the tool is so awful (I am poor in coding...)
+
+Today, two excellent alternatives exist:
+
+-   **simplifyEnrichment**: This package is more scientifically rigorous (based on semantic similarity) and creates beautiful visualizations. It also doesn't support databases like KEGG or Reactome.
+-   **aPEAR**: A simpler and faster tool that better aligns with practical needs, making it my preferred choice.
+
+However, both of these tools have a common limitation: their visualizations are optimized for publication purposes rather than for exploratory research. I often find myself exporting CSV files or struggling with RStudio's preview pane to fully explore enrichment tables. This inspired me to develop a more efficient solution. Also, they are slow.
+
+##### Goals of This Package
+
+The main purpose of developing this package is to provide a **lightweight and practical solution** to the problems mentioned above. Specifically, this package aims to:
+
+**Cluster enrichment results** based on hit genes or core enrichment from GSEA using term frequency analysis (from the output of the powerful `clusterProfiler`). This provides a clearer view of biological relevance by focusing on the genes that matter most.
+:::
+
+``` r
+# From results generated before
+res <- egt_enrichment_analysis(genes = DEGtable$Genes,
+database = database_GO_BP())
+
+re_enrichment_results <- egt_recluster_analysis(
+  res,
+  ClusterNum = 17,
+  P.adj = 0.05,
+  force = F,
+  nTop = 10,
+  method = "ward.D2"
+)
+```
+
+## HTML reports (gt table)
+
+Also, because of the messy result table is hardly to read, `EnrichGT` help you convert it into pretty `gt` HTML tables. This only supports the re-enriched results.
+
+``` r
+re_enrichment_results <- egt_recluster_analysis(res_from_ora)
+# Show gt table
+re_enrichment_results@gt_object
+```
+
+The `gt_object` is a pure object of `gt` package, you can use any [function](https://gt.rstudio.com/articles/gt.html) on it, like:
+
+``` r
+re_enrichment_results@gt_object |> gt_save("test.html") # Save it use basic gt functions. 
+```
+
+For further usage of gt package, please refer to <https://gt.rstudio.com/articles/gt.html>.
+
+See re-enrichment example for further demo.
+
+## Ploting functions
+
+::: callout-warning
+The Dot Plot supports simple enrichment result `data.frame` and re-enriched `egt_object`, but UMAP plot only supports re-enriched `egt_object`.
+:::
+
+HTML `gt` table satisfied most of things, but for others. Though we don't want this package become complex (i.e., you can simple draw your figure using ggplot2 for enriched tables by yourself.) But we still provide limited figure ploting functions.
+
+### Dot Plot
+
+``` r
+```
+
+### UMAP Plot
+
+## DataBases Helpers
+
+::: callout-note
+### How to specify species?
+
+EnrichGT use `AnnotationDbi` for this. you can use `org.Hs.eg.db` for human and `org.Mm.eg.db` for mouse. For others, please refer to `BioConductor`.
+
+But for non-AnnotationDbi source database, you do not need to provide this, like `database_CollecTRI_human()` return database about human only.
+:::
+
+### Built in database form AnnotationDbi
+
+You should add argument `OrgDB` for fetching them.
+
+Example:
+
+``` r
+database_GO_BP(OrgDB = org.Hs.eg.db)
+```
+
+#### GO Database
+
+`database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()`, `database_GO_ALL()`
+
+#### Reactome Database
+
+`database_Reactome()`
+
+#### Progeny Database
+
+For pathway activity infer, `database_progeny_human()` and `database_progeny_mouse()`
+
+#### CollecTRI Database
+
+For Transcript Factors infer, `database_CollecTRI_human()` and `database_CollecTRI_mouse()`
+
+### Read Addition Gene Sets from local
+
+EnrichGT supports reading \`GMT\` files, You can obtain \`GMT\` files from MsigDB.
+
+``` r
+database_from_gmt("Path_to_your_Gmt_file.gmt")
+```
+
+### Where is KEGG?
+
+KEGG limited the commercial usage. And you should use the `KEGG REST` API to download it. I have no time to achieve it now. But you can use KEGG Database from MsigDB instead ([KEGG_MED](https://www.gsea-msigdb.org/gsea/msigdb/human/genesets.jsp?collection=CP:KEGG_MEDICUS) and [KEGG_Classical](https://www.gsea-msigdb.org/gsea/msigdb/human/genesets.jsp?collection=CP:KEGG_LEGACY)).
+
+### Reading is slow?
+
+From `0.5.0`, EnrichGT implemented a cache system. So when load a same database the second time, it will be much faster.
