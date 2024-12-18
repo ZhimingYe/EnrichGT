@@ -64,6 +64,30 @@ res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",
                                          "You can add more genes"),
 database = database_from_gmt("MsigDB_Hallmark.gmt"))
 ```
+::: {.callout-note collapse="true"}
+#### Example of ORA
+
+```{r}
+#| message: false
+#| warning: false
+library(dplyr)
+library(tibble)
+library(org.Hs.eg.db)
+library(gt)
+library(testthat)
+library(withr)
+library(EnrichGT)
+library(readr)
+```
+
+```{r}
+DEGexample <- read_csv("./DEG.csv")
+DEGexample_UpReg <- DEGexample |> dplyr::filter(pvalue<0.05,log2FoldChange>0.7)
+ora_result <- egt_enrichment_analysis(genes = DEGexample_UpReg$...1,database = database_GO_BP(org.Hs.eg.db))
+head(ora_result)
+```
+
+:::
 
 ::: callout-tip
 #### Have many sources of genes?
@@ -173,11 +197,16 @@ re_enrichment_results <- egt_recluster_analysis(
 
 Also, because of the messy result table is hardly to read, `EnrichGT` help you convert it into pretty `gt` HTML tables. This only supports the re-enriched results.
 
-``` r
-re_enrichment_results <- egt_recluster_analysis(res_from_ora)
-# Show gt table
-re_enrichment_results@gt_object
+::: {.callout-note collapse="true"}
+
+### Example of re-enrich
+
+```{r}
+re_enrich <- egt_recluster_analysis(ora_result)
+re_enrich@gt_object
 ```
+
+:::
 
 The `gt_object` is a pure object of `gt` package, you can use any [function](https://gt.rstudio.com/articles/gt.html) on it, like:
 
@@ -199,10 +228,21 @@ HTML `gt` table satisfied most of things, but for others. Though we don't want t
 
 ### Dot Plot
 
-``` r
+```{r}
+#| fig-width: 7
+#| fig-height: 10
+egt_plot_results(re_enrich)
 ```
 
+
 ### UMAP Plot
+
+```{r}
+#| fig-width: 10
+#| fig-height: 10
+egt_plot_umap(re_enrich)
+```
+
 
 ## DataBases Helpers
 
@@ -255,3 +295,8 @@ KEGG limited the commercial usage. And you should use the `KEGG REST` API to dow
 ### Reading is slow?
 
 From `0.5.0`, EnrichGT implemented a cache system. So when load a same database the second time, it will be much faster.
+
+```{r}
+test <- database_GO_MF(org.Hs.eg.db)
+test_reload <- database_GO_MF(org.Hs.eg.db)
+```
