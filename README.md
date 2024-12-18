@@ -1,16 +1,10 @@
-## Installation
-
-```{r}
-library(devtools)
-install_github("ZhimingYe/EnrichGT")
-```
-# EnrichGT
 
 
-**EnrichGT <- ** Fast, light weight enrichment analysis + explainable re-clustered HTML tables
+# EnrichGT 0.5
 
+**EnrichGT \<-** Fast, light weight enrichment analysis + explainable re-clustered HTML tables
 
-```mermaid
+``` mermaid
 
 graph LR
     subgraph Enrichment Analysis
@@ -58,8 +52,23 @@ graph LR
     MG --> I
 
 
-
 ```
 
-
 Description and help pages: <https://zhimingye.github.io/EnrichGT/>
+
+
+
+# Install EnrichGT
+
+``` r
+install.packages("pak")
+pak::pkg_install("ZhimingYe/EnrichGT")
+```
+
+or
+
+``` r
+install.packages("devtools")
+library(devtools)
+install_github("ZhimingYe/EnrichGT")
+```
