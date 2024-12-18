@@ -25,7 +25,7 @@ database_GO <- function(OrgDB,ONTOLOGY,...) {
     dplyr::select(ind, go_terms, values) |>
     na.omit()
   t2 <- Sys.time()
-  cli::cli_alert_success(paste0("success loaded database, time used : ",(t2-t1)))
+  cli::cli_alert_success(paste0("success loaded database, time used : ",(t2-t1)," sec."))
   return(goAnno)
 }
 
@@ -67,7 +67,7 @@ database_RA <- function(OrgDB,...) {
   df<-df |> left_join(eg2,by="ENTREZID")
   df<-df[,c(1,3,4)]
   t2 <- Sys.time()
-  cli::cli_alert_success(paste0("success loaded database, time used : ",(t2-t1)))
+  cli::cli_alert_success(paste0("success loaded database, time used : ",(t2-t1)," sec."))
   return(df)
 }
 
@@ -186,7 +186,7 @@ database_GO_ALL <- function(OrgDB=org.Hs.eg.db){
 #' @rdname get_database
 #' @export
 database_Reactome <- function(OrgDB=org.Hs.eg.db){
-  x <- UniversalInternalDBFetcher("Reactome",org.Hs.eg.db)
+  x <- UniversalInternalDBFetcher("Reactome",OrgDB)
   return(x)
 }
 #' @rdname get_database

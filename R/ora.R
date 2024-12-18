@@ -11,6 +11,7 @@ parse_gs<-function(gset){
 #' @useDynLib EnrichGT
 #' @importFrom Rcpp sourceCpp
 doEnrich_Internal <- function(genes,database,p_adj_methods,p_val_cut_off,background_genes,min_geneset_size,max_geneset_size){
+  t1 <- Sys.time()
   tryCatch({
     if(ncol(database)!=2&ncol(database)!=3){
       cli::cli_abort("Not valid database")
@@ -81,5 +82,8 @@ doEnrich_Internal <- function(genes,database,p_adj_methods,p_val_cut_off,backgro
                     qvalue=df00$qvalues,
                     geneID=df00$gene_list,
                     Count=df00$Overlap)
+  t2 <- Sys.time()
+  timeLast <- t2 - t1
+  cli::cli_alert_success(paste0("Done ORA in ",timeLast," sec."))
   return(res)
 }

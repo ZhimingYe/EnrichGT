@@ -99,7 +99,7 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
         res <- doEnrich_Internal(genes=x,database,p_adj_methods,p_val_cut_off,background_genes,min_geneset_size,max_geneset_size)
         return(res)
       },error=function(e){
-        return(data.frame(ERROR=e))
+        return(data.frame(ERROR="error..."))
       })
     })
   }else if(is.list(genes)&multi_cores>=2){
@@ -109,7 +109,7 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
         res <- doEnrich_Internal(genes=x,database,p_adj_methods,p_val_cut_off,background_genes,min_geneset_size,max_geneset_size)
         return(res)
       },error=function(e){
-        return(data.frame(ERROR=e))
+        return(data.frame(ERROR="error..."))
       })
     },mc.cores = multi_cores)
   }
@@ -119,7 +119,7 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
     }else if(is.list(result)){
       result <- lapply(result,function(x){
         if(is.data.frame(x)){
-          if(nrow(x)>1){
+          if(ncol(x)>3 & nrow(x)>3){
             z <- x |> dplyr::filter(pvalue<p_val_cut_off) |> dplyr::arrange(pvalue)
             return(z)
           }
@@ -187,12 +187,15 @@ egt_gsea_analysis <- function(genes,database,p_val_cut_off=0.5,min_geneset_size=
   db0 <- db0 |> dplyr::mutate(CheckDup = paste0(ID,term)) |> dplyr::filter(!duplicated(CheckDup)) |> dplyr::select(-CheckDup) |> dplyr::rename(pathway = term) # Because of output is pathway
   colnames(database) <- c("term", "gene")
   database2 <- split(database$gene,database$term)
+  t1 <- Sys.time()
   fgseaRes <- fgsea::fgsea(pathways = database2,
                     stats    = genes,
                     minSize  = min_geneset_size,
                     maxSize  = max_geneset_size,
                     gseaParam=gseaParam)
   fgseaRes <- fgseaRes |> left_join(db0,by="pathway")
+  t2 <- Sys.time()
+  cli::cli_alert_success(paste0("Sucess of GSEA, time last", (t2-t1)," secs."))
   fgseaRes2 <- data.frame(ID = fgseaRes$ID,
                           Description = fgseaRes$pathway,
                           ES = fgseaRes$ES,
