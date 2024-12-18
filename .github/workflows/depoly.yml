@@ -1,17 +1,24 @@
-name: Deploy to gh-pages
+name: Deploy to gh-pages V2
 
 on:
   push:
     branches:
-      - main  # 监听main分支的更新
+      - main  # 监听 main 分支的更新
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout the code
+    - name: Checkout the current project code
       uses: actions/checkout@v3
+
+    - name: Checkout EnrichGTWebsite repository
+      uses: actions/checkout@v3
+      with:
+        repository: ZhimingYe/EnrichGT_website  # 目标仓库地址
+        token: ${{ secrets.GITHUB_TOKEN }}
+        path: EnrichGTWebsite  # 在本地创建一个目录来存放源项目的文件
 
     - name: Set up Node.js (optional, depending on your project)
       uses: actions/setup-node@v3
@@ -28,6 +35,10 @@ jobs:
         # npm run build
         # 如果你的网站已经是预构建好的内容，可以跳过此步骤
         echo "Build complete"
+
+    - name: Copy EnrichGTWebsite build to current project
+      run: |
+        cp -r EnrichGTWebsite/_site/* site/_site/  # 将 EnrichGTWebsite 中构建好的内容复制到目标文件夹
 
     - name: Deploy to gh-pages
       uses: JamesIves/github-pages-deploy-action@v4
