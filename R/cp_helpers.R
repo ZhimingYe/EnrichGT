@@ -33,17 +33,11 @@ genes_with_weights<-function(genes,weights){
 ##' @importFrom utils stack
 ##' @export
 ##' @return data.frame
-##' @author cited from https://github.com/YuLab-SMU/gson/blob/main/R/GMT.R
+##' @author cited from https://github.com/YuLab-SMU/gson/blob/main/R/GMT.R . The further Cache system is written by Zhiming Ye.
 
 database_from_gmt <- function (gmtfile) {
-  x <- readLines(gmtfile)
-  res <- strsplit(x, "\t")
-  names(res) <- vapply(res, function(y) y[1], character(1))
-  res <- lapply(res, "[", -c(1:2))
-  ont2gene <- stack(res)
-  ont2gene <- ont2gene[, c("ind", "values")]
-  colnames(ont2gene) <- c("term", "gene")
-  return(ont2gene)
+  x <- UniversalInternalDBFetcher("SelfBuild",NULL,gmtfile)
+  return(x)
 }
 
 
@@ -55,12 +49,10 @@ database_from_gmt <- function (gmtfile) {
 #' To accelerate the computation in ORA analysis, `EnrichGT` have implemented a function that leverages C++ for high-performance computation. The core algorithm utilizes hash tables for efficient lookup and counting of genes across categories. Also It provides multi-Core parallel calculation by package `parallel`.
 #'
 #' @usage res <- egt_enrichment_analysis(genes = DEGtable$Genes,
-#' database = database_GO_BP()) # Load database would be slow. You can preload it.
+#' database = database_GO_BP())
 #'
-#' @usage goAll <- database_GO_ALL()
-#'
-#' res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
-#' database = goAll) # When use a database many times, you can pre-load it like this.
+#' @usage res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
+#' database = database_GO_ALL())
 #'
 #' @usage res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
 #' database = database_from_gmt("MsigDB_Hallmark.gmt"))
@@ -174,7 +166,7 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
 #' @param p_val_cut_off adjusted pvalue cutoff on enrichment tests to report
 #' @param min_geneset_size minimal size of genes annotated for testing
 #' @param max_geneset_size maximal size of genes annotated for testing
-#' @param gseaParam pass to fgsea
+#' @param gseaParam other param passing to fgsea
 #'
 #' @returns a data frame
 #' @export

@@ -33,7 +33,7 @@ You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gse
 
 \item{max_geneset_size}{maximal size of genes annotated for testing}
 
-\item{gseaParam}{pass to fgsea}
+\item{gseaParam}{other param passing to fgsea}
 
 \item{p_adj_methods}{one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"}
 }

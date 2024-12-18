@@ -10,7 +10,7 @@
 \alias{database_progeny_mouse}
 \alias{database_CollecTRI_human}
 \alias{database_CollecTRI_mouse}
-\title{Get database for enrichment}
+\title{Get database for enrichment analysis}
 \usage{
 database_GO_BP(OrgDB = org.Hs.eg.db)
 
@@ -31,11 +31,14 @@ database_CollecTRI_human()
 database_CollecTRI_mouse()
 }
 \arguments{
-\item{OrgDB}{org.DB form bioconductor, can be org.Hs.eg.db or org.Mm.eg.db,... GO and Reactome should add this, progeny and collectri do not.}
+\item{OrgDB}{org.DB form bioconductor, can be org.Hs.eg.db (human) or org.Mm.eg.db (mouse),... GO and Reactome should add this, progeny and collectri do not.}
 }
 \value{
 a data.frame with ID, terms and genes
 }
 \description{
-This would be slow. You can pre-load them and use them many time, instead of call this functionn many times.
+Get Gene Ontology (GO), Reactome, and other term-to-gene database, for enrichment analysis
+}
+\author{
+Zhiming Ye. Part of functions were inspired by `clusterProfiler` but with brand new implement.
 }

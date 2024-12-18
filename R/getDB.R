@@ -2,8 +2,8 @@
 
 db_getter_env<-new.env()
 
-database_GO <- function(ONTOLOGY, OrgDB) {
-
+database_GO <- function(OrgDB,ONTOLOGY,...) {
+  t1 <- Sys.time()
   loadNamespace("dplyr")
   loadNamespace("tibble")
   loadNamespace("AnnotationDbi")
@@ -24,11 +24,8 @@ database_GO <- function(ONTOLOGY, OrgDB) {
   goAnno <- goAnno |> dplyr::left_join(go_terms, by = "ind") |>
     dplyr::select(ind, go_terms, values) |>
     na.omit()
-  cli::cli_h1("Suggection")
-  cli::cli_alert_info("Loading databases will take long long time, please pre-load them to environment, and avoiding loading them again and again when doing analysis in a same database.")
-  cli::cli_alert("For Example:")
-  cli::cli_code("GOBPdata <- database_GO_BP(org.Hs.eg.db)")
-  cli::cli_code("ora_result <- egt_enrichment_analysis(genes = Genes,database = GOBPdata)")
+  t2 <- Sys.time()
+  cli::cli_alert_success(paste0("success loaded database, time used : ",(t2-t1)))
   return(goAnno)
 }
 
@@ -36,8 +33,8 @@ database_GO <- function(ONTOLOGY, OrgDB) {
 # Function fetching Reactome is cited from https://github.com/YuLab-SMU/ReactomePA/blob/devel/R/gseAnalyzer.R
 # with several modifies
 # (c) Guangchuang Yu @ SMU ReactomePA
-database_RA <- function(OrgDB) {
-
+database_RA <- function(OrgDB,...) {
+  t1 <- Sys.time()
   loadNamespace("dplyr")
   loadNamespace("tibble")
   loadNamespace("AnnotationDbi")
@@ -69,11 +66,8 @@ database_RA <- function(OrgDB) {
   df<-df |> left_join(PATHID2NAME,by="ID")
   df<-df |> left_join(eg2,by="ENTREZID")
   df<-df[,c(1,3,4)]
-  cli::cli_h1("Suggection")
-  cli::cli_alert_info("Loading databases will take long long time, please pre-load them to environment, and avoiding loading them again and again when doing analysis in a same database.")
-  cli::cli_alert("For Example:")
-  cli::cli_code("GOBPdata <- database_Reactome(org.Hs.eg.db)")
-  cli::cli_code("ora_result <- egt_enrichment_analysis(genes = Genes,database = GOBPdata)")
+  t2 <- Sys.time()
+  cli::cli_alert_success(paste0("success loaded database, time used : ",(t2-t1)))
   return(df)
 }
 
@@ -107,52 +101,92 @@ dbParser<-function(DB,species){
     tdb0<-TF_mouse |> dplyr::mutate(Direction=ifelse(mor>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
     tdb0$target <- str_to_title(tdb0$target)
   }
+  cli::cli_alert_success(paste0("success loaded self-contained database"))
   return(tdb0)
 }
 
 
+getGMT <- function (OrgDB,ONTOLOGY) {
+  x <- OrgDB
+  res <- strsplit(x, "\t")
+  names(res) <- vapply(res, function(y) y[1], character(1))
+  res <- lapply(res, "[", -c(1:2))
+  ont2gene <- stack(res)
+  ont2gene <- ont2gene[, c("ind", "values")]
+  colnames(ont2gene) <- c("term", "gene")
+  return(ont2gene)
+}
 
+
+# The Database cache system
+##' @importFrom xfun md5
+UniversalInternalDBFetcher <- function(Type,OrgDB=org.Hs.eg.db,ONTOLOGY=NULL,...){
+  CACHE_SYSTEM_WRITTEN_BY_ZHIMING_YE <- NULL
+  Spec<-OrgDB$packageName
+  if(Type=="GO"){
+    FUNInternal<-database_GO
+    key <- "GO_"
+    if(is.null(ONTOLOGY)){cli::cli_abort("please provide ont.")}
+  }else if(Type=="Reactome"){
+    FUNInternal<-database_RA
+    key <- "RA_"
+  }else if(Type=="SelfBuild"){
+    FUNInternal <- getGMT
+    DBreaded <- readLines(ONTOLOGY)
+    hashval <- xfun::md5(DBreaded)
+    key <- "Self_"
+    ONTOLOGY <- hashval
+    OrgDB <- DBreaded
+  }
+  ObjName<-paste0(key,ONTOLOGY,"_",Spec)
+  if(exists(ObjName,envir = db_getter_env)){
+    cli::cli_alert_success(paste0("Use cached database: ",ObjName))
+    x <- get(ObjName,envir = db_getter_env)
+  }else{
+    assign("GETFUN",FUNInternal,envir = db_getter_env)
+    x <- db_getter_env$GETFUN(OrgDB=OrgDB,ONTOLOGY=ONTOLOGY)
+    assign(ObjName,x,envir = db_getter_env)
+  }
+  CACHE_SYSTEM_WRITTEN_BY_ZHIMING_YE <- NULL
+  return(x)
+}
 
 
 #' @rdname get_database
-#' @title Get database for enrichment
+#' @title Get database for enrichment analysis
 #' @description
-#' This would be slow. You can pre-load them and use them many time, instead of call this functionn many times.
+#' Get Gene Ontology (GO), Reactome, and other term-to-gene database, for enrichment analysis
 #'
-#' @param OrgDB org.DB form bioconductor, can be org.Hs.eg.db or org.Mm.eg.db,... GO and Reactome should add this, progeny and collectri do not.
+#' @param OrgDB org.DB form bioconductor, can be org.Hs.eg.db (human) or org.Mm.eg.db (mouse),... GO and Reactome should add this, progeny and collectri do not.
 #' @returns a data.frame with ID, terms and genes
+#' @author Zhiming Ye. Part of functions were inspired by `clusterProfiler` but with brand new implement.
 #' @export
 database_GO_BP <- function(OrgDB=org.Hs.eg.db){
-  assign("database_GO",database_GO,envir = db_getter_env)
-  x <- db_getter_env$database_GO(ONTOLOGY="BP",OrgDB=OrgDB)
+  x <- UniversalInternalDBFetcher("GO",OrgDB,ONTOLOGY="BP")
   return(x)
 }
 #' @rdname get_database
 #' @export
 database_GO_CC <- function(OrgDB=org.Hs.eg.db){
-  assign("database_GO",database_GO,envir = db_getter_env)
-  x <- db_getter_env$database_GO(ONTOLOGY="CC",OrgDB=OrgDB)
+  x <- UniversalInternalDBFetcher("GO",OrgDB,ONTOLOGY="CC")
   return(x)
 }
 #' @rdname get_database
 #' @export
 database_GO_MF <- function(OrgDB=org.Hs.eg.db){
-  assign("database_GO",database_GO,envir = db_getter_env)
-  x <- db_getter_env$database_GO(ONTOLOGY="MF",OrgDB=OrgDB)
+  x <- UniversalInternalDBFetcher("GO",OrgDB,ONTOLOGY="MF")
   return(x)
 }
 #' @rdname get_database
 #' @export
 database_GO_ALL <- function(OrgDB=org.Hs.eg.db){
-  assign("database_GO",database_GO,envir = db_getter_env)
-  x <- db_getter_env$database_GO(ONTOLOGY="ALL",OrgDB=OrgDB)
+  x <- UniversalInternalDBFetcher("GO",OrgDB,ONTOLOGY="ALL")
   return(x)
 }
 #' @rdname get_database
 #' @export
 database_Reactome <- function(OrgDB=org.Hs.eg.db){
-  assign("database_RA",database_RA,envir = db_getter_env)
-  x <- db_getter_env$database_RA(OrgDB)
+  x <- UniversalInternalDBFetcher("Reactome",org.Hs.eg.db)
   return(x)
 }
 #' @rdname get_database
