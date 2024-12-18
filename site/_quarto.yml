@@ -1,0 +1,20 @@
+project:
+  type: website
+
+website:
+  title: "EnrichGT Documents"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: package_functions.html
+        text: Package Functions
+      - href: https://github.com/ZhimingYe/EnrichGT/
+        text: Github
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+

@@ -5,6 +5,7 @@ date: "2024-12-18"
 format: 
   html:
     embed-resources: true
+    code-overflow: wrap
 toc: true
 toc-depth: 5
 toc-expand: true
@@ -16,6 +17,7 @@ toc-expand: true
 #| include: false
 library(litedown)
 litedown::fuse("./package_functions.rmd")
+file.rename("package_functions.html","./_site/package_functions.html")
 ```
 
 # Install EnrichGT
@@ -50,7 +52,17 @@ You can use `? function` to get further help when installed.
 
 ### Enrichment of genes
 
-This is a `C++` accelerated over representation analysis tool.
+This is a `C++` accelerated over representation analysis tool. 
+
+::: {.callout-note collapse="true"}
+#### The difference from other tools
+
+Compared to the most popular clusterProfiler, the functions of EnrichGT differ slightly. This is mainly to accommodate wet lab researchers. First, most beginners are confused by the default input of clusterProfiler, which is “ENTREZ ID.” Most people familiar with biology are used to Gene Symbols, and even Ensembl IDs are not widely known, let alone a series of seemingly random numbers. Therefore, EnrichGT uses Gene Symbol as the default input, seamlessly integrating with most downstream results from various companies, making it more suitable for non-experts in the lab.
+
+Second, clusterProfiler outputs an S4 object, which may be too complex for beginners (this is no joke); whereas EnrichGT outputs a simple table. The time of non-experts is precious, so I made these two adjustments. The only downside is that the GSEA peak plot is difficult to generate, but in reality, we focus more on NES and p-values, and in this case, bar plots are more convincing.
+
+Furthermore, The pre-processing step of the hypergeometric test in EnrichGT’s ORA function (which determines overlap) is accelerated using hash tables in C++, making it over five times faster than `clusterProfiler::enricher()`, which is a pure R implementation.
+:::
 
 ``` r
 res <- egt_enrichment_analysis(genes = DEGtable$Genes,
@@ -64,6 +76,7 @@ res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",
                                          "You can add more genes"),
 database = database_from_gmt("MsigDB_Hallmark.gmt"))
 ```
+
 ::: {.callout-note collapse="true"}
 #### Example of ORA
 
@@ -86,7 +99,6 @@ DEGexample_UpReg <- DEGexample |> dplyr::filter(pvalue<0.05,log2FoldChange>0.7)
 ora_result <- egt_enrichment_analysis(genes = DEGexample_UpReg$...1,database = database_GO_BP(org.Hs.eg.db))
 head(ora_result)
 ```
-
 :::
 
 ::: callout-tip
@@ -193,20 +205,25 @@ re_enrichment_results <- egt_recluster_analysis(
 )
 ```
 
+
+```{r}
+#| include: false
+re_enrich <- egt_recluster_analysis(ora_result)
+```
+
+
+You can see the structure of `egt_obj`. The first slot is the result table, and the second slot contains gt table.
+
+```{r}
+str(re_enrich,max.level = 2)
+```
+
+
 ## HTML reports (gt table)
 
 Also, because of the messy result table is hardly to read, `EnrichGT` help you convert it into pretty `gt` HTML tables. This only supports the re-enriched results.
 
-::: {.callout-note collapse="true"}
-
-### Example of re-enrich
-
-```{r}
-re_enrich <- egt_recluster_analysis(ora_result)
-re_enrich@gt_object
-```
-
-:::
+![](enrichGTTable.jpg)
 
 The `gt_object` is a pure object of `gt` package, you can use any [function](https://gt.rstudio.com/articles/gt.html) on it, like:
 
@@ -234,7 +251,6 @@ HTML `gt` table satisfied most of things, but for others. Though we don't want t
 egt_plot_results(re_enrich)
 ```
 
-
 ### UMAP Plot
 
 ```{r}
@@ -242,7 +258,6 @@ egt_plot_results(re_enrich)
 #| fig-height: 10
 egt_plot_umap(re_enrich)
 ```
-
 
 ## DataBases Helpers
 
