@@ -38,6 +38,8 @@ jobs:
 
     - name: Copy EnrichGTWebsite build to current project
       run: |
+        mkdir site
+        mkdir site/_site
         cp -r EnrichGTWebsite/_site/* site/_site/  # 将 EnrichGTWebsite 中构建好的内容复制到目标文件夹
 
     - name: Deploy to gh-pages
