@@ -15,34 +15,48 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: main
-          persist-credentials: false  # 重要：防止覆盖令牌
+          persist-credentials: false  # 防止覆盖令牌
+          submodules: true  # 如果有子模块需要检出
 
-      # 步骤 2: 设置 Git 用户信息
+      # 步骤 2: 清除不需要的 Git 配置
+      - name: Clean Git configurations
+        run: |
+          # 清除 core.sshCommand
+          git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || true
+
+          # 清除 http.https://github.com/.extraheader
+          git config --local --name-only --get-regexp 'http\.https://github\.com/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || true
+
+          # 对所有子模块执行相同操作
+          git submodule foreach --recursive 'git config --local --name-only --get-regexp "core\.sshCommand" && git config --local --unset-all "core.sshCommand" || true'
+          git submodule foreach --recursive 'git config --local --name-only --get-regexp "http\.https://github\.com/\.extraheader" && git config --local --unset-all "http.https://github.com/.extraheader" || true'
+
+      # 步骤 3: 设置 Git 用户信息
       - name: Set up Git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      # 步骤 3: 打包 site/_site 目录内容
+      # 步骤 4: 复制 site/_site 内容到临时目录
       - name: Archive site/_site
         run: |
           mkdir -p ../_site_temp
           cp -r site/_site/* ../_site_temp/
 
-      # 步骤 4: 检出 gh_pages 分支
+      # 步骤 5: 检出 gh_pages 分支
       - name: Checkout gh_pages branch
         uses: actions/checkout@v3
         with:
           ref: gh_pages
           persist-credentials: false
 
-      # 步骤 5: 复制文件到 gh_pages 分支
+      # 步骤 6: 复制文件到 gh_pages 分支
       - name: Copy files to gh_pages
         run: |
-          rm -rf *  # 根据需要清理目标分支内容，谨慎使用
+          rm -rf *  # 请根据需要谨慎使用，避免误删重要文件
           cp -r ../_site_temp/* ./
 
-      # 步骤 6: 提交并推送更改
+      # 步骤 7: 提交并推送更改
       - name: Commit and Push changes
         run: |
           git add .
