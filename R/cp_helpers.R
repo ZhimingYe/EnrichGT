@@ -129,7 +129,10 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
     }
 
   },error=function(e){
-    cli::cli_abort("No useable result! ")
+    cli::cli_alert_danger("Please re-check the database OrgDB argument or input GMT file matchs the inputed genes. Some time you may forget to run: ")
+    cli::cli_code("library(org.Hs.eg.db) # for humans, if mouse use org.Mm.eg.db. Please re-check")
+    cli::cli_code("See https://zhimingye.github.io/EnrichGT/#built-in-database-form-annotationdbi for further details")
+    cli::cli_abort("No useable result!")
   })
   return(result)
 }
@@ -195,7 +198,7 @@ egt_gsea_analysis <- function(genes,database,p_val_cut_off=0.5,min_geneset_size=
                     gseaParam=gseaParam)
   fgseaRes <- fgseaRes |> left_join(db0,by="pathway")
   t2 <- Sys.time()
-  cli::cli_alert_success(paste0("Sucess of GSEA, time last", (t2-t1)," secs."))
+  cli::cli_alert_success(paste0("Sucessful GSEA, time last ", (t2-t1)," secs."))
   fgseaRes2 <- data.frame(ID = fgseaRes$ID,
                           Description = fgseaRes$pathway,
                           ES = fgseaRes$ES,
@@ -206,7 +209,10 @@ egt_gsea_analysis <- function(genes,database,p_val_cut_off=0.5,min_geneset_size=
   tryCatch({
     fgseaRes2 <- fgseaRes2 |> dplyr::filter(pvalue<p_val_cut_off) |> dplyr::arrange(desc(NES))
   },error=function(e){
-    cli::cli_abort("No useable result! ")
+    cli::cli_alert_danger("Please re-check the database OrgDB argument or input GMT file matchs the inputed genes. Some time you may forget to run: ")
+    cli::cli_code("library(org.Hs.eg.db) # for humans, if mouse use org.Mm.eg.db. Please re-check")
+    cli::cli_code("See https://zhimingye.github.io/EnrichGT/#built-in-database-form-annotationdbi for further details")
+    cli::cli_abort("No useable result!")
   })
   return(fgseaRes2)
 }

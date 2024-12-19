@@ -11,7 +11,7 @@ parse_gs<-function(gset){
 #' @useDynLib EnrichGT
 #' @importFrom Rcpp sourceCpp
 doEnrich_Internal <- function(genes,database,p_adj_methods,p_val_cut_off,background_genes,min_geneset_size,max_geneset_size){
-  t1 <- Sys.time()
+
   tryCatch({
     if(ncol(database)!=2&ncol(database)!=3){
       cli::cli_abort("Not valid database")
@@ -56,7 +56,7 @@ doEnrich_Internal <- function(genes,database,p_adj_methods,p_val_cut_off,backgro
   colnames(hitted_result)[1] <- "TERMs"
   hitted_result$TERMs <- as.character(hitted_result$TERMs)
 
-
+  t1 <- Sys.time()
   if(length(genes)==0){
     cli::cli_abort("No gene overlap! Please recheck. ")
   }

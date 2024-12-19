@@ -39,8 +39,8 @@ database_RA <- function(OrgDB,...) {
   loadNamespace("tibble")
   loadNamespace("AnnotationDbi")
   loadNamespace("reactome.db")
-  eg <- AnnotationDbi::keys(org.Hs.eg.db, keytype=c("ENTREZID"))
-  eg2 <- AnnotationDbi::select(org.Hs.eg.db, keys = eg,
+  eg <- AnnotationDbi::keys(OrgDB, keytype=c("ENTREZID"))
+  eg2 <- AnnotationDbi::select(OrgDB, keys = eg,
                                keytype = "ENTREZID", columns = c("ENTREZID", "SYMBOL"))
   EXTID2PATHID <- as.list(reactome.db::reactomeEXTID2PATHID)
   EXTID2PATHID <- EXTID2PATHID[names(EXTID2PATHID) %in% eg]
