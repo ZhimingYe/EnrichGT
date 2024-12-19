@@ -174,7 +174,24 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
 #' @returns a data frame
 #' @export
 #' @author warpped from fgsea package.
+#'
 egt_gsea_analysis <- function(genes,database,p_val_cut_off=0.5,min_geneset_size=10,max_geneset_size=500,gseaParam=1){
+  if(!is.list(genes)){
+    res <- egt_gsea_analysis_internal(genes=genes,database=database,p_val_cut_off=p_val_cut_off,min_geneset_size=min_geneset_size,max_geneset_size=max_geneset_size,gseaParam=gseaParam)
+  }else{
+    res <- lapply(genes,function(x){
+      tryCatch({
+        output <- egt_gsea_analysis_internal(genes=x,database=database,p_val_cut_off=p_val_cut_off,min_geneset_size=min_geneset_size,max_geneset_size=max_geneset_size,gseaParam=gseaParam)
+      },error=function(e){
+        output <- NULL
+      })
+      return(output)
+    })
+  }
+  return(res)
+}
+
+egt_gsea_analysis_internal <- function(genes,database,p_val_cut_off=0.5,min_geneset_size=10,max_geneset_size=500,gseaParam=1){
   tryCatch({
     if(ncol(database)!=2&ncol(database)!=3){
       cli::cli_abort("Not valid database")
