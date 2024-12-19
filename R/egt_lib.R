@@ -121,52 +121,15 @@ is_numeric_string <- function(x) {
   }
 }
 
-
-#' @importFrom umap umap
-#' @importFrom ggplot2 ggplot
-#' @importFrom ggplot2 geom_point
-#' @importFrom ggplot2 labs
-#' @importFrom ggplot2 theme_classic
-#' @importFrom ggrepel geom_text_repel
-.egtUMAP <- function(x){
-  mat<-x@document_term_matrix
-  umap_result <- umap::umap(mat)
-  umap_df <- data.frame(ID=rownames(umap_result[["layout"]]),
-                        UMAP1 = umap_result$layout[, 1],
-                        UMAP2 = umap_result$layout[, 2])
-  udf<-x@enriched_result |> left_join(umap_df,by="ID")
-  fig<-ggplot(udf, aes(x = UMAP1, y = UMAP2, color = Cluster)) +
-    geom_point(size = 2) +
-    geom_text_repel(aes(label = Description),
-                    size = 3,
-                    max.overlaps = 20,
-                    box.padding = 0.3,
-                    point.padding = 0.2) +
-    labs(title = "Enrichment Results",
-         x = "UMAP1", y = "UMAP2") +
-    theme_classic()
-  return(fig)
+message_egt<-function(x,Type=0){
+  if(Type==0){
+    cli_alert_info(x)
+  }
+  if(Type==1){
+    cli_alert_danger(x)
+  }
 }
 
-cocol <- function(n,favor=1,returnColor=F) {
-  if(favor == 3){
-    colorSpace <- c('#E41A1C','#377EB8','#4DAF4A','#984EA3','#F29403','#F781BF','#BC9DCC','#A65628','#54B0E4','#222F75','#1B9E77','#B2DF8A',
-                    '#E3BE00','#FB9A99','#E7298A','#910241','#00CDD1','#A6CEE3','#CE1261','#5E4FA2','#8CA77B','#00441B','#DEDC00','#DCF0B9','#8DD3C7','#999999')
-  }else if(favor == 2){
-    colorSpace<-c ("#7ca7ae","#a3b3c9","#788ab2","#edbacd","#687050","#b8c0a8","#908088","#e1b19e","#7fc4da","#e8dff4","#b7988f","#c59d17","#92a761","#75aa7a","#efdfbb","#fabb6e","#fc8002","#addb88","#369f2d","#fac7b3","#ee4431","#b9181a","#cedfef","#92c2dd","#4995c6","#1663a9","#bab4d5","#614099","#45aab4","#038db2","#f9637c","#fe7966","#fff4de","#81d0bb","#a5b8f3","#feaac2","#66C2A5","#8DA0CB","#E78AC3","#A6D854","#FFD92F","#E5C494","#B3B3B3")
-  }else if(favor == 1){
-    colorSpace<-c('#0ca9ce', '#78cfe5', '#c6ecf1', '#ff6f81', '#ff9c8f', '#ffc2c0','#d386bf','#cdb1d2', '#fae6f0', '#eb6fa6', '#ff88b5', '#00b1a5',"#ffa68f","#ffca75","#b8d8c9","#97bc83","#009f93","#448c99","#db888e","#e397a4","#ead0c7", "#8f9898","#bfcfcb")
-  }
-  if(!returnColor){
-    if (n <= length(colorSpace)) {
-      colors <- colorSpace[1:n]
-    } else {
-      colors <- grDevices::colorRampPalette(colorSpace)(n)
-    }
-  }
-  else{
-    colors<-colorSpace
-  }
-  return(colors)
-}
+nsimp<-function(){
 
+}
