@@ -39,12 +39,8 @@ Imports:
     text2vec,
     tibble,
     umap,
-    utils
-Suggests: 
-    org.Hs.eg.db,
-    readr,
-    testthat (>= 3.0.0),
-    withr
+    utils,
+    xfun
 LinkingTo: 
     Rcpp
 Config/testthat/edition: 3

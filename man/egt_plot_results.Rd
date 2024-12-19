@@ -2,16 +2,18 @@
 % Please edit documentation in R/figures.R
 \name{egt_plot_results}
 \alias{egt_plot_results}
-\title{Visualize results generated form `EnrichGT()` using simple plot}
+\title{Visualize enrichment results using simple plot}
 \usage{
-egt_plot_results(x, ...)
+egt_plot_results(x, ntop = 30, ..., P.adj = NULL)
 }
 \arguments{
-\item{x}{an EnrichGT object}
+\item{x}{a data frame form enriched result like `egt_enrichment_analysis()` or `egt_gsea_analysis()`, or an re-clustered `EnrichGT` object}
+
+\item{ntop}{Show top N in each cluster}
 
 \item{...}{Other param}
 
-\item{ntop}{Show top N in each cluster}
+\item{P.adj}{If pass an origin data.frame from original enriched result, you can specify the P-adjust value cut off. If is null, default is 0.05. When passing `EnrichGT_obj`, this filter is previously done by `egt_recluster_analysis`.}
 
 \item{low.col}{the color for the lowest}
 
