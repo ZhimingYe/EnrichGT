@@ -19,5 +19,5 @@ read `.gmt` files. You can download them from https://www.gsea-msigdb.org/gsea/m
 parse gmt form MsigDB file to a data.frame
 }
 \author{
-cited from https://github.com/YuLab-SMU/gson/blob/main/R/GMT.R
+cited from https://github.com/YuLab-SMU/gson/blob/main/R/GMT.R . The further Cache system is written by Zhiming Ye.
 }

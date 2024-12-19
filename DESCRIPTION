@@ -1,7 +1,7 @@
 Type: Package
 Package: EnrichGT
 Title: Parse and cluster biological enrichment result to great tables
-Version: 0.5.4
+Version: 0.5.8
 Author: Zhiming Ye
 Maintainer: Zhiming Ye <garnetcrow@hotmail.com>
 Description: Parse and cluster biological enrichment result to great
@@ -39,12 +39,8 @@ Imports:
     text2vec,
     tibble,
     umap,
-    utils
-Suggests: 
-    org.Hs.eg.db,
-    readr,
-    testthat (>= 3.0.0),
-    withr
+    utils,
+    xfun
 LinkingTo: 
     Rcpp
 Config/testthat/edition: 3

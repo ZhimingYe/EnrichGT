@@ -2,6 +2,30 @@
 
 db_getter_env<-new.env()
 
+cvgs<-function(genes,from_what,to_what,orgDB){
+  loadNamespace("AnnotationDbi")
+  x <- AnnotationDbi::select(orgDB, keys =genes,
+                             keytype = from_what, columns = c(from_what,to_what))
+  return(x)
+}
+
+#' Convert gene annotations from any keys to any keys
+#'
+#' @param genes gene vector
+#' @param from_what input type (like "SYMBOL","ENTREZID","ENSEMBL","GENENAME",...), keys should be supported by AnnotationDbi. Search for the help page of AnnotationDbi for further help.
+#' @param to_what output type (like "SYMBOL","ENTREZID","ENSEMBL","GENENAME",...), keys should be supported by AnnotationDbi. Search for the help page of AnnotationDbi for further help. Can be multiple items E.g. `c("ENTREZID","ENSEMBL","GENENAME")`
+#' @param orgDB human = org.Hs.eg.db, mouse = org.Mm.eg.db, search BioConductor website for further help
+#'
+#' @returns a data.frame
+#' @export
+#'
+#' @examples
+convert_annotations_genes <- function(genes,from_what,to_what,orgDB){
+  assign("cvgs",cvgs,envir = db_getter_env)
+  x <- db_getter_env$cvgs(genes,from_what,to_what,orgDB)
+  return(x)
+}
+
 database_GO <- function(OrgDB,ONTOLOGY,...) {
   t1 <- Sys.time()
   loadNamespace("dplyr")

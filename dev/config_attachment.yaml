@@ -4,7 +4,9 @@ dir.r: R
 dir.v: vignettes
 dir.t: tests
 extra.suggests: ~
-pkg_ignore: "clusterProfiler"
+pkg_ignore:
+  - "clusterProfiler"
+  - "org.Hs.eg.db"
 document: yes
 normalize: yes
 inside_rmd: no
