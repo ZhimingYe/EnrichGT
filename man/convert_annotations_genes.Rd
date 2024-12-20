@@ -4,7 +4,7 @@
 \alias{convert_annotations_genes}
 \title{Convert gene annotations from any keys to any keys}
 \usage{
-convert_annotations_genes(genes, from_what, to_what, orgDB)
+convert_annotations_genes(genes, from_what, to_what, OrgDB)
 }
 \arguments{
 \item{genes}{gene vector}
@@ -13,7 +13,7 @@ convert_annotations_genes(genes, from_what, to_what, orgDB)
 
 \item{to_what}{output type (like "SYMBOL","ENTREZID","ENSEMBL","GENENAME",...), keys should be supported by AnnotationDbi. Search for the help page of AnnotationDbi for further help. Can be multiple items E.g. `c("ENTREZID","ENSEMBL","GENENAME")`}
 
-\item{orgDB}{human = org.Hs.eg.db, mouse = org.Mm.eg.db, search BioConductor website for further help}
+\item{OrgDB}{human = org.Hs.eg.db, mouse = org.Mm.eg.db, search BioConductor website for further help}
 }
 \value{
 a data.frame
