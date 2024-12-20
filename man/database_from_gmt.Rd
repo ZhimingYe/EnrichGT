@@ -2,21 +2,24 @@
 % Please edit documentation in R/cp_helpers.R
 \name{database_from_gmt}
 \alias{database_from_gmt}
-\title{getGMTFile}
+\title{parse GMT files file to a data.frame}
 \usage{
-database_from_gmt(gmtfile)
+database_from_gmt(gmtfile, OrgDB = NULL, convert_2_symbols = T)
 }
 \arguments{
 \item{gmtfile}{gmt file path}
+
+\item{OrgDB}{Only need when converting genes, human = org.Hs.eg.db, mouse = org.Mm.eg.db, search BioConductor website for further help. Default is NULL.}
+
+\item{convert_2_symbols}{Force to convert numeric gene ids (as ENTREZIDs) to gene symbols}
 }
 \value{
 data.frame
 }
 \description{
-read `.gmt` files. You can download them from https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp
-}
-\details{
-parse gmt form MsigDB file to a data.frame
+Read `.gmt` files. You can download them from https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp
+
+WikiPathway database also provides pre-built GMT files (https://data.wikipathways.org/current/gmt/). In default they are recorded as ENTREZ IDs, so you need to provide proper species database (e.g. org.Hs.eg.db for human), to database_from_gmt function and EnrichGT will automatically convert ENTREZ IDs to gene symbols for enrichment analysis.
 }
 \author{
 cited from https://github.com/YuLab-SMU/gson/blob/main/R/GMT.R . The further Cache system is written by Zhiming Ye.
