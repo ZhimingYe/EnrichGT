@@ -17,7 +17,7 @@ The number is the weight of each gene, can use the logFC form DEG analysis resul
 
 `EnrichGT` provides a `genes_with_weights(genes,weights)` function to build this numeric vector. Importantly, this vector should be !SORTED! for larger to smaller.}
 
-\item{database}{a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can run `database_GO_CC()` to see an example.
+\item{database}{a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run `database_GO_CC()` to get them, see example.
 
 The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with `database_...`, like `database_GO_BP()` or `database_Reactome()`.
 
@@ -25,7 +25,9 @@ The default gene in each database EnrichGT provided to input is `GENE SYMBOL` (l
 
 Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()` and `database_Reactome()`.
 
-You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using `database_from_gmt(FILE_PATH)`.}
+You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using `database_from_gmt(FILE_PATH)`.
+
+If you only have simple a table, you can also pass a data frame through this arguement. Of note, it should contains at least 2 coloumn (colnames(df) = c("Terms","Genes)), the first is term names and the second are the corresponding genes. If you have term ids, you can add a `ID` column at the first column, and `Terms` becomes the second column and `Genes` the third.}
 
 \item{p_val_cut_off}{adjusted pvalue cutoff on enrichment tests to report}
 

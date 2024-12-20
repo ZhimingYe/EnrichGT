@@ -67,7 +67,7 @@ database_from_gmt <- function (gmtfile) {
 #'
 #' The genes should be match in the second param `database`'s `gene` column. For example, if database provides Ensembl IDs, you should input Ensembl IDs. But in default databases provided by `EnrichGT` is gene symbols.
 #'
-#' @param database a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes).
+#' @param database a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run `database_GO_CC()` to get them, see example.
 #'
 #' You can run `database_GO_CC()` to see an example.
 #'
@@ -78,6 +78,8 @@ database_from_gmt <- function (gmtfile) {
 #' It will be more convince for new users. Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()` and `database_Reactome()`.
 #'
 #' You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using `database_from_gmt(FILE_PATH)`.
+#'
+#' If you only have simple a table, you can also pass a data frame through this arguement. Of note, it should contains at least 2 coloumn (colnames(df) = c("Terms","Genes)), the first is term names and the second are the corresponding genes. If you have term ids, you can add a `ID` column at the first column, and `Terms` becomes the second column and `Genes` the third.
 #'
 #' @param p_adj_methods one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
 #' @param p_val_cut_off adjusted pvalue cutoff on enrichment tests to report
@@ -129,9 +131,7 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
     }
 
   },error=function(e){
-    cli::cli_alert_danger("Please re-check the database OrgDB argument or input GMT file matchs the inputed genes. Some time you may forget to run: ")
-    cli::cli_code("library(org.Hs.eg.db) # for humans, if mouse use org.Mm.eg.db. Please re-check")
-    cli::cli_code("See https://zhimingye.github.io/EnrichGT/#built-in-database-form-annotationdbi for further details")
+    message_wrong_db()
     cli::cli_abort("No useable result!")
   })
   return(result)
@@ -156,7 +156,7 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
 #'
 #' `EnrichGT` provides a `genes_with_weights(genes,weights)` function to build this numeric vector. Importantly, this vector should be !SORTED! for larger to smaller.
 #'
-#' @param database a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can run `database_GO_CC()` to see an example.
+#' @param database a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run `database_GO_CC()` to get them, see example.
 #'
 #' The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with `database_...`, like `database_GO_BP()` or `database_Reactome()`.
 #'
@@ -165,6 +165,9 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
 #' Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()` and `database_Reactome()`.
 #'
 #' You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using `database_from_gmt(FILE_PATH)`.
+#'
+#' If you only have simple a table, you can also pass a data frame through this arguement. Of note, it should contains at least 2 coloumn (colnames(df) = c("Terms","Genes)), the first is term names and the second are the corresponding genes. If you have term ids, you can add a `ID` column at the first column, and `Terms` becomes the second column and `Genes` the third.
+#'
 #' @param p_adj_methods one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
 #' @param p_val_cut_off adjusted pvalue cutoff on enrichment tests to report
 #' @param min_geneset_size minimal size of genes annotated for testing
@@ -194,6 +197,7 @@ egt_gsea_analysis <- function(genes,database,p_val_cut_off=0.5,min_geneset_size=
 egt_gsea_analysis_internal <- function(genes,database,p_val_cut_off=0.5,min_geneset_size=10,max_geneset_size=500,gseaParam=1){
   tryCatch({
     if(ncol(database)!=2&ncol(database)!=3){
+      message_wrong_db()
       cli::cli_abort("Not valid database")
     }
   },error=function(e){cli::cli_abort("Not valid database")})
@@ -226,10 +230,14 @@ egt_gsea_analysis_internal <- function(genes,database,p_val_cut_off=0.5,min_gene
   tryCatch({
     fgseaRes2 <- fgseaRes2 |> dplyr::filter(pvalue<p_val_cut_off) |> dplyr::arrange(desc(NES))
   },error=function(e){
-    cli::cli_alert_danger("Please re-check the database OrgDB argument or input GMT file matchs the inputed genes. Some time you may forget to run: ")
-    cli::cli_code("library(org.Hs.eg.db) # for humans, if mouse use org.Mm.eg.db. Please re-check")
-    cli::cli_code("See https://zhimingye.github.io/EnrichGT/#built-in-database-form-annotationdbi for further details")
+    message_wrong_db()
     cli::cli_abort("No useable result!")
   })
   return(fgseaRes2)
+}
+
+message_wrong_db<-function(){
+  cli::cli_alert_danger("Please re-check the database OrgDB argument or input GMT file matchs the inputed genes. Some time you may forget to run: ")
+  cli::cli_code("library(org.Hs.eg.db) # for humans, if mouse use org.Mm.eg.db. Please re-check")
+  cli::cli_code("See https://zhimingye.github.io/EnrichGT/#built-in-database-form-annotationdbi for further details")
 }

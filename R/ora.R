@@ -14,6 +14,7 @@ doEnrich_Internal <- function(genes,database,p_adj_methods,p_val_cut_off,backgro
 
   tryCatch({
     if(ncol(database)!=2&ncol(database)!=3){
+      message_wrong_db()
       cli::cli_abort("Not valid database")
     }
   },error=function(e){cli::cli_abort("Not valid database")})
