@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="generator" content="litedown 0.4">
 <title>EnrichGT Package Document</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.13.57/css/prism-xcode.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.13.58/css/prism-xcode.min.css">
 <style type="text/css">
 body {
   font-family: sans-serif;
@@ -115,7 +115,7 @@ section.footnotes {
 </tr>
 <tr>
 <td>Version</td>
-<td>0.5.0</td>
+<td>0.6.0</td>
 </tr>
 <tr>
 <td>Description</td>
@@ -156,14 +156,8 @@ stringr,
 text2vec,
 tibble,
 umap,
-utils</td>
-</tr>
-<tr>
-<td>Suggests</td>
-<td>org.Hs.eg.db,
-readr,
-testthat (&gt;= 3.0.0),
-withr</td>
+utils,
+xfun</td>
 </tr>
 <tr>
 <td>License</td>
@@ -174,15 +168,15 @@ withr</td>
 <td><a href="https://zhimingye.github.io/EnrichGT/">https://zhimingye.github.io/EnrichGT/</a></td>
 </tr>
 <tr>
-<td>VignetteBuilder</td>
-<td>knitr</td>
-</tr>
-<tr>
 <td>Author</td>
 <td>Zhiming Ye</td>
 </tr>
 </tbody></table>
 <h2 id="sec:manual-pages">Manual pages</h2>
+<p>
+<b>-- <kbd>C</kbd> --</b>
+<a href="#sec:man-convert-annotations-genes"><code>convert_annotations_genes()</code></a>
+</p>
 <p>
 <b>-- <kbd>D</kbd> --</b>
 <a href="#sec:man-database-from-gmt"><code>database_from_gmt()</code></a>
@@ -210,33 +204,68 @@ withr</td>
 <b>-- <kbd>G</kbd> --</b>
 <a href="#sec:man-genes-with-weights"><code>genes_with_weights()</code></a>
 </p>
-<h2 id="sec:man-database-from-gmt" id="database_from_gmt">getGMTFile</h2>
+<h2 id="sec:man-convert-annotations-genes" id="convert_annotations_genes">Convert gene annotations from any keys to any keys</h2>
 <h3 id="sec:description_1" class="unnumbered unlisted">Description</h3>
-<p>read '.gmt' files. You can download them from https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp
+<p>Convert gene annotations from any keys to any keys
 </p>
 <h3 id="sec:usage_1" class="unnumbered unlisted">Usage</h3>
-<pre><code class="language-R">database_from_gmt(gmtfile)</code></pre>
+<pre><code class="language-R">convert_annotations_genes(genes, from_what, to_what, OrgDB)</code></pre>
 <h3 id="sec:arguments_1" class="unnumbered unlisted">Arguments</h3>
+<table class="table-full">
+<tr><td><code>genes</code></td>
+<td>
+<p>gene vector</p>
+</td></tr>
+<tr><td><code>from_what</code></td>
+<td>
+<p>input type (like &quot;SYMBOL&quot;,&quot;ENTREZID&quot;,&quot;ENSEMBL&quot;,&quot;GENENAME&quot;,...), keys should be supported by AnnotationDbi. Search for the help page of AnnotationDbi for further help.</p>
+</td></tr>
+<tr><td><code>to_what</code></td>
+<td>
+<p>output type (like &quot;SYMBOL&quot;,&quot;ENTREZID&quot;,&quot;ENSEMBL&quot;,&quot;GENENAME&quot;,...), keys should be supported by AnnotationDbi. Search for the help page of AnnotationDbi for further help. Can be multiple items E.g. 'c(&quot;ENTREZID&quot;,&quot;ENSEMBL&quot;,&quot;GENENAME&quot;)'</p>
+</td></tr>
+<tr><td><code>OrgDB</code></td>
+<td>
+<p>human = org.Hs.eg.db, mouse = org.Mm.eg.db, search BioConductor website for further help</p>
+</td></tr>
+</table>
+<h3 id="sec:value_1" class="unnumbered unlisted">Value</h3>
+<p>a data.frame
+</p>
+<h2 id="sec:man-database-from-gmt" id="database_from_gmt">parse GMT files file to a data.frame</h2>
+<h3 id="sec:description_2" class="unnumbered unlisted">Description</h3>
+<p>Read '.gmt' files. You can download them from https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp
+</p>
+<p>WikiPathway database also provides pre-built GMT files (https://data.wikipathways.org/current/gmt/). In default they are recorded as ENTREZ IDs, so you need to provide proper species database (e.g. org.Hs.eg.db for human), to database_from_gmt function and EnrichGT will automatically convert ENTREZ IDs to gene symbols for enrichment analysis.
+</p>
+<h3 id="sec:usage_2" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-R">database_from_gmt(gmtfile, OrgDB = NULL, convert_2_symbols = T)</code></pre>
+<h3 id="sec:arguments_2" class="unnumbered unlisted">Arguments</h3>
 <table class="table-full">
 <tr><td><code>gmtfile</code></td>
 <td>
 <p>gmt file path</p>
 </td></tr>
+<tr><td><code>OrgDB</code></td>
+<td>
+<p>Only need when converting genes, human = org.Hs.eg.db, mouse = org.Mm.eg.db, search BioConductor website for further help. Default is NULL.</p>
+</td></tr>
+<tr><td><code>convert_2_symbols</code></td>
+<td>
+<p>Force to convert numeric gene ids (as ENTREZIDs) to gene symbols</p>
+</td></tr>
 </table>
-<h3 id="sec:details_1" class="unnumbered unlisted">Details</h3>
-<p>parse gmt form MsigDB file to a data.frame
-</p>
-<h3 id="sec:value_1" class="unnumbered unlisted">Value</h3>
+<h3 id="sec:value_2" class="unnumbered unlisted">Value</h3>
 <p>data.frame
 </p>
 <h3 id="sec:author-s_1" class="unnumbered unlisted">Author(s)</h3>
-<p>cited from https://github.com/YuLab-SMU/gson/blob/main/R/GMT.R
+<p>cited from https://github.com/YuLab-SMU/gson/blob/main/R/GMT.R . The further Cache system is written by Zhiming Ye.
 </p>
 <h2 id="sec:man-egt-compare-groups" id="egt_compare_groups">2-Group Comparison of enrichment results and further clustering and visualizing</h2>
-<h3 id="sec:description_2" class="unnumbered unlisted">Description</h3>
+<h3 id="sec:description_3" class="unnumbered unlisted">Description</h3>
 <p>See '?EnrichGT()'
 </p>
-<h3 id="sec:usage_2" class="unnumbered unlisted">Usage</h3>
+<h3 id="sec:usage_3" class="unnumbered unlisted">Usage</h3>
 <pre><code class="language-R">egt_compare_groups(
   obj.test,
   obj.ctrl,
@@ -249,7 +278,7 @@ withr</td>
   method = "ward.D2",
   ...
 )</code></pre>
-<h3 id="sec:arguments_2" class="unnumbered unlisted">Arguments</h3>
+<h3 id="sec:arguments_3" class="unnumbered unlisted">Arguments</h3>
 <table class="table-full">
 <tr><td><code>obj.test</code></td>
 <td>
@@ -292,14 +321,14 @@ withr</td>
 <p>Others options.</p>
 </td></tr>
 </table>
-<h3 id="sec:details_2" class="unnumbered unlisted">Details</h3>
+<h3 id="sec:details_1" class="unnumbered unlisted">Details</h3>
 <p>Execute 'obj.test' VS 'obj.ctrl' tests, showing pathway overlaps (or differences) and meta-gene modules of test group and control group.
 </p>
 <p>Supports ORA and GSEA results (enriched object or data.frame).
 </p>
 <p>!WARNING!: 'obj.test' and 'obj.ctrl' should come from same database (e.g. GO Biological Process(GOBP)).
 </p>
-<h3 id="sec:value_2" class="unnumbered unlisted">Value</h3>
+<h3 id="sec:value_3" class="unnumbered unlisted">Value</h3>
 <p>'List' containing multiple 'EnrichGT_obj' objects.
 </p>
 <p>The 'List' contains objects with overlapped enriched terms, unique enrich terms.
@@ -308,12 +337,12 @@ withr</td>
 <p>Zhiming Ye
 </p>
 <h2 id="sec:man-egt-enrichment-analysis" id="egt_enrichment_analysis">A C++ accelerated universal enrichment analyzer (Over-Representation Analysis (ORA))</h2>
-<h3 id="sec:description_3" class="unnumbered unlisted">Description</h3>
+<h3 id="sec:description_4" class="unnumbered unlisted">Description</h3>
 <p>ORA is a statistical method used to identify biological pathways or gene sets that are significantly enriched in a given list of genes (e.g., differentially expressed genes). The method compares the proportion of genes in the target list that belong to a specific category (e.g., pathways, GO terms) to the expected proportion in the background gene set.
 </p>
 <p>To accelerate the computation in ORA analysis, 'EnrichGT' have implemented a function that leverages C++ for high-performance computation. The core algorithm utilizes hash tables for efficient lookup and counting of genes across categories. Also It provides multi-Core parallel calculation by package 'parallel'.
 </p>
-<h3 id="sec:usage_3" class="unnumbered unlisted">Usage</h3>
+<h3 id="sec:usage_4" class="unnumbered unlisted">Usage</h3>
 <pre><code class="language-R">res &lt;- egt_enrichment_analysis(genes = DEGtable$Genes,
 database = database_GO_BP())
 
@@ -326,7 +355,7 @@ database = database_from_gmt("MsigDB_Hallmark.gmt"))
 res &lt;- egt_enrichment_analysis(list(Macrophages=c("CD169","CD68","CD163"),
 Fibroblast=c("COL1A2","COL1A3"),...),
  database = database_from_gmt("panglaoDB.gmt"))</code></pre>
-<h3 id="sec:arguments_3" class="unnumbered unlisted">Arguments</h3>
+<h3 id="sec:arguments_4" class="unnumbered unlisted">Arguments</h3>
 <table class="table-full">
 <tr><td><code>genes</code></td>
 <td>
@@ -338,7 +367,7 @@ Fibroblast=c("COL1A2","COL1A3"),...),
 </td></tr>
 <tr><td><code>database</code></td>
 <td>
-<p>a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes).
+<p>a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run 'database_GO_CC()' to get them, see example.
 </p>
 <p>You can run 'database_GO_CC()' to see an example.
 </p>
@@ -348,7 +377,9 @@ Fibroblast=c("COL1A2","COL1A3"),...),
 </p>
 <p>It will be more convince for new users. Avaliable databases includes 'database_GO_BP()', 'database_GO_CC()', 'database_GO_MF()' and 'database_Reactome()'.
 </p>
-<p>You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using 'database_from_gmt(FILE_PATH)'.</p>
+<p>You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using 'database_from_gmt(FILE_PATH)'.
+</p>
+<p>If you only have simple a table, you can also pass a data frame through this arguement. Of note, it should contains at least 2 coloumn (colnames(df) = c(&quot;Terms&quot;,&quot;Genes)), the first is term names and the second are the corresponding genes. If you have term ids, you can add a 'ID' column at the first column, and 'Terms' becomes the second column and 'Genes' the third.</p>
 </td></tr>
 <tr><td><code>p_adj_methods</code></td>
 <td>
@@ -375,27 +406,27 @@ Fibroblast=c("COL1A2","COL1A3"),...),
 <p>multi_cores (Experimental), only used when analysis a list of genes (multi-source or groups). Set to 0 or 1 to disable. May use lots of RAM.</p>
 </td></tr>
 </table>
-<h3 id="sec:value_3" class="unnumbered unlisted">Value</h3>
+<h3 id="sec:value_4" class="unnumbered unlisted">Value</h3>
 <p>a data frame with ORA results.
 </p>
 <h3 id="sec:author-s_3" class="unnumbered unlisted">Author(s)</h3>
 <p>Zhiming Ye
 </p>
 <h2 id="sec:man-egt-gsea-analysis" id="egt_gsea_analysis">Gene Set Enrichment Analysis (GSEA) by EnrichGT</h2>
-<h3 id="sec:description_4" class="unnumbered unlisted">Description</h3>
+<h3 id="sec:description_5" class="unnumbered unlisted">Description</h3>
 <p>A warpper of 'fgsea::fgsea()'.
 </p>
 <p>GSEA is a computational method used to determine whether predefined gene sets (e.g., pathways, GO terms) are statistically enriched in a ranked list of genes. Unlike ORA, GSEA considers the entire gene list and focuses on the cumulative distribution of gene ranks to identify coordinated changes.
 </p>
 <p>The fgsea (https://github.com/ctlab/fgsea) package is an R tool that implements an accelerated version of GSEA. It uses precomputed statistical methods and efficient algorithms to dramatically speed up enrichment analysis, especially for large datasets.
 </p>
-<h3 id="sec:usage_4" class="unnumbered unlisted">Usage</h3>
+<h3 id="sec:usage_5" class="unnumbered unlisted">Usage</h3>
 <pre><code class="language-R">res &lt;- egt_gsea_analysis(genes = genes_with_weights(genes = DEG$genes, weights = DEG$log2FoldChange),
 database = database_GO_BP())
 
 res &lt;- egt_gsea_analysis(genes = genes_with_weights(genes = PCA_res$genes,weights =PCA_res$PC1_loading),
 database = database_from_gmt("MsigDB_Hallmark.gmt"))</code></pre>
-<h3 id="sec:arguments_4" class="unnumbered unlisted">Arguments</h3>
+<h3 id="sec:arguments_5" class="unnumbered unlisted">Arguments</h3>
 <table class="table-full">
 <tr><td><code>genes</code></td>
 <td>
@@ -407,7 +438,7 @@ database = database_from_gmt("MsigDB_Hallmark.gmt"))</code></pre>
 </td></tr>
 <tr><td><code>database</code></td>
 <td>
-<p>a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can run 'database_GO_CC()' to see an example.
+<p>a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run 'database_GO_CC()' to get them, see example.
 </p>
 <p>The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with 'database_...', like 'database_GO_BP()' or 'database_Reactome()'.
 </p>
@@ -415,7 +446,9 @@ database = database_from_gmt("MsigDB_Hallmark.gmt"))</code></pre>
 </p>
 <p>Avaliable databases includes 'database_GO_BP()', 'database_GO_CC()', 'database_GO_MF()' and 'database_Reactome()'.
 </p>
-<p>You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using 'database_from_gmt(FILE_PATH)'.</p>
+<p>You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using 'database_from_gmt(FILE_PATH)'.
+</p>
+<p>If you only have simple a table, you can also pass a data frame through this arguement. Of note, it should contains at least 2 coloumn (colnames(df) = c(&quot;Terms&quot;,&quot;Genes)), the first is term names and the second are the corresponding genes. If you have term ids, you can add a 'ID' column at the first column, and 'Terms' becomes the second column and 'Genes' the third.</p>
 </td></tr>
 <tr><td><code>p_val_cut_off</code></td>
 <td>
@@ -438,23 +471,23 @@ database = database_from_gmt("MsigDB_Hallmark.gmt"))</code></pre>
 <p>one of &quot;holm&quot;, &quot;hochberg&quot;, &quot;hommel&quot;, &quot;bonferroni&quot;, &quot;BH&quot;, &quot;BY&quot;, &quot;fdr&quot;, &quot;none&quot;</p>
 </td></tr>
 </table>
-<h3 id="sec:value_4" class="unnumbered unlisted">Value</h3>
+<h3 id="sec:value_5" class="unnumbered unlisted">Value</h3>
 <p>a data frame
 </p>
 <h3 id="sec:author-s_4" class="unnumbered unlisted">Author(s)</h3>
 <p>warpped from fgsea package.
 </p>
 <h2 id="sec:man-egt-infer" id="egt_infer">Infering Pathway or Transcript Factors activity from EnrichGT meta-gene modules</h2>
-<h3 id="sec:description_5" class="unnumbered unlisted">Description</h3>
+<h3 id="sec:description_6" class="unnumbered unlisted">Description</h3>
 <p>Only supports gene symbols. so you must use enrichedObj |&gt; setReadable(OrgDb = xxx,keyType = &quot;ENTREZID&quot;) |&gt; EnrichGT() . Do Not supports ENTREZIDs!
 </p>
 <p>[PROGENy](https://saezlab.github.io/progeny/) is a comprehensive resource containing a curated collection of pathways and their target genes, with weights for each interaction.
 </p>
 <p>[CollecTRI](https://github.com/saezlab/CollecTRI) is a comprehensive resource containing a curated collection of TFs and their transcriptional targets compiled from 12 different resources. This collection provides an increased coverage of transcription factors and a superior performance in identifying perturbed TFs compared to our previous.
 </p>
-<h3 id="sec:usage_5" class="unnumbered unlisted">Usage</h3>
+<h3 id="sec:usage_6" class="unnumbered unlisted">Usage</h3>
 <pre><code class="language-R">egt_infer(x, DB = "collectri", species = "human")</code></pre>
-<h3 id="sec:arguments_5" class="unnumbered unlisted">Arguments</h3>
+<h3 id="sec:arguments_6" class="unnumbered unlisted">Arguments</h3>
 <table class="table-full">
 <tr><td><code>x</code></td>
 <td>
@@ -469,31 +502,35 @@ database = database_from_gmt("MsigDB_Hallmark.gmt"))</code></pre>
 <p>can be &quot;human&quot; or &quot;mouse&quot;</p>
 </td></tr>
 </table>
-<h3 id="sec:value_5" class="unnumbered unlisted">Value</h3>
+<h3 id="sec:value_6" class="unnumbered unlisted">Value</h3>
 <p>a 'compareCluster' result from 'clusterProfiler'
 </p>
 <h3 id="sec:author-s_5" class="unnumbered unlisted">Author(s)</h3>
 <p>Zhiming Ye, Saez-Rodriguez Lab (The decoupleR package, https://saezlab.github.io/decoupleR/)
 </p>
-<h2 id="sec:man-egt-plot-results" id="egt_plot_results">Visualize results generated form 'EnrichGT()' using simple plot</h2>
-<h3 id="sec:description_6" class="unnumbered unlisted">Description</h3>
+<h2 id="sec:man-egt-plot-results" id="egt_plot_results">Visualize enrichment results using simple plot</h2>
+<h3 id="sec:description_7" class="unnumbered unlisted">Description</h3>
 <p>This plot is the most widely like 'enrichplot::dotplot()'used method to visualize enriched terms. It shows the enrichment scores (e.g. p values) and gene ratio or NES as dot size and color / or bar height. Users can specify the number of terms using 'ntop' or selected terms to color via the 'low.col' and 'hi.col'.
 </p>
-<h3 id="sec:usage_6" class="unnumbered unlisted">Usage</h3>
-<pre><code class="language-R">egt_plot_results(x, ...)</code></pre>
-<h3 id="sec:arguments_6" class="unnumbered unlisted">Arguments</h3>
+<h3 id="sec:usage_7" class="unnumbered unlisted">Usage</h3>
+<pre><code class="language-R">egt_plot_results(x, ntop = 30, ..., P.adj = NULL)</code></pre>
+<h3 id="sec:arguments_7" class="unnumbered unlisted">Arguments</h3>
 <table class="table-full">
 <tr><td><code>x</code></td>
 <td>
-<p>an EnrichGT object</p>
+<p>a data frame form enriched result like 'egt_enrichment_analysis()' or 'egt_gsea_analysis()', or an re-clustered 'EnrichGT' object</p>
+</td></tr>
+<tr><td><code>ntop</code></td>
+<td>
+<p>Show top N in each cluster</p>
 </td></tr>
 <tr><td><code>...</code></td>
 <td>
 <p>Other param</p>
 </td></tr>
-<tr><td><code>ntop</code></td>
+<tr><td><code>P.adj</code></td>
 <td>
-<p>Show top N in each cluster</p>
+<p>If pass an origin data.frame from original enriched result, you can specify the P-adjust value cut off. If is null, default is 0.05. When passing 'EnrichGT_obj', this filter is previously done by 'egt_recluster_analysis'.</p>
 </td></tr>
 <tr><td><code>low.col</code></td>
 <td>
@@ -508,19 +545,19 @@ database = database_from_gmt("MsigDB_Hallmark.gmt"))</code></pre>
 <p>the label format length, default as 40.</p>
 </td></tr>
 </table>
-<h3 id="sec:value_6" class="unnumbered unlisted">Value</h3>
+<h3 id="sec:value_7" class="unnumbered unlisted">Value</h3>
 <p>a ggplot2 object
 </p>
 <h3 id="sec:author-s_6" class="unnumbered unlisted">Author(s)</h3>
 <p>Zhiming Ye
 </p>
 <h2 id="sec:man-egt-plot-umap" id="egt_plot_umap">Visualize results generated form 'EnrichGT()' using UMAP</h2>
-<h3 id="sec:description_7" class="unnumbered unlisted">Description</h3>
+<h3 id="sec:description_8" class="unnumbered unlisted">Description</h3>
 <p>A word frequency matrix represents the frequency of words or tokens across different documents or text samples. Each row corresponds to a document, and each column represents a word or token, with the cell values indicating the frequency of the respective word in that document.However, high-dimensional data like word frequency matrices can be challenging to interpret directly. To make such data easier to analyze, we can reduce its dimensionality and visualize the patterns or clusters in a 2D or 3D space. UMAP (Uniform Manifold Approximation and Projection) is a powerful, non-linear dimensionality reduction technique widely used for this purpose.
 </p>
-<h3 id="sec:usage_7" class="unnumbered unlisted">Usage</h3>
+<h3 id="sec:usage_8" class="unnumbered unlisted">Usage</h3>
 <pre><code class="language-R">egt_plot_umap(x, ...)</code></pre>
-<h3 id="sec:arguments_7" class="unnumbered unlisted">Arguments</h3>
+<h3 id="sec:arguments_8" class="unnumbered unlisted">Arguments</h3>
 <table class="table-full">
 <tr><td><code>x</code></td>
 <td>
@@ -531,14 +568,14 @@ database = database_from_gmt("MsigDB_Hallmark.gmt"))</code></pre>
 <p>Other param</p>
 </td></tr>
 </table>
-<h3 id="sec:value_7" class="unnumbered unlisted">Value</h3>
+<h3 id="sec:value_8" class="unnumbered unlisted">Value</h3>
 <p>a ggplot2 object
 </p>
 <h3 id="sec:author-s_7" class="unnumbered unlisted">Author(s)</h3>
 <p>Zhiming Ye
 </p>
 <h2 id="sec:man-egt-recluster-analysis" id="egt_recluster_analysis">Parse enrichment results and further clustering and visualizing</h2>
-<h3 id="sec:description_8" class="unnumbered unlisted">Description</h3>
+<h3 id="sec:description_9" class="unnumbered unlisted">Description</h3>
 <p>Cluster enrichment results based on hit genes for ORA (e.g, typical GO enrichment) or core enrichment from GSEA using term frequency analysis. This provides a clearer view of biological relevance by focusing on the genes that matter most.
 </p>
 <p>Gene enrichment analysis can often be misleading due to the redundancy within gene set databases and the limitations of most enrichment tools. Many tools, by default, only display a few top results and fail to filter out redundancy. This can result in both biological misinterpretation and valuable information being overlooked.
@@ -547,7 +584,7 @@ database = database_from_gmt("MsigDB_Hallmark.gmt"))</code></pre>
 </p>
 <p>The main purpose of developing this package is to provide a lightweight and practical solution to the problems mentioned above.
 </p>
-<h3 id="sec:usage_8" class="unnumbered unlisted">Usage</h3>
+<h3 id="sec:usage_9" class="unnumbered unlisted">Usage</h3>
 <pre><code class="language-R">egt_recluster_analysis(
   x,
   ClusterNum = 17,
@@ -557,7 +594,7 @@ database = database_from_gmt("MsigDB_Hallmark.gmt"))</code></pre>
   method = "ward.D2",
   ...
 )</code></pre>
-<h3 id="sec:arguments_8" class="unnumbered unlisted">Arguments</h3>
+<h3 id="sec:arguments_9" class="unnumbered unlisted">Arguments</h3>
 <table class="table-full">
 <tr><td><code>x</code></td>
 <td>
@@ -588,7 +625,7 @@ database = database_from_gmt("MsigDB_Hallmark.gmt"))</code></pre>
 <p>Others options.</p>
 </td></tr>
 </table>
-<h3 id="sec:details_3" class="unnumbered unlisted">Details</h3>
+<h3 id="sec:details_2" class="unnumbered unlisted">Details</h3>
 <p>For an ORA result, c(&quot;ID&quot;,&quot;Description&quot;,&quot;GeneRatio&quot;,&quot;pvalue&quot;,&quot;p.adjust&quot;,&quot;geneID&quot;,&quot;Count&quot;) should be contained;
 </p>
 <p>For GSEA, c(&quot;ID&quot;,&quot;Description&quot;,&quot;NES&quot;,&quot;pvalue&quot;,&quot;p.adjust&quot;,&quot;core_enrichment&quot;) should be contain.
@@ -597,7 +634,7 @@ database = database_from_gmt("MsigDB_Hallmark.gmt"))</code></pre>
 </p>
 <p>To perform fusing multi-database enrichment results, please give a 'list' object.
 </p>
-<h3 id="sec:value_8" class="unnumbered unlisted">Value</h3>
+<h3 id="sec:value_9" class="unnumbered unlisted">Value</h3>
 <p>an 'EnrichGT_obj' object.
 </p>
 <p>slot 'enriched_result' contains a data.frame with enriched results. 'gt_object' contains 'gt' object.
@@ -616,12 +653,12 @@ database = database_from_gmt("MsigDB_Hallmark.gmt"))</code></pre>
 <p>Zhiming Ye
 </p>
 <h2 id="sec:man-genes-with-weights" id="genes_with_weights">Return ranked gene list which is use for &quot;GSEA&quot; or other places</h2>
-<h3 id="sec:description_9" class="unnumbered unlisted">Description</h3>
+<h3 id="sec:description_10" class="unnumbered unlisted">Description</h3>
 <p>Return ranked gene list which is use for &quot;GSEA&quot; or other places
 </p>
-<h3 id="sec:usage_9" class="unnumbered unlisted">Usage</h3>
+<h3 id="sec:usage_10" class="unnumbered unlisted">Usage</h3>
 <pre><code class="language-R">genes_with_weights(genes, weights)</code></pre>
-<h3 id="sec:arguments_9" class="unnumbered unlisted">Arguments</h3>
+<h3 id="sec:arguments_10" class="unnumbered unlisted">Arguments</h3>
 <table class="table-full">
 <tr><td><code>genes</code></td>
 <td>
@@ -632,17 +669,17 @@ database = database_from_gmt("MsigDB_Hallmark.gmt"))</code></pre>
 <p>A vector contain weight of genes, typically like log2FC from DEG analysis</p>
 </td></tr>
 </table>
-<h3 id="sec:value_9" class="unnumbered unlisted">Value</h3>
+<h3 id="sec:value_10" class="unnumbered unlisted">Value</h3>
 <p>A ranked named numeric vector. Names of the numbers is the ENTREZID.
 </p>
 <h3 id="sec:author-s_9" class="unnumbered unlisted">Author(s)</h3>
 <p>Zhiming Ye
 </p>
 <h2 id="sec:man-database-go-bp" id="database_GO_BP">Get database for enrichment analysis</h2>
-<h3 id="sec:description_10" class="unnumbered unlisted">Description</h3>
+<h3 id="sec:description_11" class="unnumbered unlisted">Description</h3>
 <p>Get Gene Ontology (GO), Reactome, and other term-to-gene database, for enrichment analysis
 </p>
-<h3 id="sec:usage_10" class="unnumbered unlisted">Usage</h3>
+<h3 id="sec:usage_11" class="unnumbered unlisted">Usage</h3>
 <pre><code class="language-R">database_GO_BP(OrgDB = org.Hs.eg.db)
 
 database_GO_CC(OrgDB = org.Hs.eg.db)
@@ -660,14 +697,14 @@ database_progeny_mouse()
 database_CollecTRI_human()
 
 database_CollecTRI_mouse()</code></pre>
-<h3 id="sec:arguments_10" class="unnumbered unlisted">Arguments</h3>
+<h3 id="sec:arguments_11" class="unnumbered unlisted">Arguments</h3>
 <table class="table-full">
 <tr><td><code>OrgDB</code></td>
 <td>
 <p>org.DB form bioconductor, can be org.Hs.eg.db (human) or org.Mm.eg.db (mouse),... GO and Reactome should add this, progeny and collectri do not.</p>
 </td></tr>
 </table>
-<h3 id="sec:value_10" class="unnumbered unlisted">Value</h3>
+<h3 id="sec:value_11" class="unnumbered unlisted">Value</h3>
 <p>a data.frame with ID, terms and genes
 </p>
 <h3 id="sec:author-s_10" class="unnumbered unlisted">Author(s)</h3>
