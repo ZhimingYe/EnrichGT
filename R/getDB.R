@@ -14,15 +14,15 @@ cvgs<-function(genes,from_what,to_what,orgDB){
 #' @param genes gene vector
 #' @param from_what input type (like "SYMBOL","ENTREZID","ENSEMBL","GENENAME",...), keys should be supported by AnnotationDbi. Search for the help page of AnnotationDbi for further help.
 #' @param to_what output type (like "SYMBOL","ENTREZID","ENSEMBL","GENENAME",...), keys should be supported by AnnotationDbi. Search for the help page of AnnotationDbi for further help. Can be multiple items E.g. `c("ENTREZID","ENSEMBL","GENENAME")`
-#' @param orgDB human = org.Hs.eg.db, mouse = org.Mm.eg.db, search BioConductor website for further help
+#' @param OrgDB human = org.Hs.eg.db, mouse = org.Mm.eg.db, search BioConductor website for further help
 #'
 #' @returns a data.frame
 #' @export
 #'
 #' @examples
-convert_annotations_genes <- function(genes,from_what,to_what,orgDB){
+convert_annotations_genes <- function(genes,from_what,to_what,OrgDB){
   assign("cvgs",cvgs,envir = db_getter_env)
-  x <- db_getter_env$cvgs(genes,from_what,to_what,orgDB)
+  x <- db_getter_env$cvgs(genes,from_what,to_what,orgDB = OrgDB) # The case should be noticed
   return(x)
 }
 
@@ -143,7 +143,7 @@ getGMT <- function (OrgDB,ONTOLOGY) {
 
 
 # The Database cache system
-##' @importFrom xfun md5
+#' @importFrom xfun md5
 UniversalInternalDBFetcher <- function(Type,OrgDB=org.Hs.eg.db,ONTOLOGY=NULL,...){
   CACHE_SYSTEM_WRITTEN_BY_ZHIMING_YE <- NULL
   Spec<-OrgDB$packageName
