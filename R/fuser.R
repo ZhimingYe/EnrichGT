@@ -22,6 +22,7 @@ setMethod("cpres_internal_getter", signature(x = "gseaResult"),function(x,...){
   return(y)
 })
 setMethod("cpres_internal_getter", signature(x = "data.frame"),function(x,...){
+  x -> y
   if(sum(colnames(x)=="NES")==0){
     if(sum(colnames(y)%in%c("ID","Description","GeneRatio","pvalue","p.adjust","geneID","Count"))!=7){
       cli::cli_abort("At list contains needed columns")
