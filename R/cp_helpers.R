@@ -23,20 +23,54 @@ genes_with_weights<-function(genes,weights){
 # gmt file reader is cited from Yu lab's gson package. Author: Guangchuang Yu
 # https://github.com/YuLab-SMU/gson/blob/main/R/GMT.R
 
-##' parse gmt form MsigDB file to a data.frame
-##'
-##' @title getGMTFile
-##' @description
-##' read `.gmt` files. You can download them from https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp
-##'
-##' @param gmtfile gmt file path
-##' @importFrom utils stack
-##' @export
-##' @return data.frame
-##' @author cited from https://github.com/YuLab-SMU/gson/blob/main/R/GMT.R . The further Cache system is written by Zhiming Ye.
+# parse gmt form MsigDB file to a data.frame
+#
+#' @title parse GMT files file to a data.frame
+#' @description
+#' Read `.gmt` files. You can download them from https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp
+#'
+#' WikiPathway database also provides pre-built GMT files (https://data.wikipathways.org/current/gmt/). In default they are recorded as ENTREZ IDs, so you need to provide proper species database (e.g. org.Hs.eg.db for human), to database_from_gmt function and EnrichGT will automatically convert ENTREZ IDs to gene symbols for enrichment analysis.
+#' @param gmtfile gmt file path
+#' @param OrgDB Only need when converting genes, human = org.Hs.eg.db, mouse = org.Mm.eg.db, search BioConductor website for further help. Default is NULL.
+#' @param convert_2_symbols Force to convert numeric gene ids (as ENTREZIDs) to gene symbols
+#' @importFrom utils stack
+#' @export
+#' @return data.frame
+#' @author cited from https://github.com/YuLab-SMU/gson/blob/main/R/GMT.R . The further Cache system is written by Zhiming Ye.
 
-database_from_gmt <- function (gmtfile) {
+database_from_gmt <- function (gmtfile,OrgDB = NULL,convert_2_symbols=T) {
   x <- UniversalInternalDBFetcher("SelfBuild",NULL,gmtfile)
+  if(convert_2_symbols){
+    if(is.null(OrgDB)){
+      cli::cli_abort("No valid OrgDB, please load it and input")
+    }
+    x <- x |> as_tibble()
+    if(ncol(x)>3){
+      cli::cli_abort("Not valid gmt file! ")
+    }
+    if(nrow(x)<20){
+      Target <- nrow(x)
+    }else{
+      Target <-20
+    }
+    if(((is_numeric_string(x[1:Target,ncol(x),drop=T]) |> sum())/Target)>0.75){
+      cli::cli_alert_info("Detectd numeric gene ids, try to convert to symols.\n You can set convert_2_symbols=F to disable this.")
+      colnames(x)[ncol(x)]<-"ENTREZID"
+      tryCatch({
+        qq <- convert_annotations_genes(x$ENTREZID,from_what = "ENTREZID",to_what = "SYMBOL",OrgDB = OrgDB)
+        if(nrow(qq |> na.omit())<5){
+          cli::cli_abort("Error in convert. Please set convert_2_symbols=F to disable this")
+        }
+
+        x <- x |> left_join(qq,by="ENTREZID")
+        x <- x |> dplyr::select(-ENTREZID)
+      },error=function(e){
+        cli::cli_abort("Error in convert. Please set convert_2_symbols=F to disable this")
+      })
+
+    }
+  }
+
   return(x)
 }
 
