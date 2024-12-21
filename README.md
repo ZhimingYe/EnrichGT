@@ -1,23 +1,19 @@
-# EnrichGT 0.5
+# EnrichGT 0.6
 
-**EnrichGT \<-** Fast, light weight enrichment analysis + explainable re-clustered HTML tables
+**EnrichGT \<-** Fast, light weight enrichment analysis + insightful re-clustering results make all results explainable + Pretty HTML tables, Just in **ONE** package, 
 
 Please see the package website: <https://zhimingye.github.io/EnrichGT/>
 
 ![](https://zhimingye.github.io/EnrichGT/enrichGTTable.jpg)
 
--   Efficient C++-based functions for rapid enrichment analysis;
-
--   Simple input format, empowering new bioinformatic users;
-
--   Re-clustering of enriched results provides clear and actionable insights
-
--   User-friendly HTML output docs that is easy to read and interpret
-
 
 ``` mermaid
 
 graph LR
+    
+    M[genes]
+    N[genes with weights]
+    
     subgraph Enrichment Analysis
         A[egt_enrichment_analysis]
         B[egt_gsea_analysis]
@@ -42,10 +38,13 @@ graph LR
         
         I[egt_infer]
     end
-
+    
+    M --> A
+    N --> B
+    
     D --> A
     D --> B
-
+    
     A --> C[Enriched Result]
     B --> C
 
@@ -61,6 +60,9 @@ graph LR
     CC --> P2
 
     MG --> I
+
+
+
 ```
 
 # Install EnrichGT
