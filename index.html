@@ -7,7 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Zhiming Ye">
-<meta name="dcterms.date" content="2024-12-21">
 
 <title>EnrichGT Documents</title>
 <style>
@@ -162,12 +161,16 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./package_functions.html"> 
+    <a class="nav-link" href="./pkgfuns.html"> 
 <span class="menu-text">Package Functions</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="https://github.com/ZhimingYe/EnrichGT/"> 
 <span class="menu-text">Github</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./preface.html"> 
+<span class="menu-text">Motivation</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -175,9 +178,6 @@ window.Quarto = {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <div id="quarto-announcement" data-announcement-id="4e3675661dfdb4119d63e909c987c0be" class="alert alert-primary hidden"><i class="bi bi-info-circle quarto-announcement-icon"></i><div class="quarto-announcement-content">
-<p><strong>Version 0.6 Release (2024-12)</strong> This version contains fix of a key bug, so please update.</p>
-</div></div>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
@@ -244,12 +244,6 @@ window.Quarto = {
           </div>
   </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">December 21, 2024</p>
-    </div>
-  </div>
   
     
   </div>
@@ -277,21 +271,24 @@ What is EnrichGT?
 </colgroup>
 <thead>
 <tr class="header">
-<th>EnrichGT means <u>enrich</u>ed previously enriched results (<span class="math inline">\(E^2_{\text{enrich}}\)</span>) into <u>g</u>reat <u>t</u>ables and more …</th>
+<th>EnrichGT means <u>enrich</u>ing previously enriched results (<span class="math inline">\(E^2_{\text{enrich}}\)</span>) into <u>g</u>reat <u>t</u>ables and more …</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Efficient C++-based functions for rapid enrichment analysis</td>
+<td>Efficient C++-based functions for <strong>rapid enrichment</strong> analysis</td>
 </tr>
 <tr class="even">
-<td>Simple input format, empowering non-pro users</td>
+<td><strong>Simple</strong> input format, empowering non-pro users</td>
 </tr>
 <tr class="odd">
-<td>Re-clustering of enriched results provides clear and actionable insights</td>
+<td>Re-clustering of enriched results provides <strong>clear and actionable insights</strong></td>
 </tr>
 <tr class="even">
-<td>User-friendly HTML output docs that is easy to read and interpret</td>
+<td>User-friendly <strong>HTML output</strong> that is easy to read and interpret</td>
+</tr>
+<tr class="odd">
+<td>Do a series of things just in <strong>ONE</strong> package</td>
 </tr>
 </tbody>
 </table>
@@ -461,8 +458,8 @@ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ora_result <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGexample_UpReg<span class="sc">$</span>...<span class="dv">1</span>,<span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
-✔ success loaded database, time used : 14.8111810684204 sec.
-✔ Done ORA in 0.130534887313843 sec.</code></pre>
+✔ success loaded database, time used : 14.436637878418 sec.
+✔ Done ORA in 0.131885051727295 sec.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ora_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -764,6 +761,10 @@ Warning
 <h3 class="anchored" data-anchor-id="umap-plot">UMAP Plot</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_umap</span>(re_enrich)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: ggrepel: 21 unlabeled data points (too many overlaps). Consider
+increasing max.overlaps</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -794,7 +795,7 @@ How to specify species?
 <h3 class="anchored" data-anchor-id="built-in-database-form-annotationdbi">Built in database form AnnotationDbi</h3>
 <p>You should add argument <code>OrgDB</code> for fetching them.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">database_GO_BP</span>(<span class="at">OrgDB =</span> org.Hs.eg.db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">database_GO_BP</span>(<span class="at">OrgDB =</span> org.Hs.eg.db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="go-database" class="level4">
 <h4 class="anchored" data-anchor-id="go-database">GO Database</h4>
 <p><code>database_GO_BP()</code>, <code>database_GO_CC()</code>, <code>database_GO_MF()</code>, <code>database_GO_ALL()</code></p>
@@ -806,10 +807,10 @@ How to specify species?
 <section id="wikipathway-database" class="level4">
 <h4 class="anchored" data-anchor-id="wikipathway-database">WikiPathway Database</h4>
 <p>WikiPathway database provides pre-built GMT files (<a href="https://data.wikipathways.org/current/gmt/" class="uri">https://data.wikipathways.org/current/gmt/</a>). In default they are recorded as <code>ENTREZ IDs</code>, so you need to provide proper species database (e.g.&nbsp;org.Hs.eg.db for human), to <code>database_from_gmt</code> function and EnrichGT will automatically convert <code>ENTREZ IDs</code> to gene symbols for enrichment analysis.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://data.wikipathways.org/current/gmt/wikipathways-20241210-gmt-Homo_sapiens.gmt"</span>,<span class="at">destfile =</span> <span class="st">"WikiPWS_human.gmt"</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>WikiPWsDB <span class="ot">&lt;-</span> <span class="fu">database_from_gmt</span>(<span class="st">"WikiPWS_human.gmt"</span>,<span class="at">OrgDB=</span>org.Hs.eg.db)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> WikiPWsDB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://data.wikipathways.org/current/gmt/wikipathways-20241210-gmt-Homo_sapiens.gmt"</span>,<span class="at">destfile =</span> <span class="st">"WikiPWS_human.gmt"</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>WikiPWsDB <span class="ot">&lt;-</span> <span class="fu">database_from_gmt</span>(<span class="st">"WikiPWS_human.gmt"</span>,<span class="at">OrgDB=</span>org.Hs.eg.db)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> WikiPWsDB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="progeny-database" class="level4">
 <h4 class="anchored" data-anchor-id="progeny-database">Progeny Database</h4>
@@ -823,7 +824,7 @@ How to specify species?
 <section id="read-addition-gene-sets-from-local-gmt-files" class="level3">
 <h3 class="anchored" data-anchor-id="read-addition-gene-sets-from-local-gmt-files">Read Addition Gene Sets from local GMT files</h3>
 <p>EnrichGT supports reading <code>GMT</code> files, You can obtain <code>GMT</code> files from <a href="https://www.gsea-msigdb.org/gsea/msigdb/index.jsp">MsigDB</a>.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">database_from_gmt</span>(<span class="st">"Path_to_your_Gmt_file.gmt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">database_from_gmt</span>(<span class="st">"Path_to_your_Gmt_file.gmt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In default, <code>database_from_gmt</code> will try to convert the numeric ids to gene symbols (as they are usually the <code>ENTREZ IDs</code>, you can disable this by passing <code>convert_2_symbols = F</code> ).</p>
 </section>
 <section id="read-addition-gene-sets-from-local-data-tables" class="level3">
@@ -880,17 +881,17 @@ How to specify species?
 </tbody>
 </table>
 <p>Example:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"you_gene_set.csv"</span>)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"you_gene_set.csv"</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="gene-annotation-converter" class="level3">
 <h3 class="anchored" data-anchor-id="gene-annotation-converter">Gene Annotation Converter</h3>
 <p>You can use <code>convert_annotations_genes()</code> to convert gene annotations from any keys to any keys.</p>
 <p>Example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">convert_annotations_genes</span>(DEGexample_UpReg<span class="sc">$</span>...<span class="dv">1</span>[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">from_what=</span><span class="st">"SYMBOL"</span>, <span class="at">to_what=</span><span class="fu">c</span>(<span class="st">"ENTREZID"</span>,<span class="st">"ENSEMBL"</span>,<span class="st">"GENENAME"</span>), <span class="at">OrgDB=</span>org.Hs.eg.db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">convert_annotations_genes</span>(DEGexample_UpReg<span class="sc">$</span>...<span class="dv">1</span>[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">from_what=</span><span class="st">"SYMBOL"</span>, <span class="at">to_what=</span><span class="fu">c</span>(<span class="st">"ENTREZID"</span>,<span class="st">"ENSEMBL"</span>,<span class="st">"GENENAME"</span>), <span class="at">OrgDB=</span>org.Hs.eg.db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>'select()' returned 1:1 mapping between keys and columns</code></pre>
 </div>

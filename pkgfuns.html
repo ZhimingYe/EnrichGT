@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>pkgfuns – EnrichGT Documents</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-6bd9cfa162949bde0a231f530c97869d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">EnrichGT Documents</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./pkgfuns.html" aria-current="page"> 
+<span class="menu-text">Package Functions</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/ZhimingYe/EnrichGT/"> 
+<span class="menu-text">Github</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./preface.html"> 
+<span class="menu-text">Motivation</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description">DESCRIPTION</a></li>
+  <li><a href="#convert_annotations_genes-convert-gene-annotations-from-any-keys-to-any-keys" id="toc-convert_annotations_genes-convert-gene-annotations-from-any-keys-to-any-keys" class="nav-link" data-scroll-target="#convert_annotations_genes-convert-gene-annotations-from-any-keys-to-any-keys"><code>convert_annotations_genes</code>: Convert gene annotations from any keys to any keys</a>
+  <ul class="collapse">
+  <li><a href="#description-1" id="toc-description-1" class="nav-link" data-scroll-target="#description-1">Description</a></li>
+  <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
+  <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
+  <li><a href="#value" id="toc-value" class="nav-link" data-scroll-target="#value">Value</a></li>
+  </ul></li>
+  <li><a href="#database_from_gmt-parse-gmt-files-file-to-a-data.frame" id="toc-database_from_gmt-parse-gmt-files-file-to-a-data.frame" class="nav-link" data-scroll-target="#database_from_gmt-parse-gmt-files-file-to-a-data.frame"><code>database_from_gmt</code>: parse GMT files file to a data.frame</a>
+  <ul class="collapse">
+  <li><a href="#description-2" id="toc-description-2" class="nav-link" data-scroll-target="#description-2">Description</a></li>
+  <li><a href="#usage-1" id="toc-usage-1" class="nav-link" data-scroll-target="#usage-1">Usage</a></li>
+  <li><a href="#arguments-1" id="toc-arguments-1" class="nav-link" data-scroll-target="#arguments-1">Arguments</a></li>
+  <li><a href="#author" id="toc-author" class="nav-link" data-scroll-target="#author">Author</a></li>
+  <li><a href="#value-1" id="toc-value-1" class="nav-link" data-scroll-target="#value-1">Value</a></li>
+  </ul></li>
+  <li><a href="#egt_compare_groups-2-group-comparison-of-enrichment-results-and-further-clustering-and-visualizing" id="toc-egt_compare_groups-2-group-comparison-of-enrichment-results-and-further-clustering-and-visualizing" class="nav-link" data-scroll-target="#egt_compare_groups-2-group-comparison-of-enrichment-results-and-further-clustering-and-visualizing"><code>egt_compare_groups</code>: 2-Group Comparison of enrichment results and further clustering and visualizing</a>
+  <ul class="collapse">
+  <li><a href="#description-3" id="toc-description-3" class="nav-link" data-scroll-target="#description-3">Description</a></li>
+  <li><a href="#usage-2" id="toc-usage-2" class="nav-link" data-scroll-target="#usage-2">Usage</a></li>
+  <li><a href="#arguments-2" id="toc-arguments-2" class="nav-link" data-scroll-target="#arguments-2">Arguments</a></li>
+  <li><a href="#details" id="toc-details" class="nav-link" data-scroll-target="#details">Details</a></li>
+  <li><a href="#author-1" id="toc-author-1" class="nav-link" data-scroll-target="#author-1">Author</a></li>
+  <li><a href="#value-2" id="toc-value-2" class="nav-link" data-scroll-target="#value-2">Value</a></li>
+  </ul></li>
+  <li><a href="#egt_enrichment_analysis-a-c-accelerated-universal-enrichment-analyzer-over-representation-analysis-ora" id="toc-egt_enrichment_analysis-a-c-accelerated-universal-enrichment-analyzer-over-representation-analysis-ora" class="nav-link" data-scroll-target="#egt_enrichment_analysis-a-c-accelerated-universal-enrichment-analyzer-over-representation-analysis-ora"><code>egt_enrichment_analysis</code>: A C++ accelerated universal enrichment analyzer (Over-Representation Analysis (ORA))</a>
+  <ul class="collapse">
+  <li><a href="#description-4" id="toc-description-4" class="nav-link" data-scroll-target="#description-4">Description</a></li>
+  <li><a href="#usage-3" id="toc-usage-3" class="nav-link" data-scroll-target="#usage-3">Usage</a></li>
+  <li><a href="#arguments-3" id="toc-arguments-3" class="nav-link" data-scroll-target="#arguments-3">Arguments</a></li>
+  <li><a href="#author-2" id="toc-author-2" class="nav-link" data-scroll-target="#author-2">Author</a></li>
+  <li><a href="#value-3" id="toc-value-3" class="nav-link" data-scroll-target="#value-3">Value</a></li>
+  </ul></li>
+  <li><a href="#egt_gsea_analysis-gene-set-enrichment-analysis-gsea-by-enrichgt" id="toc-egt_gsea_analysis-gene-set-enrichment-analysis-gsea-by-enrichgt" class="nav-link" data-scroll-target="#egt_gsea_analysis-gene-set-enrichment-analysis-gsea-by-enrichgt"><code>egt_gsea_analysis</code>: Gene Set Enrichment Analysis (GSEA) by EnrichGT</a>
+  <ul class="collapse">
+  <li><a href="#description-5" id="toc-description-5" class="nav-link" data-scroll-target="#description-5">Description</a></li>
+  <li><a href="#usage-4" id="toc-usage-4" class="nav-link" data-scroll-target="#usage-4">Usage</a></li>
+  <li><a href="#arguments-4" id="toc-arguments-4" class="nav-link" data-scroll-target="#arguments-4">Arguments</a></li>
+  <li><a href="#author-3" id="toc-author-3" class="nav-link" data-scroll-target="#author-3">Author</a></li>
+  <li><a href="#value-4" id="toc-value-4" class="nav-link" data-scroll-target="#value-4">Value</a></li>
+  </ul></li>
+  <li><a href="#egt_infer-infering-pathway-or-transcript-factors-activity-from-enrichgt-meta-gene-modules" id="toc-egt_infer-infering-pathway-or-transcript-factors-activity-from-enrichgt-meta-gene-modules" class="nav-link" data-scroll-target="#egt_infer-infering-pathway-or-transcript-factors-activity-from-enrichgt-meta-gene-modules"><code>egt_infer</code>: Infering Pathway or Transcript Factors activity from EnrichGT meta-gene modules</a>
+  <ul class="collapse">
+  <li><a href="#description-6" id="toc-description-6" class="nav-link" data-scroll-target="#description-6">Description</a></li>
+  <li><a href="#usage-5" id="toc-usage-5" class="nav-link" data-scroll-target="#usage-5">Usage</a></li>
+  <li><a href="#arguments-5" id="toc-arguments-5" class="nav-link" data-scroll-target="#arguments-5">Arguments</a></li>
+  <li><a href="#author-4" id="toc-author-4" class="nav-link" data-scroll-target="#author-4">Author</a></li>
+  <li><a href="#value-5" id="toc-value-5" class="nav-link" data-scroll-target="#value-5">Value</a></li>
+  </ul></li>
+  <li><a href="#egt_plot_results-visualize-enrichment-results-using-simple-plot" id="toc-egt_plot_results-visualize-enrichment-results-using-simple-plot" class="nav-link" data-scroll-target="#egt_plot_results-visualize-enrichment-results-using-simple-plot"><code>egt_plot_results</code>: Visualize enrichment results using simple plot</a>
+  <ul class="collapse">
+  <li><a href="#description-7" id="toc-description-7" class="nav-link" data-scroll-target="#description-7">Description</a></li>
+  <li><a href="#usage-6" id="toc-usage-6" class="nav-link" data-scroll-target="#usage-6">Usage</a></li>
+  <li><a href="#arguments-6" id="toc-arguments-6" class="nav-link" data-scroll-target="#arguments-6">Arguments</a></li>
+  <li><a href="#author-5" id="toc-author-5" class="nav-link" data-scroll-target="#author-5">Author</a></li>
+  <li><a href="#value-6" id="toc-value-6" class="nav-link" data-scroll-target="#value-6">Value</a></li>
+  </ul></li>
+  <li><a href="#egt_plot_umap-visualize-results-generated-form-enrichgt-using-umap" id="toc-egt_plot_umap-visualize-results-generated-form-enrichgt-using-umap" class="nav-link" data-scroll-target="#egt_plot_umap-visualize-results-generated-form-enrichgt-using-umap"><code>egt_plot_umap</code>: Visualize results generated form <code>EnrichGT()</code> using UMAP</a>
+  <ul class="collapse">
+  <li><a href="#description-8" id="toc-description-8" class="nav-link" data-scroll-target="#description-8">Description</a></li>
+  <li><a href="#usage-7" id="toc-usage-7" class="nav-link" data-scroll-target="#usage-7">Usage</a></li>
+  <li><a href="#arguments-7" id="toc-arguments-7" class="nav-link" data-scroll-target="#arguments-7">Arguments</a></li>
+  <li><a href="#author-6" id="toc-author-6" class="nav-link" data-scroll-target="#author-6">Author</a></li>
+  <li><a href="#value-7" id="toc-value-7" class="nav-link" data-scroll-target="#value-7">Value</a></li>
+  </ul></li>
+  <li><a href="#egt_recluster_analysis-parse-enrichment-results-and-further-clustering-and-visualizing" id="toc-egt_recluster_analysis-parse-enrichment-results-and-further-clustering-and-visualizing" class="nav-link" data-scroll-target="#egt_recluster_analysis-parse-enrichment-results-and-further-clustering-and-visualizing"><code>egt_recluster_analysis</code>: Parse enrichment results and further clustering and visualizing</a>
+  <ul class="collapse">
+  <li><a href="#description-9" id="toc-description-9" class="nav-link" data-scroll-target="#description-9">Description</a></li>
+  <li><a href="#usage-8" id="toc-usage-8" class="nav-link" data-scroll-target="#usage-8">Usage</a></li>
+  <li><a href="#arguments-8" id="toc-arguments-8" class="nav-link" data-scroll-target="#arguments-8">Arguments</a></li>
+  <li><a href="#details-1" id="toc-details-1" class="nav-link" data-scroll-target="#details-1">Details</a></li>
+  <li><a href="#author-7" id="toc-author-7" class="nav-link" data-scroll-target="#author-7">Author</a></li>
+  <li><a href="#value-8" id="toc-value-8" class="nav-link" data-scroll-target="#value-8">Value</a></li>
+  </ul></li>
+  <li><a href="#genes_with_weights-return-ranked-gene-list-which-is-use-for-gsea-or-other-places" id="toc-genes_with_weights-return-ranked-gene-list-which-is-use-for-gsea-or-other-places" class="nav-link" data-scroll-target="#genes_with_weights-return-ranked-gene-list-which-is-use-for-gsea-or-other-places"><code>genes_with_weights</code>: Return ranked gene list which is use for “GSEA” or other places</a>
+  <ul class="collapse">
+  <li><a href="#description-10" id="toc-description-10" class="nav-link" data-scroll-target="#description-10">Description</a></li>
+  <li><a href="#usage-9" id="toc-usage-9" class="nav-link" data-scroll-target="#usage-9">Usage</a></li>
+  <li><a href="#arguments-9" id="toc-arguments-9" class="nav-link" data-scroll-target="#arguments-9">Arguments</a></li>
+  <li><a href="#author-8" id="toc-author-8" class="nav-link" data-scroll-target="#author-8">Author</a></li>
+  <li><a href="#value-9" id="toc-value-9" class="nav-link" data-scroll-target="#value-9">Value</a></li>
+  </ul></li>
+  <li><a href="#database_go_bp-get-database-for-enrichment-analysis" id="toc-database_go_bp-get-database-for-enrichment-analysis" class="nav-link" data-scroll-target="#database_go_bp-get-database-for-enrichment-analysis"><code>database_GO_BP</code>: Get database for enrichment analysis</a>
+  <ul class="collapse">
+  <li><a href="#description-11" id="toc-description-11" class="nav-link" data-scroll-target="#description-11">Description</a></li>
+  <li><a href="#usage-10" id="toc-usage-10" class="nav-link" data-scroll-target="#usage-10">Usage</a></li>
+  <li><a href="#arguments-10" id="toc-arguments-10" class="nav-link" data-scroll-target="#arguments-10">Arguments</a></li>
+  <li><a href="#author-9" id="toc-author-9" class="nav-link" data-scroll-target="#author-9">Author</a></li>
+  <li><a href="#value-10" id="toc-value-10" class="nav-link" data-scroll-target="#value-10">Value</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="description" class="level1">
+<h1>DESCRIPTION</h1>
+<pre><code>Type: Package
+Package: EnrichGT
+Title: Parse and cluster biological enrichment result to great tables
+Version: 0.6.0
+Author: Zhiming Ye
+Maintainer: Zhiming Ye &lt;garnetcrow@hotmail.com&gt;
+Description: Parse and cluster biological enrichment result to great
+    tables
+License: GPL-V3
+URL: https://zhimingye.github.io/EnrichGT/
+Depends: 
+    R (&gt;= 2.10)
+Imports: 
+    AnnotationDbi,
+    BiocManager,
+    cli,
+    dplyr,
+    fgsea,
+    fontawesome,
+    forcats,
+    ggplot2,
+    ggrepel,
+    glue,
+    GO.db,
+    grDevices,
+    gt,
+    Matrix,
+    methods,
+    parallel,
+    proxy,
+    qvalue,
+    RColorBrewer,
+    Rcpp,
+    reactome.db,
+    rlang,
+    scales,
+    stats,
+    stringr,
+    text2vec,
+    tibble,
+    umap,
+    utils,
+    xfun
+LinkingTo: 
+    Rcpp
+Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.1</code></pre>
+</section>
+<section id="convert_annotations_genes-convert-gene-annotations-from-any-keys-to-any-keys" class="level1">
+<h1><code>convert_annotations_genes</code>: Convert gene annotations from any keys to any keys</h1>
+<section id="description-1" class="level2">
+<h2 class="anchored" data-anchor-id="description-1">Description</h2>
+<p>Convert gene annotations from any keys to any keys</p>
+</section>
+<section id="usage" class="level2">
+<h2 class="anchored" data-anchor-id="usage">Usage</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">convert_annotations_genes</span>(genes, from_what, to_what, OrgDB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="arguments" class="level2">
+<h2 class="anchored" data-anchor-id="arguments">Arguments</h2>
+<ul>
+<li><code>genes</code>: gene vector</li>
+<li><code>from_what</code>: input type (like “SYMBOL”,“ENTREZID”,“ENSEMBL”,“GENENAME”,…), keys should be supported by AnnotationDbi. Search for the help page of AnnotationDbi for further help.</li>
+<li><code>to_what</code>: output type (like “SYMBOL”,“ENTREZID”,“ENSEMBL”,“GENENAME”,…), keys should be supported by AnnotationDbi. Search for the help page of AnnotationDbi for further help. Can be multiple items E.g. <code>c("ENTREZID","ENSEMBL","GENENAME")</code></li>
+<li><code>OrgDB</code>: human = org.Hs.eg.db, mouse = org.Mm.eg.db, search BioConductor website for further help</li>
+</ul>
+</section>
+<section id="value" class="level2">
+<h2 class="anchored" data-anchor-id="value">Value</h2>
+<p>a data.frame</p>
+</section>
+</section>
+<section id="database_from_gmt-parse-gmt-files-file-to-a-data.frame" class="level1">
+<h1><code>database_from_gmt</code>: parse GMT files file to a data.frame</h1>
+<section id="description-2" class="level2">
+<h2 class="anchored" data-anchor-id="description-2">Description</h2>
+<p>Read <code>.gmt</code> files. You can download them from https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp WikiPathway database also provides pre-built GMT files (https://data.wikipathways.org/current/gmt/). In default they are recorded as ENTREZ IDs, so you need to provide proper species database (e.g.&nbsp;org.Hs.eg.db for human), to database_from_gmt function and EnrichGT will automatically convert ENTREZ IDs to gene symbols for enrichment analysis.</p>
+</section>
+<section id="usage-1" class="level2">
+<h2 class="anchored" data-anchor-id="usage-1">Usage</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">database_from_gmt</span>(gmtfile, <span class="at">OrgDB =</span> <span class="cn">NULL</span>, <span class="at">convert_2_symbols =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="arguments-1" class="level2">
+<h2 class="anchored" data-anchor-id="arguments-1">Arguments</h2>
+<ul>
+<li><code>gmtfile</code>: gmt file path</li>
+<li><code>OrgDB</code>: Only need when converting genes, human = org.Hs.eg.db, mouse = org.Mm.eg.db, search BioConductor website for further help. Default is NULL.</li>
+<li><code>convert_2_symbols</code>: Force to convert numeric gene ids (as ENTREZIDs) to gene symbols</li>
+</ul>
+</section>
+<section id="author" class="level2">
+<h2 class="anchored" data-anchor-id="author">Author</h2>
+<p>cited from https://github.com/YuLab-SMU/gson/blob/main/R/GMT.R . The further Cache system is written by Zhiming Ye.</p>
+</section>
+<section id="value-1" class="level2">
+<h2 class="anchored" data-anchor-id="value-1">Value</h2>
+<p>data.frame</p>
+</section>
+</section>
+<section id="egt_compare_groups-2-group-comparison-of-enrichment-results-and-further-clustering-and-visualizing" class="level1">
+<h1><code>egt_compare_groups</code>: 2-Group Comparison of enrichment results and further clustering and visualizing</h1>
+<section id="description-3" class="level2">
+<h2 class="anchored" data-anchor-id="description-3">Description</h2>
+<p>See <code>?EnrichGT()</code></p>
+</section>
+<section id="usage-2" class="level2">
+<h2 class="anchored" data-anchor-id="usage-2">Usage</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_compare_groups</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  obj.test,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  obj.ctrl,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">name.test =</span> <span class="cn">NULL</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">name.ctrl =</span> <span class="cn">NULL</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ClusterNum =</span> <span class="dv">15</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">P.adj =</span> <span class="fl">0.05</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">force =</span> F,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">nTop =</span> <span class="dv">10</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"ward.D2"</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="arguments-2" class="level2">
+<h2 class="anchored" data-anchor-id="arguments-2">Arguments</h2>
+<ul>
+<li><code>obj.test</code>: the enriched object from tested group. WARNING: <code>obj.test</code> and <code>obj.ctrl</code> should come from same database (e.g.&nbsp;GO Biological Process(GOBP)).</li>
+<li><code>obj.ctrl</code>: the enriched object from control group. WARNING: <code>obj.test</code> and <code>obj.ctrl</code> should come from same database (e.g.&nbsp;GO Biological Process(GOBP)).</li>
+<li><code>name.test</code>: optional, the name of the testing group. If is <code>NULL</code>, the object name of <code>obj.test</code> will be used.</li>
+<li><code>name.ctrl</code>: optional, the name of the control group. If is <code>NULL</code>, the object name of <code>obj.ctrl</code> will be used.</li>
+<li><code>ClusterNum</code>: how many cluster will be clustered</li>
+<li><code>P.adj</code>: p.adjust cut-off. To avoid slow visualization, you can make stricter p-cut off.</li>
+<li><code>force</code>: ignore all auto-self-checks, which is useful</li>
+<li><code>nTop</code>: keep n top items according to p-adj in each cluster.</li>
+<li><code>method</code>: the agglomeration method to be used. This should be (an unambiguous abbreviation of) one of “ward.D”, “ward.D2”, “single”, “complete”, “average” (= UPGMA), “mcquitty” (= WPGMA), “median” (= WPGMC) or “centroid” (= UPGMC).</li>
+<li><code>...</code>: Others options.</li>
+</ul>
+</section>
+<section id="details" class="level2">
+<h2 class="anchored" data-anchor-id="details">Details</h2>
+<p>Execute <code>obj.test</code> VS <code>obj.ctrl</code> tests, showing pathway overlaps (or differences) and meta-gene modules of test group and control group. Supports ORA and GSEA results (enriched object or data.frame). !WARNING!: <code>obj.test</code> and <code>obj.ctrl</code> should come from same database (e.g.&nbsp;GO Biological Process(GOBP)).</p>
+</section>
+<section id="author-1" class="level2">
+<h2 class="anchored" data-anchor-id="author-1">Author</h2>
+<p>Zhiming Ye</p>
+</section>
+<section id="value-2" class="level2">
+<h2 class="anchored" data-anchor-id="value-2">Value</h2>
+<p><code>List</code> containing multiple <code>EnrichGT_obj</code> objects. The <code>List</code> contains objects with overlapped enriched terms, unique enrich terms.</p>
+</section>
+</section>
+<section id="egt_enrichment_analysis-a-c-accelerated-universal-enrichment-analyzer-over-representation-analysis-ora" class="level1">
+<h1><code>egt_enrichment_analysis</code>: A C++ accelerated universal enrichment analyzer (Over-Representation Analysis (ORA))</h1>
+<section id="description-4" class="level2">
+<h2 class="anchored" data-anchor-id="description-4">Description</h2>
+<p>ORA is a statistical method used to identify biological pathways or gene sets that are significantly enriched in a given list of genes (e.g., differentially expressed genes). The method compares the proportion of genes in the target list that belong to a specific category (e.g., pathways, GO terms) to the expected proportion in the background gene set. To accelerate the computation in ORA analysis, <code>EnrichGT</code> have implemented a function that leverages C++ for high-performance computation. The core algorithm utilizes hash tables for efficient lookup and counting of genes across categories. Also It provides multi-Core parallel calculation by package <code>parallel</code>.</p>
+</section>
+<section id="usage-3" class="level2">
+<h2 class="anchored" data-anchor-id="usage-3">Usage</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_GO_BP</span>())</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> <span class="fu">c</span>(<span class="st">"TP53"</span>,<span class="st">"CD169"</span>,<span class="st">"CD68"</span>,<span class="st">"CD163"</span>,...),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_GO_ALL</span>())</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> <span class="fu">c</span>(<span class="st">"TP53"</span>,<span class="st">"CD169"</span>,<span class="st">"CD68"</span>,<span class="st">"CD163"</span>,...),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_from_gmt</span>(<span class="st">"MsigDB_Hallmark.gmt"</span>))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="fu">list</span>(<span class="at">Macrophages=</span><span class="fu">c</span>(<span class="st">"CD169"</span>,<span class="st">"CD68"</span>,<span class="st">"CD163"</span>),</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="at">Fibroblast=</span><span class="fu">c</span>(<span class="st">"COL1A2"</span>,<span class="st">"COL1A3"</span>),...),</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a> <span class="at">database =</span> <span class="fu">database_from_gmt</span>(<span class="st">"panglaoDB.gmt"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="arguments-3" class="level2">
+<h2 class="anchored" data-anchor-id="arguments-3">Arguments</h2>
+<ul>
+<li><code>genes</code>: a vector of gene ids like <code>c("TP53","CD169","CD68","CD163"...)</code>.If you have genes from multiple source or experiment group, you can also pass a list with gene ids in it. For Example , <code>list(Macrophages=c("CD169","CD68","CD163"),Fibroblast=c("COL1A2","COL1A3))</code>.The genes should be match in the second param <code>database</code>’s <code>gene</code> column. For example, if database provides Ensembl IDs, you should input Ensembl IDs. But in default databases provided by <code>EnrichGT</code> is gene symbols.</li>
+<li><code>database</code>: a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run <code>database_GO_CC()</code> to get them, see example.You can run <code>database_GO_CC()</code> to see an example.The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with <code>database_...</code>, like <code>database_GO_BP()</code> or <code>database_Reactome()</code>.The default gene in each database EnrichGT provided to input is <code>GENE SYMBOL</code> (like TP53, not 1256 or ENSG…), not <code>ENTREZ ID</code> or <code>Ensembl ID</code>.It will be more convince for new users. Avaliable databases includes <code>database_GO_BP()</code>, <code>database_GO_CC()</code>, <code>database_GO_MF()</code> and <code>database_Reactome()</code>.You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)’s GMT files. It can be load by using <code>database_from_gmt(FILE_PATH)</code>.If you only have simple a table, you can also pass a data frame through this arguement. Of note, it should contains at least 2 coloumn (colnames(df) = c(“Terms”,“Genes)), the first is term names and the second are the corresponding genes. If you have term ids, you can add a <code>ID</code> column at the first column, and <code>Terms</code> becomes the second column and <code>Genes</code> the third.</li>
+<li><code>p_adj_methods</code>: one of “holm”, “hochberg”, “hommel”, “bonferroni”, “BH”, “BY”, “fdr”, “none”</li>
+<li><code>p_val_cut_off</code>: adjusted pvalue cutoff on enrichment tests to report</li>
+<li><code>background_genes</code>: background genes. If missing, the all genes listed in the database</li>
+<li><code>min_geneset_size</code>: minimal size of genes annotated for testing</li>
+<li><code>max_geneset_size</code>: maximal size of genes annotated for testing</li>
+<li><code>multi_cores</code>: multi_cores (Experimental), only used when analysis a list of genes (multi-source or groups). Set to 0 or 1 to disable. May use lots of RAM.</li>
+</ul>
+</section>
+<section id="author-2" class="level2">
+<h2 class="anchored" data-anchor-id="author-2">Author</h2>
+<p>Zhiming Ye</p>
+</section>
+<section id="value-3" class="level2">
+<h2 class="anchored" data-anchor-id="value-3">Value</h2>
+<p>a data frame with ORA results.</p>
+</section>
+</section>
+<section id="egt_gsea_analysis-gene-set-enrichment-analysis-gsea-by-enrichgt" class="level1">
+<h1><code>egt_gsea_analysis</code>: Gene Set Enrichment Analysis (GSEA) by EnrichGT</h1>
+<section id="description-5" class="level2">
+<h2 class="anchored" data-anchor-id="description-5">Description</h2>
+<p>A warpper of <code>fgsea::fgsea()</code>. GSEA is a computational method used to determine whether predefined gene sets (e.g., pathways, GO terms) are statistically enriched in a ranked list of genes. Unlike ORA, GSEA considers the entire gene list and focuses on the cumulative distribution of gene ranks to identify coordinated changes. The fgsea (https://github.com/ctlab/fgsea) package is an R tool that implements an accelerated version of GSEA. It uses precomputed statistical methods and efficient algorithms to dramatically speed up enrichment analysis, especially for large datasets.</p>
+</section>
+<section id="usage-4" class="level2">
+<h2 class="anchored" data-anchor-id="usage-4">Usage</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_gsea_analysis</span>(<span class="at">genes =</span> <span class="fu">genes_with_weights</span>(<span class="at">genes =</span> DEG<span class="sc">$</span>genes, <span class="at">weights =</span> DEG<span class="sc">$</span>log2FoldChange),</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_GO_BP</span>())</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_gsea_analysis</span>(<span class="at">genes =</span> <span class="fu">genes_with_weights</span>(<span class="at">genes =</span> PCA_res<span class="sc">$</span>genes,<span class="at">weights =</span>PCA_res<span class="sc">$</span>PC1_loading),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_from_gmt</span>(<span class="st">"MsigDB_Hallmark.gmt"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="arguments-4" class="level2">
+<h2 class="anchored" data-anchor-id="arguments-4">Arguments</h2>
+<ul>
+<li><code>genes</code>: a named numeric vector, for example c(<code>TP53</code>=1.2,<code>KRT15</code>=1.1,<code>IL1B</code>=1.0,<code>PMP22</code> = 0.5,<code>FABP1</code> = -0.9, <code>GLUT1</code> = -2).The number is the weight of each gene, can use the logFC form DEG analysis results instead. Also NMF or PCA’s loading can also be used.<code>EnrichGT</code> provides a <code>genes_with_weights(genes,weights)</code> function to build this numeric vector. Importantly, this vector should be !SORTED! for larger to smaller.</li>
+<li><code>database</code>: a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run <code>database_GO_CC()</code> to get them, see example.The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with <code>database_...</code>, like <code>database_GO_BP()</code> or <code>database_Reactome()</code>.The default gene in each database EnrichGT provided to input is <code>GENE SYMBOL</code> (like TP53, not 1256 or ENSG…), not <code>ENTREZ ID</code> or <code>Ensembl ID</code>. It will be more convince for new users.Avaliable databases includes <code>database_GO_BP()</code>, <code>database_GO_CC()</code>, <code>database_GO_MF()</code> and <code>database_Reactome()</code>.You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)’s GMT files. It can be load by using <code>database_from_gmt(FILE_PATH)</code>.If you only have simple a table, you can also pass a data frame through this arguement. Of note, it should contains at least 2 coloumn (colnames(df) = c(“Terms”,“Genes)), the first is term names and the second are the corresponding genes. If you have term ids, you can add a <code>ID</code> column at the first column, and <code>Terms</code> becomes the second column and <code>Genes</code> the third.</li>
+<li><code>p_val_cut_off</code>: adjusted pvalue cutoff on enrichment tests to report</li>
+<li><code>min_geneset_size</code>: minimal size of genes annotated for testing</li>
+<li><code>max_geneset_size</code>: maximal size of genes annotated for testing</li>
+<li><code>gseaParam</code>: other param passing to fgsea</li>
+<li><code>p_adj_methods</code>: one of “holm”, “hochberg”, “hommel”, “bonferroni”, “BH”, “BY”, “fdr”, “none”</li>
+</ul>
+</section>
+<section id="author-3" class="level2">
+<h2 class="anchored" data-anchor-id="author-3">Author</h2>
+<p>warpped from fgsea package.</p>
+</section>
+<section id="value-4" class="level2">
+<h2 class="anchored" data-anchor-id="value-4">Value</h2>
+<p>a data frame</p>
+</section>
+</section>
+<section id="egt_infer-infering-pathway-or-transcript-factors-activity-from-enrichgt-meta-gene-modules" class="level1">
+<h1><code>egt_infer</code>: Infering Pathway or Transcript Factors activity from EnrichGT meta-gene modules</h1>
+<section id="description-6" class="level2">
+<h2 class="anchored" data-anchor-id="description-6">Description</h2>
+<p>Only supports gene symbols. so you must use enrichedObj |&gt; setReadable(OrgDb = xxx,keyType = “ENTREZID”) |&gt; EnrichGT() . Do Not supports ENTREZIDs! <a href="https://saezlab.github.io/progeny/">PROGENy</a> is a comprehensive resource containing a curated collection of pathways and their target genes, with weights for each interaction. <a href="https://github.com/saezlab/CollecTRI">CollecTRI</a> is a comprehensive resource containing a curated collection of TFs and their transcriptional targets compiled from 12 different resources. This collection provides an increased coverage of transcription factors and a superior performance in identifying perturbed TFs compared to our previous.</p>
+</section>
+<section id="usage-5" class="level2">
+<h2 class="anchored" data-anchor-id="usage-5">Usage</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_infer</span>(x, <span class="at">DB =</span> <span class="st">"collectri"</span>, <span class="at">species =</span> <span class="st">"human"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="arguments-5" class="level2">
+<h2 class="anchored" data-anchor-id="arguments-5">Arguments</h2>
+<ul>
+<li><code>x</code>: an EnrichGT_obj object.</li>
+<li><code>DB</code>: can be “progeny” (the Pathway activity database), or “collectri” (TF activity database)</li>
+<li><code>species</code>: can be “human” or “mouse”</li>
+</ul>
+</section>
+<section id="author-4" class="level2">
+<h2 class="anchored" data-anchor-id="author-4">Author</h2>
+<p>Zhiming Ye, Saez-Rodriguez Lab (The decoupleR package, https://saezlab.github.io/decoupleR/)</p>
+</section>
+<section id="value-5" class="level2">
+<h2 class="anchored" data-anchor-id="value-5">Value</h2>
+<p>a <code>compareCluster</code> result from <code>clusterProfiler</code></p>
+</section>
+</section>
+<section id="egt_plot_results-visualize-enrichment-results-using-simple-plot" class="level1">
+<h1><code>egt_plot_results</code>: Visualize enrichment results using simple plot</h1>
+<section id="description-7" class="level2">
+<h2 class="anchored" data-anchor-id="description-7">Description</h2>
+<p>This plot is the most widely like <code>enrichplot::dotplot()</code>used method to visualize enriched terms. It shows the enrichment scores (e.g.&nbsp;p values) and gene ratio or NES as dot size and color / or bar height. Users can specify the number of terms using <code>ntop</code> or selected terms to color via the <code>low.col</code> and <code>hi.col</code>.</p>
+</section>
+<section id="usage-6" class="level2">
+<h2 class="anchored" data-anchor-id="usage-6">Usage</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(x, <span class="at">ntop =</span> <span class="dv">30</span>, ..., <span class="at">P.adj =</span> <span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="arguments-6" class="level2">
+<h2 class="anchored" data-anchor-id="arguments-6">Arguments</h2>
+<ul>
+<li><code>x</code>: a data frame form enriched result like <code>egt_enrichment_analysis()</code> or <code>egt_gsea_analysis()</code>, or an re-clustered <code>EnrichGT</code> object</li>
+<li><code>ntop</code>: Show top N in each cluster</li>
+<li><code>...</code>: Other param</li>
+<li><code>P.adj</code>: If pass an origin data.frame from original enriched result, you can specify the P-adjust value cut off. If is null, default is 0.05. When passing <code>EnrichGT_obj</code>, this filter is previously done by <code>egt_recluster_analysis</code>.</li>
+<li><code>low.col</code>: the color for the lowest</li>
+<li><code>hi.col</code>: the color for the highest</li>
+<li><code>max_len_descript</code>: the label format length, default as 40.</li>
+</ul>
+</section>
+<section id="author-5" class="level2">
+<h2 class="anchored" data-anchor-id="author-5">Author</h2>
+<p>Zhiming Ye</p>
+</section>
+<section id="value-6" class="level2">
+<h2 class="anchored" data-anchor-id="value-6">Value</h2>
+<p>a ggplot2 object</p>
+</section>
+</section>
+<section id="egt_plot_umap-visualize-results-generated-form-enrichgt-using-umap" class="level1">
+<h1><code>egt_plot_umap</code>: Visualize results generated form <code>EnrichGT()</code> using UMAP</h1>
+<section id="description-8" class="level2">
+<h2 class="anchored" data-anchor-id="description-8">Description</h2>
+<p>A word frequency matrix represents the frequency of words or tokens across different documents or text samples. Each row corresponds to a document, and each column represents a word or token, with the cell values indicating the frequency of the respective word in that document.However, high-dimensional data like word frequency matrices can be challenging to interpret directly. To make such data easier to analyze, we can reduce its dimensionality and visualize the patterns or clusters in a 2D or 3D space. UMAP (Uniform Manifold Approximation and Projection) is a powerful, non-linear dimensionality reduction technique widely used for this purpose.</p>
+</section>
+<section id="usage-7" class="level2">
+<h2 class="anchored" data-anchor-id="usage-7">Usage</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_umap</span>(x, ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="arguments-7" class="level2">
+<h2 class="anchored" data-anchor-id="arguments-7">Arguments</h2>
+<ul>
+<li><code>x</code>: an EnrichGT object</li>
+<li><code>...</code>: Other param</li>
+</ul>
+</section>
+<section id="author-6" class="level2">
+<h2 class="anchored" data-anchor-id="author-6">Author</h2>
+<p>Zhiming Ye</p>
+</section>
+<section id="value-7" class="level2">
+<h2 class="anchored" data-anchor-id="value-7">Value</h2>
+<p>a ggplot2 object</p>
+</section>
+</section>
+<section id="egt_recluster_analysis-parse-enrichment-results-and-further-clustering-and-visualizing" class="level1">
+<h1><code>egt_recluster_analysis</code>: Parse enrichment results and further clustering and visualizing</h1>
+<section id="description-9" class="level2">
+<h2 class="anchored" data-anchor-id="description-9">Description</h2>
+<p>Cluster enrichment results based on hit genes for ORA (e.g, typical GO enrichment) or core enrichment from GSEA using term frequency analysis. This provides a clearer view of biological relevance by focusing on the genes that matter most. Gene enrichment analysis can often be misleading due to the redundancy within gene set databases and the limitations of most enrichment tools. Many tools, by default, only display a few top results and fail to filter out redundancy. This can result in both biological misinterpretation and valuable information being overlooked. For instance, high expression of certain immune genes can cause many immune-related gene sets to appear overrepresented. However, a closer look often reveals that these gene sets are derived from the same group of genes, which might represent only a small fraction. Less than 1/10 of the differentially expressed genes (DEGs). What about the other 9/10? Do they hold no biological significance? The main purpose of developing this package is to provide a lightweight and practical solution to the problems mentioned above.</p>
+</section>
+<section id="usage-8" class="level2">
+<h2 class="anchored" data-anchor-id="usage-8">Usage</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_recluster_analysis</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ClusterNum =</span> <span class="dv">17</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">P.adj =</span> <span class="fl">0.05</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">force =</span> F,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">nTop =</span> <span class="dv">10</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"ward.D2"</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="arguments-8" class="level2">
+<h2 class="anchored" data-anchor-id="arguments-8">Arguments</h2>
+<ul>
+<li><code>x</code>: an enrichment result from <code>clusterProfiler</code>, or a <code>data.frame</code> containing result from <code>clusterProfier</code>. To perform fusing multi-database enrichment results, please give a <code>list</code> object.</li>
+<li><code>ClusterNum</code>: how many cluster will be clustered</li>
+<li><code>P.adj</code>: p.adjust cut-off. To avoid slow visualization, you can make stricter p-cut off.</li>
+<li><code>force</code>: ignore all auto-self-checks, which is useful</li>
+<li><code>nTop</code>: keep n top items according to p-adj in each cluster.</li>
+<li><code>method</code>: the agglomeration method to be used. This should be (an unambiguous abbreviation of) one of “ward.D”, “ward.D2”, “single”, “complete”, “average” (= UPGMA), “mcquitty” (= WPGMA), “median” (= WPGMC) or “centroid” (= UPGMC).</li>
+<li><code>...</code>: Others options.</li>
+</ul>
+</section>
+<section id="details-1" class="level2">
+<h2 class="anchored" data-anchor-id="details-1">Details</h2>
+<p>For an ORA result, c(“ID”,“Description”,“GeneRatio”,“pvalue”,“p.adjust”,“geneID”,“Count”) should be contained; For GSEA, c(“ID”,“Description”,“NES”,“pvalue”,“p.adjust”,“core_enrichment”) should be contain. For <code>compareClusterResult</code>, a <code>compareClusterResult</code> object or a data-frame with additional <code>Cluster</code> column should be contained, others similar to ORA result. To perform fusing multi-database enrichment results, please give a <code>list</code> object.</p>
+</section>
+<section id="author-7" class="level2">
+<h2 class="anchored" data-anchor-id="author-7">Author</h2>
+<p>Zhiming Ye</p>
+</section>
+<section id="value-8" class="level2">
+<h2 class="anchored" data-anchor-id="value-8">Value</h2>
+<p>an <code>EnrichGT_obj</code> object. slot <code>enriched_result</code> contains a data.frame with enriched results. <code>gt_object</code> contains <code>gt</code> object. you can use <code>obj@gt_object</code> to get it and use functions from <code>gt</code> like <code>gtsave</code>. <code>gene_modules</code> is a list containing meta-gene modules of each cluster. <code>pathway_clusters</code> contains pathways names in each cluster. <code>clustering_tree</code> contains the clustering tree object from <code>hclust()</code>, you can use other packages like <code>ggtree</code> for further visualization and analysis. <code>raw_enriched_result</code> contains raw table without selecting <code>nTop</code>.</p>
+</section>
+</section>
+<section id="genes_with_weights-return-ranked-gene-list-which-is-use-for-gsea-or-other-places" class="level1">
+<h1><code>genes_with_weights</code>: Return ranked gene list which is use for “GSEA” or other places</h1>
+<section id="description-10" class="level2">
+<h2 class="anchored" data-anchor-id="description-10">Description</h2>
+<p>Return ranked gene list which is use for “GSEA” or other places</p>
+</section>
+<section id="usage-9" class="level2">
+<h2 class="anchored" data-anchor-id="usage-9">Usage</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">genes_with_weights</span>(genes, weights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="arguments-9" class="level2">
+<h2 class="anchored" data-anchor-id="arguments-9">Arguments</h2>
+<ul>
+<li><code>genes</code>: A vector containing genes</li>
+<li><code>weights</code>: A vector contain weight of genes, typically like log2FC from DEG analysis</li>
+</ul>
+</section>
+<section id="author-8" class="level2">
+<h2 class="anchored" data-anchor-id="author-8">Author</h2>
+<p>Zhiming Ye</p>
+</section>
+<section id="value-9" class="level2">
+<h2 class="anchored" data-anchor-id="value-9">Value</h2>
+<p>A ranked named numeric vector. Names of the numbers is the ENTREZID.</p>
+</section>
+</section>
+<section id="database_go_bp-get-database-for-enrichment-analysis" class="level1">
+<h1><code>database_GO_BP</code>: Get database for enrichment analysis</h1>
+<section id="description-11" class="level2">
+<h2 class="anchored" data-anchor-id="description-11">Description</h2>
+<p>Get Gene Ontology (GO), Reactome, and other term-to-gene database, for enrichment analysis</p>
+</section>
+<section id="usage-10" class="level2">
+<h2 class="anchored" data-anchor-id="usage-10">Usage</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">database_GO_BP</span>(<span class="at">OrgDB =</span> org.Hs.eg.db)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">database_GO_CC</span>(<span class="at">OrgDB =</span> org.Hs.eg.db)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">database_GO_MF</span>(<span class="at">OrgDB =</span> org.Hs.eg.db)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">database_GO_ALL</span>(<span class="at">OrgDB =</span> org.Hs.eg.db)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">database_Reactome</span>(<span class="at">OrgDB =</span> org.Hs.eg.db)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="fu">database_progeny_human</span>()</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="fu">database_progeny_mouse</span>()</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="fu">database_CollecTRI_human</span>()</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="fu">database_CollecTRI_mouse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="arguments-10" class="level2">
+<h2 class="anchored" data-anchor-id="arguments-10">Arguments</h2>
+<ul>
+<li><code>OrgDB</code>: org.DB form bioconductor, can be org.Hs.eg.db (human) or org.Mm.eg.db (mouse),… GO and Reactome should add this, progeny and collectri do not.</li>
+</ul>
+</section>
+<section id="author-9" class="level2">
+<h2 class="anchored" data-anchor-id="author-9">Author</h2>
+<p>Zhiming Ye. Part of functions were inspired by <code>clusterProfiler</code> but with brand new implement.</p>
+</section>
+<section id="value-10" class="level2">
+<h2 class="anchored" data-anchor-id="value-10">Value</h2>
+<p>a data.frame with ID, terms and genes</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
