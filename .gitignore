@@ -11,3 +11,4 @@ inst/doc
 dotfiles*
 workflowR_*
 dev/*
+*.enrichgt_cache

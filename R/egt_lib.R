@@ -133,3 +133,6 @@ message_egt<-function(x,Type=0){
 nsimp<-function(){
 
 }
+s_ <- function(x,sep,n){
+  sapply(strsplit(x,sep),function(q)q[n])
+}
