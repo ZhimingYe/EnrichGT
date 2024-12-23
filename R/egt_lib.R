@@ -123,10 +123,10 @@ is_numeric_string <- function(x) {
 
 message_egt<-function(x,Type=0){
   if(Type==0){
-    cli_alert_info(x)
+    cli::cli_alert_info(x)
   }
   if(Type==1){
-    cli_alert_danger(x)
+    cli::cli_alert_danger(x)
   }
 }
 

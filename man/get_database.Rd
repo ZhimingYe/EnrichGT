@@ -31,7 +31,7 @@ database_CollecTRI_human()
 database_CollecTRI_mouse()
 }
 \arguments{
-\item{OrgDB}{org.DB form bioconductor, can be org.Hs.eg.db (human) or org.Mm.eg.db (mouse),... GO and Reactome should add this, progeny and collectri do not.}
+\item{OrgDB}{The AnnotationDbi database to fetch pathway data and convert gene IDs to gene symbols. For human it would be `org.Hs.eg.db`, for mouse it would be `org.Mm.eg.db`. In AnnotationDbi there are many species, please search `AnnotationDbi` for other species annotation database. GO and Reactome should add this, progeny and collectri do not.}
 }
 \value{
 a data.frame with ID, terms and genes

@@ -44,7 +44,7 @@ database_GO <- function(OrgDB,ONTOLOGY,...) {
   goAnno <- stack(go2gene)
   goAnno <- unique(goAnno[!is.na(goAnno[,1]), ])
   go_terms <- AnnotationDbi::Term(GO.db::GOTERM)
-  go_terms <- as.data.frame(go_terms) |> rownames_to_column(var = "ind")
+  go_terms <- as.data.frame(go_terms) |> tibble::rownames_to_column(var = "ind")
   goAnno <- goAnno |> dplyr::left_join(go_terms, by = "ind") |>
     dplyr::select(ind, go_terms, values) |>
     na.omit()
@@ -85,10 +85,10 @@ database_RA <- function(OrgDB,...) {
     Element = unlist(PATHID2EXTID)
   )
   df <- df[df$Element%in%eg2$ENTREZID,]
-  PATHID2NAME<-as.data.frame(PATHID2NAME) |> rownames_to_column(var="ID")
+  PATHID2NAME<-as.data.frame(PATHID2NAME) |> tibble::rownames_to_column(var="ID")
   colnames(df)<-c("ID","ENTREZID")
-  df<-df |> left_join(PATHID2NAME,by="ID")
-  df<-df |> left_join(eg2,by="ENTREZID")
+  df<-df |> dplyr::left_join(PATHID2NAME,by="ID")
+  df<-df |> dplyr::left_join(eg2,by="ENTREZID")
   df<-df[,c(1,3,4)]
   t2 <- Sys.time()
   cli::cli_alert_success(paste0("success loaded database, time used : ",(t2-t1)," sec."))
@@ -96,9 +96,9 @@ database_RA <- function(OrgDB,...) {
 }
 
 
-
+#' @importFrom stringr str_to_title
 dbParser<-function(DB,species){
-  type<-case_when((DB=="progeny"&species=="human")~"1",
+  type<-dplyr::case_when((DB=="progeny"&species=="human")~"1",
                   (DB=="progeny"&species=="mouse")~"2",
                   (DB=="collectri"&species=="human")~"3",
                   (DB=="collectri"&species=="mouse")~"4",
@@ -114,7 +114,7 @@ dbParser<-function(DB,species){
   else if(type=="2"){
     data("pws_mouse")
     tdb0<-pws_mouse |> dplyr::filter(p_value<0.1) |> dplyr::mutate(Direction=ifelse(weight>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
-    tdb0$target <- str_to_title(tdb0$target)
+    tdb0$target <- stringr::str_to_title(tdb0$target)
   }
   else if(type=="3"){
     data("TF_human")
@@ -123,7 +123,7 @@ dbParser<-function(DB,species){
   else{
     data("TF_mouse")
     tdb0<-TF_mouse |> dplyr::mutate(Direction=ifelse(mor>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
-    tdb0$target <- str_to_title(tdb0$target)
+    tdb0$target <- stringr::str_to_title(tdb0$target)
   }
   cli::cli_alert_success(paste0("success loaded self-contained database"))
   return(tdb0)
@@ -145,7 +145,6 @@ getGMT <- function (OrgDB,ONTOLOGY) {
 # The Database cache system
 #' @importFrom xfun md5
 UniversalInternalDBFetcher <- function(Type,OrgDB=org.Hs.eg.db,ONTOLOGY=NULL,...){
-  CACHE_SYSTEM_WRITTEN_BY_ZHIMING_YE <- NULL
   Spec<-OrgDB$packageName
   if(Type=="GO"){
     FUNInternal<-database_GO
@@ -171,7 +170,6 @@ UniversalInternalDBFetcher <- function(Type,OrgDB=org.Hs.eg.db,ONTOLOGY=NULL,...
     x <- db_getter_env$GETFUN(OrgDB=OrgDB,ONTOLOGY=ONTOLOGY)
     assign(ObjName,x,envir = db_getter_env)
   }
-  CACHE_SYSTEM_WRITTEN_BY_ZHIMING_YE <- NULL
   return(x)
 }
 
@@ -181,7 +179,7 @@ UniversalInternalDBFetcher <- function(Type,OrgDB=org.Hs.eg.db,ONTOLOGY=NULL,...
 #' @description
 #' Get Gene Ontology (GO), Reactome, and other term-to-gene database, for enrichment analysis
 #'
-#' @param OrgDB org.DB form bioconductor, can be org.Hs.eg.db (human) or org.Mm.eg.db (mouse),... GO and Reactome should add this, progeny and collectri do not.
+#' @param OrgDB The AnnotationDbi database to fetch pathway data and convert gene IDs to gene symbols. For human it would be `org.Hs.eg.db`, for mouse it would be `org.Mm.eg.db`. In AnnotationDbi there are many species, please search `AnnotationDbi` for other species annotation database. GO and Reactome should add this, progeny and collectri do not.
 #' @returns a data.frame with ID, terms and genes
 #' @author Zhiming Ye. Part of functions were inspired by `clusterProfiler` but with brand new implement.
 #' @export

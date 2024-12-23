@@ -1,6 +1,6 @@
-#
-
-
+#' @export
+#'
+#' @rdname KEGGhelp
 database_kegg_show_organism <- function(){
   x <- read.delim("https://rest.kegg.jp/list/organism",quote = "\t",header = F)
   return(x)
@@ -17,16 +17,35 @@ keggModuleList <- function(orgkegg){
 
 }
 # y <- read.delim("https://rest.kegg.jp/link/module/mmu",quote = "\t",header = F)
+
+
+
+#' Get KEGG database from KEGG website
+#' @description
+#' KEGG is a commercialized database. So EnrichGT can't pre-cache them locally. You can use this function to fetch KEGG database pathways and modules. 
+#' @usage database_kegg(kegg_organism="hsa",OrgDB = org.Hs.eg.db,kegg_modules=F,local_cache=F)
+#' 
+#' @param kegg_organism Determine which species data from KEGG will be fetch. For human, it would be `hsa`(in default); For mouse, it would be `mmu`. If you wants other species, see `database_kegg_show_organism()` for details. 
+#' @param OrgDB The AnnotationDbi database to convert KEGG gene ID to gene symbols. For human it would be `org.Hs.eg.db`, for mouse it would be `org.Mm.eg.db`. In AnnotationDbi there are many species, please search `AnnotationDbi` for other species annotation database. 
+#' @param kegg_modules If TRUE, returns KEGG module; If FALSE returns KEGG pathways. In default, this is setted to FALSE to get mouse commonly used KEGG pathways. 
+#' @param local_cache cache a copy in local working folder. It will be saved as a `.enrichgt_cache` file in working dictionary. The `.enrichgt_cache` is just a `.rds` file, feel free to read it using `readRDS()`. 
+#'
+#' @returns
+#' @export
+#'
+#' @rdname KEGGhelp
 database_kegg <- function(kegg_organism="hsa",OrgDB = org.Hs.eg.db,kegg_modules=F,local_cache=F){
   if(!kegg_modules){
     fn <- paste0("KEGGPathway_",xfun::md5(keggModuleList(kegg_organism)))
   }else{
     fn <- paste0("KEGGModules_",xfun::md5(keggModuleList(kegg_organism)))
   }
+  have_read <- F
   if(local_cache){
     if(file.exists(paste0(fn,".enrichgt_cache"))){
       tryCatch({
         cachedFile<-readRDS(paste0(fn,".enrichgt_cache"))
+        have_read <- T
       },error=function(e){
         cli::cli_abort("Load local cache error! Please re-check or set local_cache=F to using online files")
       })
@@ -64,7 +83,7 @@ database_kegg <- function(kegg_organism="hsa",OrgDB = org.Hs.eg.db,kegg_modules=
       keggs[[2]]$Pws<-s_(keggs[[2]]$Pws,"_",2)
     }
 
-    finalDF<-keggs[[2]] |> left_join(keggs[[1]],by="Pws",relationship = "many-to-many") |> left_join(keggs[[3]],by="Kegggenes",relationship = "many-to-many")
+    finalDF<-keggs[[2]] |> dplyr::left_join(keggs[[1]],by="Pws",relationship = "many-to-many") |> dplyr::left_join(keggs[[3]],by="Kegggenes",relationship = "many-to-many")
 
     assign(fn,finalDF,envir = db_getter_env)
   }
@@ -72,7 +91,7 @@ database_kegg <- function(kegg_organism="hsa",OrgDB = org.Hs.eg.db,kegg_modules=
     finalDF$Ncbigenes<-gsub("ncbi-geneid:","",finalDF$Ncbigenes)
     cvtDF<-convert_annotations_genes(finalDF$Ncbigenes,"ENTREZID","SYMBOL",OrgDB = OrgDB)
     finalDF<-finalDF |> dplyr::rename(ENTREZID = Ncbigenes)
-    finalDF<-finalDF |> left_join(cvtDF,by="ENTREZID",relationship = "many-to-many") |> dplyr::select(Pws,Terms,SYMBOL)
+    finalDF<-finalDF |> dplyr::left_join(cvtDF,by="ENTREZID",relationship = "many-to-many") |> dplyr::select(Pws,Terms,SYMBOL)
     finalDF$ALL <- paste0(finalDF$Pws,finalDF$Terms,finalDF$SYMBOL)
     finalDF<-finalDF[!duplicated(finalDF$ALL),-which(colnames(finalDF)=="ALL")]
 
@@ -80,7 +99,7 @@ database_kegg <- function(kegg_organism="hsa",OrgDB = org.Hs.eg.db,kegg_modules=
   }
 
   res0 <- finalDF
-  if(local_cache){
+  if(local_cache & !have_read){
     saveRDS(res0,(paste0(fn,".enrichgt_cache")))
     cli::cli_alert_success(paste0("Wrote KEGG cache on disk: ",fn,".enrichgt_cache"))
   }
@@ -88,5 +107,3 @@ database_kegg <- function(kegg_organism="hsa",OrgDB = org.Hs.eg.db,kegg_modules=
 
 }
 
-# library(org.Hs.eg.db)
-# ddd<-database_kegg_pathway(kegg_modules = F,local_cache = T)
