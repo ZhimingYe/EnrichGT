@@ -1,10 +1,3 @@
-#' @export
-#'
-#' @rdname KEGGhelp
-database_kegg_show_organism <- function(){
-  x <- read.delim("https://rest.kegg.jp/list/organism",quote = "\t",header = F)
-  return(x)
-}
 
 keggModuleList <- function(orgkegg){
   k0<-glue::glue("https://rest.kegg.jp/list/pathway/{orgkegg}")
@@ -107,3 +100,12 @@ database_kegg <- function(kegg_organism="hsa",OrgDB = org.Hs.eg.db,kegg_modules=
 
 }
 
+
+
+#' @export
+#'
+#' @rdname KEGGhelp
+database_kegg_show_organism <- function(){
+  x <- read.delim("https://rest.kegg.jp/list/organism",quote = "\t",header = F)
+  return(x)
+}

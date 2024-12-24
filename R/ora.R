@@ -23,6 +23,7 @@ doEnrich_Internal <- function(genes,database,p_adj_methods,p_val_cut_off,backgro
     db0 <- database[,c(1,2)]
     database <- database[,c(2,3)]
   }else{
+    colnames(database)[1] <- "term"
     db0 <- data.frame(ID = database$term, term = database$term)
   }
   db0 <- db0 |> dplyr::mutate(CheckDup = paste0(ID,term)) |> dplyr::filter(!duplicated(CheckDup)) |> dplyr::select(-CheckDup) |> dplyr::rename(TERMs = term)

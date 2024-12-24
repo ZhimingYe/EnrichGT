@@ -240,6 +240,7 @@ egt_gsea_analysis_internal <- function(genes,database,p_val_cut_off=0.5,min_gene
     db0 <- database[,c(1,2)]
     database <- database[,c(2,3)]
   }else{
+    colnames(database)[1] <- "term"
     db0 <- data.frame(ID = database$term, term = database$term)
   }
   db0 <- db0 |> dplyr::mutate(CheckDup = paste0(ID,term)) |> dplyr::filter(!duplicated(CheckDup)) |> dplyr::select(-CheckDup) |> dplyr::rename(pathway = term) # Because of output is pathway
