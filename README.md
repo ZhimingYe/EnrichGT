@@ -1,4 +1,4 @@
-# EnrichGT 0.6
+# EnrichGT 0.7
 
 **EnrichGT \<-** Fast, light weight enrichment analysis + insightful re-clustering results make all results explainable + Pretty HTML tables, Just in **ONE** package, 
 
@@ -6,6 +6,14 @@ Please see the package website: <https://zhimingye.github.io/EnrichGT/>
 
 ![](https://zhimingye.github.io/EnrichGT/enrichGTTable.jpg)
 
+### Install
+
+``` r
+install.packages("pak")
+pak::pkg_install("ZhimingYe/EnrichGT")
+```
+
+### WorkFlows
 
 ``` mermaid
 
@@ -65,17 +73,3 @@ graph LR
 
 ```
 
-# Install EnrichGT
-
-``` r
-install.packages("pak")
-pak::pkg_install("ZhimingYe/EnrichGT")
-```
-
-or
-
-``` r
-install.packages("devtools")
-library(devtools)
-install_github("ZhimingYe/EnrichGT")
-```
