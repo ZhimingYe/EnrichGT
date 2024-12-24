@@ -195,7 +195,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#author-3" id="toc-author-3" class="nav-link" data-scroll-target="#author-3">Author</a></li>
   <li><a href="#value-4" id="toc-value-4" class="nav-link" data-scroll-target="#value-4">Value</a></li>
   </ul></li>
-  <li><a href="#egt_infer-infering-pathway-or-transcript-factors-activity-from-enrichgt-meta-gene-modules" id="toc-egt_infer-infering-pathway-or-transcript-factors-activity-from-enrichgt-meta-gene-modules" class="nav-link" data-scroll-target="#egt_infer-infering-pathway-or-transcript-factors-activity-from-enrichgt-meta-gene-modules"><code>egt_infer</code>: Infering Pathway or Transcript Factors activity from EnrichGT meta-gene modules</a>
+  <li><a href="#egt_infer_act-infering-pathway-or-transcript-factors-activity-from-enrichgt-meta-gene-modules" id="toc-egt_infer_act-infering-pathway-or-transcript-factors-activity-from-enrichgt-meta-gene-modules" class="nav-link" data-scroll-target="#egt_infer_act-infering-pathway-or-transcript-factors-activity-from-enrichgt-meta-gene-modules"><code>egt_infer_act</code>: Infering Pathway or Transcript Factors activity from EnrichGT meta-gene modules</a>
   <ul class="collapse">
   <li><a href="#description-6" id="toc-description-6" class="nav-link" data-scroll-target="#description-6">Description</a></li>
   <li><a href="#usage-5" id="toc-usage-5" class="nav-link" data-scroll-target="#usage-5">Usage</a></li>
@@ -244,6 +244,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#author-9" id="toc-author-9" class="nav-link" data-scroll-target="#author-9">Author</a></li>
   <li><a href="#value-10" id="toc-value-10" class="nav-link" data-scroll-target="#value-10">Value</a></li>
   </ul></li>
+  <li><a href="#database_kegg-get-kegg-database-from-kegg-website" id="toc-database_kegg-get-kegg-database-from-kegg-website" class="nav-link" data-scroll-target="#database_kegg-get-kegg-database-from-kegg-website"><code>database_kegg</code>: Get KEGG database from KEGG website</a>
+  <ul class="collapse">
+  <li><a href="#description-12" id="toc-description-12" class="nav-link" data-scroll-target="#description-12">Description</a></li>
+  <li><a href="#usage-11" id="toc-usage-11" class="nav-link" data-scroll-target="#usage-11">Usage</a></li>
+  <li><a href="#arguments-11" id="toc-arguments-11" class="nav-link" data-scroll-target="#arguments-11">Arguments</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/pkgfuns.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/pkgfuns.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -257,12 +263,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>DESCRIPTION</h1>
 <pre><code>Type: Package
 Package: EnrichGT
-Title: Parse and cluster biological enrichment result to great tables
-Version: 0.6.0.1
+Title: EnrichGT - all in one enrichment analysis soluction
+Version: 0.7.0
 Author: Zhiming Ye
 Maintainer: Zhiming Ye &lt;garnetcrow@hotmail.com&gt;
-Description: Parse and cluster biological enrichment result to great
-    tables
+Description: Do biological enrichment analysis and parsing and clustering
+    enrichment result to insightful results in just ONE package
 License: GPL-V3
 URL: https://zhimingye.github.io/EnrichGT/
 Depends: 
@@ -303,7 +309,7 @@ LinkingTo:
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.1</code></pre>
+RoxygenNote: 7.3.2</code></pre>
 </section>
 <section id="convert_annotations_genes-convert-gene-annotations-from-any-keys-to-any-keys" class="level1">
 <h1><code>convert_annotations_genes</code>: Convert gene annotations from any keys to any keys</h1>
@@ -483,15 +489,15 @@ RoxygenNote: 7.3.1</code></pre>
 <p>a data frame</p>
 </section>
 </section>
-<section id="egt_infer-infering-pathway-or-transcript-factors-activity-from-enrichgt-meta-gene-modules" class="level1">
-<h1><code>egt_infer</code>: Infering Pathway or Transcript Factors activity from EnrichGT meta-gene modules</h1>
+<section id="egt_infer_act-infering-pathway-or-transcript-factors-activity-from-enrichgt-meta-gene-modules" class="level1">
+<h1><code>egt_infer_act</code>: Infering Pathway or Transcript Factors activity from EnrichGT meta-gene modules</h1>
 <section id="description-6" class="level2">
 <h2 class="anchored" data-anchor-id="description-6">Description</h2>
-<p>Only supports gene symbols. so you must use enrichedObj |&gt; setReadable(OrgDb = xxx,keyType = “ENTREZID”) |&gt; EnrichGT() . Do Not supports ENTREZIDs! <a href="https://saezlab.github.io/progeny/">PROGENy</a> is a comprehensive resource containing a curated collection of pathways and their target genes, with weights for each interaction. <a href="https://github.com/saezlab/CollecTRI">CollecTRI</a> is a comprehensive resource containing a curated collection of TFs and their transcriptional targets compiled from 12 different resources. This collection provides an increased coverage of transcription factors and a superior performance in identifying perturbed TFs compared to our previous.</p>
+<p>Only supports gene symbols. so you must use enrichedObj |&gt; setReadable(OrgDb = xxx,keyType = “ENTREZID”) |&gt; EnrichGT() . Do Not supports ENTREZIDs! <a href="https://saezlab.github.io/progeny/">PROGENy</a> is a comprehensive resource containing a curated collection of pathways and their target genes, with weights for each interaction. <a href="https://github.com/saezlab/CollecTRI">CollecTRI</a> is a comprehensive resource containing a curated collection of TFs and their transcriptional targets compiled from 12 different resources. This collection provides an increased coverage of transcription factors and a superior performance in identifying perturbed TFs compared to our previous. If when doing re-enrichment, you select a high number of clusters, that may cause low gene number in each meta-gene module, and then can’t be infered sucessfully. So if result is empty, please increase the number of re-clustering when doing it.</p>
 </section>
 <section id="usage-5" class="level2">
 <h2 class="anchored" data-anchor-id="usage-5">Usage</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_infer</span>(x, <span class="at">DB =</span> <span class="st">"collectri"</span>, <span class="at">species =</span> <span class="st">"human"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_infer_act</span>(x, <span class="at">DB =</span> <span class="st">"collectri"</span>, <span class="at">species =</span> <span class="st">"human"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="arguments-5" class="level2">
 <h2 class="anchored" data-anchor-id="arguments-5">Arguments</h2>
@@ -665,7 +671,7 @@ RoxygenNote: 7.3.1</code></pre>
 <section id="arguments-10" class="level2">
 <h2 class="anchored" data-anchor-id="arguments-10">Arguments</h2>
 <ul>
-<li><code>OrgDB</code>: org.DB form bioconductor, can be org.Hs.eg.db (human) or org.Mm.eg.db (mouse),… GO and Reactome should add this, progeny and collectri do not.</li>
+<li><code>OrgDB</code>: The AnnotationDbi database to fetch pathway data and convert gene IDs to gene symbols. For human it would be <code>org.Hs.eg.db</code>, for mouse it would be <code>org.Mm.eg.db</code>. In AnnotationDbi there are many species, please search <code>AnnotationDbi</code> for other species annotation database. GO and Reactome should add this, progeny and collectri do not.</li>
 </ul>
 </section>
 <section id="author-9" class="level2">
@@ -675,6 +681,28 @@ RoxygenNote: 7.3.1</code></pre>
 <section id="value-10" class="level2">
 <h2 class="anchored" data-anchor-id="value-10">Value</h2>
 <p>a data.frame with ID, terms and genes</p>
+</section>
+</section>
+<section id="database_kegg-get-kegg-database-from-kegg-website" class="level1">
+<h1><code>database_kegg</code>: Get KEGG database from KEGG website</h1>
+<section id="description-12" class="level2">
+<h2 class="anchored" data-anchor-id="description-12">Description</h2>
+<p>KEGG is a commercialized database. So EnrichGT can’t pre-cache them locally. You can use this function to fetch KEGG database pathways and modules.</p>
+</section>
+<section id="usage-11" class="level2">
+<h2 class="anchored" data-anchor-id="usage-11">Usage</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">database_kegg</span>(<span class="at">kegg_organism=</span><span class="st">"hsa"</span>,<span class="at">OrgDB =</span> org.Hs.eg.db,<span class="at">kegg_modules=</span>F,<span class="at">local_cache=</span>F)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">database_kegg_show_organism</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="arguments-11" class="level2">
+<h2 class="anchored" data-anchor-id="arguments-11">Arguments</h2>
+<ul>
+<li><code>kegg_organism</code>: Determine which species data from KEGG will be fetch. For human, it would be <code>hsa</code>(in default); For mouse, it would be <code>mmu</code>. If you wants other species, see <code>database_kegg_show_organism()</code> for details.</li>
+<li><code>OrgDB</code>: The AnnotationDbi database to convert KEGG gene ID to gene symbols. For human it would be <code>org.Hs.eg.db</code>, for mouse it would be <code>org.Mm.eg.db</code>. In AnnotationDbi there are many species, please search <code>AnnotationDbi</code> for other species annotation database.</li>
+<li><code>kegg_modules</code>: If TRUE, returns KEGG module; If FALSE returns KEGG pathways. In default, this is setted to FALSE to get mouse commonly used KEGG pathways.</li>
+<li><code>local_cache</code>: cache a copy in local working folder. It will be saved as a <code>.enrichgt_cache</code> file in working dictionary. The <code>.enrichgt_cache</code> is just a <code>.rds</code> file, feel free to read it using <code>readRDS()</code>.</li>
+</ul>
 
 
 </section>
@@ -1108,7 +1136,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/pkgfuns.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/pkgfuns.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
-<p>Corresponding to EnrichGT Version 0.6</p>
+<p>Corresponding to EnrichGT Version 0.7 LTS</p>
 </div>
   </div>
 </footer>

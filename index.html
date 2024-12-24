@@ -200,6 +200,7 @@ window.Quarto = {
   <li><a href="#re-enrich-function" id="toc-re-enrich-function" class="nav-link" data-scroll-target="#re-enrich-function">Re-ENRICH Function</a>
   <ul class="collapse">
   <li><a href="#enrichment-of-enriched-results" id="toc-enrichment-of-enriched-results" class="nav-link" data-scroll-target="#enrichment-of-enriched-results">Enrichment of Enriched Results</a></li>
+  <li><a href="#infering-tfs-or-pathway-activity-and-more-based-on-meta-gene-modules" id="toc-infering-tfs-or-pathway-activity-and-more-based-on-meta-gene-modules" class="nav-link" data-scroll-target="#infering-tfs-or-pathway-activity-and-more-based-on-meta-gene-modules">Infering TFs or pathway activity and more based on meta-gene modules</a></li>
   </ul></li>
   <li><a href="#functions-to-fusing-results" id="toc-functions-to-fusing-results" class="nav-link" data-scroll-target="#functions-to-fusing-results">Functions to FUSING results</a>
   <ul class="collapse">
@@ -209,8 +210,8 @@ window.Quarto = {
   <li><a href="#html-reports-gt-table" id="toc-html-reports-gt-table" class="nav-link" data-scroll-target="#html-reports-gt-table">HTML reports (gt table)</a></li>
   <li><a href="#ploting-functions" id="toc-ploting-functions" class="nav-link" data-scroll-target="#ploting-functions">Ploting functions</a>
   <ul class="collapse">
-  <li><a href="#dot-plot" id="toc-dot-plot" class="nav-link" data-scroll-target="#dot-plot">Dot Plot</a></li>
-  <li><a href="#umap-plot" id="toc-umap-plot" class="nav-link" data-scroll-target="#umap-plot">UMAP Plot</a></li>
+  <li><a href="#basic-result-plot" id="toc-basic-result-plot" class="nav-link" data-scroll-target="#basic-result-plot">Basic result plot</a></li>
+  <li><a href="#re-enrichment-dimensionality-reduction-plot" id="toc-re-enrichment-dimensionality-reduction-plot" class="nav-link" data-scroll-target="#re-enrichment-dimensionality-reduction-plot">Re-enrichment dimensionality reduction plot</a></li>
   </ul></li>
   <li><a href="#databases-helpers" id="toc-databases-helpers" class="nav-link" data-scroll-target="#databases-helpers">DataBases Helpers</a>
   <ul class="collapse">
@@ -218,7 +219,6 @@ window.Quarto = {
   <li><a href="#read-addition-gene-sets-from-local-gmt-files" id="toc-read-addition-gene-sets-from-local-gmt-files" class="nav-link" data-scroll-target="#read-addition-gene-sets-from-local-gmt-files">Read Addition Gene Sets from local GMT files</a></li>
   <li><a href="#read-addition-gene-sets-from-local-data-tables" id="toc-read-addition-gene-sets-from-local-data-tables" class="nav-link" data-scroll-target="#read-addition-gene-sets-from-local-data-tables">Read Addition Gene Sets from local data tables</a></li>
   <li><a href="#gene-annotation-converter" id="toc-gene-annotation-converter" class="nav-link" data-scroll-target="#gene-annotation-converter">Gene Annotation Converter</a></li>
-  <li><a href="#where-is-kegg" id="toc-where-is-kegg" class="nav-link" data-scroll-target="#where-is-kegg">Where is KEGG?</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#acknowledgement" id="toc-acknowledgement" class="nav-link" data-scroll-target="#acknowledgement">Acknowledgement</a></li>
@@ -358,6 +358,7 @@ What is EnrichGT?
 </div>
 </div>
 <p><sup>The&nbsp;functions&nbsp;from&nbsp;EnrichGT&nbsp;are&nbsp;starting&nbsp;with&nbsp;“egt_”&nbsp;or&nbsp;“database_”.</sup></p>
+<p>After version 0.7.0 (2024-12-24), EnrichGT would be entering supported mode and perhaps without adding new functions. We want to keep this package lightweight with limited functions. If you need a tool that handles every detail, please use <strong><em>clusterProfiler</em></strong> instead. See <a href="#acknowledgement">Acknowledgement</a> for details.</p>
 </section>
 <section id="install-enrichgt" class="level1">
 <h1>Install EnrichGT</h1>
@@ -420,80 +421,46 @@ The difference from other tools
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> <span class="fu">c</span>(<span class="st">"TP53"</span>,<span class="st">"CD169"</span>,<span class="st">"CD68"</span>,<span class="st">"CD163"</span>,</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">"You can add more genes"</span>),</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_from_gmt</span>(<span class="st">"MsigDB_Hallmark.gmt"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Example of ORA
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
+<p>Now, we load the necessary packages and example dataset, to provide you with an example.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(org.Hs.eg.db)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(testthat)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(withr)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(EnrichGT)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(org.Hs.eg.db)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(EnrichGT)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>DEGexample <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"./DEG.csv"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>DEGexample_UpReg <span class="ot">&lt;-</span> DEGexample <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(pvalue<span class="sc">&lt;</span><span class="fl">0.05</span>,log2FoldChange<span class="sc">&gt;</span><span class="fl">0.7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Then we start ORA:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>DEGexample <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"./DEG.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ora_result <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGexample_UpReg<span class="sc">$</span>...<span class="dv">1</span>,<span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>New names:
-Rows: 15903 Columns: 7
-── Column specification
-──────────────────────────────────────────────────────── Delimiter: "," chr
-(1): ...1 dbl (6): baseMean, log2FoldChange, lfcSE, stat, pvalue, padj
-ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-Specify the column types or set `show_col_types = FALSE` to quiet this message.
-• `` -&gt; `...1`</code></pre>
+<pre><code></code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>DEGexample_UpReg <span class="ot">&lt;-</span> DEGexample <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(pvalue<span class="sc">&lt;</span><span class="fl">0.05</span>,log2FoldChange<span class="sc">&gt;</span><span class="fl">0.7</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ora_result <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGexample_UpReg<span class="sc">$</span>...<span class="dv">1</span>,<span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>
-✔ success loaded database, time used : 16.2816200256348 sec.
-✔ Done ORA in 0.136809825897217 sec.</code></pre>
+<pre><code>✔ success loaded database, time used : 17.9219570159912 sec.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ora_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Done ORA in 0.138438940048218 sec.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ora_result <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() <span class="co"># You don't need to call as_tibble, this is just for better printing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>          ID                                        Description GeneRatio
-1 GO:0035249               synaptic transmission, glutamatergic    19/457
-2 GO:0051966 regulation of synaptic transmission, glutamatergic    16/457
-3 GO:0050804       modulation of chemical synaptic transmission    39/457
-4 GO:0099177             regulation of trans-synaptic signaling    39/457
-5 GO:0050808                               synapse organization    36/457
-6 GO:0048168         regulation of neuronal synaptic plasticity    12/457
-    BgRatio       pvalue     p.adjust       qvalue
-1 111/18870 2.055491e-11 8.053235e-08 8.409591e-05
-2  79/18870 5.742011e-11 8.053235e-08 8.409591e-05
-3 489/18870 7.257625e-11 8.053235e-08 8.409591e-05
-4 490/18870 7.711980e-11 8.053235e-08 8.409591e-05
-5 483/18870 2.512088e-09 2.098598e-06 1.109159e-03
-6  56/18870 7.497368e-09 4.183196e-06 1.109159e-03
-                                                                                                                                                                                                                                  geneID
-1                                                                                                                ATP1A2/GRIA4/GRID2/GRIK2/GRIK3/GRIN1/GRIN2A/GRIN2B/GRIN2D/GRM1/GRM5/GRM8/DGKI/NRXN1/NLGN1/UNC13A/MAPK8IP2/CACNG5/UNC13C
-2                                                                                                                                   ATP1A2/GRIK2/GRIK3/GRIN1/GRIN2A/GRIN2B/GRIN2D/GRM1/GRM5/GRM8/DGKI/NRXN1/NLGN1/UNC13A/MAPK8IP2/CACNG5
-3 ACHE/APOE/ATP1A2/CA2/CAMK2B/CDC20/GFAP/GRIA4/GRID2/GRIK2/GRIK3/GRIN1/GRIN2A/GRIN2B/GRIN2D/GRM1/GRM5/GRM8/HRAS/MAP1B/NTRK2/SLC6A1/CNTN2/VGF/WNT5A/INA/DGKI/DLGAP1/NRXN1/RIMS3/NMU/NLGN1/UNC13A/MAPK8IP2/ERC2/CACNG5/LRFN2/UNC13C/SHISA9
-4 ACHE/APOE/ATP1A2/CA2/CAMK2B/CDC20/GFAP/GRIA4/GRID2/GRIK2/GRIK3/GRIN1/GRIN2A/GRIN2B/GRIN2D/GRM1/GRM5/GRM8/HRAS/MAP1B/NTRK2/SLC6A1/CNTN2/VGF/WNT5A/INA/DGKI/DLGAP1/NRXN1/RIMS3/NMU/NLGN1/UNC13A/MAPK8IP2/ERC2/CACNG5/LRFN2/UNC13C/SHISA9
-5             ACHE/APOE/KIF1A/CAMK2B/CDC20/CDH6/CTNNA2/DSCAM/GAP43/GRID2/GRIN2B/GRM5/MAP1B/NRCAM/NTRK2/RAC3/SIX1/SLC6A1/CNTN2/WNT5A/INA/NRXN1/NLGN1/UNC13A/ERC2/IL1RAPL2/SEZ6L2/TREM2/LRFN2/IGSF9/BCAN/SYNDIG1/DNER/ADGRF1/LHFPL4/UNC13C
-6                                                                                                                                                                APOE/CAMK2B/GRIK2/GRIN1/GRIN2A/GRIN2B/GRIN2D/GRM5/HRAS/CNTN2/VGF/SHISA9
-  Count
-1    19
-2    16
-3    39
-4    39
-5    36
-6    12</code></pre>
-</div>
-</div>
-</div>
+<pre><code># A tibble: 2,979 × 9
+   ID       Description GeneRatio BgRatio   pvalue p.adjust  qvalue geneID Count
+   &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt;
+ 1 GO:0035… synaptic t… 19/457    111/18… 2.06e-11  8.05e-8 8.41e-5 ATP1A…    19
+ 2 GO:0051… regulation… 16/457    79/188… 5.74e-11  8.05e-8 8.41e-5 ATP1A…    16
+ 3 GO:0050… modulation… 39/457    489/18… 7.26e-11  8.05e-8 8.41e-5 ACHE/…    39
+ 4 GO:0099… regulation… 39/457    490/18… 7.71e-11  8.05e-8 8.41e-5 ACHE/…    39
+ 5 GO:0050… synapse or… 36/457    483/18… 2.51e- 9  2.10e-6 1.11e-3 ACHE/…    36
+ 6 GO:0048… regulation… 12/457    56/188… 7.50e- 9  4.18e-6 1.11e-3 APOE/…    12
+ 7 GO:0007… mitotic sp… 11/457    46/188… 9.27e- 9  4.18e-6 1.11e-3 BIRC5…    11
+ 8 GO:0071… mitotic sp… 11/457    46/188… 9.27e- 9  4.18e-6 1.11e-3 BIRC5…    11
+ 9 GO:0071… spindle as… 11/457    46/188… 9.27e- 9  4.18e-6 1.11e-3 BIRC5…    11
+10 GO:0031… spindle ch… 11/457    47/188… 1.18e- 8  4.18e-6 1.11e-3 BIRC5…    11
+# ℹ 2,969 more rows</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -513,6 +480,7 @@ Have many sources of genes?
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a> <span class="at">database =</span> <span class="fu">database_from_gmt</span>(<span class="st">"panglaoDB.gmt"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
+<p>For visualize, see <a href="#ploting-ora-result">Ploting ORA result</a> for details.</p>
 </section>
 <section id="enrichment-of-weighted-genes-gsea" class="level3">
 <h3 class="anchored" data-anchor-id="enrichment-of-weighted-genes-gsea">Enrichment of weighted genes (GSEA)</h3>
@@ -531,18 +499,47 @@ How to build pre-ranked gene set?
 <p><code>genes_with_weights(genes,weights)</code> function is used to build the pre-ranked gene set for GSEA analysis.</p>
 </div>
 </div>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From DEG analysis Results</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_gsea_analysis</span>(<span class="at">genes =</span> </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">genes_with_weights</span>(<span class="at">genes =</span> DEG<span class="sc">$</span>genes, </span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">weights =</span> DEG<span class="sc">$</span>log2FoldChange),</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                         )</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># From PCA</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_gsea_analysis</span>(<span class="at">genes =</span> <span class="fu">genes_with_weights</span>(<span class="at">genes =</span> PCA_res<span class="sc">$</span>genes,</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                                                    <span class="at">weights =</span>PCA_res<span class="sc">$</span>PC1_loading),</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                         <span class="at">database =</span> <span class="fu">database_from_gmt</span>(<span class="st">"MsigDB_Hallmark.gmt"</span>)</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>                         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Usually, GSEA use the <code>log2FoldChange</code> from DEG analysis as the weights of genes. This is an example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>resGSEA <span class="ot">&lt;-</span> <span class="fu">egt_gsea_analysis</span>(<span class="at">genes =</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">genes_with_weights</span>(<span class="at">genes =</span> DEGexample<span class="sc">$</span>...<span class="dv">1</span>, </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">weights =</span> DEGexample<span class="sc">$</span>log2FoldChange),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Use cached database: GO_BP_org.Hs.eg.db</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.02% of the list).
+The order of those tied genes will be arbitrary, which may produce unexpected results.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Sucessful GSEA, time last 8.16707611083984 secs.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>resGSEA <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() <span class="co"># You don't need to call as_tibble, this is just for better printing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3,823 × 7
+   ID         Description              ES   NES  pvalue p.adjust core_enrichment
+   &lt;chr&gt;      &lt;chr&gt;                 &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;          
+ 1 GO:0060078 regulation of postsy… 0.564  1.94 6.34e-6 0.000240 GRIK3/HCN1/GRM…
+ 2 GO:0050907 detection of chemica… 0.767  1.92 1.32e-4 0.00301  OR51E1/CST1/OR…
+ 3 GO:0035249 synaptic transmissio… 0.560  1.91 1.70e-5 0.000562 GRIK3/UNC13C/G…
+ 4 GO:0007216 G protein-coupled gl… 0.840  1.91 1.58e-4 0.00342  GRIK3/GRM1/GRM…
+ 5 GO:0050906 detection of stimulu… 0.594  1.90 6.25e-5 0.00164  OR51E1/CST1/OR…
+ 6 GO:0051966 regulation of synapt… 0.581  1.87 7.54e-5 0.00193  GRIK3/GRM1/CAC…
+ 7 GO:0007628 adult walking behavi… 0.717  1.87 3.85e-4 0.00657  ZIC1/CNTN2/CAC…
+ 8 GO:0061982 meiosis I cell cycle… 0.553  1.86 4.32e-5 0.00124  SPATA22/KASH5/…
+ 9 GO:0045132 meiotic chromosome s… 0.587  1.86 1.55e-4 0.00339  SPATA22/KASH5/…
+10 GO:0035235 ionotropic glutamate… 0.718  1.84 5.92e-4 0.00882  GRIK3/GRIA4/GR…
+# ℹ 3,813 more rows</code></pre>
+</div>
+</div>
+<p>Other kind of weights, like the loading from PCA or NMF, or the importance of random forest, can be also used.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>resExample <span class="ot">&lt;-</span> <span class="fu">egt_gsea_analysis</span>(<span class="at">genes =</span> <span class="fu">genes_with_weights</span>(<span class="at">genes =</span> PCA_res<span class="sc">$</span>genes,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                                                    <span class="at">weights =</span>PCA_res<span class="sc">$</span>PC1_loading),</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">database =</span> <span class="fu">database_from_gmt</span>(<span class="st">"MsigDB_Hallmark.gmt"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For visualize, see <a href="#ploting-gsea-result">Ploting GSEA result</a> for details.</p>
 </section>
 </section>
 <section id="re-enrich-function" class="level2">
@@ -566,7 +563,7 @@ Form clusterProfiler ?
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -575,7 +572,7 @@ Why the <code>re-enrichment</code> is necessary?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <section id="challenges-in-biological-gene-enrichment-analysis" class="level5">
 <h5 class="anchored" data-anchor-id="challenges-in-biological-gene-enrichment-analysis">Challenges in Biological Gene Enrichment Analysis</h5>
@@ -610,34 +607,21 @@ Why the <code>re-enrichment</code> is necessary?
 </div>
 </div>
 </div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From results generated before</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_GO_BP</span>(Org.Hs.eg.db))</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>re_enrichment_results <span class="ot">&lt;-</span> <span class="fu">egt_recluster_analysis</span>(</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  res,</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ClusterNum =</span> <span class="dv">17</span>,</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">P.adj =</span> <span class="fl">0.05</span>,</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">force =</span> F,</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">nTop =</span> <span class="dv">10</span>,</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"ward.D2"</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>You can see the structure of <code>egt_obj</code>. The first slot is the result table, and the second slot contains gt table.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-How to get objects inside the S4 object?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>You can use <code>@</code>, for example, <code>x &lt;- re_enrich@enriched_result</code> returns a result table and <code>x &lt;- re_enrich@gt_object</code> returns a <code>gt</code> object.</p>
-</div>
-</div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From results generated before</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_GO_BP</span>(Org.Hs.eg.db))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>re_enrich <span class="ot">&lt;-</span> <span class="fu">egt_recluster_analysis</span>(</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  res,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ClusterNum =</span> <span class="dv">17</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">P.adj =</span> <span class="fl">0.05</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">force =</span> F,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">nTop =</span> <span class="dv">10</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"ward.D2"</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can see the structure of <code>re_enrich</code> object above. The <code>re_enrich</code> object is an S4 <code>EnrichGT_obj</code> object. The first slot is the result table (a <code>data.frame</code>), and the second slot contains gt table.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(re_enrich,<span class="at">max.level =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(re_enrich,<span class="at">max.level =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Formal class 'EnrichGT_obj' [package "EnrichGT"] with 7 slots
   ..@ enriched_result     : tibble [103 × 7] (S3: tbl_df/tbl/data.frame)
@@ -651,7 +635,154 @@ How to get objects inside the S4 object?
   ..@ raw_enriched_result :'data.frame':    175 obs. of  7 variables:</code></pre>
 </div>
 </div>
-<p>You can simple <code>View(re_enrich@enriched_result)</code> for the first slot, but EnrichGT offers more than data frames. Please see <a href="#html-reports-gt-table">HTML reports (gt table)</a> for further visualization.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+How to get objects inside the S4 object?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can use <code>@</code>, for example, <code>x &lt;- re_enrich@enriched_result</code> returns a result table and <code>x &lt;- re_enrich@gt_object</code> returns a <code>gt</code> object.</p>
+</div>
+</div>
+<p>You can simple <code>View(re_enrich@enriched_result)</code> for the first slot.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> re_enrich<span class="sc">@</span>enriched_result <span class="co"># Get the re-enrichment result table</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(x<span class="sc">$</span>Cluster) <span class="co"># You can see all enriched results splited into 17 clusters</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Cluster_1 Cluster_10 Cluster_11 Cluster_12 Cluster_13 Cluster_14 Cluster_15 
+        10          4          3          5          2          1          4 
+Cluster_16  Cluster_2  Cluster_3  Cluster_4  Cluster_5  Cluster_6  Cluster_7 
+         3         10         10         10         10         10         10 
+ Cluster_8  Cluster_9 
+         7          4 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 103 × 7
+   Description                          ID    Count Cluster   PCT    Padj geneID
+   &lt;chr&gt;                                &lt;chr&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; 
+ 1 synaptic transmission, glutamatergic GO:0…    19 Cluste…   4.2 8.10e-8 ATP1A…
+ 2 regulation of synaptic transmission… GO:0…    16 Cluste…   3.5 8.10e-8 ATP1A…
+ 3 modulation of chemical synaptic tra… GO:0…    39 Cluste…   8.5 8.10e-8 ACHE,…
+ 4 regulation of trans-synaptic signal… GO:0…    39 Cluste…   8.5 8.10e-8 ACHE,…
+ 5 regulation of neuronal synaptic pla… GO:0…    12 Cluste…   2.6 4.20e-6 APOE,…
+ 6 glutamate receptor signaling pathway GO:0…    11 Cluste…   2.4 5.20e-6 GRIA4…
+ 7 ionotropic glutamate receptor signa… GO:0…     8 Cluste…   1.8 1.10e-5 GRIA4…
+ 8 regulation of synaptic plasticity    GO:0…    20 Cluste…   4.4 4.50e-5 APOE,…
+ 9 regulation of postsynaptic membrane… GO:0…    16 Cluste…   3.5 8.5 e-5 GABRD…
+10 ligand-gated ion channel signaling … GO:1…     8 Cluste…   1.8 1.2 e-4 GRIA4…
+# ℹ 93 more rows</code></pre>
+</div>
+</div>
+<p>But EnrichGT offers <strong>more than</strong> data frames. Please see <a href="#html-reports-gt-table">HTML reports (gt table)</a> for further visualization.</p>
+</section>
+<section id="infering-tfs-or-pathway-activity-and-more-based-on-meta-gene-modules" class="level3">
+<h3 class="anchored" data-anchor-id="infering-tfs-or-pathway-activity-and-more-based-on-meta-gene-modules">Infering TFs or pathway activity and more based on meta-gene modules</h3>
+<p>Based on re-enriched result, the S4 object return from re-enrichment contains <code>gene_modules</code> slot and <code>pathway_clusters</code> slot. In <code>gene_modules</code> slot you can find a group of meta-genes take part in specific pathway cluster (in <code>pathway_clusters</code> slot).</p>
+<p>EnrichGT supports inferring Pathway or Transcript Factors activity from re-enriched meta-gene modules. This is accomplished by two amazing database:</p>
+<ul>
+<li><p><a href="https://saezlab.github.io/progeny/">PROGENy</a> is a comprehensive resource containing a curated collection of pathways and their target genes, with weights for each interaction.</p></li>
+<li><p><a href="https://github.com/saezlab/CollecTRI">CollecTRI</a> is a comprehensive resource containing a curated collection of TFs and their transcriptional targets compiled from 12 different resources. This collection provides an increased coverage of transcription factors and a superior performance in identifying perturbed TFs compared to our previous.</p></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+TF infering Example:
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>re_enrich_smaller_clusterNum <span class="ot">&lt;-</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">egt_recluster_analysis</span>(</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  ora_result,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ClusterNum =</span> <span class="dv">6</span>, <span class="co"># reduce the cluster nums. </span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">P.adj =</span> <span class="fl">0.05</span>,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">force =</span> F,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">nTop =</span> <span class="dv">10</span>,</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"ward.D2"</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>TF_Act <span class="ot">&lt;-</span> <span class="fu">egt_infer_act</span>(re_enrich_smaller_clusterNum,<span class="at">DB =</span> <span class="st">"collectri"</span>, <span class="at">species =</span> <span class="st">"human"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! If when doing re-enrichment, you select a high number of clusters, that may cause low gene number in each meta-gene module, and then can't be infered sucessfully. So if result is empty, please increase the number of re-clustering when doing it. </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ success loaded self-contained database</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Done ORA in 0.0144979953765869 sec.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Done ORA in 0.0141808986663818 sec.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Done ORA in 0.0157899856567383 sec.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Done ORA in 0.0157608985900879 sec.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Done ORA in 0.0171198844909668 sec.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Done ORA in 0.0142068862915039 sec.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(TF_Act<span class="sc">$</span>Cluster_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Use Default P-adjust cut-off 0.05. You can pass `P.adj=xxx` arugument to filter. </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! You are drawing origin results, for better result you can re-cluster it by egt_recluster_analysis()</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Wants to interpret the regulator of whole inputted genes?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>PROGENy</code> and <code>CollecTRI</code> can be used just like other database in ORA or GSEA enrichment, for example, the <code>database_GO_BP()</code>. See <a href="#progeny-database">Progeny Database</a> and <a href="#collectri-database">CollecTRI Database</a> page for detail.</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>TFActivity <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_CollecTRI_human</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Why many inferred results are empty?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If when doing re-enrichment with a high number of clusters, that may cause low gene number in each meta-gene module (splitting into too many clusters make gene in each cluster is not enough to enrich), and then can’t be inferred successfully. So if result is empty, please increase the number of re-clustering when doing it.</p>
+</div>
+</div>
 </section>
 </section>
 <section id="functions-to-fusing-results" class="level2">
@@ -673,41 +804,41 @@ Important
 </div>
 </div>
 <p>Example:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>res1 <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>res2 <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_Reactome</span>(org.Hs.eg.db))</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>Fused_enrich <span class="ot">&lt;-</span> <span class="fu">egt_recluster_analysis</span>(<span class="fu">list</span>(res1,res2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>res1 <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>res2 <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_Reactome</span>(org.Hs.eg.db))</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>Fused_enrich <span class="ot">&lt;-</span> <span class="fu">egt_recluster_analysis</span>(<span class="fu">list</span>(res1,res2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>After this, you can generate HTML tables to view the fused result (See the <a href="#html-reports-gt-table">HTML reports (gt table)</a>).</p>
 </section>
 <section id="reversed-gene-sources-analyzed-by-same-database" class="level3">
 <h3 class="anchored" data-anchor-id="reversed-gene-sources-analyzed-by-same-database">Reversed gene sources analyzed by same database</h3>
 <p>This is a less meticulously crafted feature that performs re-clustering analysis by categorizing and considering various cases, such as intersections, unions, and unrelated sets. The result is a list containing four <code>EnrichGT_obj</code> objects with overlapped enriched terms, unique enrich terms.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See ?egt_compare_groups for further helps</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>Result_List <span class="ot">&lt;-</span> <span class="fu">egt_compare_groups</span>(</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  obj.test,</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  obj.ctrl,</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">name.test =</span> <span class="cn">NULL</span>,</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">name.ctrl =</span> <span class="cn">NULL</span>,</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ClusterNum =</span> <span class="dv">15</span>,</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">P.adj =</span> <span class="fl">0.05</span>,</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">force =</span> F,</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">nTop =</span> <span class="dv">10</span>,</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"ward.D2"</span>,</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See ?egt_compare_groups for further helps</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>Result_List <span class="ot">&lt;-</span> <span class="fu">egt_compare_groups</span>(</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  obj.test,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  obj.ctrl,</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">name.test =</span> <span class="cn">NULL</span>,</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">name.ctrl =</span> <span class="cn">NULL</span>,</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ClusterNum =</span> <span class="dv">15</span>,</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">P.adj =</span> <span class="fl">0.05</span>,</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">force =</span> F,</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">nTop =</span> <span class="dv">10</span>,</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"ward.D2"</span>,</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>DEGexample_UpReg <span class="ot">&lt;-</span> DEGexample <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(pvalue<span class="sc">&lt;</span><span class="fl">0.05</span>,log2FoldChange<span class="sc">&gt;</span><span class="fl">0.7</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>DEGexample_DownReg <span class="ot">&lt;-</span> DEGexample <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(pvalue<span class="sc">&lt;</span><span class="fl">0.05</span>,log2FoldChange<span class="sc">&lt;</span>(<span class="sc">-</span><span class="fl">0.7</span>))</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>ora_resultUP <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGexample_UpReg<span class="sc">$</span>...<span class="dv">1</span>,<span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>ora_resultDown <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGexample_DownReg<span class="sc">$</span>...<span class="dv">1</span>,<span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>Compared_Result <span class="ot">&lt;-</span> <span class="fu">egt_compare_groups</span>(ora_resultUP,ora_resultDown)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>DEGexample_UpReg <span class="ot">&lt;-</span> DEGexample <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(pvalue<span class="sc">&lt;</span><span class="fl">0.05</span>,log2FoldChange<span class="sc">&gt;</span><span class="fl">0.7</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>DEGexample_DownReg <span class="ot">&lt;-</span> DEGexample <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(pvalue<span class="sc">&lt;</span><span class="fl">0.05</span>,log2FoldChange<span class="sc">&lt;</span>(<span class="sc">-</span><span class="fl">0.7</span>))</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>ora_resultUP <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGexample_UpReg<span class="sc">$</span>...<span class="dv">1</span>,<span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>ora_resultDown <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGexample_DownReg<span class="sc">$</span>...<span class="dv">1</span>,<span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>Compared_Result <span class="ot">&lt;-</span> <span class="fu">egt_compare_groups</span>(ora_resultUP,ora_resultDown)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>You can use <code>str(Result_List)</code> to explore what is inside the list. All object insided it is basic <code>EnrichGT_obj</code>, you can then use the functions from other sections of this tutorial for similar visualizations.</p>
+<p>You can use <code>str(Result_List)</code> to explore what is inside the list. All items inside it is all basic <code>EnrichGT_obj</code>s. You can then use the functions from other sections of this tutorial for similar visualizations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Compared_Result,<span class="at">max.level =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Compared_Result,<span class="at">max.level =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 4
  $ Overlap_Control:Formal class 'EnrichGT_obj' [package "EnrichGT"] with 7 slots
@@ -724,51 +855,81 @@ Important
 <p>You can simple input the object name of re-enriched object or fused object, to show the table.</p>
 <p><img src="enrichGTTable.jpg" class="img-fluid"></p>
 <p>This just shows the second slot inside the <code>EnrichGT_obj</code> object. The second slot - <code>gt_object</code> is a pure object of <code>gt</code> package, you can use any <a href="https://gt.rstudio.com/reference/index.html">function</a> on it, like:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>re_enrichment_results<span class="sc">@</span>gt_object <span class="sc">|&gt;</span> <span class="fu">gt_save</span>(<span class="st">"test.html"</span>) <span class="co"># Save it use basic gt functions. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>re_enrichment_results<span class="sc">@</span>gt_object <span class="sc">|&gt;</span> <span class="fu">gt_save</span>(<span class="st">"test.html"</span>) <span class="co"># Save it use basic gt functions. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For further usage of gt package, please refer to <a href="https://gt.rstudio.com/articles/gt.html" class="uri">https://gt.rstudio.com/articles/gt.html</a>.</p>
 <p>See re-enrichment example for further demo.</p>
 </section>
 <section id="ploting-functions" class="level2">
 <h2 class="anchored" data-anchor-id="ploting-functions">Ploting functions</h2>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The Dot Plot supports simple enrichment result <code>data.frame</code> and re-enriched <code>egt_object</code>, but UMAP plot only supports re-enriched <code>egt_object</code>.</p>
-</div>
-</div>
 <p>HTML <code>gt</code> table satisfied most of things, but for others. Though we don’t want this package become complex (i.e., you can simple draw your figure using ggplot2 for enriched tables by yourself.) But we still provide limited figure ploting functions.</p>
-<section id="dot-plot" class="level3">
-<h3 class="anchored" data-anchor-id="dot-plot">Dot Plot</h3>
+<section id="basic-result-plot" class="level3">
+<h3 class="anchored" data-anchor-id="basic-result-plot">Basic result plot</h3>
+<p>The Dot Plot provide basic viewing of results. So it supports both simple enrichment result <code>data.frame</code> and re-enriched <code>egt_object</code>.</p>
+<section id="ploting-ora-result" class="level4">
+<h4 class="anchored" data-anchor-id="ploting-ora-result">Ploting ORA result</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(re_enrich)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(ora_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Use Default P-adjust cut-off 0.05. You can pass `P.adj=xxx` arugument to filter. </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! You are drawing origin results, for better result you can re-cluster it by egt_recluster_analysis()</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="umap-plot" class="level3">
-<h3 class="anchored" data-anchor-id="umap-plot">UMAP Plot</h3>
+<section id="ploting-gsea-result" class="level4">
+<h4 class="anchored" data-anchor-id="ploting-gsea-result">Ploting GSEA result</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_umap</span>(re_enrich)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(resGSEA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: ggrepel: 3 unlabeled data points (too many overlaps). Consider
+<pre><code>ℹ Use Default P-adjust cut-off 0.05. You can pass `P.adj=xxx` arugument to filter. </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! You are drawing origin results, for better result you can re-cluster it by egt_recluster_analysis()</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ploting-re-enrichment-result" class="level4">
+<h4 class="anchored" data-anchor-id="ploting-re-enrichment-result">Ploting re-enrichment result</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(re_enrich)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="re-enrichment-dimensionality-reduction-plot" class="level3">
+<h3 class="anchored" data-anchor-id="re-enrichment-dimensionality-reduction-plot">Re-enrichment dimensionality reduction plot</h3>
+<p>UMAP plot only supports re-enriched <code>egt_object</code>, to show the dimensionality reduction view of enriched results.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_umap</span>(re_enrich)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: ggrepel: 19 unlabeled data points (too many overlaps). Consider
 increasing max.overlaps</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="960"></p>
 </figure>
 </div>
 </div>
@@ -787,7 +948,7 @@ How to specify species?
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>EnrichGT use <code>AnnotationDbi</code> for this. you can use <code>org.Hs.eg.db</code> for human and <code>org.Mm.eg.db</code> for mouse. For others, please refer to <code>BioConductor</code>.</p>
+<p>EnrichGT use <code>AnnotationDbi</code> for fetching most of databases and gene annotations. you can use <code>org.Hs.eg.db</code> for human and <code>org.Mm.eg.db</code> for mouse. For others, please search in Google or refer to <code>BioConductor</code>.</p>
 <p>But for non-AnnotationDbi source database, you do not need to provide this, like <code>database_CollecTRI_human()</code> return database about human only.</p>
 </div>
 </div>
@@ -795,22 +956,32 @@ How to specify species?
 <h3 class="anchored" data-anchor-id="built-in-database-form-annotationdbi">Built in database form AnnotationDbi</h3>
 <p>You should add argument <code>OrgDB</code> for fetching them.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">database_GO_BP</span>(<span class="at">OrgDB =</span> org.Hs.eg.db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">database_GO_BP</span>(<span class="at">OrgDB =</span> org.Hs.eg.db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="go-database" class="level4">
 <h4 class="anchored" data-anchor-id="go-database">GO Database</h4>
+<p><code>BP</code> stands for biological process, <code>CC</code> stands for cellular component and <code>MF</code> stands for molecular functions. The <code>ALL</code> will combined the above three sub-databases.</p>
 <p><code>database_GO_BP()</code>, <code>database_GO_CC()</code>, <code>database_GO_MF()</code>, <code>database_GO_ALL()</code></p>
 </section>
 <section id="reactome-database" class="level4">
 <h4 class="anchored" data-anchor-id="reactome-database">Reactome Database</h4>
+<p><a href="https://reactome.org/">Reactome</a> is an open source pathway database.</p>
 <p><code>database_Reactome()</code></p>
+</section>
+<section id="kegg-database" class="level4">
+<h4 class="anchored" data-anchor-id="kegg-database">KEGG Database</h4>
+<p>KEGG is a commercialized database. So EnrichGT can’t pre-cache them locally. You can use <code>database_kegg</code> to fetch KEGG database pathways and modules.</p>
+<p>This function requires two species-related argument. You may familiar to the <code>OrgDB</code> argument as they will be used to convert <code>ENTREZ ID</code>s to symbols like before. Another argument is the <code>kegg_organism</code>. It determines which species data from KEGG will be fetch. For human, it would be <code>hsa</code>(in default); For mouse, it would be <code>mmu</code>. If you wants other species, execute <code>database_kegg_show_organism()</code> for details.</p>
+<p>You can switch fetching KEGG pathways or modules by argument <code>kegg_modules</code>. If TRUE, returns KEGG module; If FALSE returns KEGG pathways. In default, this is setted to FALSE to get mouse commonly used KEGG pathways.</p>
+<p>If you set <code>local_cache = T</code>, EnrichGT will cache a copy in local working folder. It will be saved as a <code>.enrichgt_cache</code> file in working dictionary. The <code>.enrichgt_cache</code> is just a <code>.rds</code> file, feel free to read it using <code>readRDS()</code>.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>keggdf <span class="ot">&lt;-</span> <span class="fu">database_kegg</span>(<span class="at">kegg_organism=</span><span class="st">"hsa"</span>,<span class="at">OrgDB =</span> org.Hs.eg.db,<span class="at">kegg_modules=</span>F,<span class="at">local_cache=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="wikipathway-database" class="level4">
 <h4 class="anchored" data-anchor-id="wikipathway-database">WikiPathway Database</h4>
 <p>WikiPathway database provides pre-built GMT files (<a href="https://data.wikipathways.org/current/gmt/" class="uri">https://data.wikipathways.org/current/gmt/</a>). In default they are recorded as <code>ENTREZ IDs</code>, so you need to provide proper species database (e.g.&nbsp;org.Hs.eg.db for human), to <code>database_from_gmt</code> function and EnrichGT will automatically convert <code>ENTREZ IDs</code> to gene symbols for enrichment analysis.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://data.wikipathways.org/current/gmt/wikipathways-20241210-gmt-Homo_sapiens.gmt"</span>,<span class="at">destfile =</span> <span class="st">"WikiPWS_human.gmt"</span>)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>WikiPWsDB <span class="ot">&lt;-</span> <span class="fu">database_from_gmt</span>(<span class="st">"WikiPWS_human.gmt"</span>,<span class="at">OrgDB=</span>org.Hs.eg.db)</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> WikiPWsDB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://data.wikipathways.org/current/gmt/wikipathways-20241210-gmt-Homo_sapiens.gmt"</span>,<span class="at">destfile =</span> <span class="st">"WikiPWS_human.gmt"</span>)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>WikiPWsDB <span class="ot">&lt;-</span> <span class="fu">database_from_gmt</span>(<span class="st">"WikiPWS_human.gmt"</span>,<span class="at">OrgDB=</span>org.Hs.eg.db)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> WikiPWsDB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="progeny-database" class="level4">
 <h4 class="anchored" data-anchor-id="progeny-database">Progeny Database</h4>
@@ -824,7 +995,7 @@ How to specify species?
 <section id="read-addition-gene-sets-from-local-gmt-files" class="level3">
 <h3 class="anchored" data-anchor-id="read-addition-gene-sets-from-local-gmt-files">Read Addition Gene Sets from local GMT files</h3>
 <p>EnrichGT supports reading <code>GMT</code> files, You can obtain <code>GMT</code> files from <a href="https://www.gsea-msigdb.org/gsea/msigdb/index.jsp">MsigDB</a>.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">database_from_gmt</span>(<span class="st">"Path_to_your_Gmt_file.gmt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">database_from_gmt</span>(<span class="st">"Path_to_your_Gmt_file.gmt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In default, <code>database_from_gmt</code> will try to convert the numeric ids to gene symbols (as they are usually the <code>ENTREZ IDs</code>, you can disable this by passing <code>convert_2_symbols = F</code> ).</p>
 </section>
 <section id="read-addition-gene-sets-from-local-data-tables" class="level3">
@@ -881,17 +1052,17 @@ How to specify species?
 </tbody>
 </table>
 <p>Example:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"you_gene_set.csv"</span>)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"you_gene_set.csv"</span>)</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="gene-annotation-converter" class="level3">
 <h3 class="anchored" data-anchor-id="gene-annotation-converter">Gene Annotation Converter</h3>
 <p>You can use <code>convert_annotations_genes()</code> to convert gene annotations from any keys to any keys.</p>
 <p>Example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">convert_annotations_genes</span>(DEGexample_UpReg<span class="sc">$</span>...<span class="dv">1</span>[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">from_what=</span><span class="st">"SYMBOL"</span>, <span class="at">to_what=</span><span class="fu">c</span>(<span class="st">"ENTREZID"</span>,<span class="st">"ENSEMBL"</span>,<span class="st">"GENENAME"</span>), <span class="at">OrgDB=</span>org.Hs.eg.db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">convert_annotations_genes</span>(DEGexample_UpReg<span class="sc">$</span>...<span class="dv">1</span>[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">from_what=</span><span class="st">"SYMBOL"</span>, <span class="at">to_what=</span><span class="fu">c</span>(<span class="st">"ENTREZID"</span>,<span class="st">"ENSEMBL"</span>,<span class="st">"GENENAME"</span>), <span class="at">OrgDB=</span>org.Hs.eg.db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>'select()' returned 1:1 mapping between keys and columns</code></pre>
 </div>
@@ -920,10 +1091,6 @@ How to specify species?
 10                dynein 2 intermediate chain 2</code></pre>
 </div>
 </div>
-</section>
-<section id="where-is-kegg" class="level3">
-<h3 class="anchored" data-anchor-id="where-is-kegg">Where is KEGG?</h3>
-<p>KEGG limited the commercial usage. And you should use the <code>KEGG REST</code> API to download it. I have no time to achieve it now. But you can use KEGG Database from <a href="https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp#C2">MsigDB</a> instead (<a href="https://www.gsea-msigdb.org/gsea/msigdb/human/genesets.jsp?collection=CP:KEGG_MEDICUS">KEGG_MED</a> and <a href="https://www.gsea-msigdb.org/gsea/msigdb/human/genesets.jsp?collection=CP:KEGG_LEGACY">KEGG_Classical</a>).</p>
 </section>
 </section>
 </section>
@@ -1376,7 +1543,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
-<p>Corresponding to EnrichGT Version 0.6</p>
+<p>Corresponding to EnrichGT Version 0.7 LTS</p>
 </div>
   </div>
 </footer>
