@@ -57,7 +57,7 @@ egt_recluster_analysis<-function(x,ClusterNum=17,P.adj=0.05,force=F,nTop=10,meth
   required_packages <- c(
     "dplyr", "fontawesome", "glue", "gt", "proxy",
     "RColorBrewer", "rlang", "scales", "text2vec",
-    "tibble","forcats","ggplot2","Matrix"
+    "tibble","forcats","ggplot2", "Matrix", "xfun"
   )
   missing_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
 
@@ -73,7 +73,7 @@ egt_recluster_analysis<-function(x,ClusterNum=17,P.adj=0.05,force=F,nTop=10,meth
     require("Matrix")
     require("cli")
     cli::cli_h1("EnrichGT")
-    cli::cli_alert_info("View your enrichment result by entring `EnrichGT(result)`")
-    cli::cli_alert("by Zhiming Ye, https://github.com/ZhimingYe/EnrichGT")
+    cli::cli_alert_info("See help on https://zhimingye.github.io/EnrichGT/")
+    cli::cli_alert("by Zhiming Ye")
   }
 }
