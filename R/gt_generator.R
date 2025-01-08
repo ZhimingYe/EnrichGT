@@ -4,6 +4,9 @@ gt_gsea<-function(x,ClusterNum,objname,objname2=NULL,...){
   }
   orderlist<-fix_order(x$Cluster)
   orderlist<-orderlist[orderlist%in%x$Cluster]
+  if(sum(x$ID == x$Description)>=5){
+    x$ID <- paste0(objname," / ",1:nrow(x))
+  }
   y<-x |> gt::gt(groupname_col = "Cluster") |>
     gt_hulk_col_numeric2(Padj,pal = RColorBrewer::brewer.pal(8,"Spectral")) |>
     gt_hulk_col_numeric2(absNES,pal = RColorBrewer::brewer.pal(8,"PuBuGn") |> rev()) |>
@@ -33,6 +36,9 @@ gt_ora<-function(x,ClusterNum,objname,objname2=NULL,...){
   }
   orderlist<-fix_order(x$Cluster)
   orderlist<-orderlist[orderlist%in%x$Cluster]
+  if(sum(x$ID == x$Description)>=5){
+    x$ID <- paste0(objname," / ",1:nrow(x))
+  }
   y<-x |> gt::gt(groupname_col = "Cluster") |>
     gt_hulk_col_numeric2(PCT,pal = RColorBrewer::brewer.pal(8,"PiYG") |> rev()) |>
     gt_hulk_col_numeric2(Padj,pal = RColorBrewer::brewer.pal(8,"Spectral")) |>

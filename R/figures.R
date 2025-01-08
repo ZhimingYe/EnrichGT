@@ -4,6 +4,7 @@
 #' This plot is the most widely like `enrichplot::dotplot()`used method to visualize enriched terms. It shows the enrichment scores (e.g. p values) and gene ratio or NES as dot size and color / or bar height. Users can specify the number of terms using `ntop` or selected terms to color via the `low.col` and `hi.col`.
 #' @param x a data frame form enriched result like `egt_enrichment_analysis()` or `egt_gsea_analysis()`, or an re-clustered `EnrichGT` object
 #' @param ntop Show top N in each cluster
+#' @param showIDs bool, show pathway IDs or not. Default is FALSE
 #' @param low.col the color for the lowest
 #' @param hi.col the color for the highest
 #' @param max_len_descript the label format length, default as 40.
@@ -35,12 +36,15 @@
 #' @importFrom methods is
 #' @importFrom forcats fct_reorder
 #' @author Zhiming Ye
-egt_plot_results <- function(x,ntop=30,...,P.adj=NULL){
+egt_plot_results <- function(x,ntop=7,showIDs=F,max_len_descript=40,...,P.adj=NULL){
   if(class(x)[1]=="EnrichGT_obj"){
+    if(x@fused){
+      cli::cli_alert_info("Found a fused EnrichGT_obj, you can set showIDs=T to show the source database the pathways from. ")
+    }
     if(sum(colnames(x@enriched_result)=="absNES")==0){
-      figure0<-ORA2dp(x,...)
+      figure0<-ORA2dp(x,ntop=ntop,showIDs=showIDs,max_len_descript=max_len_descript,...)
     }else{
-      figure0<-GSEA2dp(x,...)
+      figure0<-GSEA2dp(x,ntop=ntop,showIDs=showIDs,max_len_descript=max_len_descript,...)
     }
   }else if(is.data.frame(x)){
     plotingTemp <- new.env()
@@ -70,7 +74,7 @@ egt_plot_results <- function(x,ntop=30,...,P.adj=NULL){
         dplyr::arrange(desc(absNES), .by_group = TRUE) |>
         dplyr::slice_head(n = round(round(ntop / 2) + 1 + round(ntop/20))) |> # For balance
         dplyr::ungroup() # Balance up and down
-      figure0<-GSEA2dp(obj,ntop=ntop,...)
+      figure0<-GSEA2dp(obj,ntop=ntop,showIDs=showIDs,max_len_descript=max_len_descript,...)
     }else{
       InnerDF<-x |> dplyr::filter(p.adjust<(plotingTemp$PadjVal)) |> dplyr::select(ID,Description,GeneRatio,`p.adjust`,geneID,Count) # Need Fix
       obj<-InnerDF |>
@@ -84,7 +88,7 @@ egt_plot_results <- function(x,ntop=30,...,P.adj=NULL){
         dplyr::arrange(desc(Count), .by_group = TRUE) |>
         dplyr::slice_head(n = 2) |>
         dplyr::ungroup()
-      figure0<-ORA2dp(obj,ntop=ntop,...)
+      figure0<-ORA2dp(obj,ntop=ntop,showIDs=showIDs,max_len_descript=max_len_descript,...)
     }
   }
   return(figure0)
@@ -119,7 +123,7 @@ egt_plot_umap <- function(x,...){
   return(px)
 }
 
-ORA2dp<-function(x,ntop = 7,low.col="#ff6f81",hi.col="#78cfe5",max_len_descript=40,...){
+ORA2dp<-function(x,ntop = 7,showIDs=F,low.col="#ff6f81",hi.col="#78cfe5",max_len_descript=40,...){
   if(is.list(x) & !is.data.frame(x)){
     cli::cli_abort("For a list object, please run plotting for every object inside list, instead of the whole list.")
   }
@@ -134,6 +138,11 @@ ORA2dp<-function(x,ntop = 7,low.col="#ff6f81",hi.col="#78cfe5",max_len_descript=
     assign("df0",x,envir = TempPlotingEnv)
     cli::cli_alert_warning("You are drawing origin results, for better result you can re-cluster it by egt_recluster_analysis()")
   })
+  if(showIDs & (sum(TempPlotingEnv$df0$ID == TempPlotingEnv$df0$Description)>=5)){
+    TempPlotingEnv$df0$ID <- substr(TempPlotingEnv$df0$ID,1,15)
+    TempPlotingEnv$df0$Description <- paste0(TempPlotingEnv$df0$ID,":",TempPlotingEnv$df0$Description)
+    max_len_descript <- max_len_descript + 16
+  }
   tryCatch({
     df <- TempPlotingEnv$df0 |>
       group_by(Cluster) |>
@@ -148,7 +157,7 @@ ORA2dp<-function(x,ntop = 7,low.col="#ff6f81",hi.col="#78cfe5",max_len_descript=
   return(px)
 }
 
-GSEA2dp<-function(x,ntop = 7,low.col="#ff6f81",hi.col="#78cfe5",max_len_descript=40,...){
+GSEA2dp<-function(x,ntop = 7,showIDs=F,low.col="#ff6f81",hi.col="#78cfe5",max_len_descript=40,...){
   if(is.list(x) & !is.data.frame(x)){
     cli::cli_abort("For a list object, please run plotting for every object inside list, instead of the whole list.")
   }
@@ -163,6 +172,11 @@ GSEA2dp<-function(x,ntop = 7,low.col="#ff6f81",hi.col="#78cfe5",max_len_descript
     assign("df0",x,envir = TempPlotingEnv)
     cli::cli_alert_warning("You are drawing origin results, for better result you can re-cluster it by egt_recluster_analysis()")
   })
+  if(showIDs & (sum(TempPlotingEnv$df0$ID == TempPlotingEnv$df0$Description)>=5)){
+    TempPlotingEnv$df0$ID <- substr(TempPlotingEnv$df0$ID,1,15)
+    TempPlotingEnv$df0$Description <- paste0(TempPlotingEnv$df0$ID,":",TempPlotingEnv$df0$Description)
+    max_len_descript <- max_len_descript + 16
+  }
   tryCatch({
     df <- TempPlotingEnv$df0 |>
       group_by(Cluster) |>
