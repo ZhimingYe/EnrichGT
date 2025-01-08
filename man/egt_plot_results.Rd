@@ -4,12 +4,23 @@
 \alias{egt_plot_results}
 \title{Visualize enrichment results using simple plot}
 \usage{
-egt_plot_results(x, ntop = 30, ..., P.adj = NULL)
+egt_plot_results(
+  x,
+  ntop = NULL,
+  showIDs = F,
+  max_len_descript = 40,
+  ...,
+  P.adj = NULL
+)
 }
 \arguments{
 \item{x}{a data frame form enriched result like `egt_enrichment_analysis()` or `egt_gsea_analysis()`, or an re-clustered `EnrichGT` object}
 
-\item{ntop}{Show top N in each cluster}
+\item{ntop}{Show top N in each cluster. In default, for origin enriched result, showing top 15; for re-clustered object, showing top 5 in each cluster.}
+
+\item{showIDs}{bool, show pathway IDs or not. Default is FALSE}
+
+\item{max_len_descript}{the label format length, default as 40.}
 
 \item{...}{Other param}
 
@@ -18,8 +29,6 @@ egt_plot_results(x, ntop = 30, ..., P.adj = NULL)
 \item{low.col}{the color for the lowest}
 
 \item{hi.col}{the color for the highest}
-
-\item{max_len_descript}{the label format length, default as 40.}
 }
 \value{
 a ggplot2 object

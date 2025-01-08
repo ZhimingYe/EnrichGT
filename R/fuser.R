@@ -120,5 +120,6 @@ universalGT<-function(x,...){
   else{
     x1<-.genGT(x,...)
   }
+  x1@fused <- T
   return(x1)
 }
