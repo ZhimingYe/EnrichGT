@@ -6,7 +6,7 @@
 \usage{
 egt_plot_results(
   x,
-  ntop = 7,
+  ntop = NULL,
   showIDs = F,
   max_len_descript = 40,
   ...,
@@ -16,7 +16,7 @@ egt_plot_results(
 \arguments{
 \item{x}{a data frame form enriched result like `egt_enrichment_analysis()` or `egt_gsea_analysis()`, or an re-clustered `EnrichGT` object}
 
-\item{ntop}{Show top N in each cluster}
+\item{ntop}{Show top N in each cluster. In default, for origin enriched result, showing top 15; for re-clustered object, showing top 5 in each cluster.}
 
 \item{showIDs}{bool, show pathway IDs or not. Default is FALSE}
 

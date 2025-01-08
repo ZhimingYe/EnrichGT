@@ -3,7 +3,7 @@
 #' @description
 #' This plot is the most widely like `enrichplot::dotplot()`used method to visualize enriched terms. It shows the enrichment scores (e.g. p values) and gene ratio or NES as dot size and color / or bar height. Users can specify the number of terms using `ntop` or selected terms to color via the `low.col` and `hi.col`.
 #' @param x a data frame form enriched result like `egt_enrichment_analysis()` or `egt_gsea_analysis()`, or an re-clustered `EnrichGT` object
-#' @param ntop Show top N in each cluster
+#' @param ntop Show top N in each cluster. In default, for origin enriched result, showing top 15; for re-clustered object, showing top 5 in each cluster. 
 #' @param showIDs bool, show pathway IDs or not. Default is FALSE
 #' @param low.col the color for the lowest
 #' @param hi.col the color for the highest
@@ -36,8 +36,14 @@
 #' @importFrom methods is
 #' @importFrom forcats fct_reorder
 #' @author Zhiming Ye
-egt_plot_results <- function(x,ntop=7,showIDs=F,max_len_descript=40,...,P.adj=NULL){
+egt_plot_results <- function(x,ntop=NULL,showIDs=F,max_len_descript=40,...,P.adj=NULL){
+  if(is.null(ntop)){
+    ntop <- 15
+  }
   if(class(x)[1]=="EnrichGT_obj"){
+    if(is.null(ntop)){
+        ntop <- 5
+    }
     if(x@fused){
       cli::cli_alert_info("Found a fused EnrichGT_obj, you can set showIDs=T to show the source database the pathways from. ")
     }
