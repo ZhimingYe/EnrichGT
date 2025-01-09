@@ -64,7 +64,11 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   ClusterNum<-.genClusterNum(x=x,ClusterNum = ClusterNum0,force = force) |> round()
   clsObj<-.enrichpws(InnerDF$ID,InnerDF$geneID,ClusterNum,method)
   suppressMessages({InnerDF<-InnerDF |> dplyr::left_join(clsObj[[1]])}) # Merge according to "ID"
-  InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::select(ID,Description,GeneRatio,`p.adjust`,geneID,Cluster,Count) # Need Fix
+  if(sum(colnames(InnerDF)=="Up_Vs_Down")>0){
+    InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::mutate(geneID=paste0(">@Up_Genes@: ",UpGenes,". \n>@Down_Genes@: ",DownGenes)) |> dplyr::select(ID,Description,GeneRatio,`p.adjust`,geneID,Cluster,Count,Up_Vs_Down)
+  }else{
+    InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::select(ID,Description,GeneRatio,`p.adjust`,geneID,Cluster,Count) # Need Fix
+  }
   if(nrow(InnerDF)<2){
     cli::cli_abort("No useable enriched result, because each term candidated genes is too low. E.g. only 3 genes take part in a pathway.")
   }
@@ -72,9 +76,17 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   .checkNrows(InnerDF,force = force)
   obj<-InnerDF |>
     dplyr::mutate(PCT=sapply(InnerDF$GeneRatio,function(x)eval(parse(text = x)))*100) |>
-    dplyr::mutate(Padj = signif(p.adjust, 2),PCT=signif(PCT, 2)) |>
+    dplyr::mutate(Padj = signif(p.adjust, 2),PCT=signif(PCT, 2))
+  if(sum(colnames(InnerDF)=="Up_Vs_Down")>0){
+    obj<-obj |>
+    dplyr::select(Description,ID,Count,Cluster,PCT,Padj,geneID,Up_Vs_Down) |>
+    dplyr::mutate(geneID=gsub("/",", ",geneID)) |> 
+    dplyr::rename(`up/dn`=Up_Vs_Down)
+  }else{
+    obj<-obj |>
     dplyr::select(Description,ID,Count,Cluster,PCT,Padj,geneID) |>
     dplyr::mutate(geneID=gsub("/",", ",geneID))
+  }
   obj <- obj |>
     dplyr::group_by(Cluster) |>
     dplyr::arrange(Padj) |>

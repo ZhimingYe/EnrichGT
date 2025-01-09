@@ -140,7 +140,7 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
     })
   }else if(is.list(genes)&multi_cores>=2){
     require(parallel)
-    result <- mclapply(genes,function(x){
+    result <- parallel::mclapply(genes,function(x){
       tryCatch({
         res <- doEnrich_Internal(genes=x,database,p_adj_methods,p_val_cut_off,background_genes,min_geneset_size,max_geneset_size)
         return(res)

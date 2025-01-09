@@ -119,7 +119,8 @@ doEnrich_Internal <- function(genes,database,p_adj_methods,p_val_cut_off,backgro
                       UpGenes=df00$UpGenes,
                       DownGenes=df00$DownGenes,
                       UpSummary=df00$UpSummary,
-                      DownSummary=df00$DownSummary
+                      DownSummary=df00$DownSummary,
+                      Up_Vs_Down=paste0(df00$UpSummary,"/",df00$DownSummary)
                     )
   }
   t2 <- Sys.time()
