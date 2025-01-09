@@ -8,7 +8,7 @@
 
 <meta name="author" content="Zhiming Ye">
 
-<title>Introduction and Installation – EnrichGT Documents</title>
+<title>Select your databases for enrichment or annotation – EnrichGT Documents</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -101,40 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<meta name="mermaid-theme" content="neutral">
-<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -187,7 +154,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction and Installation</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./database.html">Select your databases for enrichment or annotation</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -201,7 +168,7 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction and Installation</span></a>
   </div>
 </li>
@@ -237,7 +204,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./database.html" class="sidebar-item-text sidebar-link">
+  <a href="./database.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Select your databases for enrichment or annotation</span></a>
   </div>
 </li>
@@ -251,18 +218,30 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#install-enrichgt" id="toc-install-enrichgt" class="nav-link" data-scroll-target="#install-enrichgt">Install EnrichGT</a></li>
-  <li><a href="#meet-enrichgt" id="toc-meet-enrichgt" class="nav-link" data-scroll-target="#meet-enrichgt">Meet EnrichGT</a></li>
+  <li><a href="#databases-helpers" id="toc-databases-helpers" class="nav-link active" data-scroll-target="#databases-helpers">DataBases Helpers</a>
+  <ul class="collapse">
+  <li><a href="#built-in-database-or-annotationdbi-database" id="toc-built-in-database-or-annotationdbi-database" class="nav-link" data-scroll-target="#built-in-database-or-annotationdbi-database">Built in database or AnnotationDbi database</a>
+  <ul class="collapse">
+  <li><a href="#go-database" id="toc-go-database" class="nav-link" data-scroll-target="#go-database">GO Database</a></li>
+  <li><a href="#reactome-database" id="toc-reactome-database" class="nav-link" data-scroll-target="#reactome-database">Reactome Database</a></li>
+  <li><a href="#kegg-database" id="toc-kegg-database" class="nav-link" data-scroll-target="#kegg-database">KEGG Database</a></li>
+  <li><a href="#wikipathway-database" id="toc-wikipathway-database" class="nav-link" data-scroll-target="#wikipathway-database">WikiPathway Database</a></li>
+  <li><a href="#progeny-database" id="toc-progeny-database" class="nav-link" data-scroll-target="#progeny-database">Progeny Database</a></li>
+  <li><a href="#collectri-database" id="toc-collectri-database" class="nav-link" data-scroll-target="#collectri-database">CollecTRI Database</a></li>
+  </ul></li>
+  <li><a href="#read-addition-gene-sets-from-local-gmt-files" id="toc-read-addition-gene-sets-from-local-gmt-files" class="nav-link" data-scroll-target="#read-addition-gene-sets-from-local-gmt-files">Read Addition Gene Sets from local GMT files</a></li>
+  <li><a href="#read-addition-gene-sets-from-local-data-tables" id="toc-read-addition-gene-sets-from-local-data-tables" class="nav-link" data-scroll-target="#read-addition-gene-sets-from-local-data-tables">Read Addition Gene Sets from local data tables</a></li>
+  </ul></li>
+  <li><a href="#gene-annotation-converter" id="toc-gene-annotation-converter" class="nav-link" data-scroll-target="#gene-annotation-converter">Gene Annotation Converter</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/database.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/database.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Introduction and Installation</h1>
+<h1 class="title">Select your databases for enrichment or annotation</h1>
 </div>
 
 
@@ -285,141 +264,180 @@ window.Quarto = {
 </header>
 
 
-<section id="overview" class="level1">
-<h1>Overview</h1>
-<div class="callout callout-style-default callout-tip callout-titled">
+<section id="databases-helpers" class="level1">
+<h1>DataBases Helpers</h1>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What is EnrichGT?
+How to specify species?
 </div>
 </div>
 <div class="callout-body-container callout-body">
+<p>EnrichGT use <code>AnnotationDbi</code> for fetching most of databases and gene annotations. you can use <code>org.Hs.eg.db</code> for human and <code>org.Mm.eg.db</code> for mouse. For others, please search in Google or refer to <code>BioConductor</code>.</p>
+<p>But for non-AnnotationDbi source database, you do not need to provide this, like <code>database_CollecTRI_human()</code> return database about human only.</p>
+</div>
+</div>
+<section id="built-in-database-or-annotationdbi-database" class="level2">
+<h2 class="anchored" data-anchor-id="built-in-database-or-annotationdbi-database">Built in database or AnnotationDbi database</h2>
+<p>You should add argument <code>OrgDB</code> for fetching them.</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">database_GO_BP</span>(<span class="at">OrgDB =</span> org.Hs.eg.db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="go-database" class="level3">
+<h3 class="anchored" data-anchor-id="go-database">GO Database</h3>
+<p><code>BP</code> stands for biological process, <code>CC</code> stands for cellular component and <code>MF</code> stands for molecular functions. The <code>ALL</code> will combined the above three sub-databases.</p>
+<p><code>database_GO_BP()</code>, <code>database_GO_CC()</code>, <code>database_GO_MF()</code>, <code>database_GO_ALL()</code></p>
+</section>
+<section id="reactome-database" class="level3">
+<h3 class="anchored" data-anchor-id="reactome-database">Reactome Database</h3>
+<p><a href="https://reactome.org/">Reactome</a> is an open source pathway database.</p>
+<p><code>database_Reactome()</code></p>
+</section>
+<section id="kegg-database" class="level3">
+<h3 class="anchored" data-anchor-id="kegg-database">KEGG Database</h3>
+<p>KEGG is a commercialized database. So EnrichGT can’t pre-cache them locally. You can use <code>database_kegg</code> to fetch KEGG database pathways and modules.</p>
+<p>This function requires two species-related argument. You may familiar to the <code>OrgDB</code> argument as they will be used to convert <code>ENTREZ ID</code>s to symbols like before. Another argument is the <code>kegg_organism</code>. It determines which species data from KEGG will be fetch. For human, it would be <code>hsa</code>(in default); For mouse, it would be <code>mmu</code>. If you wants other species, execute <code>database_kegg_show_organism()</code> for details.</p>
+<p>You can switch fetching KEGG pathways or modules by argument <code>kegg_modules</code>. If TRUE, returns KEGG module; If FALSE returns KEGG pathways. In default, this is setted to FALSE to get mouse commonly used KEGG pathways.</p>
+<p>If you set <code>local_cache = T</code>, EnrichGT will cache a copy in local working folder. It will be saved as a <code>.enrichgt_cache</code> file in working dictionary. The <code>.enrichgt_cache</code> is just a <code>.rds</code> file, feel free to read it using <code>readRDS()</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>keggdf <span class="ot">&lt;-</span> <span class="fu">database_kegg</span>(<span class="at">kegg_organism=</span><span class="st">"hsa"</span>,<span class="at">OrgDB =</span> org.Hs.eg.db,<span class="at">kegg_modules=</span>F,<span class="at">local_cache=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="wikipathway-database" class="level3">
+<h3 class="anchored" data-anchor-id="wikipathway-database">WikiPathway Database</h3>
+<p>WikiPathway database provides pre-built GMT files (<a href="https://data.wikipathways.org/current/gmt/" class="uri">https://data.wikipathways.org/current/gmt/</a>). In default they are recorded as <code>ENTREZ IDs</code>, so you need to provide proper species database (e.g.&nbsp;org.Hs.eg.db for human), to <code>database_from_gmt</code> function and EnrichGT will automatically convert <code>ENTREZ IDs</code> to gene symbols for enrichment analysis.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://data.wikipathways.org/current/gmt/wikipathways-20241210-gmt-Homo_sapiens.gmt"</span>,<span class="at">destfile =</span> <span class="st">"WikiPWS_human.gmt"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>WikiPWsDB <span class="ot">&lt;-</span> <span class="fu">database_from_gmt</span>(<span class="st">"WikiPWS_human.gmt"</span>,<span class="at">OrgDB=</span>org.Hs.eg.db)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> WikiPWsDB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="progeny-database" class="level3">
+<h3 class="anchored" data-anchor-id="progeny-database">Progeny Database</h3>
+<p>For pathway activity infer, <code>database_progeny_human()</code> and <code>database_progeny_mouse()</code></p>
+</section>
+<section id="collectri-database" class="level3">
+<h3 class="anchored" data-anchor-id="collectri-database">CollecTRI Database</h3>
+<p>For Transcript Factors infer, <code>database_CollecTRI_human()</code> and <code>database_CollecTRI_mouse()</code></p>
+</section>
+</section>
+<section id="read-addition-gene-sets-from-local-gmt-files" class="level2">
+<h2 class="anchored" data-anchor-id="read-addition-gene-sets-from-local-gmt-files">Read Addition Gene Sets from local GMT files</h2>
+<p>EnrichGT supports reading <code>GMT</code> files, You can obtain <code>GMT</code> files from <a href="https://www.gsea-msigdb.org/gsea/msigdb/index.jsp">MsigDB</a>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">database_from_gmt</span>(<span class="st">"Path_to_your_Gmt_file.gmt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In default, <code>database_from_gmt</code> will try to convert the numeric ids to gene symbols (as they are usually the <code>ENTREZ IDs</code>, you can disable this by passing <code>convert_2_symbols = F</code> ).</p>
+</section>
+<section id="read-addition-gene-sets-from-local-data-tables" class="level2">
+<h2 class="anchored" data-anchor-id="read-addition-gene-sets-from-local-data-tables">Read Addition Gene Sets from local data tables</h2>
+<p>The result of any <code>database_***</code> functions are <code>data.frame</code>s. So you can simple read any data tables and use them for any enrichment function.</p>
+<p>The typical input should be:</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 100%">
-</colgroup>
 <thead>
 <tr class="header">
-<th>EnrichGT means <u>enrich</u>ing previously enriched results (<span class="math inline">\(E^2_{\text{enrich}}\)</span>) into <u>g</u>reat <u>t</u>ables and more …</th>
+<th>IDs</th>
+<th>Term</th>
+<th>Genes</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Efficient C++-based functions for <strong>rapid enrichment</strong> analysis</td>
+<td>ID1</td>
+<td>Biological Pathway1</td>
+<td>Gene1</td>
 </tr>
 <tr class="even">
-<td><strong>Simple</strong> input format, empowering non-pro users</td>
+<td>ID1</td>
+<td>Biological Pathway1</td>
+<td>Gene2</td>
 </tr>
 <tr class="odd">
-<td>Re-clustering of enriched results provides <strong>clear and actionable insights</strong></td>
+<td>ID1</td>
+<td>Biological Pathway1</td>
+<td>Gene3</td>
 </tr>
 <tr class="even">
-<td>User-friendly <strong>HTML output</strong> that is easy to read and interpret</td>
+<td>ID2</td>
+<td>Biological Pathway2</td>
+<td>Gene3</td>
 </tr>
 <tr class="odd">
-<td>Do a series of things just in <strong>ONE</strong> package</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph LR
-    
-    M[genes]
-    N[genes with weights]
-    
-    subgraph Enrichment Analysis
-        A[egt_enrichment_analysis]
-        B[egt_gsea_analysis]
-    end
-
-    subgraph Pathway Databases
-        D[database_* funcs]
-    end
-
-    subgraph Visualize results
-        P1[egt_plot_results]
-        P2[egt_plot_umap]
-    end
-
-    subgraph egt_recluster_analysis
-        K1[Pretty table]
-        CC[cluster modules]
-        MG[gene modules]
-    end
-
-    subgraph Pathway Act. and TF infer 
-        
-        I[egt_infer]
-    end
-    
-    M --&gt; A
-    N --&gt; B
-    
-    D --&gt; A
-    D --&gt; B
-    
-    A --&gt; C[Enriched Result]
-    B --&gt; C
-
-    C --&gt; CC
-    C --&gt; MG
-
-    C --&gt; P1
-
-    CC --&gt; K1
-    MG --&gt; K1
-
-    CC --&gt; P1
-    CC --&gt; P2
-
-    MG --&gt; I
-
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-<p><sup>The&nbsp;functions&nbsp;from&nbsp;EnrichGT&nbsp;are&nbsp;starting&nbsp;with&nbsp;“egt_”&nbsp;or&nbsp;“database_”.</sup></p>
-<p>This package was developed under the inspiration of <em>clusterProfiler</em> (a wonderful and powerful package!), but none of its internal functions rely on any <em>clusterProfiler</em> functions. Some database-loading code references <em>clusterProfiler</em>‘s implementation, but it has been extensively modified to provide lightweight experience. In other words, this is not a case of rebranding <em>clusterProfiler</em> under a different name. It’s a lightweight implementation designed to wet-labs. If you need a tool that handles every detail, please use <em>clusterProfiler</em> instead. Please see <a href="acknowledgment.qmd">acknowledgment</a> page for citing <em>clusterProfiler<strong>.</strong></em></p>
-</section>
-<section id="install-enrichgt" class="level1">
-<h1>Install EnrichGT</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pak"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pkg_install</span>(<span class="st">"ZhimingYe/EnrichGT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>or</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"devtools"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install_github</span>(<span class="st">"ZhimingYe/EnrichGT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The <code>AnnotationDbi</code>, <code>fgsea</code>, <code>reactome.db</code> and <code>GO.db</code> were from BioConductor and might be slow to install. If you can’t install, please re-check your web connections or update your R and BioConductor, or use <a href="https://packagemanager.posit.co/">Posit Package Manager</a> to install when using old R.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Genes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Biological Pathway1</td>
+<td>Gene1</td>
+</tr>
+<tr class="even">
+<td>Biological Pathway1</td>
+<td>Gene4</td>
+</tr>
+<tr class="odd">
+<td>Biological Pathway2</td>
+<td>Gene7</td>
+</tr>
+<tr class="even">
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"you_gene_set.csv"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="meet-enrichgt" class="level1">
-<h1>Meet EnrichGT</h1>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+</section>
+<section id="gene-annotation-converter" class="level1">
+<h1>Gene Annotation Converter</h1>
+<p>You can use <code>convert_annotations_genes()</code> to convert gene annotations from any keys to any keys.</p>
+<p>Example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(EnrichGT))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(readr))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(org.Hs.eg.db))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(DEGexample <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"./DEG.csv"</span>))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">convert_annotations_genes</span>(DEGexample<span class="sc">$</span>...<span class="dv">1</span>[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">from_what=</span><span class="st">"SYMBOL"</span>, <span class="at">to_what=</span><span class="fu">c</span>(<span class="st">"ENTREZID"</span>,<span class="st">"ENSEMBL"</span>,<span class="st">"GENENAME"</span>), <span class="at">OrgDB=</span>org.Hs.eg.db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>'select()' returned 1:1 mapping between keys and columns</code></pre>
 </div>
-<div class="callout-title-container flex-fill">
-Important
+<div class="cell-output cell-output-stdout">
+<pre><code>     SYMBOL ENTREZID         ENSEMBL
+1  TBX5-AS1   255480 ENSG00000255399
+2     ADH1B      125 ENSG00000196616
+3     CCL11     6356 ENSG00000172156
+4      TBX5     6910 ENSG00000089225
+5     GATA5   140628 ENSG00000130700
+6     TCF21     6943 ENSG00000118526
+7     SSTR1     6751 ENSG00000139874
+8      CSF3     1440 ENSG00000108342
+9     GSTA2     2939 ENSG00000244067
+10     WIF1    11197 ENSG00000156076
+                                               GENENAME
+1                                  TBX5 antisense RNA 1
+2  alcohol dehydrogenase 1B (class I), beta polypeptide
+3                         C-C motif chemokine ligand 11
+4                          T-box transcription factor 5
+5                                GATA binding protein 5
+6                               transcription factor 21
+7                               somatostatin receptor 1
+8                           colony stimulating factor 3
+9                     glutathione S-transferase alpha 2
+10                              WNT inhibitory factor 1</code></pre>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>See <a href="pkgfuns.html">package function page</a> for further information (For example, how to use a function)</p>
-<p>You can use <code>? function</code> to get further help when installed.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>?egt_recluster_analysis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<p>In most examples of this document, we use a result table of DEG analysis <code>DEG.csv</code>. The gene symbols of <code>DEG.csv</code> is on the first column without column name. In default <code>read_csv()</code> convert the unamed column name to <code>...1</code>. So <code>DEGtable$...1</code> refers to gene symbols.</p>
 
 
 </section>
@@ -850,7 +868,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/database.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/database.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Corresponding to EnrichGT Version 0.8</p>
 </div>

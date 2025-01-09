@@ -8,7 +8,7 @@
 
 <meta name="author" content="Zhiming Ye">
 
-<title>Introduction and Installation – EnrichGT Documents</title>
+<title>Visualize results through HTML reports or figures – EnrichGT Documents</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -101,40 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<meta name="mermaid-theme" content="neutral">
-<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -187,7 +154,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction and Installation</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./visualize.html">Visualize results through HTML reports or figures</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -201,7 +168,7 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction and Installation</span></a>
   </div>
 </li>
@@ -231,7 +198,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./visualize.html" class="sidebar-item-text sidebar-link">
+  <a href="./visualize.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Visualize results through HTML reports or figures</span></a>
   </div>
 </li>
@@ -251,18 +218,24 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#install-enrichgt" id="toc-install-enrichgt" class="nav-link" data-scroll-target="#install-enrichgt">Install EnrichGT</a></li>
-  <li><a href="#meet-enrichgt" id="toc-meet-enrichgt" class="nav-link" data-scroll-target="#meet-enrichgt">Meet EnrichGT</a></li>
+  <li><a href="#html-reports-gt-table" id="toc-html-reports-gt-table" class="nav-link active" data-scroll-target="#html-reports-gt-table">HTML reports (gt table)</a></li>
+  <li><a href="#ploting-functions" id="toc-ploting-functions" class="nav-link" data-scroll-target="#ploting-functions">Ploting functions</a></li>
+  <li><a href="#basic-result-plot" id="toc-basic-result-plot" class="nav-link" data-scroll-target="#basic-result-plot">Basic result plot</a>
+  <ul class="collapse">
+  <li><a href="#ploting-ora-result" id="toc-ploting-ora-result" class="nav-link" data-scroll-target="#ploting-ora-result">Ploting ORA result</a></li>
+  <li><a href="#ploting-gsea-result" id="toc-ploting-gsea-result" class="nav-link" data-scroll-target="#ploting-gsea-result">Ploting GSEA result</a></li>
+  <li><a href="#ploting-re-enrichment-result" id="toc-ploting-re-enrichment-result" class="nav-link" data-scroll-target="#ploting-re-enrichment-result">Ploting re-enrichment result</a></li>
+  </ul></li>
+  <li><a href="#re-enrichment-dimensionality-reduction-plot" id="toc-re-enrichment-dimensionality-reduction-plot" class="nav-link" data-scroll-target="#re-enrichment-dimensionality-reduction-plot">Re-enrichment dimensionality reduction plot</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/visualize.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/visualize.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Introduction and Installation</h1>
+<h1 class="title">Visualize results through HTML reports or figures</h1>
 </div>
 
 
@@ -285,141 +258,98 @@ window.Quarto = {
 </header>
 
 
-<section id="overview" class="level1">
-<h1>Overview</h1>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<section id="html-reports-gt-table" class="level1">
+<h1>HTML reports (gt table)</h1>
+<p>Because of the messy result table is hardly to read, <code>EnrichGT</code> help you convert it into pretty <code>gt</code> HTML tables. This only supports the re-enriched results.</p>
+<p>You can simple input the object name of re-enriched object or fused object, to show the table.</p>
+<p><img src="enrichGTTable.jpg" class="img-fluid"></p>
+<p>This just shows the second slot inside the <code>EnrichGT_obj</code> object. The second slot - <code>gt_object</code> is a pure object of <code>gt</code> package, you can use any <a href="https://gt.rstudio.com/reference/index.html">function</a> on it, like:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>re_enrichment_results<span class="sc">@</span>gt_object <span class="sc">|&gt;</span> <span class="fu">gt_save</span>(<span class="st">"test.html"</span>) <span class="co"># Save it use basic gt functions. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For further usage of gt package, please refer to <a href="https://gt.rstudio.com/articles/gt.html" class="uri">https://gt.rstudio.com/articles/gt.html</a>.</p>
+<p>See re-enrichment example for further demo.</p>
+</section>
+<section id="ploting-functions" class="level1">
+<h1>Ploting functions</h1>
+<p>HTML <code>gt</code> table satisfied most of things, but for others. Though we don’t want this package become complex (i.e., you can simple draw your figure using ggplot2 for enriched tables by yourself.) But we still provide limited figure ploting functions.</p>
+</section>
+<section id="basic-result-plot" class="level1">
+<h1>Basic result plot</h1>
+<p>The Dot Plot provide basic viewing of results. So it supports both simple enrichment result <code>data.frame</code> and re-enriched <code>egt_object</code>.</p>
+<p>You can adjust this figure by these params:</p>
+<ul>
+<li><code>ntop</code>: Show top N in each cluster. In default, for origin enriched result, showing top 15; for re-clustered object, showing top 5 in each cluster.</li>
+<li><code>showIDs</code>: bool, show pathway IDs or not. Default is FALSE</li>
+<li><code>max_len_descript</code>: the label format length, default as 40.</li>
+<li><code>P.adj</code>: If pass an origin data.frame from original enriched result, you can specify the P-adjust value cut off. If is null, default is 0.05. When passing <code>EnrichGT_obj</code>, this filter is previously done by <code>egt_recluster_analysis</code>.</li>
+<li><code>low.col</code>: the color for the lowest</li>
+<li><code>hi.col</code>: the color for the highest</li>
+</ul>
+<section id="ploting-ora-result" class="level3">
+<h3 class="anchored" data-anchor-id="ploting-ora-result">Ploting ORA result</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(ora_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Use Default P-adjust cut-off 0.05. You can pass `P.adj=xxx` arugument to filter. </code></pre>
 </div>
-<div class="callout-title-container flex-fill">
-What is EnrichGT?
+<div class="cell-output cell-output-stderr">
+<pre><code>! You are drawing origin results, for better result you can re-cluster it by egt_recluster_analysis()</code></pre>
 </div>
-</div>
-<div class="callout-body-container callout-body">
-<table class="caption-top table">
-<colgroup>
-<col style="width: 100%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>EnrichGT means <u>enrich</u>ing previously enriched results (<span class="math inline">\(E^2_{\text{enrich}}\)</span>) into <u>g</u>reat <u>t</u>ables and more …</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Efficient C++-based functions for <strong>rapid enrichment</strong> analysis</td>
-</tr>
-<tr class="even">
-<td><strong>Simple</strong> input format, empowering non-pro users</td>
-</tr>
-<tr class="odd">
-<td>Re-clustering of enriched results provides <strong>clear and actionable insights</strong></td>
-</tr>
-<tr class="even">
-<td>User-friendly <strong>HTML output</strong> that is easy to read and interpret</td>
-</tr>
-<tr class="odd">
-<td>Do a series of things just in <strong>ONE</strong> package</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
-<p></p><figure class="figure"><p></p>
+<figure class="figure">
+<p><img src="visualize_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ploting-gsea-result" class="level3">
+<h3 class="anchored" data-anchor-id="ploting-gsea-result">Ploting GSEA result</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(resGSEA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Use Default P-adjust cut-off 0.05. You can pass `P.adj=xxx` arugument to filter. </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! You are drawing origin results, for better result you can re-cluster it by egt_recluster_analysis()</code></pre>
+</div>
+<div class="cell-output-display">
 <div>
-<pre class="mermaid mermaid-js">graph LR
-    
-    M[genes]
-    N[genes with weights]
-    
-    subgraph Enrichment Analysis
-        A[egt_enrichment_analysis]
-        B[egt_gsea_analysis]
-    end
-
-    subgraph Pathway Databases
-        D[database_* funcs]
-    end
-
-    subgraph Visualize results
-        P1[egt_plot_results]
-        P2[egt_plot_umap]
-    end
-
-    subgraph egt_recluster_analysis
-        K1[Pretty table]
-        CC[cluster modules]
-        MG[gene modules]
-    end
-
-    subgraph Pathway Act. and TF infer 
-        
-        I[egt_infer]
-    end
-    
-    M --&gt; A
-    N --&gt; B
-    
-    D --&gt; A
-    D --&gt; B
-    
-    A --&gt; C[Enriched Result]
-    B --&gt; C
-
-    C --&gt; CC
-    C --&gt; MG
-
-    C --&gt; P1
-
-    CC --&gt; K1
-    MG --&gt; K1
-
-    CC --&gt; P1
-    CC --&gt; P2
-
-    MG --&gt; I
-
-</pre>
-</div>
-<p></p></figure><p></p>
+<figure class="figure">
+<p><img src="visualize_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
 </div>
-<p><sup>The&nbsp;functions&nbsp;from&nbsp;EnrichGT&nbsp;are&nbsp;starting&nbsp;with&nbsp;“egt_”&nbsp;or&nbsp;“database_”.</sup></p>
-<p>This package was developed under the inspiration of <em>clusterProfiler</em> (a wonderful and powerful package!), but none of its internal functions rely on any <em>clusterProfiler</em> functions. Some database-loading code references <em>clusterProfiler</em>‘s implementation, but it has been extensively modified to provide lightweight experience. In other words, this is not a case of rebranding <em>clusterProfiler</em> under a different name. It’s a lightweight implementation designed to wet-labs. If you need a tool that handles every detail, please use <em>clusterProfiler</em> instead. Please see <a href="acknowledgment.qmd">acknowledgment</a> page for citing <em>clusterProfiler<strong>.</strong></em></p>
 </section>
-<section id="install-enrichgt" class="level1">
-<h1>Install EnrichGT</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pak"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pkg_install</span>(<span class="st">"ZhimingYe/EnrichGT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>or</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"devtools"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install_github</span>(<span class="st">"ZhimingYe/EnrichGT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The <code>AnnotationDbi</code>, <code>fgsea</code>, <code>reactome.db</code> and <code>GO.db</code> were from BioConductor and might be slow to install. If you can’t install, please re-check your web connections or update your R and BioConductor, or use <a href="https://packagemanager.posit.co/">Posit Package Manager</a> to install when using old R.</p>
+<section id="ploting-re-enrichment-result" class="level3">
+<h3 class="anchored" data-anchor-id="ploting-re-enrichment-result">Ploting re-enrichment result</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(re_enrich)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="visualize_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
-<section id="meet-enrichgt" class="level1">
-<h1>Meet EnrichGT</h1>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>See <a href="pkgfuns.html">package function page</a> for further information (For example, how to use a function)</p>
-<p>You can use <code>? function</code> to get further help when installed.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>?egt_recluster_analysis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="re-enrichment-dimensionality-reduction-plot" class="level1">
+<h1>Re-enrichment dimensionality reduction plot</h1>
+<p>UMAP plot only supports re-enriched <code>egt_object</code>, to show the dimensionality reduction view of enriched results.</p>
+<p>A word frequency matrix represents the frequency of words or tokens across different documents or text samples. Each row corresponds to a document, and each column represents a word or token, with the cell values indicating the frequency of the respective word in that document.However, high-dimensional data like word frequency matrices can be challenging to interpret directly. To make such data easier to analyze, we can reduce its dimensionality and visualize the patterns or clusters in a 2D or 3D space. UMAP (Uniform Manifold Approximation and Projection) is a powerful, non-linear dimensionality reduction technique widely used for this purpose.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_umap</span>(re_enrich)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="visualize_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
 </div>
 </div>
-<p>In most examples of this document, we use a result table of DEG analysis <code>DEG.csv</code>. The gene symbols of <code>DEG.csv</code> is on the first column without column name. In default <code>read_csv()</code> convert the unamed column name to <code>...1</code>. So <code>DEGtable$...1</code> refers to gene symbols.</p>
+</div>
 
 
 </section>
@@ -850,7 +780,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/visualize.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/visualize.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Corresponding to EnrichGT Version 0.8</p>
 </div>

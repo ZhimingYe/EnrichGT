@@ -8,7 +8,7 @@
 
 <meta name="author" content="Zhiming Ye">
 
-<title>Introduction and Installation – EnrichGT Documents</title>
+<title>Re-enrich Enriched Results – EnrichGT Documents</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -101,40 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<meta name="mermaid-theme" content="neutral">
-<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -187,7 +154,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction and Installation</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./re_enrichment.html">Re-enrich Enriched Results</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -201,7 +168,7 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction and Installation</span></a>
   </div>
 </li>
@@ -219,7 +186,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./re_enrichment.html" class="sidebar-item-text sidebar-link">
+  <a href="./re_enrichment.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Re-enrich Enriched Results</span></a>
   </div>
 </li>
@@ -251,18 +218,17 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#install-enrichgt" id="toc-install-enrichgt" class="nav-link" data-scroll-target="#install-enrichgt">Install EnrichGT</a></li>
-  <li><a href="#meet-enrichgt" id="toc-meet-enrichgt" class="nav-link" data-scroll-target="#meet-enrichgt">Meet EnrichGT</a></li>
+  <li><a href="#enrichment-of-enriched-results" id="toc-enrichment-of-enriched-results" class="nav-link active" data-scroll-target="#enrichment-of-enriched-results">Enrichment of Enriched Results</a></li>
+  <li><a href="#infering-tfs-or-pathway-activity-and-more-based-on-meta-gene-modules" id="toc-infering-tfs-or-pathway-activity-and-more-based-on-meta-gene-modules" class="nav-link" data-scroll-target="#infering-tfs-or-pathway-activity-and-more-based-on-meta-gene-modules">Infering TFs or pathway activity and more based on meta-gene modules</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/re_enrichment.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/re_enrichment.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Introduction and Installation</h1>
+<h1 class="title">Re-enrich Enriched Results</h1>
 </div>
 
 
@@ -285,141 +251,250 @@ window.Quarto = {
 </header>
 
 
-<section id="overview" class="level1">
-<h1>Overview</h1>
+<section id="enrichment-of-enriched-results" class="level1">
+<h1>Enrichment of Enriched Results</h1>
+<p>The enriched result is too messy? Clean up it!</p>
+<p>EnrichGT generates insightful results by simply constructing a term frequency matrix of genes enriched in pathways and performing clustering. While the results may not be statistically optimal, they offer significant interpretive insights.</p>
+<p>Print <code>?egt_recluster_analysis</code> for further help. But of note, you can adjust <code>ClusterNum</code> (Cluster the enrichment into N clusters) and <code>nTop</code> (Show how many top items in GT table) for a better result (the default is not all the best for your data).</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What is EnrichGT?
+Form clusterProfiler ?
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<table class="caption-top table">
-<colgroup>
-<col style="width: 100%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>EnrichGT means <u>enrich</u>ing previously enriched results (<span class="math inline">\(E^2_{\text{enrich}}\)</span>) into <u>g</u>reat <u>t</u>ables and more …</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Efficient C++-based functions for <strong>rapid enrichment</strong> analysis</td>
-</tr>
-<tr class="even">
-<td><strong>Simple</strong> input format, empowering non-pro users</td>
-</tr>
-<tr class="odd">
-<td>Re-clustering of enriched results provides <strong>clear and actionable insights</strong></td>
-</tr>
-<tr class="even">
-<td>User-friendly <strong>HTML output</strong> that is easy to read and interpret</td>
-</tr>
-<tr class="odd">
-<td>Do a series of things just in <strong>ONE</strong> package</td>
-</tr>
-</tbody>
-</table>
+<p>This can also supports the results from <code>clusterProfiler</code>, so you can use <strong>any tool</strong> to do this.</p>
 </div>
 </div>
-<div class="cell" data-layout-align="default">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Why the <code>re-enrichment</code> is necessary?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<section id="challenges-in-biological-gene-enrichment-analysis" class="level5">
+<h5 class="anchored" data-anchor-id="challenges-in-biological-gene-enrichment-analysis">Challenges in Biological Gene Enrichment Analysis</h5>
+<p>Gene enrichment analysis can often be misleading due to the redundancy within gene set databases and the limitations of most enrichment tools. Many tools, by default, only display a few top results and fail to filter out redundancy. This can result in both biological misinterpretation and valuable information being overlooked.</p>
+<p>For instance, high expression of certain immune genes can cause many immune-related gene sets to appear overrepresented. However, a closer look often reveals that these gene sets are derived from the same group of genes, which might represent only a small fraction (less than 10%) of the differentially expressed genes (DEGs). What about the other 90%? Do they hold no biological significance?</p>
+</section>
+<section id="current-solutions" class="level5">
+<h5 class="anchored" data-anchor-id="current-solutions">Current Solutions</h5>
+<p><strong>clusterProfiler</strong> is one of the most powerful tools in R for enrichment analysis. It’s designed with pathway redundancy in mind and includes the <code>clusterProfiler::simplify</code> function to address this issue. This method, based on <strong>GOSemSim</strong> for GO similarity evaluation, is scientifically robust and highly effective.</p>
+<p>However, there are some drawbacks:</p>
+<ul>
+<li><p>GOSemSim is not fast, particularly when dealing with large or complex gene sets.</p></li>
+<li><p>It doesn’t support databases like KEGG or Reactome.</p></li>
+</ul>
+<p>Using GOSemSim to measure the semantic similarity between pathways is, theoretically, the best way to tackle redundancy. However, in practical cases—especially in experimental bioinformatics validation—researchers are more focused on the genes behind these pathways rather than the pathways themselves.</p>
+</section>
+<section id="alternative-approaches" class="level5">
+<h5 class="anchored" data-anchor-id="alternative-approaches">Alternative Approaches</h5>
+<p>Although clustering pathways based on gene overlap has received some criticism, it remains a viable approach in many situations. For this reason, I developed <strong>BioThemeFinder</strong> a few years ago to solve this problem. However, the tool is so awful (I am poor in coding…)</p>
+<p>Today, two excellent alternatives exist:</p>
+<ul>
+<li><strong>simplifyEnrichment</strong>: This package is more scientifically rigorous (based on semantic similarity) and creates beautiful visualizations. It also doesn’t support databases like KEGG or Reactome.</li>
+<li><strong>aPEAR</strong>: A simpler and faster tool that better aligns with practical needs, making it my preferred choice.</li>
+</ul>
+<p>However, both of these tools have a common limitation: their visualizations are optimized for publication purposes rather than for exploratory research. I often find myself exporting CSV files or struggling with RStudio’s preview pane to fully explore enrichment tables. This inspired me to develop a more efficient solution. Also, they are slow.</p>
+</section>
+<section id="goals-of-this-package" class="level5">
+<h5 class="anchored" data-anchor-id="goals-of-this-package">Goals of This Package</h5>
+<p>The main purpose of developing this package is to provide a <strong>lightweight and practical solution</strong> to the problems mentioned above. Specifically, this package aims to:</p>
+<p><strong>Cluster enrichment results</strong> based on hit genes or core enrichment from GSEA using term frequency analysis (from the output of the powerful <code>clusterProfiler</code>). This provides a clearer view of biological relevance by focusing on the genes that matter most.</p>
+</section>
+</div>
+</div>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From results generated before</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_GO_BP</span>(Org.Hs.eg.db))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>re_enrich <span class="ot">&lt;-</span> <span class="fu">egt_recluster_analysis</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  res,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ClusterNum =</span> <span class="dv">10</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">P.adj =</span> <span class="fl">0.05</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">force =</span> F,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">nTop =</span> <span class="dv">10</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"ward.D2"</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can see the structure of <code>re_enrich</code> object above. The <code>re_enrich</code> object is an S4 <code>EnrichGT_obj</code> object. The first slot is the result table (a <code>data.frame</code>), and the second slot contains gt table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(re_enrich,<span class="at">max.level =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Formal class 'EnrichGT_obj' [package "EnrichGT"] with 8 slots
+  ..@ enriched_result     : tibble [67 × 7] (S3: tbl_df/tbl/data.frame)
+  ..@ gt_object           :List of 17
+  .. ..- attr(*, "class")= chr [1:2] "gt_tbl" "list"
+  ..@ gene_modules        :List of 10
+  ..@ pathway_clusters    :List of 10
+  ..@ document_term_matrix:Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
+  ..@ clustering_tree     :List of 7
+  .. ..- attr(*, "class")= chr "hclust"
+  ..@ raw_enriched_result :'data.frame':    175 obs. of  7 variables:
+  ..@ fused               : logi FALSE</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+How to get objects inside the S4 object?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can use <code>@</code>, for example, <code>x &lt;- re_enrich@enriched_result</code> returns a result table and <code>x &lt;- re_enrich@gt_object</code> returns a <code>gt</code> object.</p>
+</div>
+</div>
+<p>You can simple <code>View(re_enrich@enriched_result)</code> for the first slot.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> re_enrich<span class="sc">@</span>enriched_result <span class="co"># Get the re-enrichment result table</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(x<span class="sc">$</span>Cluster) <span class="co"># You can see all enriched results splited into 17 clusters</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Cluster_1 Cluster_10  Cluster_2  Cluster_3  Cluster_4  Cluster_5  Cluster_6 
+        10          3         10         10         10         10          4 
+ Cluster_7  Cluster_8  Cluster_9 
+         4          5          1 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 67 × 7
+   Description                          ID    Count Cluster   PCT    Padj geneID
+   &lt;chr&gt;                                &lt;chr&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; 
+ 1 synaptic transmission, glutamatergic GO:0…    19 Cluste…   4.2 8.10e-8 ATP1A…
+ 2 regulation of synaptic transmission… GO:0…    16 Cluste…   3.5 8.10e-8 ATP1A…
+ 3 modulation of chemical synaptic tra… GO:0…    39 Cluste…   8.5 8.10e-8 ACHE,…
+ 4 regulation of trans-synaptic signal… GO:0…    39 Cluste…   8.5 8.10e-8 ACHE,…
+ 5 synapse organization                 GO:0…    36 Cluste…   7.9 2.10e-6 ACHE,…
+ 6 regulation of neuronal synaptic pla… GO:0…    12 Cluste…   2.6 4.20e-6 APOE,…
+ 7 glutamate receptor signaling pathway GO:0…    11 Cluste…   2.4 5.20e-6 GRIA4…
+ 8 ionotropic glutamate receptor signa… GO:0…     8 Cluste…   1.8 1.10e-5 GRIA4…
+ 9 regulation of synaptic plasticity    GO:0…    20 Cluste…   4.4 4.50e-5 APOE,…
+10 regulation of postsynaptic membrane… GO:0…    16 Cluste…   3.5 8.5 e-5 GABRD…
+# ℹ 57 more rows</code></pre>
+</div>
+</div>
+<p>But EnrichGT offers <strong>more than</strong> data frames. Please see <a href="./visualize.html">HTML reports (gt table)</a> for further visualization.</p>
+</section>
+<section id="infering-tfs-or-pathway-activity-and-more-based-on-meta-gene-modules" class="level1">
+<h1>Infering TFs or pathway activity and more based on meta-gene modules</h1>
+<p>Based on re-enriched result, the S4 object return from re-enrichment contains <code>gene_modules</code> slot and <code>pathway_clusters</code> slot. In <code>gene_modules</code> slot you can find a group of meta-genes take part in specific pathway cluster (in <code>pathway_clusters</code> slot).</p>
+<p>EnrichGT supports inferring Pathway or Transcript Factors activity from re-enriched meta-gene modules. This is accomplished by two amazing database:</p>
+<ul>
+<li><p><a href="https://saezlab.github.io/progeny/">PROGENy</a> is a comprehensive resource containing a curated collection of pathways and their target genes, with weights for each interaction.</p></li>
+<li><p><a href="https://github.com/saezlab/CollecTRI">CollecTRI</a> is a comprehensive resource containing a curated collection of TFs and their transcriptional targets compiled from 12 different resources. This collection provides an increased coverage of transcription factors and a superior performance in identifying perturbed TFs compared to our previous.</p></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+TF infering Example:
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>re_enrich_smaller_clusterNum <span class="ot">&lt;-</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">egt_recluster_analysis</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  ora_result,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ClusterNum =</span> <span class="dv">6</span>, <span class="co"># reduce the cluster nums. </span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">P.adj =</span> <span class="fl">0.05</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">force =</span> F,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">nTop =</span> <span class="dv">10</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"ward.D2"</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ re-enrichment done.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ You can adjust the param of egt_recluster_analysis() for better results. Please refer to the help page. </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>TF_Act <span class="ot">&lt;-</span> <span class="fu">egt_infer_act</span>(re_enrich_smaller_clusterNum,<span class="at">DB =</span> <span class="st">"collectri"</span>, <span class="at">species =</span> <span class="st">"human"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! If when doing re-enrichment, you select a high number of clusters, that may cause low gene number in each meta-gene module, and then can't be infered sucessfully. So if result is empty, please increase the number of re-clustering when doing it. </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ success loaded self-contained database</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Done ORA in 0.0186219215393066 sec.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Done ORA in 0.0132420063018799 sec.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Done ORA in 0.0151388645172119 sec.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Done ORA in 0.0172328948974609 sec.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Done ORA in 0.0144550800323486 sec.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Done ORA in 0.014564037322998 sec.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(TF_Act<span class="sc">$</span>Cluster_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Use Default P-adjust cut-off 0.05. You can pass `P.adj=xxx` arugument to filter. </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! You are drawing origin results, for better result you can re-cluster it by egt_recluster_analysis()</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph LR
-    
-    M[genes]
-    N[genes with weights]
-    
-    subgraph Enrichment Analysis
-        A[egt_enrichment_analysis]
-        B[egt_gsea_analysis]
-    end
-
-    subgraph Pathway Databases
-        D[database_* funcs]
-    end
-
-    subgraph Visualize results
-        P1[egt_plot_results]
-        P2[egt_plot_umap]
-    end
-
-    subgraph egt_recluster_analysis
-        K1[Pretty table]
-        CC[cluster modules]
-        MG[gene modules]
-    end
-
-    subgraph Pathway Act. and TF infer 
-        
-        I[egt_infer]
-    end
-    
-    M --&gt; A
-    N --&gt; B
-    
-    D --&gt; A
-    D --&gt; B
-    
-    A --&gt; C[Enriched Result]
-    B --&gt; C
-
-    C --&gt; CC
-    C --&gt; MG
-
-    C --&gt; P1
-
-    CC --&gt; K1
-    MG --&gt; K1
-
-    CC --&gt; P1
-    CC --&gt; P2
-
-    MG --&gt; I
-
-</pre>
-</div>
-<p></p></figure><p></p>
+<figure class="figure">
+<p><img src="re_enrichment_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
 </div>
-<p><sup>The&nbsp;functions&nbsp;from&nbsp;EnrichGT&nbsp;are&nbsp;starting&nbsp;with&nbsp;“egt_”&nbsp;or&nbsp;“database_”.</sup></p>
-<p>This package was developed under the inspiration of <em>clusterProfiler</em> (a wonderful and powerful package!), but none of its internal functions rely on any <em>clusterProfiler</em> functions. Some database-loading code references <em>clusterProfiler</em>‘s implementation, but it has been extensively modified to provide lightweight experience. In other words, this is not a case of rebranding <em>clusterProfiler</em> under a different name. It’s a lightweight implementation designed to wet-labs. If you need a tool that handles every detail, please use <em>clusterProfiler</em> instead. Please see <a href="acknowledgment.qmd">acknowledgment</a> page for citing <em>clusterProfiler<strong>.</strong></em></p>
-</section>
-<section id="install-enrichgt" class="level1">
-<h1>Install EnrichGT</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pak"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pkg_install</span>(<span class="st">"ZhimingYe/EnrichGT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>or</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"devtools"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install_github</span>(<span class="st">"ZhimingYe/EnrichGT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The <code>AnnotationDbi</code>, <code>fgsea</code>, <code>reactome.db</code> and <code>GO.db</code> were from BioConductor and might be slow to install. If you can’t install, please re-check your web connections or update your R and BioConductor, or use <a href="https://packagemanager.posit.co/">Posit Package Manager</a> to install when using old R.</p>
-</section>
-<section id="meet-enrichgt" class="level1">
-<h1>Meet EnrichGT</h1>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Wants to interpret the regulator of whole inputted genes?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>PROGENy</code> and <code>CollecTRI</code> can be used just like other database in ORA or GSEA enrichment, for example, the <code>database_GO_BP()</code>. See [Progeny Database] and [CollecTRI Database] page for detail.</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>TFActivity <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_CollecTRI_human</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Important
+Why many inferred results are empty?
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>See <a href="pkgfuns.html">package function page</a> for further information (For example, how to use a function)</p>
-<p>You can use <code>? function</code> to get further help when installed.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>?egt_recluster_analysis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If when doing re-enrichment with a high number of clusters, that may cause low gene number in each meta-gene module (splitting into too many clusters make gene in each cluster is not enough to enrich), and then can’t be inferred successfully. So if result is empty, please increase the number of re-clustering when doing it.</p>
 </div>
 </div>
-<p>In most examples of this document, we use a result table of DEG analysis <code>DEG.csv</code>. The gene symbols of <code>DEG.csv</code> is on the first column without column name. In default <code>read_csv()</code> convert the unamed column name to <code>...1</code>. So <code>DEGtable$...1</code> refers to gene symbols.</p>
 
 
 </section>
@@ -850,7 +925,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/re_enrichment.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/re_enrichment.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Corresponding to EnrichGT Version 0.8</p>
 </div>

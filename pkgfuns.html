@@ -72,7 +72,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6bd9cfa162949bde0a231f530c97869d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-1a941ba53de54fd32606c4de22292d93.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -137,6 +137,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link" href="./preface.html"> 
 <span class="menu-text">Motivation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./acknowledgement.html"> 
+<span class="menu-text">Acknowledgement</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -264,7 +268,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Type: Package
 Package: EnrichGT
 Title: EnrichGT - all in one enrichment analysis soluction
-Version: 0.7.0
+Version: 0.8.4
 Author: Zhiming Ye
 Maintainer: Zhiming Ye &lt;garnetcrow@hotmail.com&gt;
 Description: Do biological enrichment analysis and parsing and clustering
@@ -420,22 +424,25 @@ RoxygenNote: 7.3.2</code></pre>
 <section id="usage-3" class="level2">
 <h2 class="anchored" data-anchor-id="usage-3">Usage</h2>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_GO_BP</span>())</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> <span class="fu">c</span>(<span class="st">"TP53"</span>,<span class="st">"CD169"</span>,<span class="st">"CD68"</span>,<span class="st">"CD163"</span>,...),</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_GO_ALL</span>())</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_GO_ALL</span>(org.Hs.eg.db))</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> <span class="fu">c</span>(<span class="st">"TP53"</span>,<span class="st">"CD169"</span>,<span class="st">"CD68"</span>,<span class="st">"CD163"</span>,...),</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_from_gmt</span>(<span class="st">"MsigDB_Hallmark.gmt"</span>))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> <span class="fu">genes_with_weights</span>(geneSymbols, log2FC),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_kegg</span>(<span class="at">kegg_organism=</span><span class="st">"hsa"</span>,<span class="at">OrgDB =</span> org.Hs.eg.db))</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="fu">list</span>(<span class="at">Macrophages=</span><span class="fu">c</span>(<span class="st">"CD169"</span>,<span class="st">"CD68"</span>,<span class="st">"CD163"</span>),</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="at">Fibroblast=</span><span class="fu">c</span>(<span class="st">"COL1A2"</span>,<span class="st">"COL1A3"</span>),...),</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a> <span class="at">database =</span> <span class="fu">database_from_gmt</span>(<span class="st">"panglaoDB.gmt"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> <span class="fu">c</span>(<span class="st">"TP53"</span>,<span class="st">"CD169"</span>,<span class="st">"CD68"</span>,<span class="st">"CD163"</span>,...),</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_from_gmt</span>(<span class="st">"MsigDB_Hallmark.gmt"</span>))</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="fu">list</span>(<span class="at">Macrophages=</span><span class="fu">c</span>(<span class="st">"CD169"</span>,<span class="st">"CD68"</span>,<span class="st">"CD163"</span>),</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="at">Fibroblast=</span><span class="fu">c</span>(<span class="st">"COL1A2"</span>,<span class="st">"COL1A3"</span>),...),</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a> <span class="at">database =</span> <span class="fu">database_from_gmt</span>(<span class="st">"panglaoDB.gmt"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="arguments-3" class="level2">
 <h2 class="anchored" data-anchor-id="arguments-3">Arguments</h2>
 <ul>
-<li><code>genes</code>: a vector of gene ids like <code>c("TP53","CD169","CD68","CD163"...)</code>.If you have genes from multiple source or experiment group, you can also pass a list with gene ids in it. For Example , <code>list(Macrophages=c("CD169","CD68","CD163"),Fibroblast=c("COL1A2","COL1A3))</code>.The genes should be match in the second param <code>database</code>’s <code>gene</code> column. For example, if database provides Ensembl IDs, you should input Ensembl IDs. But in default databases provided by <code>EnrichGT</code> is gene symbols.</li>
+<li><code>genes</code>: a vector of gene ids like <code>c("TP53","CD169","CD68","CD163"...)</code>.If you have genes from multiple source or experiment group, you can also pass a list with gene ids in it. For Example , <code>list(Macrophages=c("CD169","CD68","CD163"),Fibroblast=c("COL1A2","COL1A3))</code>.The genes should be match in the second param <code>database</code>’s <code>gene</code> column. For example, if database provides Ensembl IDs, you should input Ensembl IDs. But in default databases provided by <code>EnrichGT</code> is gene symbols.Of note, since ver 0.8, genes argument supports inputs from genes_with_weights(), EnrichGT will use the whole DEG for ORA, and final split gene candidated into high-expressing and lowly-expressing according to weights.</li>
 <li><code>database</code>: a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run <code>database_GO_CC()</code> to get them, see example.You can run <code>database_GO_CC()</code> to see an example.The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with <code>database_...</code>, like <code>database_GO_BP()</code> or <code>database_Reactome()</code>.The default gene in each database EnrichGT provided to input is <code>GENE SYMBOL</code> (like TP53, not 1256 or ENSG…), not <code>ENTREZ ID</code> or <code>Ensembl ID</code>.It will be more convince for new users. Avaliable databases includes <code>database_GO_BP()</code>, <code>database_GO_CC()</code>, <code>database_GO_MF()</code> and <code>database_Reactome()</code>.You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)’s GMT files. It can be load by using <code>database_from_gmt(FILE_PATH)</code>.If you only have simple a table, you can also pass a data frame through this arguement. Of note, it should contains at least 2 coloumn (colnames(df) = c(“Terms”,“Genes)), the first is term names and the second are the corresponding genes. If you have term ids, you can add a <code>ID</code> column at the first column, and <code>Terms</code> becomes the second column and <code>Genes</code> the third.</li>
 <li><code>p_adj_methods</code>: one of “holm”, “hochberg”, “hommel”, “bonferroni”, “BH”, “BY”, “fdr”, “none”</li>
 <li><code>p_val_cut_off</code>: adjusted pvalue cutoff on enrichment tests to report</li>
@@ -524,18 +531,26 @@ RoxygenNote: 7.3.2</code></pre>
 </section>
 <section id="usage-6" class="level2">
 <h2 class="anchored" data-anchor-id="usage-6">Usage</h2>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(x, <span class="at">ntop =</span> <span class="dv">30</span>, ..., <span class="at">P.adj =</span> <span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ntop =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">showIDs =</span> F,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_len_descript =</span> <span class="dv">40</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  ...,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">P.adj =</span> <span class="cn">NULL</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="arguments-6" class="level2">
 <h2 class="anchored" data-anchor-id="arguments-6">Arguments</h2>
 <ul>
 <li><code>x</code>: a data frame form enriched result like <code>egt_enrichment_analysis()</code> or <code>egt_gsea_analysis()</code>, or an re-clustered <code>EnrichGT</code> object</li>
-<li><code>ntop</code>: Show top N in each cluster</li>
+<li><code>ntop</code>: Show top N in each cluster. In default, for origin enriched result, showing top 15; for re-clustered object, showing top 5 in each cluster.</li>
+<li><code>showIDs</code>: bool, show pathway IDs or not. Default is FALSE</li>
+<li><code>max_len_descript</code>: the label format length, default as 40.</li>
 <li><code>...</code>: Other param</li>
 <li><code>P.adj</code>: If pass an origin data.frame from original enriched result, you can specify the P-adjust value cut off. If is null, default is 0.05. When passing <code>EnrichGT_obj</code>, this filter is previously done by <code>egt_recluster_analysis</code>.</li>
 <li><code>low.col</code>: the color for the lowest</li>
 <li><code>hi.col</code>: the color for the highest</li>
-<li><code>max_len_descript</code>: the label format length, default as 40.</li>
 </ul>
 </section>
 <section id="author-5" class="level2">
@@ -1130,13 +1145,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2024 Zhiming Ye. Package website is built with Quarto + Rd2md.</p>
+<p>Copyright 2025 Zhiming Ye. Package website is built with Quarto + Rd2md.</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
     <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/pkgfuns.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/pkgfuns.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
-<p>Corresponding to EnrichGT Version 0.7 LTS</p>
+<p>Corresponding to EnrichGT Version 0.8</p>
 </div>
   </div>
 </footer>
