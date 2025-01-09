@@ -155,7 +155,7 @@ ORA2dp<-function(x,ntop = 7,showIDs=F,low.col="#ff6f81",hi.col="#78cfe5",max_len
     if(dim(x@enriched_result)[1]<2 | sum(colnames(x@enriched_result)=="Count")==0){
       cli::cli_abort("ERROR! ")
     }else{
-      if(sum(colnames(x)=="up/dn")>0){
+      if(sum(colnames(x@enriched_result)=="up/dn")>0){
         kk <- x@enriched_result |> dplyr::rename(Up_Vs_Down = `up/dn`)
       }else{
         kk <- x@enriched_result
