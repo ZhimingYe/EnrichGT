@@ -81,12 +81,29 @@ egt_plot_results <- function(x,ntop=NULL,showIDs=F,max_len_descript=40,...,P.adj
         dplyr::slice_head(n = round(round(ntop / 2) + 1 + round(ntop/20))) |> # For balance
         dplyr::ungroup() # Balance up and down
       figure0<-GSEA2dp(obj,ntop=ntop,showIDs=showIDs,max_len_descript=max_len_descript,...)
-    }else{
+    }else if(sum(colnames(x)%in%c("Up_Vs_Down","up/dn"))==0){
       InnerDF<-x |> dplyr::filter(p.adjust<(plotingTemp$PadjVal)) |> dplyr::select(ID,Description,GeneRatio,`p.adjust`,geneID,Count) # Need Fix
       obj<-InnerDF |>
         dplyr::mutate(PCT=sapply(InnerDF$GeneRatio,function(x)eval(parse(text = x)))*100) |>
         dplyr::mutate(Padj = signif(p.adjust, 2),PCT=signif(PCT, 2)) |>
         dplyr::select(Description,ID,Count,PCT,Padj,geneID) |>
+        dplyr::mutate(geneID=gsub("/",", ",geneID)) |>
+        dplyr::mutate(Cluster="ORA Results")
+      obj <- obj |>
+        dplyr::group_by(geneID) |>
+        dplyr::arrange(desc(Count), .by_group = TRUE) |>
+        dplyr::slice_head(n = 2) |>
+        dplyr::ungroup()
+      figure0<-ORA2dp(obj,ntop=ntop,showIDs=showIDs,max_len_descript=max_len_descript,...)
+    }else{
+      if(sum(colnames(x)=="up/dn")>0){
+        x <- x |> dplyr::rename(Up_Vs_Down = `up/dn`)
+      }
+      InnerDF<-x |> dplyr::filter(p.adjust<(plotingTemp$PadjVal)) |> dplyr::select(ID,Description,GeneRatio,`p.adjust`,geneID,Count,Up_Vs_Down) # Need Fix
+      obj<-InnerDF |>
+        dplyr::mutate(PCT=sapply(InnerDF$GeneRatio,function(x)eval(parse(text = x)))*100) |>
+        dplyr::mutate(Padj = signif(p.adjust, 2),PCT=signif(PCT, 2)) |>
+        dplyr::select(Description,ID,Count,PCT,Padj,geneID,Up_Vs_Down) |>
         dplyr::mutate(geneID=gsub("/",", ",geneID)) |>
         dplyr::mutate(Cluster="ORA Results")
       obj <- obj |>
@@ -138,7 +155,12 @@ ORA2dp<-function(x,ntop = 7,showIDs=F,low.col="#ff6f81",hi.col="#78cfe5",max_len
     if(dim(x@enriched_result)[1]<2 | sum(colnames(x@enriched_result)=="Count")==0){
       cli::cli_abort("ERROR! ")
     }else{
-      assign("df0",x@enriched_result,envir = TempPlotingEnv)
+      if(sum(colnames(x)=="up/dn")>0){
+        kk <- x@enriched_result |> dplyr::rename(Up_Vs_Down = `up/dn`)
+      }else{
+        kk <- x@enriched_result
+      }
+      assign("df0",kk,envir = TempPlotingEnv)
     }
   },error=function(e){
     assign("df0",x,envir = TempPlotingEnv)
@@ -159,7 +181,15 @@ ORA2dp<-function(x,ntop = 7,showIDs=F,low.col="#ff6f81",hi.col="#78cfe5",max_len
     df <-TempPlotingEnv$df0
   })
   df$Description<-shorten_labels_words(df$Description,max_length = max_len_descript)
+  addUpDnRatio <- F
+  if(sum(colnames(df)=="Up_Vs_Down")>0){
+    df$Description<-paste0(df$Description," ",df$Up_Vs_Down)
+    addUpDnRatio <- T
+  }
   px<-ggplot(df,aes(x = PCT, y = fct_reorder(Description, PCT), size=Count, color=Padj))+geom_point()+scale_color_continuous(low=low.col, high=hi.col, name = "adjustedP",guide=guide_colorbar(reverse=F))+scale_size(range=c(2, 8))+xlab("Gene Ratio(%)")+ylab("Gene Sets")+facet_grid(Cluster~.,scales="free",space="free_y")+theme_bw()
+  if(addUpDnRatio){
+    px <- px + ylab("Gene Sets [UP-reg/Down-reg Genes Nums]")
+  }
   return(px)
 }
 

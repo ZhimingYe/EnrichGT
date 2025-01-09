@@ -11,6 +11,14 @@ parse_gs<-function(gset){
 #' @useDynLib EnrichGT
 #' @importFrom Rcpp sourceCpp
 doEnrich_Internal <- function(genes,database,p_adj_methods,p_val_cut_off,background_genes,min_geneset_size,max_geneset_size){
+  has_direction <- F
+  if(!is.null(names(genes))){
+    genes2 <- genes
+    genes <- names(genes)
+    genes_up <- names(genes2[genes2>0])
+    genes_down <- names(genes2[genes2<0])
+    has_direction <- T
+  }
 
   tryCatch({
     if(ncol(database)!=2&ncol(database)!=3){
@@ -48,13 +56,26 @@ doEnrich_Internal <- function(genes,database,p_adj_methods,p_val_cut_off,backgro
   genes<-genes[genes%in%tgtGs[[1]]]
 
   HittedCheck<-data.frame(gene=genes,hitted="Hitted")
-  database2 <- database0 |> left_join(HittedCheck,by="gene")
+  database2 <- database0 |> dplyr::left_join(HittedCheck,by="gene")
   database2 <- database2[!is.na(database2$hitted),]
   database2 <- database2[database2$hitted=="Hitted",]
-  hitted_result <- database2 |>
-    group_by(term) |>
-    summarise(gene_list = paste(gene, collapse = "/")) |>
-    ungroup()
+  if(!has_direction){
+    hitted_result <- database2 |>
+      dplyr::group_by(term) |>
+      dplyr::summarise(gene_list = paste(gene, collapse = "/")) |>
+      dplyr::ungroup()
+  }else{
+    hitted_result <- database2 |>
+      dplyr::group_by(term) |>
+      dplyr::summarise(gene_list = paste(gene, collapse = "/"),
+        UpGenes = paste(gene[gene%in%genes_up], collapse = "/"),
+        DownGenes = paste(gene[gene%in%genes_down], collapse = "/"),
+        UpSummary = sum(gene%in%genes_up),
+        DownSummary = sum(gene%in%genes_down)) |>
+      dplyr::ungroup()
+
+  }
+  
   colnames(hitted_result)[1] <- "TERMs"
   hitted_result$TERMs <- as.character(hitted_result$TERMs)
 
@@ -64,7 +85,7 @@ doEnrich_Internal <- function(genes,database,p_adj_methods,p_val_cut_off,backgro
   }
   result <- ora_analysis(tgtGs[[2]], genes, tgtGs[[1]])
   result$TERMs <- tgtGs[[2]] |> names()
-  df00 <- hitted_result |> left_join(result,by="TERMs") |> left_join(termCount,by="TERMs") |> left_join(db0,by="TERMs")
+  df00 <- hitted_result |> dplyr::left_join(result,by="TERMs") |> dplyr::left_join(termCount,by="TERMs") |> dplyr::left_join(db0,by="TERMs")
   df00$padj<-p.adjust(df00$PValue,method = p_adj_methods)
   qobj <- tryCatch(qvalue(p=df00$padj, lambda=0.05, pi0.method="bootstrap"), error=function(e) NULL)
   if (inherits(qobj, "qvalue")) {
@@ -75,17 +96,35 @@ doEnrich_Internal <- function(genes,database,p_adj_methods,p_val_cut_off,backgro
   df00$qvalues<-qvalues
   df00$LengthOfInput<-length(genes)
   df00$LengthOfBG<-length(tgtGs[[1]])
-  res <- data.frame(ID=df00$ID,
-                    Description=df00$TERMs,
-                    GeneRatio=paste0(df00$Overlap,"/",df00$LengthOfInput),
-                    BgRatio=paste0(df00$Freq,"/",df00$LengthOfBG),
-                    pvalue=df00$PValue,
-                    p.adjust=df00$padj,
-                    qvalue=df00$qvalues,
-                    geneID=df00$gene_list,
-                    Count=df00$Overlap)
+  if(!has_direction){
+    res <- data.frame(ID=df00$ID,
+                      Description=df00$TERMs,
+                      GeneRatio=paste0(df00$Overlap,"/",df00$LengthOfInput),
+                      BgRatio=paste0(df00$Freq,"/",df00$LengthOfBG),
+                      pvalue=df00$PValue,
+                      p.adjust=df00$padj,
+                      qvalue=df00$qvalues,
+                      geneID=df00$gene_list,
+                      Count=df00$Overlap)
+  }else{
+    res <- data.frame(ID=df00$ID,
+                      Description=df00$TERMs,
+                      GeneRatio=paste0(df00$Overlap,"/",df00$LengthOfInput),
+                      BgRatio=paste0(df00$Freq,"/",df00$LengthOfBG),
+                      pvalue=df00$PValue,
+                      p.adjust=df00$padj,
+                      qvalue=df00$qvalues,
+                      geneID=df00$gene_list,
+                      Count=df00$Overlap,
+                      UpGenes=df00$UpGenes,
+                      DownGenes=df00$DownGenes,
+                      UpSummary=df00$UpSummary,
+                      DownSummary=df00$DownSummary,
+                      Up_Vs_Down=paste0(df00$UpSummary,"/",df00$DownSummary)
+                    )
+  }
   t2 <- Sys.time()
   timeLast <- t2 - t1
   cli::cli_alert_success(paste0("Done ORA in ",timeLast," sec."))
   return(res)
-}
+  }

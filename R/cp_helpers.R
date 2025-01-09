@@ -81,13 +81,18 @@ database_from_gmt <- function (gmtfile,OrgDB = NULL,convert_2_symbols=T) {
 #' ORA is a statistical method used to identify biological pathways or gene sets that are significantly enriched in a given list of genes (e.g., differentially expressed genes). The method compares the proportion of genes in the target list that belong to a specific category (e.g., pathways, GO terms) to the expected proportion in the background gene set.
 #'
 #' To accelerate the computation in ORA analysis, `EnrichGT` have implemented a function that leverages C++ for high-performance computation. The core algorithm utilizes hash tables for efficient lookup and counting of genes across categories. Also It provides multi-Core parallel calculation by package `parallel`.
+#' 
+#' 
 #'
 #' @usage res <- egt_enrichment_analysis(genes = DEGtable$Genes,
-#' database = database_GO_BP())
+#' database = database_GO_BP(org.Hs.eg.db))
 #'
 #' @usage res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
-#' database = database_GO_ALL())
-#'
+#' database = database_GO_ALL(org.Hs.eg.db))
+#' 
+#' @usage res <- egt_enrichment_analysis(genes = genes_with_weights(geneSymbols, log2FC),
+#' database = database_kegg(kegg_organism="hsa",OrgDB = org.Hs.eg.db))
+#' 
 #' @usage res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
 #' database = database_from_gmt("MsigDB_Hallmark.gmt"))
 #'
@@ -100,6 +105,8 @@ database_from_gmt <- function (gmtfile,OrgDB = NULL,convert_2_symbols=T) {
 #' If you have genes from multiple source or experiment group, you can also pass a list with gene ids in it. For Example , `list(Macrophages=c("CD169","CD68","CD163"),Fibroblast=c("COL1A2","COL1A3))`.
 #'
 #' The genes should be match in the second param `database`'s `gene` column. For example, if database provides Ensembl IDs, you should input Ensembl IDs. But in default databases provided by `EnrichGT` is gene symbols.
+#' 
+#' Of note, since ver 0.8, genes argument supports inputs from genes_with_weights(), EnrichGT will use the whole DEG for ORA, and final split gene candidated into high-expressing and lowly-expressing according to weights. 
 #'
 #' @param database a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run `database_GO_CC()` to get them, see example.
 #'
@@ -127,7 +134,7 @@ database_from_gmt <- function (gmtfile,OrgDB = NULL,convert_2_symbols=T) {
 #'
 #' @author Zhiming Ye
 egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_off=0.5,background_genes=NULL,min_geneset_size=10,max_geneset_size=500,multi_cores=0){
-  if(is.character(genes)){
+  if(is.character(genes)|is.numeric(genes)){
     result <- doEnrich_Internal(genes,database,p_adj_methods,p_val_cut_off,background_genes,min_geneset_size,max_geneset_size)
   }else if(is.list(genes)&multi_cores<=1){
     result <- lapply(genes,function(x){
@@ -140,7 +147,7 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
     })
   }else if(is.list(genes)&multi_cores>=2){
     require(parallel)
-    result <- mclapply(genes,function(x){
+    result <- parallel::mclapply(genes,function(x){
       tryCatch({
         res <- doEnrich_Internal(genes=x,database,p_adj_methods,p_val_cut_off,background_genes,min_geneset_size,max_geneset_size)
         return(res)

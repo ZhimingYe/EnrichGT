@@ -5,10 +5,13 @@
 \title{A C++ accelerated universal enrichment analyzer (Over-Representation Analysis (ORA))}
 \usage{
 res <- egt_enrichment_analysis(genes = DEGtable$Genes,
-database = database_GO_BP())
+database = database_GO_BP(org.Hs.eg.db))
 
 res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
-database = database_GO_ALL())
+database = database_GO_ALL(org.Hs.eg.db))
+
+res <- egt_enrichment_analysis(genes = genes_with_weights(geneSymbols, log2FC),
+database = database_kegg(kegg_organism="hsa",OrgDB = org.Hs.eg.db))
 
 res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
 database = database_from_gmt("MsigDB_Hallmark.gmt"))
@@ -22,7 +25,9 @@ Fibroblast=c("COL1A2","COL1A3"),...),
 
 If you have genes from multiple source or experiment group, you can also pass a list with gene ids in it. For Example , `list(Macrophages=c("CD169","CD68","CD163"),Fibroblast=c("COL1A2","COL1A3))`.
 
-The genes should be match in the second param `database`'s `gene` column. For example, if database provides Ensembl IDs, you should input Ensembl IDs. But in default databases provided by `EnrichGT` is gene symbols.}
+The genes should be match in the second param `database`'s `gene` column. For example, if database provides Ensembl IDs, you should input Ensembl IDs. But in default databases provided by `EnrichGT` is gene symbols.
+
+Of note, since ver 0.8, genes argument supports inputs from genes_with_weights(), EnrichGT will use the whole DEG for ORA, and final split gene candidated into high-expressing and lowly-expressing according to weights.}
 
 \item{database}{a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run `database_GO_CC()` to get them, see example.
 
