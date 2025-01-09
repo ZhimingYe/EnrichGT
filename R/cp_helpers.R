@@ -82,7 +82,7 @@ database_from_gmt <- function (gmtfile,OrgDB = NULL,convert_2_symbols=T) {
 #'
 #' To accelerate the computation in ORA analysis, `EnrichGT` have implemented a function that leverages C++ for high-performance computation. The core algorithm utilizes hash tables for efficient lookup and counting of genes across categories. Also It provides multi-Core parallel calculation by package `parallel`.
 #' 
-#' Since ver 0.8, genes argument supports inputs from genes_with_weights(), EnrichGT will use the whole DEG for ORA, and final split gene candidated into high-expressing and lowly-expressing according to weights. 
+#' 
 #'
 #' @usage res <- egt_enrichment_analysis(genes = DEGtable$Genes,
 #' database = database_GO_BP(org.Hs.eg.db))
@@ -105,6 +105,8 @@ database_from_gmt <- function (gmtfile,OrgDB = NULL,convert_2_symbols=T) {
 #' If you have genes from multiple source or experiment group, you can also pass a list with gene ids in it. For Example , `list(Macrophages=c("CD169","CD68","CD163"),Fibroblast=c("COL1A2","COL1A3))`.
 #'
 #' The genes should be match in the second param `database`'s `gene` column. For example, if database provides Ensembl IDs, you should input Ensembl IDs. But in default databases provided by `EnrichGT` is gene symbols.
+#' 
+#' Of note, since ver 0.8, genes argument supports inputs from genes_with_weights(), EnrichGT will use the whole DEG for ORA, and final split gene candidated into high-expressing and lowly-expressing according to weights. 
 #'
 #' @param database a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run `database_GO_CC()` to get them, see example.
 #'
