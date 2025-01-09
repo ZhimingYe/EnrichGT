@@ -5,10 +5,13 @@
 \title{A C++ accelerated universal enrichment analyzer (Over-Representation Analysis (ORA))}
 \usage{
 res <- egt_enrichment_analysis(genes = DEGtable$Genes,
-database = database_GO_BP())
+database = database_GO_BP(org.Hs.eg.db))
 
 res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
-database = database_GO_ALL())
+database = database_GO_ALL(org.Hs.eg.db))
+
+res <- egt_enrichment_analysis(genes = genes_with_weights(geneSymbols, log2FC),
+database = database_kegg(kegg_organism="hsa",OrgDB = org.Hs.eg.db))
 
 res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
 database = database_from_gmt("MsigDB_Hallmark.gmt"))
@@ -57,6 +60,8 @@ a data frame with ORA results.
 ORA is a statistical method used to identify biological pathways or gene sets that are significantly enriched in a given list of genes (e.g., differentially expressed genes). The method compares the proportion of genes in the target list that belong to a specific category (e.g., pathways, GO terms) to the expected proportion in the background gene set.
 
 To accelerate the computation in ORA analysis, `EnrichGT` have implemented a function that leverages C++ for high-performance computation. The core algorithm utilizes hash tables for efficient lookup and counting of genes across categories. Also It provides multi-Core parallel calculation by package `parallel`.
+
+Since ver 0.8, genes argument supports inputs from genes_with_weights(), EnrichGT will use the whole DEG for ORA, and final split gene candidated into high-expressing and lowly-expressing according to weights.
 }
 \author{
 Zhiming Ye

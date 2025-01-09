@@ -50,6 +50,8 @@ egt_recluster_analysis<-function(x,ClusterNum=17,P.adj=0.05,force=F,nTop=10,meth
     objname<-"`Magrittr` pipe conveyed object"
   }
   res<-doEnrichGT(x,ClusterNum,P.adj,force,objname=objname,nTop=nTop,method,...)
+  cli::cli_alert_success("re-enrichment done.")
+  cli::cli_alert_info("You can adjust the param of egt_recluster_analysis() for better results. Please refer to the help page. ")
   return(res)
 }
 
@@ -72,7 +74,7 @@ egt_recluster_analysis<-function(x,ClusterNum=17,P.adj=0.05,force=F,nTop=10,meth
     require("gt")
     require("Matrix")
     require("cli")
-    cli::cli_h1("EnrichGT")
+    cli::cli_h1("EnrichGT Version 0.8")
     cli::cli_alert_info("See help on https://zhimingye.github.io/EnrichGT/")
     cli::cli_alert("by Zhiming Ye")
   }
