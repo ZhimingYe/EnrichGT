@@ -127,7 +127,7 @@ database_from_gmt <- function (gmtfile,OrgDB = NULL,convert_2_symbols=T) {
 #'
 #' @author Zhiming Ye
 egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_off=0.5,background_genes=NULL,min_geneset_size=10,max_geneset_size=500,multi_cores=0){
-  if(is.character(genes)){
+  if(is.character(genes)|is.numeric(genes)){
     result <- doEnrich_Internal(genes,database,p_adj_methods,p_val_cut_off,background_genes,min_geneset_size,max_geneset_size)
   }else if(is.list(genes)&multi_cores<=1){
     result <- lapply(genes,function(x){
