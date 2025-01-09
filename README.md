@@ -1,4 +1,4 @@
-# EnrichGT 0.7
+# EnrichGT 0.8
 
 **EnrichGT \<-** Fast, light weight enrichment analysis + insightful re-clustering results make all results explainable + Pretty HTML tables, Just in **ONE** package, 
 

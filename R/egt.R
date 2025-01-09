@@ -65,7 +65,7 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   clsObj<-.enrichpws(InnerDF$ID,InnerDF$geneID,ClusterNum,method)
   suppressMessages({InnerDF<-InnerDF |> dplyr::left_join(clsObj[[1]])}) # Merge according to "ID"
   if(sum(colnames(InnerDF)=="Up_Vs_Down")>0){
-    InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::mutate(geneID=paste0(">@Up_Genes@: ",UpGenes,". \n>@Down_Genes@: ",DownGenes)) |> dplyr::select(ID,Description,GeneRatio,`p.adjust`,geneID,Cluster,Count,Up_Vs_Down)
+    InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::mutate(geneID=paste0("/@Up_Genes@: /",UpGenes,"/@Down_Genes@: /",DownGenes)) |> dplyr::select(ID,Description,GeneRatio,`p.adjust`,geneID,Cluster,Count,Up_Vs_Down)
   }else{
     InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::select(ID,Description,GeneRatio,`p.adjust`,geneID,Cluster,Count) # Need Fix
   }
@@ -95,10 +95,18 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   obj0 <-obj |> gt_ora(ClusterNum=ClusterNum,objname=objname,...)
   obj2 <-obj
   obj3 <-obj2 |> genMetaGM(type="ORA")
-  obj3_1 <- obj3[[1]]
+  obj3_1 <- obj3[[1]] |> remove_more_updownInfo()
   obj3_2 <- obj3[[2]]
   objA <- new.egt(obj2,obj0,obj3_1,obj3_2,clsObj[[3]],clsObj[[2]],InnerDF_raw)
   return(objA)
+}
+
+remove_more_updownInfo <- function(x){
+  x <- lapply(x,function(x){
+    x <- x[!grepl("Up_Genes",x)]
+    x <- x[!grepl("Down_Genes",x)]
+    return(x)
+  })
 }
 
 .genGSEAGT<-function(x,ClusterNum,P.adj=0.05,force=F,objname,nTop,method,...){
