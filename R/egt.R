@@ -65,7 +65,7 @@ setMethod("doEnrichGT", signature(x = "list"),function(x,...){
   clsObj<-.enrichpws(InnerDF$ID,InnerDF$geneID,ClusterNum,method)
   suppressMessages({InnerDF<-InnerDF |> dplyr::left_join(clsObj[[1]])}) # Merge according to "ID"
   if(sum(colnames(InnerDF)=="Up_Vs_Down")>0){
-    InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::mutate(geneID=paste0("/@Up_Genes@: /",UpGenes,"/@Down_Genes@: /",DownGenes)) |> dplyr::select(ID,Description,GeneRatio,`p.adjust`,geneID,Cluster,Count,Up_Vs_Down)
+    InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::mutate(geneID=paste0("@Up_Genes@: /",UpGenes,"/@Down_Genes@: /",DownGenes)) |> dplyr::select(ID,Description,GeneRatio,`p.adjust`,geneID,Cluster,Count,Up_Vs_Down)
   }else{
     InnerDF<-InnerDF |> dplyr::filter(pvalue<0.05,Count>=5,p.adjust<P.adj) |> dplyr::select(ID,Description,GeneRatio,`p.adjust`,geneID,Cluster,Count) # Need Fix
   }
@@ -105,6 +105,7 @@ remove_more_updownInfo <- function(x){
   x <- lapply(x,function(x){
     x <- x[!grepl("Up_Genes",x)]
     x <- x[!grepl("Down_Genes",x)]
+    x <- x[x!=""]
     return(x)
   })
 }

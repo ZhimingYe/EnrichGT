@@ -1,8 +1,8 @@
 # EnrichGT 0.8
 
-**EnrichGT \<-** Fast, light weight enrichment analysis + insightful re-clustering results make all results explainable + Pretty HTML tables, Just in **ONE** package, 
+**EnrichGT \<-** Fast, light weight enrichment analysis + insightful re-clustering results make all results explainable + Pretty HTML tables, Just in **ONE** package, designed for researchers in wet-labs. 
 
-Please see the package website: <https://zhimingye.github.io/EnrichGT/>
+Please see the package website for more info: <https://zhimingye.github.io/EnrichGT/>
 
 ![](https://zhimingye.github.io/EnrichGT/enrichGTTable.jpg)
 
