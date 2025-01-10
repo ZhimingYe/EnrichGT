@@ -8,7 +8,7 @@
 
 <meta name="author" content="Zhiming Ye">
 
-<title>Introduction and Installation – EnrichGT Documents</title>
+<title>EnrichGT: all-in-one enrichment analysis – EnrichGT</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -146,8 +146,11 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./EnrichGTlogo.png" alt="" class="navbar-logo">
+    </a>
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">EnrichGT Documents</span>
+    <span class="navbar-title">EnrichGT</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -187,7 +190,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction and Installation</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">EnrichGT: all-in-one enrichment analysis</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -202,7 +205,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Introduction and Installation</span></a>
+ <span class="menu-text">EnrichGT: all-in-one enrichment analysis</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -263,7 +266,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Introduction and Installation</h1>
+<h1 class="title">EnrichGT: all-in-one enrichment analysis</h1>
 </div>
 
 
@@ -327,8 +330,23 @@ Highlights
 </table>
 </div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aim and Scope
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>Please note that the primary goal of <code>EnrichGT</code> is to provide researchers in wet labs, who have been busy all day, with quick and insightful biological interpretations from dry lab data to support their experiments. Therefore, all computational methods employed are relatively straightforward and pragmatic. For example, <code>C++</code> based ORA enrichment function, GSEA only using <code>fgsea</code> output without more analysis, use only vocabulary frequency matrix for re-enrichment instead of term’s similarity, and more… Its purpose is to offer a “quick overview”. After this initial overview, you can use more widely recognized tools to generate statistically rigorous results (not necessary though). However, don’t misunderstand—this does not mean that the statistical processes in <code>EnrichGT</code> are incorrect. I’ve made every effort to ensure their accuracy; they are just less refined. Additionally, the tool has been tested in most typical scenarios, but extreme cases cannot be entirely ruled out.</p>
 <p>This package was developed under the inspiration of <em>clusterProfiler</em> (a wonderful and powerful package! I have learned a lot. Without it I won’t develop <code>EnrichGT</code>.), but none of <code>EnrichGT</code>’s internal functions rely on any <em>clusterProfiler</em> functions. Some database-loading code references <em>clusterProfiler</em>‘s implementation, but it has been extensively modified to provide lightweight experience. In other words, this is not a case of rebranding <em>clusterProfiler</em> under a different name. It’s a lightweight implementation designed to wet-labs. If you need a tool that handles every detail, please use <em>clusterProfiler</em> instead. Please see <a href="./acknowledgement.html">acknowledgment</a> page for citing <em>clusterProfiler</em>.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="install-enrichgt" class="level1">
 <h1>Install EnrichGT</h1>

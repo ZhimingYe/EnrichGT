@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Core Enrichment Functions – EnrichGT Documents</title>
+<title>Core Enrichment Functions – EnrichGT</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -112,8 +112,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./EnrichGTlogo.png" alt="" class="navbar-logo">
+    </a>
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">EnrichGT Documents</span>
+    <span class="navbar-title">EnrichGT</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -168,7 +171,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction and Installation</span></a>
+ <span class="menu-text">EnrichGT: all-in-one enrichment analysis</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -325,10 +328,10 @@ Remember to load <code>AnnotationDbi</code> object
 <pre><code></code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ success loaded database, time used : 17.7599568367004 sec.</code></pre>
+<pre><code>✔ success loaded database, time used : 16.4522099494934 sec.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ Done ORA in 0.126555919647217 sec.</code></pre>
+<pre><code>✔ Done ORA in 0.130129098892212 sec.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ora_result <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() <span class="co"># You don't need to call as_tibble, this is just for better printing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -411,24 +414,24 @@ How to build pre-ranked gene set?
 The order of those tied genes will be arbitrary, which may produce unexpected results.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ Sucessful GSEA, time last 9.38172602653503 secs.</code></pre>
+<pre><code>✔ Sucessful GSEA, time last 8.068598985672 secs.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>resGSEA <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() <span class="co"># You don't need to call as_tibble, this is just for better printing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3,846 × 7
+<pre><code># A tibble: 3,842 × 7
    ID         Description              ES   NES  pvalue p.adjust core_enrichment
    &lt;chr&gt;      &lt;chr&gt;                 &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;          
- 1 GO:0050907 detection of chemica… 0.767  1.95 2.46e-4 0.00498  OR51E1/CST1/OR…
- 2 GO:0060078 regulation of postsy… 0.564  1.94 4.62e-6 0.000193 GRIK3/HCN1/GRM…
- 3 GO:0035249 synaptic transmissio… 0.560  1.91 1.64e-5 0.000554 GRIK3/UNC13C/G…
- 4 GO:0050906 detection of stimulu… 0.594  1.89 8.12e-5 0.00209  OR51E1/CST1/OR…
- 5 GO:0007216 G protein-coupled gl… 0.840  1.89 3.35e-4 0.00632  GRIK3/GRM1/GRM…
- 6 GO:0061982 meiosis I cell cycle… 0.553  1.87 4.67e-5 0.00132  SPATA22/KASH5/…
- 7 GO:0007628 adult walking behavi… 0.717  1.87 6.65e-4 0.0101   ZIC1/CNTN2/CAC…
- 8 GO:0051966 regulation of synapt… 0.581  1.86 9.89e-5 0.00246  GRIK3/GRM1/CAC…
- 9 GO:0035235 ionotropic glutamate… 0.718  1.86 7.07e-4 0.0106   GRIK3/GRIA4/GR…
-10 GO:0031577 spindle checkpoint s… 0.627  1.85 9.99e-4 0.0136   SPC24/BIRC5/PL…
-# ℹ 3,836 more rows</code></pre>
+ 1 GO:0050907 detection of chemica… 0.767  1.96 2.38e-4 0.00487  OR51E1/CST1/OR…
+ 2 GO:0060078 regulation of postsy… 0.564  1.93 3.00e-6 0.000126 GRIK3/HCN1/GRM…
+ 3 GO:0035249 synaptic transmissio… 0.560  1.91 1.14e-5 0.000411 GRIK3/UNC13C/G…
+ 4 GO:0050906 detection of stimulu… 0.594  1.90 7.17e-5 0.00190  OR51E1/CST1/OR…
+ 5 GO:0007216 G protein-coupled gl… 0.840  1.89 1.28e-4 0.00300  GRIK3/GRM1/GRM…
+ 6 GO:0061982 meiosis I cell cycle… 0.553  1.86 7.08e-5 0.00188  SPATA22/KASH5/…
+ 7 GO:0051966 regulation of synapt… 0.581  1.86 1.17e-4 0.00283  GRIK3/GRM1/CAC…
+ 8 GO:0031577 spindle checkpoint s… 0.627  1.85 7.85e-4 0.0111   SPC24/BIRC5/PL…
+ 9 GO:0045132 meiotic chromosome s… 0.587  1.85 2.46e-4 0.00494  SPATA22/KASH5/…
+10 GO:0007094 mitotic spindle asse… 0.628  1.85 5.33e-4 0.00853  SPC24/BIRC5/PL…
+# ℹ 3,832 more rows</code></pre>
 </div>
 </div>
 <p>Other kind of weights, like the loading from PCA or NMF, or the importance of random forest, can be also used.</p>
