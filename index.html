@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-06b8e5ceec592213bb73de96f0130095.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-f4e4fdd956c7a26aa55d25c6f42ca246.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -251,11 +251,12 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a></li>
   <li><a href="#install-enrichgt" id="toc-install-enrichgt" class="nav-link" data-scroll-target="#install-enrichgt">Install EnrichGT</a></li>
   <li><a href="#meet-enrichgt" id="toc-meet-enrichgt" class="nav-link" data-scroll-target="#meet-enrichgt">Meet EnrichGT</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -285,15 +286,15 @@ window.Quarto = {
 </header>
 
 
-<section id="overview" class="level1">
-<h1>Overview</h1>
+<section id="intro" class="level1">
+<h1>Intro</h1>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-What is EnrichGT?
+Highlights
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -326,6 +327,36 @@ What is EnrichGT?
 </table>
 </div>
 </div>
+<p>This package was developed under the inspiration of <em>clusterProfiler</em> (a wonderful and powerful package!), but none of <code>EnrichGT</code>’s internal functions rely on any <em>clusterProfiler</em> functions. Some database-loading code references <em>clusterProfiler</em>‘s implementation, but it has been extensively modified to provide lightweight experience. In other words, this is not a case of rebranding <em>clusterProfiler</em> under a different name. It’s a lightweight implementation designed to wet-labs. If you need a tool that handles every detail, please use <em>clusterProfiler</em> instead. Please see <a href="./acknowledgement.html">acknowledgment</a> page for citing <em>clusterProfiler</em>.</p>
+</section>
+<section id="install-enrichgt" class="level1">
+<h1>Install EnrichGT</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pak"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pkg_install</span>(<span class="st">"ZhimingYe/EnrichGT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>AnnotationDbi</code>, <code>fgsea</code>, <code>reactome.db</code> and <code>GO.db</code> were from BioConductor and might be slow to install. If you can’t install, please re-check your web connections or update your R and BioConductor, or use <a href="https://packagemanager.posit.co/">Posit Package Manager</a> to install when using old R.</p>
+</section>
+<section id="meet-enrichgt" class="level1">
+<h1>Meet EnrichGT</h1>
+<p>Please see articles on the left! Especially the <a href="./basic.html">basic workflow</a> introduction.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>See <a href="pkgfuns.html">package function page</a> for further detail params of functions. (For example, how to use a function)</p>
+<p>You can use <code>? function</code> to get further help when installed.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>?egt_recluster_analysis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>In most examples of this document, we use a result table of DEG analysis <code>DEG.csv</code>. The gene symbols of <code>DEG.csv</code> is on the first column without column name. In default <code>read_csv()</code> convert the unamed column name to <code>...1</code>. So <code>DEGtable$...1</code> refers to gene symbols.</p>
+</section>
+<section id="overview" class="level1">
+<h1>Overview</h1>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -390,36 +421,6 @@ What is EnrichGT?
 </div>
 </div>
 <p><sup>The&nbsp;functions&nbsp;from&nbsp;EnrichGT&nbsp;are&nbsp;starting&nbsp;with&nbsp;“egt_”&nbsp;or&nbsp;“database_”.</sup></p>
-<p>This package was developed under the inspiration of <em>clusterProfiler</em> (a wonderful and powerful package!), but none of its internal functions rely on any <em>clusterProfiler</em> functions. Some database-loading code references <em>clusterProfiler</em>‘s implementation, but it has been extensively modified to provide lightweight experience. In other words, this is not a case of rebranding <em>clusterProfiler</em> under a different name. It’s a lightweight implementation designed to wet-labs. If you need a tool that handles every detail, please use <em>clusterProfiler</em> instead. Please see <a href="acknowledgment.qmd">acknowledgment</a> page for citing <em>clusterProfiler<strong>.</strong></em></p>
-</section>
-<section id="install-enrichgt" class="level1">
-<h1>Install EnrichGT</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pak"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pkg_install</span>(<span class="st">"ZhimingYe/EnrichGT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>or</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"devtools"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install_github</span>(<span class="st">"ZhimingYe/EnrichGT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The <code>AnnotationDbi</code>, <code>fgsea</code>, <code>reactome.db</code> and <code>GO.db</code> were from BioConductor and might be slow to install. If you can’t install, please re-check your web connections or update your R and BioConductor, or use <a href="https://packagemanager.posit.co/">Posit Package Manager</a> to install when using old R.</p>
-</section>
-<section id="meet-enrichgt" class="level1">
-<h1>Meet EnrichGT</h1>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>See <a href="pkgfuns.html">package function page</a> for further information (For example, how to use a function)</p>
-<p>You can use <code>? function</code> to get further help when installed.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>?egt_recluster_analysis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<p>In most examples of this document, we use a result table of DEG analysis <code>DEG.csv</code>. The gene symbols of <code>DEG.csv</code> is on the first column without column name. In default <code>read_csv()</code> convert the unamed column name to <code>...1</code>. So <code>DEGtable$...1</code> refers to gene symbols.</p>
 
 
 </section>
@@ -846,11 +847,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2025 Zhiming Ye. Package website is built with Quarto + Rd2md.</p>
+<p>Developed by Zhiming Ye</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Corresponding to EnrichGT Version 0.8</p>
 </div>

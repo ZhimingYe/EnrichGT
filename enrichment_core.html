@@ -6,7 +6,6 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Zhiming Ye">
 
 <title>Core Enrichment Functions – EnrichGT Documents</title>
 <style>
@@ -73,7 +72,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-06b8e5ceec592213bb73de96f0130095.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-f4e4fdd956c7a26aa55d25c6f42ca246.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -221,7 +220,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#enrichment-of-genes" id="toc-enrichment-of-genes" class="nav-link active" data-scroll-target="#enrichment-of-genes">Enrichment of genes</a></li>
   <li><a href="#enrichment-of-weighted-genes-gsea" id="toc-enrichment-of-weighted-genes-gsea" class="nav-link" data-scroll-target="#enrichment-of-weighted-genes-gsea">Enrichment of weighted genes (GSEA)</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/enrichment_core.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/enrichment_core.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/enrichment_core.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -235,12 +234,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Zhiming Ye </p>
-          </div>
-  </div>
     
   
     
@@ -332,10 +325,10 @@ Remember to load <code>AnnotationDbi</code> object
 <pre><code></code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ success loaded database, time used : 18.1456198692322 sec.</code></pre>
+<pre><code>✔ success loaded database, time used : 17.8344449996948 sec.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ Done ORA in 0.135714054107666 sec.</code></pre>
+<pre><code>✔ Done ORA in 0.128161191940308 sec.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ora_result <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() <span class="co"># You don't need to call as_tibble, this is just for better printing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -418,24 +411,24 @@ How to build pre-ranked gene set?
 The order of those tied genes will be arbitrary, which may produce unexpected results.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ Sucessful GSEA, time last 8.51590085029602 secs.</code></pre>
+<pre><code>✔ Sucessful GSEA, time last 8.0586519241333 secs.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>resGSEA <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() <span class="co"># You don't need to call as_tibble, this is just for better printing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3,802 × 7
+<pre><code># A tibble: 3,879 × 7
    ID         Description              ES   NES  pvalue p.adjust core_enrichment
    &lt;chr&gt;      &lt;chr&gt;                 &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;          
- 1 GO:0060078 regulation of postsy… 0.564  1.93 5.46e-6 0.000214 GRIK3/HCN1/GRM…
- 2 GO:0050907 detection of chemica… 0.767  1.93 1.28e-4 0.00291  OR51E1/CST1/OR…
- 3 GO:0035249 synaptic transmissio… 0.560  1.91 1.68e-5 0.000565 GRIK3/UNC13C/G…
- 4 GO:0050906 detection of stimulu… 0.594  1.90 3.03e-5 0.000908 OR51E1/CST1/OR…
- 5 GO:0007216 G protein-coupled gl… 0.840  1.89 1.16e-4 0.00272  GRIK3/GRM1/GRM…
- 6 GO:0007628 adult walking behavi… 0.717  1.87 5.59e-4 0.00885  ZIC1/CNTN2/CAC…
- 7 GO:0061982 meiosis I cell cycle… 0.553  1.86 5.13e-5 0.00143  SPATA22/KASH5/…
- 8 GO:0051966 regulation of synapt… 0.581  1.86 1.39e-4 0.00309  GRIK3/GRM1/CAC…
- 9 GO:0045132 meiotic chromosome s… 0.587  1.85 2.43e-4 0.00469  SPATA22/KASH5/…
-10 GO:0035235 ionotropic glutamate… 0.718  1.85 5.71e-4 0.00897  GRIK3/GRIA4/GR…
-# ℹ 3,792 more rows</code></pre>
+ 1 GO:0050907 detection of chemica… 0.767  1.94 4.10e-4 0.00753  OR51E1/CST1/OR…
+ 2 GO:0060078 regulation of postsy… 0.564  1.93 1.04e-5 0.000385 GRIK3/HCN1/GRM…
+ 3 GO:0050906 detection of stimulu… 0.594  1.92 9.69e-5 0.00252  OR51E1/CST1/OR…
+ 4 GO:0007216 G protein-coupled gl… 0.840  1.90 2.91e-4 0.00589  GRIK3/GRM1/GRM…
+ 5 GO:0035249 synaptic transmissio… 0.560  1.89 3.65e-5 0.00111  GRIK3/UNC13C/G…
+ 6 GO:0051966 regulation of synapt… 0.581  1.87 2.39e-4 0.00500  GRIK3/GRM1/CAC…
+ 7 GO:0007628 adult walking behavi… 0.717  1.86 4.80e-4 0.00846  ZIC1/CNTN2/CAC…
+ 8 GO:0045132 meiotic chromosome s… 0.587  1.86 2.06e-4 0.00449  SPATA22/KASH5/…
+ 9 GO:0031577 spindle checkpoint s… 0.627  1.86 3.72e-4 0.00701  SPC24/BIRC5/PL…
+10 GO:0035235 ionotropic glutamate… 0.718  1.86 1.74e-3 0.0206   GRIK3/GRIA4/GR…
+# ℹ 3,869 more rows</code></pre>
 </div>
 </div>
 <p>Other kind of weights, like the loading from PCA or NMF, or the importance of random forest, can be also used.</p>
@@ -870,11 +863,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2025 Zhiming Ye. Package website is built with Quarto + Rd2md.</p>
+<p>Developed by Zhiming Ye</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/edit/main/enrichment_core.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/enrichment_core.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/enrichment_core.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Corresponding to EnrichGT Version 0.8</p>
 </div>
