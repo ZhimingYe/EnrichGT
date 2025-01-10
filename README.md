@@ -1,4 +1,4 @@
-EnrichGT 0.8 <img src="https://zhimingye.github.io/EnrichGT/EnrichGTlogo.png" align="right" height=160 />
+EnrichGT - Finding biological themes <img src="https://zhimingye.github.io/EnrichGT/EnrichGTlogo.png" align="right" height=160 />
 ============================================================================
 
 **EnrichGT \<-** Fast, light weight enrichment analysis + insightful re-clustering results make all results explainable + Pretty HTML tables, Just in **ONE** package, designed for researchers in wet-labs. 
