@@ -19,7 +19,6 @@ Imports:
     fontawesome,
     forcats,
     ggplot2,
-    ggrepel,
     glue,
     GO.db,
     grDevices,
@@ -38,9 +37,11 @@ Imports:
     stringr,
     text2vec,
     tibble,
-    umap,
     utils,
     xfun
+Suggests: 
+    readr,
+    testthat (>= 3.0.0)
 LinkingTo: 
     Rcpp
 Config/testthat/edition: 3

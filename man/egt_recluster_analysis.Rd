@@ -6,7 +6,7 @@
 \usage{
 egt_recluster_analysis(
   x,
-  ClusterNum = 17,
+  ClusterNum = 10,
   P.adj = 0.05,
   force = F,
   nTop = 10,
