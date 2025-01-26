@@ -210,7 +210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#author-4" id="toc-author-4" class="nav-link" data-scroll-target="#author-4">Author</a></li>
   <li><a href="#value-5" id="toc-value-5" class="nav-link" data-scroll-target="#value-5">Value</a></li>
   </ul></li>
-  <li><a href="#egt_plot_results-visualize-enrichment-results-using-simple-plot" id="toc-egt_plot_results-visualize-enrichment-results-using-simple-plot" class="nav-link" data-scroll-target="#egt_plot_results-visualize-enrichment-results-using-simple-plot"><code>egt_plot_results</code>: Visualize enrichment results using simple plot</a>
+  <li><a href="#egt_plot_gsea-generate-gsea-enrichment-plots" id="toc-egt_plot_gsea-generate-gsea-enrichment-plots" class="nav-link" data-scroll-target="#egt_plot_gsea-generate-gsea-enrichment-plots"><code>egt_plot_gsea</code>: Generate GSEA Enrichment Plots</a>
   <ul class="collapse">
   <li><a href="#description-7" id="toc-description-7" class="nav-link" data-scroll-target="#description-7">Description</a></li>
   <li><a href="#usage-6" id="toc-usage-6" class="nav-link" data-scroll-target="#usage-6">Usage</a></li>
@@ -218,7 +218,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#author-5" id="toc-author-5" class="nav-link" data-scroll-target="#author-5">Author</a></li>
   <li><a href="#value-6" id="toc-value-6" class="nav-link" data-scroll-target="#value-6">Value</a></li>
   </ul></li>
-  <li><a href="#egt_plot_umap-visualize-results-generated-form-enrichgt-using-umap" id="toc-egt_plot_umap-visualize-results-generated-form-enrichgt-using-umap" class="nav-link" data-scroll-target="#egt_plot_umap-visualize-results-generated-form-enrichgt-using-umap"><code>egt_plot_umap</code>: Visualize results generated form <code>EnrichGT()</code> using UMAP</a>
+  <li><a href="#egt_plot_results-visualize-enrichment-results-using-simple-plot" id="toc-egt_plot_results-visualize-enrichment-results-using-simple-plot" class="nav-link" data-scroll-target="#egt_plot_results-visualize-enrichment-results-using-simple-plot"><code>egt_plot_results</code>: Visualize enrichment results using simple plot</a>
   <ul class="collapse">
   <li><a href="#description-8" id="toc-description-8" class="nav-link" data-scroll-target="#description-8">Description</a></li>
   <li><a href="#usage-7" id="toc-usage-7" class="nav-link" data-scroll-target="#usage-7">Usage</a></li>
@@ -251,7 +251,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#author-9" id="toc-author-9" class="nav-link" data-scroll-target="#author-9">Author</a></li>
   <li><a href="#value-10" id="toc-value-10" class="nav-link" data-scroll-target="#value-10">Value</a></li>
   </ul></li>
-  <li><a href="#database_kegg-get-kegg-database-from-kegg-website" id="toc-database_kegg-get-kegg-database-from-kegg-website" class="nav-link" data-scroll-target="#database_kegg-get-kegg-database-from-kegg-website"><code>database_kegg</code>: Get KEGG database from KEGG website</a>
+  <li><a href="#database_kegg-get-kegg-database-from-kegg-website" id="toc-database_kegg-get-kegg-database-from-kegg-website" class="nav-link" data-scroll-target="#database_kegg-get-kegg-database-from-kegg-website"><code>database_KEGG</code>: Get KEGG database from KEGG website</a>
   <ul class="collapse">
   <li><a href="#description-12" id="toc-description-12" class="nav-link" data-scroll-target="#description-12">Description</a></li>
   <li><a href="#usage-11" id="toc-usage-11" class="nav-link" data-scroll-target="#usage-11">Usage</a></li>
@@ -271,7 +271,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Type: Package
 Package: EnrichGT
 Title: EnrichGT - all in one enrichment analysis soluction
-Version: 0.8.4
+Version: 0.8.6
 Author: Zhiming Ye
 Maintainer: Zhiming Ye &lt;garnetcrow@hotmail.com&gt;
 Description: Do biological enrichment analysis and parsing and clustering
@@ -289,7 +289,6 @@ Imports:
     fontawesome,
     forcats,
     ggplot2,
-    ggrepel,
     glue,
     GO.db,
     grDevices,
@@ -308,9 +307,11 @@ Imports:
     stringr,
     text2vec,
     tibble,
-    umap,
     utils,
     xfun
+Suggests: 
+    readr,
+    testthat (&gt;= 3.0.0),
 LinkingTo: 
     Rcpp
 Config/testthat/edition: 3
@@ -526,25 +527,58 @@ RoxygenNote: 7.3.2</code></pre>
 <p>a <code>compareCluster</code> result from <code>clusterProfiler</code></p>
 </section>
 </section>
-<section id="egt_plot_results-visualize-enrichment-results-using-simple-plot" class="level1">
-<h1><code>egt_plot_results</code>: Visualize enrichment results using simple plot</h1>
+<section id="egt_plot_gsea-generate-gsea-enrichment-plots" class="level1">
+<h1><code>egt_plot_gsea</code>: Generate GSEA Enrichment Plots</h1>
 <section id="description-7" class="level2">
 <h2 class="anchored" data-anchor-id="description-7">Description</h2>
-<p>This plot is the most widely like <code>enrichplot::dotplot()</code>used method to visualize enriched terms. It shows the enrichment scores (e.g.&nbsp;p values) and gene ratio or NES as dot size and color / or bar height. Users can specify the number of terms using <code>ntop</code> or selected terms to color via the <code>low.col</code> and <code>hi.col</code>.</p>
+<p>This function creates graphical representations of Gene Set Enrichment Analysis (GSEA) results, including either a multi-panel GSEA table plot for multiple pathways or a single pathway enrichment plot. The visualization leverages the <code>fgsea</code> package’s plotting functions.</p>
 </section>
 <section id="usage-6" class="level2">
 <h2 class="anchored" data-anchor-id="usage-6">Usage</h2>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ntop =</span> <span class="cn">NULL</span>,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">showIDs =</span> F,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_len_descript =</span> <span class="dv">40</span>,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  ...,</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">P.adj =</span> <span class="cn">NULL</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_gsea</span>(x, genes, database)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="arguments-6" class="level2">
 <h2 class="anchored" data-anchor-id="arguments-6">Arguments</h2>
+<ul>
+<li><code>x</code>: A GSEA result object. Can be either:</li>
+<li>A data frame containing GSEA results (requires columns: pvalue, p.adjust, Description)</li>
+<li>A character string specifying a single pathway name</li>
+<li><code>genes</code>: A character vector of ranked gene names. These should match the gene identifiers used in the GSEA analysis.</li>
+<li><code>database</code>: A character string specifying the gene set database name. This should correspond to the database used in the original GSEA analysis.</li>
+</ul>
+</section>
+<section id="author-5" class="level2">
+<h2 class="anchored" data-anchor-id="author-5">Author</h2>
+<p>Zhiming Ye, warpped from <code>fgsea</code></p>
+</section>
+<section id="value-6" class="level2">
+<h2 class="anchored" data-anchor-id="value-6">Value</h2>
+<p>A ggplot object:</p>
+<ul>
+<li>When <code>x</code> is a data frame: Returns a multi-panel plot showing normalized enrichment scores (NES), p-values, and leading edge plots for top pathways</li>
+<li>When <code>x</code> is a pathway name: Returns an enrichment plot showing the running enrichment score for the specified pathway</li>
+</ul>
+</section>
+</section>
+<section id="egt_plot_results-visualize-enrichment-results-using-simple-plot" class="level1">
+<h1><code>egt_plot_results</code>: Visualize enrichment results using simple plot</h1>
+<section id="description-8" class="level2">
+<h2 class="anchored" data-anchor-id="description-8">Description</h2>
+<p>This plot is the most widely like <code>enrichplot::dotplot()</code>used method to visualize enriched terms. It shows the enrichment scores (e.g.&nbsp;p values) and gene ratio or NES as dot size and color / or bar height. Users can specify the number of terms using <code>ntop</code> or selected terms to color via the <code>low.col</code> and <code>hi.col</code>.</p>
+</section>
+<section id="usage-7" class="level2">
+<h2 class="anchored" data-anchor-id="usage-7">Usage</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ntop =</span> <span class="cn">NULL</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">showIDs =</span> F,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_len_descript =</span> <span class="dv">40</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  ...,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">P.adj =</span> <span class="cn">NULL</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="arguments-7" class="level2">
+<h2 class="anchored" data-anchor-id="arguments-7">Arguments</h2>
 <ul>
 <li><code>x</code>: a data frame form enriched result like <code>egt_enrichment_analysis()</code> or <code>egt_gsea_analysis()</code>, or an re-clustered <code>EnrichGT</code> object</li>
 <li><code>ntop</code>: Show top N in each cluster. In default, for origin enriched result, showing top 15; for re-clustered object, showing top 5 in each cluster.</li>
@@ -554,32 +588,6 @@ RoxygenNote: 7.3.2</code></pre>
 <li><code>P.adj</code>: If pass an origin data.frame from original enriched result, you can specify the P-adjust value cut off. If is null, default is 0.05. When passing <code>EnrichGT_obj</code>, this filter is previously done by <code>egt_recluster_analysis</code>.</li>
 <li><code>low.col</code>: the color for the lowest</li>
 <li><code>hi.col</code>: the color for the highest</li>
-</ul>
-</section>
-<section id="author-5" class="level2">
-<h2 class="anchored" data-anchor-id="author-5">Author</h2>
-<p>Zhiming Ye</p>
-</section>
-<section id="value-6" class="level2">
-<h2 class="anchored" data-anchor-id="value-6">Value</h2>
-<p>a ggplot2 object</p>
-</section>
-</section>
-<section id="egt_plot_umap-visualize-results-generated-form-enrichgt-using-umap" class="level1">
-<h1><code>egt_plot_umap</code>: Visualize results generated form <code>EnrichGT()</code> using UMAP</h1>
-<section id="description-8" class="level2">
-<h2 class="anchored" data-anchor-id="description-8">Description</h2>
-<p>A word frequency matrix represents the frequency of words or tokens across different documents or text samples. Each row corresponds to a document, and each column represents a word or token, with the cell values indicating the frequency of the respective word in that document.However, high-dimensional data like word frequency matrices can be challenging to interpret directly. To make such data easier to analyze, we can reduce its dimensionality and visualize the patterns or clusters in a 2D or 3D space. UMAP (Uniform Manifold Approximation and Projection) is a powerful, non-linear dimensionality reduction technique widely used for this purpose.</p>
-</section>
-<section id="usage-7" class="level2">
-<h2 class="anchored" data-anchor-id="usage-7">Usage</h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_umap</span>(x, ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="arguments-7" class="level2">
-<h2 class="anchored" data-anchor-id="arguments-7">Arguments</h2>
-<ul>
-<li><code>x</code>: an EnrichGT object</li>
-<li><code>...</code>: Other param</li>
 </ul>
 </section>
 <section id="author-6" class="level2">
@@ -601,7 +609,7 @@ RoxygenNote: 7.3.2</code></pre>
 <h2 class="anchored" data-anchor-id="usage-8">Usage</h2>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_recluster_analysis</span>(</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ClusterNum =</span> <span class="dv">17</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ClusterNum =</span> <span class="dv">10</span>,</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">P.adj =</span> <span class="fl">0.05</span>,</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">force =</span> F,</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">nTop =</span> <span class="dv">10</span>,</span>
@@ -702,16 +710,16 @@ RoxygenNote: 7.3.2</code></pre>
 </section>
 </section>
 <section id="database_kegg-get-kegg-database-from-kegg-website" class="level1">
-<h1><code>database_kegg</code>: Get KEGG database from KEGG website</h1>
+<h1><code>database_KEGG</code>: Get KEGG database from KEGG website</h1>
 <section id="description-12" class="level2">
 <h2 class="anchored" data-anchor-id="description-12">Description</h2>
 <p>KEGG is a commercialized database. So EnrichGT can’t pre-cache them locally. You can use this function to fetch KEGG database pathways and modules.</p>
 </section>
 <section id="usage-11" class="level2">
 <h2 class="anchored" data-anchor-id="usage-11">Usage</h2>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">database_kegg</span>(<span class="at">kegg_organism=</span><span class="st">"hsa"</span>,<span class="at">OrgDB =</span> org.Hs.eg.db,<span class="at">kegg_modules=</span>F,<span class="at">local_cache=</span>F)</span>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">database_KEGG</span>(<span class="at">kegg_organism=</span><span class="st">"hsa"</span>,<span class="at">OrgDB =</span> org.Hs.eg.db,<span class="at">kegg_modules=</span>F,<span class="at">local_cache=</span>F)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">database_kegg_show_organism</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">database_KEGG_show_organism</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="arguments-11" class="level2">
 <h2 class="anchored" data-anchor-id="arguments-11">Arguments</h2>
@@ -1154,7 +1162,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/pkgfuns.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
-<p>Corresponding to EnrichGT Version 0.8</p>
+<p>Corresponding to EnrichGT Version 0.8.6</p>
 </div>
   </div>
 </footer>

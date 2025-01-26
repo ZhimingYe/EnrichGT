@@ -293,11 +293,11 @@ How to specify species?
 </section>
 <section id="kegg-database" class="level3">
 <h3 class="anchored" data-anchor-id="kegg-database">KEGG Database</h3>
-<p>KEGG is a commercialized database. So EnrichGT can’t pre-cache them locally. You can use <code>database_kegg</code> to fetch KEGG database pathways and modules.</p>
-<p>This function requires two species-related argument. You may familiar to the <code>OrgDB</code> argument as they will be used to convert <code>ENTREZ ID</code>s to symbols like before. Another argument is the <code>kegg_organism</code>. It determines which species data from KEGG will be fetch. For human, it would be <code>hsa</code>(in default); For mouse, it would be <code>mmu</code>. If you wants other species, execute <code>database_kegg_show_organism()</code> for details.</p>
+<p>KEGG is a commercialized database. So EnrichGT can’t pre-cache them locally. You can use <code>database_KEGG</code> to fetch KEGG database pathways and modules.</p>
+<p>This function requires two species-related argument. You may familiar to the <code>OrgDB</code> argument as they will be used to convert <code>ENTREZ ID</code>s to symbols like before. Another argument is the <code>kegg_organism</code>. It determines which species data from KEGG will be fetch. For human, it would be <code>hsa</code>(in default); For mouse, it would be <code>mmu</code>. If you wants other species, execute <code>database_KEGG_show_organism()</code> for details.</p>
 <p>You can switch fetching KEGG pathways or modules by argument <code>kegg_modules</code>. If TRUE, returns KEGG module; If FALSE returns KEGG pathways. In default, this is setted to FALSE to get mouse commonly used KEGG pathways.</p>
 <p>If you set <code>local_cache = T</code>, EnrichGT will cache a copy in local working folder. It will be saved as a <code>.enrichgt_cache</code> file in working dictionary. The <code>.enrichgt_cache</code> is just a <code>.rds</code> file, feel free to read it using <code>readRDS()</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>keggdf <span class="ot">&lt;-</span> <span class="fu">database_kegg</span>(<span class="at">kegg_organism=</span><span class="st">"hsa"</span>,<span class="at">OrgDB =</span> org.Hs.eg.db,<span class="at">kegg_modules=</span>F,<span class="at">local_cache=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>keggdf <span class="ot">&lt;-</span> <span class="fu">database_KEGG</span>(<span class="at">kegg_organism=</span><span class="st">"hsa"</span>,<span class="at">OrgDB =</span> org.Hs.eg.db,<span class="at">kegg_modules=</span>F,<span class="at">local_cache=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="wikipathway-database" class="level3">
 <h3 class="anchored" data-anchor-id="wikipathway-database">WikiPathway Database</h3>
@@ -866,7 +866,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/database.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
-<p>Corresponding to EnrichGT Version 0.8</p>
+<p>Corresponding to EnrichGT Version 0.8.6</p>
 </div>
   </div>
 </footer>
