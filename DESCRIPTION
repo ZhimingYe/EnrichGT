@@ -9,7 +9,7 @@ Description: Do biological enrichment analysis and parsing and clustering
 License: GPL-V3
 URL: https://zhimingye.github.io/EnrichGT/
 Depends: 
-    R (>= 2.10)
+    R (>= 4.10)
 Imports: 
     AnnotationDbi,
     BiocManager,
@@ -41,7 +41,8 @@ Imports:
     xfun
 Suggests: 
     readr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    pak
 LinkingTo: 
     Rcpp
 Config/testthat/edition: 3
