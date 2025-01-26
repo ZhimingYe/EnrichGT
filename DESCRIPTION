@@ -1,7 +1,7 @@
 Type: Package
 Package: EnrichGT
 Title: EnrichGT - all in one enrichment analysis soluction
-Version: 0.8.5
+Version: 0.8.6
 Author: Zhiming Ye
 Maintainer: Zhiming Ye <garnetcrow@hotmail.com>
 Description: Do biological enrichment analysis and parsing and clustering
@@ -9,7 +9,7 @@ Description: Do biological enrichment analysis and parsing and clustering
 License: GPL-V3
 URL: https://zhimingye.github.io/EnrichGT/
 Depends: 
-    R (>= 4.10)
+    R (>= 2.10)
 Imports: 
     AnnotationDbi,
     BiocManager,
