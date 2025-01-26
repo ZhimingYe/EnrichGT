@@ -2,7 +2,7 @@ library(dplyr)
 library(tibble)
 library(ggplot2)
 if(!require(org.Hs.eg.db)){
-  pak::pkg_install("org.Hs.eg.db")
+  BiocManager::install("org.Hs.eg.db")
 }
 library(org.Hs.eg.db)
 library(gt)

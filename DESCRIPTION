@@ -42,7 +42,6 @@ Imports:
 Suggests: 
     readr,
     testthat (>= 3.0.0),
-    pak
 LinkingTo: 
     Rcpp
 Config/testthat/edition: 3
