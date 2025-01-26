@@ -129,22 +129,7 @@ shorten_labels_words <- function(label, max_length = 40) {
   })
 }
 
-#' Visualize results generated form `EnrichGT()` using UMAP
-#'
-#' @description
-#' A word frequency matrix represents the frequency of words or tokens across different documents or text samples. Each row corresponds to a document, and each column represents a word or token, with the cell values indicating the frequency of the respective word in that document.However, high-dimensional data like word frequency matrices can be challenging to interpret directly. To make such data easier to analyze, we can reduce its dimensionality and visualize the patterns or clusters in a 2D or 3D space. UMAP (Uniform Manifold Approximation and Projection) is a powerful, non-linear dimensionality reduction technique widely used for this purpose.
-#'
-#' @param x an EnrichGT object
-#' @param ... Other param
-#'
-#' @returns a ggplot2 object
-#' @export
-#'
-#' @author Zhiming Ye
-egt_plot_umap <- function(x,...){
-  px<-.egtUMAP(x,...)
-  return(px)
-}
+
 
 ORA2dp<-function(x,ntop = 7,showIDs=F,low.col="#ff6f81",hi.col="#78cfe5",max_len_descript=40,...){
   if(is.list(x) & !is.data.frame(x)){
@@ -228,32 +213,6 @@ GSEA2dp<-function(x,ntop = 7,showIDs=F,low.col="#ff6f81",hi.col="#78cfe5",max_le
   return(px)
 }
 
-
-#' @importFrom umap umap
-#' @importFrom ggplot2 ggplot
-#' @importFrom ggplot2 geom_point
-#' @importFrom ggplot2 labs
-#' @importFrom ggplot2 theme_classic
-#' @importFrom ggrepel geom_text_repel
-.egtUMAP <- function(x){
-  mat<-x@document_term_matrix
-  umap_result <- umap::umap(mat)
-  umap_df <- data.frame(ID=rownames(umap_result[["layout"]]),
-                        UMAP1 = umap_result$layout[, 1],
-                        UMAP2 = umap_result$layout[, 2])
-  udf<-x@enriched_result |> left_join(umap_df,by="ID")
-  fig<-ggplot(udf, aes(x = UMAP1, y = UMAP2, color = Cluster)) +
-    geom_point(size = 2) +
-    geom_text_repel(aes(label = Description),
-                    size = 3,
-                    max.overlaps = 20,
-                    box.padding = 0.3,
-                    point.padding = 0.2) +
-    labs(title = "Enrichment Results",
-         x = "UMAP1", y = "UMAP2") +
-    theme_classic()
-  return(fig)
-}
 
 cocol <- function(n,favor=1,returnColor=F) {
   if(favor == 3){

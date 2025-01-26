@@ -234,8 +234,8 @@ egt_gsea_analysis <- function(genes,database,p_val_cut_off=0.5,min_geneset_size=
   }
   return(res)
 }
-
-egt_gsea_analysis_internal <- function(genes,database,p_val_cut_off=0.5,min_geneset_size=10,max_geneset_size=500,gseaParam=1){
+#' @importFrom fgsea fgsea
+egt_gsea_analysis_internal <- function(genes,database,p_val_cut_off=0.5,min_geneset_size=10,max_geneset_size=500,gseaParam=1,for_figures=F){
   tryCatch({
     if(ncol(database)!=2&ncol(database)!=3){
       message_wrong_db()
@@ -254,6 +254,9 @@ egt_gsea_analysis_internal <- function(genes,database,p_val_cut_off=0.5,min_gene
   colnames(database) <- c("term", "gene")
   database2 <- split(database$gene,database$term)
   t1 <- Sys.time()
+  if(for_figures){
+    return(list(PWS = database2, RKS = genes))
+  }
   fgseaRes <- fgsea::fgsea(pathways = database2,
                     stats    = genes,
                     minSize  = min_geneset_size,
@@ -268,7 +271,7 @@ egt_gsea_analysis_internal <- function(genes,database,p_val_cut_off=0.5,min_gene
                           NES = fgseaRes$NES,
                           pvalue = fgseaRes$pval,
                           p.adjust = fgseaRes$padj,
-                          core_enrichment = sapply(fgseaRes$leadingEdge,function(x)paste(x,collapse ="/")))
+                          core_enrichment = sapply(fgseaRes$leadingEdge,function(x)paste(x,collapse ="/")))#,fgsea_leadingEdge = fgseaRes$leadingEdge
   tryCatch({
     fgseaRes2 <- fgseaRes2 |> dplyr::filter(pvalue<p_val_cut_off) |> dplyr::arrange(desc(NES))
   },error=function(e){

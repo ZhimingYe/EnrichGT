@@ -16,7 +16,7 @@ keggModuleList <- function(orgkegg){
 #' Get KEGG database from KEGG website
 #' @description
 #' KEGG is a commercialized database. So EnrichGT can't pre-cache them locally. You can use this function to fetch KEGG database pathways and modules. 
-#' @usage database_kegg(kegg_organism="hsa",OrgDB = org.Hs.eg.db,kegg_modules=F,local_cache=F)
+#' @usage database_KEGG(kegg_organism="hsa",OrgDB = org.Hs.eg.db,kegg_modules=F,local_cache=F)
 #' 
 #' @param kegg_organism Determine which species data from KEGG will be fetch. For human, it would be `hsa`(in default); For mouse, it would be `mmu`. If you wants other species, see `database_kegg_show_organism()` for details. 
 #' @param OrgDB The AnnotationDbi database to convert KEGG gene ID to gene symbols. For human it would be `org.Hs.eg.db`, for mouse it would be `org.Mm.eg.db`. In AnnotationDbi there are many species, please search `AnnotationDbi` for other species annotation database. 
@@ -27,7 +27,7 @@ keggModuleList <- function(orgkegg){
 #' @export
 #'
 #' @rdname KEGGhelp
-database_kegg <- function(kegg_organism="hsa",OrgDB = org.Hs.eg.db,kegg_modules=F,local_cache=F){
+database_KEGG <- function(kegg_organism="hsa",OrgDB = org.Hs.eg.db,kegg_modules=F,local_cache=F){
   if(!kegg_modules){
     fn <- paste0("KEGGPathway_",xfun::md5(keggModuleList(kegg_organism)))
   }else{
@@ -105,7 +105,7 @@ database_kegg <- function(kegg_organism="hsa",OrgDB = org.Hs.eg.db,kegg_modules=
 #' @export
 #'
 #' @rdname KEGGhelp
-database_kegg_show_organism <- function(){
+database_KEGG_show_organism <- function(){
   x <- read.delim("https://rest.kegg.jp/list/organism",quote = "\t",header = F)
   return(x)
 }
