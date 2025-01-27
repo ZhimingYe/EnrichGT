@@ -1,13 +1,22 @@
-# EnrichGT 0.8
+EnrichGT - Finding biological themes
+============================================================================
 
-**EnrichGT \<-** Fast, light weight enrichment analysis + insightful re-clustering results make all results explainable + Pretty HTML tables, Just in **ONE** package, designed for researchers in wet-labs. 
+**EnrichGT \<-** Fast, light weight enrichment analysis + insightful re-clustering results make all results explainable + Pretty HTML tables, Just in **ONE** package, designed for researchers in wet-labs. Supported databases including GO, KEGG, Reactome, MsigDB ... 
+
+![](https://zhimingye.github.io/EnrichGT/Introduction.jpeg)
 
 Please see the package website for more info: <https://zhimingye.github.io/EnrichGT/>
 
-> [!IMPORTANT]
-> The primary goal of EnrichGT is to provide researchers in wet labs, who have been busy all day, with quick and insightful biological interpretations from dry lab data to support their experiments. Therefore, all computational methods employed are relatively straightforward and pragmatic. For example, C++ based ORA enrichment function, GSEA only using fgsea output without more analysis, use only vocabulary frequency matrix for re-enrichment instead of term's similarity, and more... Its purpose is to offer a “quick overview”. After this initial overview, you can use more widely recognized tools to generate statistically rigorous results (not necessary though). However, don’t misunderstand—this does not mean that the statistical processes in EnrichGT are incorrect. I’ve made every effort to ensure their accuracy; they are just less refined. Additionally, the tool has been tested in most typical scenarios, but extreme cases cannot be entirely ruled out.
+- Efficient C++-based functions for rapid enrichment analysis
 
-![](https://zhimingye.github.io/EnrichGT/enrichGTTable.jpg)
+- Simple input format, empowering non-pro users
+
+- Re-clustering of enriched results provides clear and actionable insights
+
+- User-friendly HTML output that is easy to read and interpret
+
+- Do a series of things just in ONE package
+
 
 
 ### Install
@@ -76,4 +85,3 @@ graph LR
 
 
 ```
-

@@ -4,7 +4,9 @@
 \alias{egt_plot_gsea}
 \title{Generate GSEA Enrichment Plots}
 \usage{
-egt_plot_gsea(x, genes, database)
+egt_plot_gsea(resGSEA$Description[1],genes = genes_with_weights(genes = DEGexample$...1, weights = DEGexample$log2FoldChange),database = database_GO_BP(org.Hs.eg.db))
+
+egt_plot_gsea(resGSEA[1:8,],genes = genes_with_weights(genes = DEGexample$...1, weights = DEGexample$log2FoldChange),database = database_GO_BP(org.Hs.eg.db))
 }
 \arguments{
 \item{x}{A GSEA result object. Can be either:
@@ -13,11 +15,11 @@ egt_plot_gsea(x, genes, database)
   \item A character string specifying a single pathway name
 }}
 
-\item{genes}{A character vector of ranked gene names. These should match the gene identifiers
+\item{genes}{A named numeric vector from \code{genes_with_weights()}. These should match the gene identifiers
 used in the GSEA analysis.}
 
-\item{database}{A character string specifying the gene set database name. This should correspond
-to the database used in the original GSEA analysis.}
+\item{database}{A database \code{data.frame}, You can obtain it from \code{database_xxx()} functions.
+This should correspond to the database used in the original GSEA analysis.}
 }
 \value{
 A ggplot object:

@@ -4,15 +4,21 @@
 #' including either a multi-panel GSEA table plot for multiple pathways or a single pathway 
 #' enrichment plot. The visualization leverages the \code{fgsea} package's plotting functions.
 #'
+#' @usage 
+#' 
+#' egt_plot_gsea(resGSEA$Description[1],genes = genes_with_weights(genes = DEGexample$...1, weights = DEGexample$log2FoldChange),database = database_GO_BP(org.Hs.eg.db))
+#' 
+#' egt_plot_gsea(resGSEA[1:8,],genes = genes_with_weights(genes = DEGexample$...1, weights = DEGexample$log2FoldChange),database = database_GO_BP(org.Hs.eg.db))
+#' 
 #' @param x A GSEA result object. Can be either:
 #' \itemize{
 #'   \item A data frame containing GSEA results (requires columns: pvalue, p.adjust, Description)
 #'   \item A character string specifying a single pathway name
 #' }
-#' @param genes A character vector of ranked gene names. These should match the gene identifiers
+#' @param genes A named numeric vector from \code{genes_with_weights()}. These should match the gene identifiers
 #' used in the GSEA analysis.
-#' @param database A character string specifying the gene set database name. This should correspond
-#' to the database used in the original GSEA analysis.
+#' @param database A database \code{data.frame}, You can obtain it from \code{database_xxx()} functions.
+#' This should correspond to the database used in the original GSEA analysis.
 #'
 #' @return A ggplot object:
 #' \itemize{
@@ -24,7 +30,9 @@
 #'
 #' @author Zhiming Ye, warpped from \code{fgsea}
 #' @importFrom fgsea plotGseaTable
+#' @importFrom fgsea plotEnrichment
 #' @importFrom ggplot2 theme_bw
+#' @importFrom ggplot2 labs
 #' @export
 #' 
 egt_plot_gsea <- function(x, genes, database){
@@ -36,7 +44,7 @@ egt_plot_gsea <- function(x, genes, database){
     figure<-fgsea::plotGseaTable(ref[[1]][x$pathway], ref[[2]], x, gseaParam=0.5)
   }else{
     figure<-fgsea::plotEnrichment(ref[[1]][[x]], ref[[2]]) # not sure why 2[[]]?
-    figure <- figure+ theme_bw() + labs(title = x)
+    figure <- figure+ ggplot2::theme_bw() + ggplot2::labs(title = x)
     figure$layers[[1]]$aes_params$colour <- "#4975ae"
     figure$layers[[3]]$aes_params$colour <- "grey"
     figure$layers[[4]]$aes_params$colour <- "grey" # some hack of colors. 
