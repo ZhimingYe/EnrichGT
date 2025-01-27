@@ -1,7 +1,7 @@
 Type: Package
 Package: EnrichGT
-Title: EnrichGT - all in one enrichment analysis soluction
-Version: 0.8.6
+Title: EnrichGT - all in one enrichment analysis solution
+Version: 0.8.7
 Author: Zhiming Ye
 Maintainer: Zhiming Ye <garnetcrow@hotmail.com>
 Description: Do biological enrichment analysis and parsing and clustering
@@ -41,7 +41,7 @@ Imports:
     xfun
 Suggests: 
     readr,
-    testthat (>= 3.0.0),
+    testthat (>= 3.0.0)
 LinkingTo: 
     Rcpp
 Config/testthat/edition: 3

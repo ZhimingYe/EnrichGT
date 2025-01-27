@@ -1,7 +1,10 @@
-EnrichGT - Finding biological themes <img src="https://zhimingye.github.io/EnrichGT/EnrichGTlogo.png" align="right" height=160 />
-============================================================================
 
-**EnrichGT \<-** Fast, light weight enrichment analysis + insightful re-clustering results make all results explainable + Pretty HTML tables, Just in **ONE** package, designed for researchers in wet-labs. 
+EnrichGT - Finding biological themes
+===================================================================================
+
+**EnrichGT \<-** Fast, light weight enrichment analysis + insightful re-clustering results make all results explainable + Pretty HTML tables, Just in **ONE** package, designed for researchers in wet-labs. Supported databases including GO, KEGG, Reactome, MsigDB ... 
+
+![](https://zhimingye.github.io/EnrichGT/Introduction.jpeg)
 
 Please see the package website for more info: <https://zhimingye.github.io/EnrichGT/>
 
@@ -15,7 +18,6 @@ Please see the package website for more info: <https://zhimingye.github.io/Enric
 
 - Do a series of things just in ONE package
 
-![](https://zhimingye.github.io/EnrichGT/enrichGTTable.jpg)
 
 
 ### Install
@@ -84,4 +86,3 @@ graph LR
 
 
 ```
-
