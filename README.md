@@ -1,5 +1,6 @@
+
 EnrichGT - Finding biological themes
-============================================================================
+===================================================================================
 
 **EnrichGT \<-** Fast, light weight enrichment analysis + insightful re-clustering results make all results explainable + Pretty HTML tables, Just in **ONE** package, designed for researchers in wet-labs. Supported databases including GO, KEGG, Reactome, MsigDB ... 
 
