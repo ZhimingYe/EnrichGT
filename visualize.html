@@ -221,19 +221,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#html-reports-gt-table" id="toc-html-reports-gt-table" class="nav-link active" data-scroll-target="#html-reports-gt-table">HTML reports (gt table)</a></li>
-  <li><a href="#ploting-functions" id="toc-ploting-functions" class="nav-link" data-scroll-target="#ploting-functions">Ploting functions</a></li>
-  <li><a href="#basic-result-plot" id="toc-basic-result-plot" class="nav-link" data-scroll-target="#basic-result-plot">Basic result plot</a>
+  <li><a href="#ploting-functions" id="toc-ploting-functions" class="nav-link" data-scroll-target="#ploting-functions">Ploting functions</a>
   <ul class="collapse">
-  <li><a href="#ploting-ora-result" id="toc-ploting-ora-result" class="nav-link" data-scroll-target="#ploting-ora-result">Ploting ORA result</a></li>
-  <li><a href="#ploting-gsea-result" id="toc-ploting-gsea-result" class="nav-link" data-scroll-target="#ploting-gsea-result">Ploting GSEA result</a></li>
-  <li><a href="#ploting-re-enrichment-result" id="toc-ploting-re-enrichment-result" class="nav-link" data-scroll-target="#ploting-re-enrichment-result">Ploting re-enrichment result</a></li>
-  </ul></li>
+  <li><a href="#basic-result-plot" id="toc-basic-result-plot" class="nav-link" data-scroll-target="#basic-result-plot">Basic result plot</a></li>
   <li><a href="#additional-gsea-plots" id="toc-additional-gsea-plots" class="nav-link" data-scroll-target="#additional-gsea-plots">Additional GSEA plots</a>
   <ul class="collapse">
   <li><a href="#single-ranking-plot" id="toc-single-ranking-plot" class="nav-link" data-scroll-target="#single-ranking-plot">Single ranking plot</a></li>
   <li><a href="#table-like-visualization-gsea-result" id="toc-table-like-visualization-gsea-result" class="nav-link" data-scroll-target="#table-like-visualization-gsea-result">Table-like visualization GSEA result</a></li>
   </ul></li>
   <li><a href="#umap-plot-for-re-enrichment-no-longer-supported" id="toc-umap-plot-for-re-enrichment-no-longer-supported" class="nav-link" data-scroll-target="#umap-plot-for-re-enrichment-no-longer-supported">UMAP plot for re-enrichment (no longer supported)</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/visualize.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -272,9 +269,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="ploting-functions" class="level1">
 <h1>Ploting functions</h1>
 <p>HTML <code>gt</code> table satisfied most of things, but for others. Though we don’t want this package become complex (i.e., you can simple draw your figure using ggplot2 for enriched tables by yourself.) But we still provide limited figure ploting functions.</p>
-</section>
-<section id="basic-result-plot" class="level1">
-<h1>Basic result plot</h1>
+<section id="basic-result-plot" class="level2">
+<h2 class="anchored" data-anchor-id="basic-result-plot">Basic result plot</h2>
 <p>The Dot Plot provide basic viewing of results. So it supports both simple enrichment result <code>data.frame</code> and re-enriched <code>egt_object</code>.</p>
 <p>You can adjust this figure by these params:</p>
 <ul>
@@ -285,8 +281,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>low.col</code>: the color for the lowest</li>
 <li><code>hi.col</code>: the color for the highest</li>
 </ul>
-<section id="ploting-ora-result" class="level3">
-<h3 class="anchored" data-anchor-id="ploting-ora-result">Ploting ORA result</h3>
+<section id="ploting-ora-result" class="level4">
+<h4 class="anchored" data-anchor-id="ploting-ora-result">Ploting ORA result</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(ora_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -304,8 +300,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="ploting-gsea-result" class="level3">
-<h3 class="anchored" data-anchor-id="ploting-gsea-result">Ploting GSEA result</h3>
+<section id="ploting-gsea-result" class="level4">
+<h4 class="anchored" data-anchor-id="ploting-gsea-result">Ploting GSEA result</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(resGSEA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -323,8 +319,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="ploting-re-enrichment-result" class="level3">
-<h3 class="anchored" data-anchor-id="ploting-re-enrichment-result">Ploting re-enrichment result</h3>
+<section id="ploting-re-enrichment-result" class="level4">
+<h4 class="anchored" data-anchor-id="ploting-re-enrichment-result">Ploting re-enrichment result</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(re_enrich)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -337,16 +333,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="additional-gsea-plots" class="level1">
-<h1>Additional GSEA plots</h1>
+<section id="additional-gsea-plots" class="level2">
+<h2 class="anchored" data-anchor-id="additional-gsea-plots">Additional GSEA plots</h2>
 <p>Since version 0.8.6, EnrichGT provides a function called <code>egt_plot_gsea()</code> to help users to get typical ranking plots. If you pass a pathway name to the first param of this function, <code>egt_plot_gsea()</code> will return a ranking plot of single pathway. For multiple pathway, you need to subset the <code>data.frame</code> result of <code>egt_gsea_analysis()</code>.</p>
 <p>The param contains:</p>
 <ul>
-<li><code>x</code>: A GSEA result object. Can be either:</li>
+<li><code>x</code>: A GSEA result object. Can be either:
+<ul>
 <li>A data frame containing GSEA results (requires columns: pvalue, p.adjust, Description)</li>
 <li>A character string specifying a single pathway name</li>
-<li><code>genes</code>: A character vector of ranked gene names. These should match the gene identifiers used in the GSEA analysis.</li>
-<li><code>database</code>: A character string specifying the gene set database name. This should correspond to the database used in the original GSEA analysis.</li>
+</ul></li>
+<li><code>genes</code> and <code>database</code> should be the same as you doing <code>egt_gsea_analysis()</code></li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -361,59 +358,52 @@ Why multiple results need a <code>data.frame</code>
 <p>You can see the result figure, we need the <code>NES</code> and <code>p-values</code> for display.</p>
 </div>
 </div>
-<section id="single-ranking-plot" class="level2">
-<h2 class="anchored" data-anchor-id="single-ranking-plot">Single ranking plot</h2>
+<section id="single-ranking-plot" class="level3">
+<h3 class="anchored" data-anchor-id="single-ranking-plot">Single ranking plot</h3>
+<p>You need to prepare your favourite pathway’s name:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>resGSEA <span class="ot">&lt;-</span> <span class="fu">egt_gsea_analysis</span>(<span class="at">genes =</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">genes_with_weights</span>(<span class="at">genes =</span> DEGexample<span class="sc">$</span>...<span class="dv">1</span>, </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">weights =</span> DEGexample<span class="sc">$</span>log2FoldChange),</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-1" class="code-annotation-target"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(resGSEA<span class="sc">$</span>Description[<span class="dv">1</span>])</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-5-2" class="code-annotation-target"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>resGSEA<span class="sc">$</span>Description[<span class="dv">1</span>]</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="1" data-code-annotation="1">This is a vector.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="1" data-code-annotation="1">This is a vector.</span>
 </dd>
-<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-6" data-code-lines="2" data-code-annotation="2">If you need the single-plot, all you pass to <code>egt_plot_gsea()</code> is the name of this pathway, subset from <code>resGSEA</code>.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="2" data-code-annotation="2">If you need the single-plot, all you pass to <code>egt_plot_gsea()</code> is the name of this pathway, subset from <code>resGSEA</code>.</span>
 </dd>
 </dl>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"
+[1] "detection of stimulus involved in sensory perception"</code></pre>
+</div>
+</div>
+<p>And then using <code>egt_plot_gsea()</code> for drawing. The other params should be the <strong>same</strong> as you provided in origin GSEA analysis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_gsea</span>(resGSEA<span class="sc">$</span>Description[<span class="dv">1</span>],</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">genes =</span> <span class="fu">genes_with_weights</span>(<span class="at">genes =</span> DEGexample<span class="sc">$</span>...<span class="dv">1</span>, </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">weights =</span> DEGexample<span class="sc">$</span>log2FoldChange),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code></code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ success loaded database, time used : 15.9114921092987 sec.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>✔ Sucessful GSEA, time last 8.73440599441528 secs.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(resGSEA<span class="sc">$</span>Description[<span class="dv">1</span>])</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-6-2" class="code-annotation-target"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>resGSEA<span class="sc">$</span>Description[<span class="dv">1</span>]</span>
-<span id="annotated-cell-6-3"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_gsea</span>(resGSEA<span class="sc">$</span>Description[<span class="dv">1</span>],</span>
-<span id="annotated-cell-6-4"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">genes =</span> <span class="fu">genes_with_weights</span>(<span class="at">genes =</span> DEGexample<span class="sc">$</span>...<span class="dv">1</span>, </span>
-<span id="annotated-cell-6-5"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">weights =</span> DEGexample<span class="sc">$</span>log2FoldChange),</span>
-<span id="annotated-cell-6-6"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>✔ Use cached database: GO_BP_org.Hs.eg.db</code></pre>
+<pre><code>✔ success loaded database, time used : 15.4877820014954 sec.</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="visualize_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="visualize_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "character"
-[1] "regulation of postsynaptic membrane potential"</code></pre>
-</div>
 </div>
 </section>
-<section id="table-like-visualization-gsea-result" class="level2">
-<h2 class="anchored" data-anchor-id="table-like-visualization-gsea-result">Table-like visualization GSEA result</h2>
+<section id="table-like-visualization-gsea-result" class="level3">
+<h3 class="anchored" data-anchor-id="table-like-visualization-gsea-result">Table-like visualization GSEA result</h3>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -427,13 +417,10 @@ Warning
 <p>If you want to plot this plot, remember to filter the GSEA results to ~10 to ~20, you can base on <code>NES</code> or <code>p-values</code>. This is to avoid too many loading to this plotting.</p>
 </div>
 </div>
+<p>You need to subset the origin GSEA result <code>data.frame</code> according to <code>NES</code> or <code>p-val</code> to gain your targets. In this demo, we choose row 1 to row 8.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-7-1" class="code-annotation-target"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(resGSEA[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,])</span>
-<span id="annotated-cell-7-2"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a>resGSEA[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,] </span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-7-3" class="code-annotation-target"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_gsea</span>(resGSEA[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,],</span>
-<span id="annotated-cell-7-4"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">genes =</span> <span class="fu">genes_with_weights</span>(<span class="at">genes =</span> DEGexample<span class="sc">$</span>...<span class="dv">1</span>, </span>
-<span id="annotated-cell-7-5"><a href="#annotated-cell-7-5" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">weights =</span> DEGexample<span class="sc">$</span>log2FoldChange),</span>
-<span id="annotated-cell-7-6"><a href="#annotated-cell-7-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-7-2" class="code-annotation-target"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a>resGSEA[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,]</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
@@ -442,79 +429,87 @@ Warning
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="3" data-code-annotation="2">You need to subset data frame according to NES (suggests: <code>abs(NES)&gt;1</code>) and p-value, too avoiding too many outputs and wasting.</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="2" data-code-annotation="2">You need to subset data frame according to NES (suggests: <code>abs(NES)&gt;1</code>) and p-value, too avoiding too many outputs and wasting.</span>
 </dd>
 </dl>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data.frame"
+          ID                                                   Description
+1 GO:0050906          detection of stimulus involved in sensory perception
+2 GO:0050907 detection of chemical stimulus involved in sensory perception
+3 GO:0060078                 regulation of postsynaptic membrane potential
+4 GO:0035249                          synaptic transmission, glutamatergic
+5 GO:0051966            regulation of synaptic transmission, glutamatergic
+6 GO:0031577                                  spindle checkpoint signaling
+7 GO:0007216        G protein-coupled glutamate receptor signaling pathway
+8 GO:0007628                                        adult walking behavior
+         ES      NES       pvalue     p.adjust
+1 0.5936136 1.953264 8.145521e-05 0.0020284159
+2 0.7673726 1.949449 2.219766e-04 0.0045725543
+3 0.5640120 1.939983 9.077627e-06 0.0003432264
+4 0.5603341 1.924388 1.567229e-05 0.0005226895
+5 0.5807585 1.906171 9.365419e-05 0.0022846092
+6 0.6271357 1.900753 5.407577e-04 0.0087257603
+7 0.8399130 1.899362 1.760455e-04 0.0037799433
+8 0.7170162 1.884527 1.156111e-03 0.0149946531
+                                                                                                                                                                                                  core_enrichment
+1                                                                       OR51E1/CST1/OR51E2/COL11A1/AZGP1/PPEF1/CACNB4/GRIK2/TAS1R1/EYS/OR7C1/REEP6/ASIC3/SEMA5B/PIGR/PKD2L1/CNGB1/NR2F6/SCN11A/NTRK1/PKD1L3/GNAT2
+2                                                                                                                                      OR51E1/CST1/OR51E2/AZGP1/TAS1R1/OR7C1/ASIC3/PIGR/PKD2L1/CNGB1/PKD1L3/GNAT2
+3                                         GRIK3/HCN1/GRM1/GRM5/GRIA4/GRIN2B/NRXN1/GRID2/RIMS2/HTR3A/GRIN2D/CELF4/GRIN1/GABRB1/GRIK2/TBC1D24/MAPK8IP2/GABRD/CUX2/NLGN1/GRIK5/GRIN2A/NETO1/STX1A/GRIN3B/GRID1/GRIK1
+4 GRIK3/UNC13C/GRM1/CACNG5/GRM5/GRM8/GRIA4/GRIN2B/NRXN1/GRID2/CACNB4/GRIN2D/GRIN1/GRM4/GRIK2/UNC13A/MAPK8IP2/UCN/DGKI/ABCC8/ATP1A2/NLGN1/GRIK5/GRM3/GRIN2A/SYT1/GRIN3B/GRID1/GRIK1/SLC17A7/GRIN2C/CDH2/NTRK1/CNR1
+5                                                            GRIK3/GRM1/CACNG5/GRM5/GRM8/GRIN2B/NRXN1/GRIN2D/GRIN1/GRM4/GRIK2/UNC13A/MAPK8IP2/UCN/DGKI/ATP1A2/NLGN1/GRM3/GRIN2A/SYT1/GRIK1/GRIN2C/CDH2/NTRK1/CNR1
+6                                                                                                        SPC24/BIRC5/PLK1/CDC20/BUB1/NDC80/CDCA8/NUF2/TTK/ZWINT/CCNB1/AURKB/CENPF/TRIP13/KNL1/MAD2L1/SPDL1/ZWILCH
+7                                                                                                                                                                                  GRIK3/GRM1/GRM5/GRM8/GRM4/GRM3
+8                                                                                                                                                                               ZIC1/CNTN2/CACNB4/UCHL1/CEND1/TRH</code></pre>
+</div>
+</div>
+<p>And then using <code>egt_plot_gsea()</code> for drawing. The other params should be the <strong>same</strong> as you provided in origin GSEA analysis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_gsea</span>(resGSEA[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,], </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">genes =</span> <span class="fu">genes_with_weights</span>(<span class="at">genes =</span> DEGexample<span class="sc">$</span>...<span class="dv">1</span>, </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">weights =</span> DEGexample<span class="sc">$</span>log2FoldChange),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>✔ Use cached database: GO_BP_org.Hs.eg.db</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="visualize_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="visualize_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "data.frame"
-          ID                                                   Description
-1 GO:0060078                 regulation of postsynaptic membrane potential
-2 GO:0007216        G protein-coupled glutamate receptor signaling pathway
-3 GO:0050907 detection of chemical stimulus involved in sensory perception
-4 GO:0035249                          synaptic transmission, glutamatergic
-5 GO:0050906          detection of stimulus involved in sensory perception
-6 GO:0031577                                  spindle checkpoint signaling
-7 GO:0007628                                        adult walking behavior
-8 GO:0061982                                  meiosis I cell cycle process
-         ES      NES       pvalue     p.adjust
-1 0.5640120 1.946426 8.106606e-06 0.0003048410
-2 0.8399130 1.937126 1.141771e-04 0.0027574746
-3 0.7673726 1.931469 1.395753e-04 0.0030820016
-4 0.5603341 1.914404 1.296501e-05 0.0004511983
-5 0.5936136 1.903591 5.284045e-05 0.0014729604
-6 0.6271357 1.881271 2.386029e-04 0.0046581597
-7 0.7170162 1.881026 9.469778e-04 0.0125580055
-8 0.5532139 1.868989 8.195046e-05 0.0020966594
-                                                                                                                                                                                                  core_enrichment
-1                                         GRIK3/HCN1/GRM1/GRM5/GRIA4/GRIN2B/NRXN1/GRID2/RIMS2/HTR3A/GRIN2D/CELF4/GRIN1/GABRB1/GRIK2/TBC1D24/MAPK8IP2/GABRD/CUX2/NLGN1/GRIK5/GRIN2A/NETO1/STX1A/GRIN3B/GRID1/GRIK1
-2                                                                                                                                                                                  GRIK3/GRM1/GRM5/GRM8/GRM4/GRM3
-3                                                                                                                                      OR51E1/CST1/OR51E2/AZGP1/TAS1R1/OR7C1/ASIC3/PIGR/PKD2L1/CNGB1/PKD1L3/GNAT2
-4 GRIK3/UNC13C/GRM1/CACNG5/GRM5/GRM8/GRIA4/GRIN2B/NRXN1/GRID2/CACNB4/GRIN2D/GRIN1/GRM4/GRIK2/UNC13A/MAPK8IP2/UCN/DGKI/ABCC8/ATP1A2/NLGN1/GRIK5/GRM3/GRIN2A/SYT1/GRIN3B/GRID1/GRIK1/SLC17A7/GRIN2C/CDH2/NTRK1/CNR1
-5                                                                       OR51E1/CST1/OR51E2/COL11A1/AZGP1/PPEF1/CACNB4/GRIK2/TAS1R1/EYS/OR7C1/REEP6/ASIC3/SEMA5B/PIGR/PKD2L1/CNGB1/NR2F6/SCN11A/NTRK1/PKD1L3/GNAT2
-6                                                                                                        SPC24/BIRC5/PLK1/CDC20/BUB1/NDC80/CDCA8/NUF2/TTK/ZWINT/CCNB1/AURKB/CENPF/TRIP13/KNL1/MAD2L1/SPDL1/ZWILCH
-7                                                                                                                                                                               ZIC1/CNTN2/CACNB4/UCHL1/CEND1/TRH
-8     SPATA22/KASH5/BRDT/RAD54B/PLK1/SPDYA/CDC20/CDC25C/NDC80/HFM1/PKMYT1/TOP2A/TRIP13/CCNE1/BRIP1/CENPX/RAD51AP1/IHO1/RAD54L/CKS2/AURKA/BRCA2/PTTG1/MOV10L1/M1AP/SHOC1/BRME1/FMN2/RAD51/SIRT7/RAD51C/ESPL1/CCNB2</code></pre>
-</div>
 </div>
 </section>
 </section>
-<section id="umap-plot-for-re-enrichment-no-longer-supported" class="level1">
-<h1>UMAP plot for re-enrichment (no longer supported)</h1>
+<section id="umap-plot-for-re-enrichment-no-longer-supported" class="level2">
+<h2 class="anchored" data-anchor-id="umap-plot-for-re-enrichment-no-longer-supported">UMAP plot for re-enrichment (no longer supported)</h2>
 <p>Before version 0.8.6, UMAP plot is provided in re-enriched <code>egt_object</code>, to show the dimensionality reduction view of enriched results.</p>
 <p>A word frequency matrix represents the frequency of words or tokens across different documents or text samples. Each row corresponds to a document, and each column represents a word or token, with the cell values indicating the frequency of the respective word in that document.However, high-dimensional data like word frequency matrices can be challenging to interpret directly. To make such data easier to analyze, we can reduce its dimensionality and visualize the patterns or clusters in a 2D or 3D space. UMAP (Uniform Manifold Approximation and Projection) is a powerful, non-linear dimensionality reduction technique widely used for this purpose.</p>
 <p>But since 0.8.6, because <code>umap</code> and <code>ggrepel</code> have too many dependencies, and this function is not nesessary in most of cases. We now don’t support it. If you still needs this figure, you can execute following code.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(umap)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>mat<span class="ot">&lt;-</span>x<span class="sc">@</span>document_term_matrix</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>umap_result <span class="ot">&lt;-</span> umap<span class="sc">::</span><span class="fu">umap</span>(mat)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>umap_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID=</span><span class="fu">rownames</span>(umap_result[[<span class="st">"layout"</span>]]),</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">UMAP1 =</span> umap_result<span class="sc">$</span>layout[, <span class="dv">1</span>],</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">UMAP2 =</span> umap_result<span class="sc">$</span>layout[, <span class="dv">2</span>])</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>udf<span class="ot">&lt;-</span>x<span class="sc">@</span>enriched_result <span class="sc">|&gt;</span> <span class="fu">left_join</span>(umap_df,<span class="at">by=</span><span class="st">"ID"</span>)</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>fig<span class="ot">&lt;-</span><span class="fu">ggplot</span>(udf, <span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2, <span class="at">color =</span> Cluster)) <span class="sc">+</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label =</span> Description),</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">size =</span> <span class="dv">3</span>,</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>                  <span class="at">max.overlaps =</span> <span class="dv">20</span>,</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>                  <span class="at">box.padding =</span> <span class="fl">0.3</span>,</span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>                  <span class="at">point.padding =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Enrichment Results"</span>,</span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="st">"UMAP1"</span>, <span class="at">y =</span> <span class="st">"UMAP2"</span>) <span class="sc">+</span></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(umap)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>mat<span class="ot">&lt;-</span>x<span class="sc">@</span>document_term_matrix</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>umap_result <span class="ot">&lt;-</span> umap<span class="sc">::</span><span class="fu">umap</span>(mat)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>umap_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID=</span><span class="fu">rownames</span>(umap_result[[<span class="st">"layout"</span>]]),</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">UMAP1 =</span> umap_result<span class="sc">$</span>layout[, <span class="dv">1</span>],</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">UMAP2 =</span> umap_result<span class="sc">$</span>layout[, <span class="dv">2</span>])</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>udf<span class="ot">&lt;-</span>x<span class="sc">@</span>enriched_result <span class="sc">|&gt;</span> <span class="fu">left_join</span>(umap_df,<span class="at">by=</span><span class="st">"ID"</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>fig<span class="ot">&lt;-</span><span class="fu">ggplot</span>(udf, <span class="fu">aes</span>(<span class="at">x =</span> UMAP1, <span class="at">y =</span> UMAP2, <span class="at">color =</span> Cluster)) <span class="sc">+</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label =</span> Description),</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>                  <span class="at">max.overlaps =</span> <span class="dv">20</span>,</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>                  <span class="at">box.padding =</span> <span class="fl">0.3</span>,</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>                  <span class="at">point.padding =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Enrichment Results"</span>,</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="st">"UMAP1"</span>, <span class="at">y =</span> <span class="st">"UMAP2"</span>) <span class="sc">+</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->

@@ -11,22 +11,33 @@
     ]
   },
   {
-    "objectID": "visualize.html#single-ranking-plot",
-    "href": "visualize.html#single-ranking-plot",
+    "objectID": "visualize.html#basic-result-plot",
+    "href": "visualize.html#basic-result-plot",
     "title": "Visualize results through HTML reports or figures",
-    "section": "Single ranking plot",
-    "text": "Single ranking plot\n\nresGSEA &lt;- egt_gsea_analysis(genes = \n                           genes_with_weights(genes = DEGexample$...1, \n                                              weights = DEGexample$log2FoldChange),\n                         database = database_GO_BP(org.Hs.eg.db)\n                         )\n\n\n1\n\nThis is a vector.\n\n2\n\nIf you need the single-plot, all you pass to egt_plot_gsea() is the name of this pathway, subset from resGSEA.\n\n\n\n\n\n\n\n✔ success loaded database, time used : 15.9114921092987 sec.\n\n\n✔ Sucessful GSEA, time last 8.73440599441528 secs.\n\n1class(resGSEA$Description[1])\n2resGSEA$Description[1]\negt_plot_gsea(resGSEA$Description[1],\n              genes = genes_with_weights(genes = DEGexample$...1, \n                                              weights = DEGexample$log2FoldChange),\n              database = database_GO_BP(org.Hs.eg.db))\n\n✔ Use cached database: GO_BP_org.Hs.eg.db\n\n\n\n\n\n\n\n\n\n[1] \"character\"\n[1] \"regulation of postsynaptic membrane potential\"",
+    "section": "Basic result plot",
+    "text": "Basic result plot\nThe Dot Plot provide basic viewing of results. So it supports both simple enrichment result data.frame and re-enriched egt_object.\nYou can adjust this figure by these params:\n\nntop: Show top N in each cluster. In default, for origin enriched result, showing top 15; for re-clustered object, showing top 5 in each cluster.\nshowIDs: bool, show pathway IDs or not. Default is FALSE\nmax_len_descript: the label format length, default as 40.\nP.adj: If pass an origin data.frame from original enriched result, you can specify the P-adjust value cut off. If is null, default is 0.05. When passing EnrichGT_obj, this filter is previously done by egt_recluster_analysis.\nlow.col: the color for the lowest\nhi.col: the color for the highest\n\n\nPloting ORA result\n\negt_plot_results(ora_result)\n\nℹ Use Default P-adjust cut-off 0.05. You can pass `P.adj=xxx` arugument to filter. \n\n\n! You are drawing origin results, for better result you can re-cluster it by egt_recluster_analysis()\n\n\n\n\n\n\n\n\n\n\n\nPloting GSEA result\n\negt_plot_results(resGSEA)\n\nℹ Use Default P-adjust cut-off 0.05. You can pass `P.adj=xxx` arugument to filter. \n\n\n! You are drawing origin results, for better result you can re-cluster it by egt_recluster_analysis()\n\n\n\n\n\n\n\n\n\n\n\nPloting re-enrichment result\n\negt_plot_results(re_enrich)",
     "crumbs": [
       "Home",
       "Visualize results through HTML reports or figures"
     ]
   },
   {
-    "objectID": "visualize.html#table-like-visualization-gsea-result",
-    "href": "visualize.html#table-like-visualization-gsea-result",
+    "objectID": "visualize.html#additional-gsea-plots",
+    "href": "visualize.html#additional-gsea-plots",
     "title": "Visualize results through HTML reports or figures",
-    "section": "Table-like visualization GSEA result",
-    "text": "Table-like visualization GSEA result\n\n\n\n\n\n\nWarning\n\n\n\nIf you want to plot this plot, remember to filter the GSEA results to ~10 to ~20, you can base on NES or p-values. This is to avoid too many loading to this plotting.\n\n\n\n1class(resGSEA[1:8,])\nresGSEA[1:8,] \n2egt_plot_gsea(resGSEA[1:8,],\n              genes = genes_with_weights(genes = DEGexample$...1, \n                                              weights = DEGexample$log2FoldChange),\n              database = database_GO_BP(org.Hs.eg.db))\n\n\n1\n\nThis is a data.frame. Please subset it to avoid too many results and the waste of time.\n\n2\n\nYou need to subset data frame according to NES (suggests: abs(NES)&gt;1) and p-value, too avoiding too many outputs and wasting.\n\n\n\n\n✔ Use cached database: GO_BP_org.Hs.eg.db\n\n\n\n\n\n\n\n\n\n[1] \"data.frame\"\n          ID                                                   Description\n1 GO:0060078                 regulation of postsynaptic membrane potential\n2 GO:0007216        G protein-coupled glutamate receptor signaling pathway\n3 GO:0050907 detection of chemical stimulus involved in sensory perception\n4 GO:0035249                          synaptic transmission, glutamatergic\n5 GO:0050906          detection of stimulus involved in sensory perception\n6 GO:0031577                                  spindle checkpoint signaling\n7 GO:0007628                                        adult walking behavior\n8 GO:0061982                                  meiosis I cell cycle process\n         ES      NES       pvalue     p.adjust\n1 0.5640120 1.946426 8.106606e-06 0.0003048410\n2 0.8399130 1.937126 1.141771e-04 0.0027574746\n3 0.7673726 1.931469 1.395753e-04 0.0030820016\n4 0.5603341 1.914404 1.296501e-05 0.0004511983\n5 0.5936136 1.903591 5.284045e-05 0.0014729604\n6 0.6271357 1.881271 2.386029e-04 0.0046581597\n7 0.7170162 1.881026 9.469778e-04 0.0125580055\n8 0.5532139 1.868989 8.195046e-05 0.0020966594\n                                                                                                                                                                                                  core_enrichment\n1                                         GRIK3/HCN1/GRM1/GRM5/GRIA4/GRIN2B/NRXN1/GRID2/RIMS2/HTR3A/GRIN2D/CELF4/GRIN1/GABRB1/GRIK2/TBC1D24/MAPK8IP2/GABRD/CUX2/NLGN1/GRIK5/GRIN2A/NETO1/STX1A/GRIN3B/GRID1/GRIK1\n2                                                                                                                                                                                  GRIK3/GRM1/GRM5/GRM8/GRM4/GRM3\n3                                                                                                                                      OR51E1/CST1/OR51E2/AZGP1/TAS1R1/OR7C1/ASIC3/PIGR/PKD2L1/CNGB1/PKD1L3/GNAT2\n4 GRIK3/UNC13C/GRM1/CACNG5/GRM5/GRM8/GRIA4/GRIN2B/NRXN1/GRID2/CACNB4/GRIN2D/GRIN1/GRM4/GRIK2/UNC13A/MAPK8IP2/UCN/DGKI/ABCC8/ATP1A2/NLGN1/GRIK5/GRM3/GRIN2A/SYT1/GRIN3B/GRID1/GRIK1/SLC17A7/GRIN2C/CDH2/NTRK1/CNR1\n5                                                                       OR51E1/CST1/OR51E2/COL11A1/AZGP1/PPEF1/CACNB4/GRIK2/TAS1R1/EYS/OR7C1/REEP6/ASIC3/SEMA5B/PIGR/PKD2L1/CNGB1/NR2F6/SCN11A/NTRK1/PKD1L3/GNAT2\n6                                                                                                        SPC24/BIRC5/PLK1/CDC20/BUB1/NDC80/CDCA8/NUF2/TTK/ZWINT/CCNB1/AURKB/CENPF/TRIP13/KNL1/MAD2L1/SPDL1/ZWILCH\n7                                                                                                                                                                               ZIC1/CNTN2/CACNB4/UCHL1/CEND1/TRH\n8     SPATA22/KASH5/BRDT/RAD54B/PLK1/SPDYA/CDC20/CDC25C/NDC80/HFM1/PKMYT1/TOP2A/TRIP13/CCNE1/BRIP1/CENPX/RAD51AP1/IHO1/RAD54L/CKS2/AURKA/BRCA2/PTTG1/MOV10L1/M1AP/SHOC1/BRME1/FMN2/RAD51/SIRT7/RAD51C/ESPL1/CCNB2",
+    "section": "Additional GSEA plots",
+    "text": "Additional GSEA plots\nSince version 0.8.6, EnrichGT provides a function called egt_plot_gsea() to help users to get typical ranking plots. If you pass a pathway name to the first param of this function, egt_plot_gsea() will return a ranking plot of single pathway. For multiple pathway, you need to subset the data.frame result of egt_gsea_analysis().\nThe param contains:\n\nx: A GSEA result object. Can be either:\n\nA data frame containing GSEA results (requires columns: pvalue, p.adjust, Description)\nA character string specifying a single pathway name\n\ngenes and database should be the same as you doing egt_gsea_analysis()\n\n\n\n\n\n\n\nWhy multiple results need a data.frame\n\n\n\nYou can see the result figure, we need the NES and p-values for display.\n\n\n\nSingle ranking plot\nYou need to prepare your favourite pathway’s name:\n\n1class(resGSEA$Description[1])\n2resGSEA$Description[1]\n\n\n1\n\nThis is a vector.\n\n2\n\nIf you need the single-plot, all you pass to egt_plot_gsea() is the name of this pathway, subset from resGSEA.\n\n\n\n\n[1] \"character\"\n[1] \"detection of stimulus involved in sensory perception\"\n\n\nAnd then using egt_plot_gsea() for drawing. The other params should be the same as you provided in origin GSEA analysis.\n\negt_plot_gsea(resGSEA$Description[1],\n              genes = genes_with_weights(genes = DEGexample$...1, \n                                              weights = DEGexample$log2FoldChange),\n              database = database_GO_BP(org.Hs.eg.db))\n\n\n\n\n✔ success loaded database, time used : 15.4877820014954 sec.\n\n\n\n\n\n\n\n\n\n\n\nTable-like visualization GSEA result\n\n\n\n\n\n\nWarning\n\n\n\nIf you want to plot this plot, remember to filter the GSEA results to ~10 to ~20, you can base on NES or p-values. This is to avoid too many loading to this plotting.\n\n\nYou need to subset the origin GSEA result data.frame according to NES or p-val to gain your targets. In this demo, we choose row 1 to row 8.\n\n1class(resGSEA[1:8,])\n2resGSEA[1:8,]\n\n\n1\n\nThis is a data.frame. Please subset it to avoid too many results and the waste of time.\n\n2\n\nYou need to subset data frame according to NES (suggests: abs(NES)&gt;1) and p-value, too avoiding too many outputs and wasting.\n\n\n\n\n[1] \"data.frame\"\n          ID                                                   Description\n1 GO:0050906          detection of stimulus involved in sensory perception\n2 GO:0050907 detection of chemical stimulus involved in sensory perception\n3 GO:0060078                 regulation of postsynaptic membrane potential\n4 GO:0035249                          synaptic transmission, glutamatergic\n5 GO:0051966            regulation of synaptic transmission, glutamatergic\n6 GO:0031577                                  spindle checkpoint signaling\n7 GO:0007216        G protein-coupled glutamate receptor signaling pathway\n8 GO:0007628                                        adult walking behavior\n         ES      NES       pvalue     p.adjust\n1 0.5936136 1.953264 8.145521e-05 0.0020284159\n2 0.7673726 1.949449 2.219766e-04 0.0045725543\n3 0.5640120 1.939983 9.077627e-06 0.0003432264\n4 0.5603341 1.924388 1.567229e-05 0.0005226895\n5 0.5807585 1.906171 9.365419e-05 0.0022846092\n6 0.6271357 1.900753 5.407577e-04 0.0087257603\n7 0.8399130 1.899362 1.760455e-04 0.0037799433\n8 0.7170162 1.884527 1.156111e-03 0.0149946531\n                                                                                                                                                                                                  core_enrichment\n1                                                                       OR51E1/CST1/OR51E2/COL11A1/AZGP1/PPEF1/CACNB4/GRIK2/TAS1R1/EYS/OR7C1/REEP6/ASIC3/SEMA5B/PIGR/PKD2L1/CNGB1/NR2F6/SCN11A/NTRK1/PKD1L3/GNAT2\n2                                                                                                                                      OR51E1/CST1/OR51E2/AZGP1/TAS1R1/OR7C1/ASIC3/PIGR/PKD2L1/CNGB1/PKD1L3/GNAT2\n3                                         GRIK3/HCN1/GRM1/GRM5/GRIA4/GRIN2B/NRXN1/GRID2/RIMS2/HTR3A/GRIN2D/CELF4/GRIN1/GABRB1/GRIK2/TBC1D24/MAPK8IP2/GABRD/CUX2/NLGN1/GRIK5/GRIN2A/NETO1/STX1A/GRIN3B/GRID1/GRIK1\n4 GRIK3/UNC13C/GRM1/CACNG5/GRM5/GRM8/GRIA4/GRIN2B/NRXN1/GRID2/CACNB4/GRIN2D/GRIN1/GRM4/GRIK2/UNC13A/MAPK8IP2/UCN/DGKI/ABCC8/ATP1A2/NLGN1/GRIK5/GRM3/GRIN2A/SYT1/GRIN3B/GRID1/GRIK1/SLC17A7/GRIN2C/CDH2/NTRK1/CNR1\n5                                                            GRIK3/GRM1/CACNG5/GRM5/GRM8/GRIN2B/NRXN1/GRIN2D/GRIN1/GRM4/GRIK2/UNC13A/MAPK8IP2/UCN/DGKI/ATP1A2/NLGN1/GRM3/GRIN2A/SYT1/GRIK1/GRIN2C/CDH2/NTRK1/CNR1\n6                                                                                                        SPC24/BIRC5/PLK1/CDC20/BUB1/NDC80/CDCA8/NUF2/TTK/ZWINT/CCNB1/AURKB/CENPF/TRIP13/KNL1/MAD2L1/SPDL1/ZWILCH\n7                                                                                                                                                                                  GRIK3/GRM1/GRM5/GRM8/GRM4/GRM3\n8                                                                                                                                                                               ZIC1/CNTN2/CACNB4/UCHL1/CEND1/TRH\n\n\nAnd then using egt_plot_gsea() for drawing. The other params should be the same as you provided in origin GSEA analysis.\n\negt_plot_gsea(resGSEA[1:8,], \n              genes = genes_with_weights(genes = DEGexample$...1, \n                                              weights = DEGexample$log2FoldChange),\n              database = database_GO_BP(org.Hs.eg.db))\n\n✔ Use cached database: GO_BP_org.Hs.eg.db",
+    "crumbs": [
+      "Home",
+      "Visualize results through HTML reports or figures"
+    ]
+  },
+  {
+    "objectID": "visualize.html#umap-plot-for-re-enrichment-no-longer-supported",
+    "href": "visualize.html#umap-plot-for-re-enrichment-no-longer-supported",
+    "title": "Visualize results through HTML reports or figures",
+    "section": "UMAP plot for re-enrichment (no longer supported)",
+    "text": "UMAP plot for re-enrichment (no longer supported)\nBefore version 0.8.6, UMAP plot is provided in re-enriched egt_object, to show the dimensionality reduction view of enriched results.\nA word frequency matrix represents the frequency of words or tokens across different documents or text samples. Each row corresponds to a document, and each column represents a word or token, with the cell values indicating the frequency of the respective word in that document.However, high-dimensional data like word frequency matrices can be challenging to interpret directly. To make such data easier to analyze, we can reduce its dimensionality and visualize the patterns or clusters in a 2D or 3D space. UMAP (Uniform Manifold Approximation and Projection) is a powerful, non-linear dimensionality reduction technique widely used for this purpose.\nBut since 0.8.6, because umap and ggrepel have too many dependencies, and this function is not nesessary in most of cases. We now don’t support it. If you still needs this figure, you can execute following code.\nlibrary(umap)\nlibrary(ggrepel)\nmat&lt;-x@document_term_matrix\numap_result &lt;- umap::umap(mat)\numap_df &lt;- data.frame(ID=rownames(umap_result[[\"layout\"]]),\n                      UMAP1 = umap_result$layout[, 1],\n                      UMAP2 = umap_result$layout[, 2])\nudf&lt;-x@enriched_result |&gt; left_join(umap_df,by=\"ID\")\nfig&lt;-ggplot(udf, aes(x = UMAP1, y = UMAP2, color = Cluster)) +\n  geom_point(size = 2) +\n  geom_text_repel(aes(label = Description),\n                  size = 3,\n                  max.overlaps = 20,\n                  box.padding = 0.3,\n                  point.padding = 0.2) +\n  labs(title = \"Enrichment Results\",\n        x = \"UMAP1\", y = \"UMAP2\") +\n  theme_classic()\nfig",
     "crumbs": [
       "Home",
       "Visualize results through HTML reports or figures"
@@ -53,420 +64,420 @@
   {
     "objectID": "pkgfuns.html",
     "href": "pkgfuns.html",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "",
-    "text": "Type: Package\nPackage: EnrichGT\nTitle: EnrichGT - all in one enrichment analysis soluction\nVersion: 0.8.6\nAuthor: Zhiming Ye\nMaintainer: Zhiming Ye &lt;garnetcrow@hotmail.com&gt;\nDescription: Do biological enrichment analysis and parsing and clustering\n    enrichment result to insightful results in just ONE package\nLicense: GPL-V3\nURL: https://zhimingye.github.io/EnrichGT/\nDepends: \n    R (&gt;= 2.10)\nImports: \n    AnnotationDbi,\n    BiocManager,\n    cli,\n    dplyr,\n    fgsea,\n    fontawesome,\n    forcats,\n    ggplot2,\n    glue,\n    GO.db,\n    grDevices,\n    gt,\n    Matrix,\n    methods,\n    parallel,\n    proxy,\n    qvalue,\n    RColorBrewer,\n    Rcpp,\n    reactome.db,\n    rlang,\n    scales,\n    stats,\n    stringr,\n    text2vec,\n    tibble,\n    utils,\n    xfun\nSuggests: \n    readr,\n    testthat (&gt;= 3.0.0),\nLinkingTo: \n    Rcpp\nConfig/testthat/edition: 3\nEncoding: UTF-8\nLazyData: true\nRoxygenNote: 7.3.2"
+    "text": "Type: Package\nPackage: EnrichGT\nTitle: EnrichGT - all in one enrichment analysis soluction\nVersion: 0.8.7\nAuthor: Zhiming Ye\nMaintainer: Zhiming Ye &lt;garnetcrow@hotmail.com&gt;\nDescription: Do biological enrichment analysis and parsing and clustering\n    enrichment result to insightful results in just ONE package\nLicense: GPL-V3\nURL: https://zhimingye.github.io/EnrichGT/\nDepends: \n    R (&gt;= 2.10)\nImports: \n    AnnotationDbi,\n    BiocManager,\n    cli,\n    dplyr,\n    fgsea,\n    fontawesome,\n    forcats,\n    ggplot2,\n    glue,\n    GO.db,\n    grDevices,\n    gt,\n    Matrix,\n    methods,\n    parallel,\n    proxy,\n    qvalue,\n    RColorBrewer,\n    Rcpp,\n    reactome.db,\n    rlang,\n    scales,\n    stats,\n    stringr,\n    text2vec,\n    tibble,\n    utils,\n    xfun\nSuggests: \n    readr,\n    testthat (&gt;= 3.0.0)\nLinkingTo: \n    Rcpp\nConfig/testthat/edition: 3\nEncoding: UTF-8\nLazyData: true\nRoxygenNote: 7.3.2"
   },
   {
     "objectID": "pkgfuns.html#description-1",
     "href": "pkgfuns.html#description-1",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Description",
     "text": "Description\nConvert gene annotations from any keys to any keys"
   },
   {
     "objectID": "pkgfuns.html#usage",
     "href": "pkgfuns.html#usage",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Usage",
     "text": "Usage\nconvert_annotations_genes(genes, from_what, to_what, OrgDB)"
   },
   {
     "objectID": "pkgfuns.html#arguments",
     "href": "pkgfuns.html#arguments",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Arguments",
     "text": "Arguments\n\ngenes: gene vector\nfrom_what: input type (like “SYMBOL”,“ENTREZID”,“ENSEMBL”,“GENENAME”,…), keys should be supported by AnnotationDbi. Search for the help page of AnnotationDbi for further help.\nto_what: output type (like “SYMBOL”,“ENTREZID”,“ENSEMBL”,“GENENAME”,…), keys should be supported by AnnotationDbi. Search for the help page of AnnotationDbi for further help. Can be multiple items E.g. c(\"ENTREZID\",\"ENSEMBL\",\"GENENAME\")\nOrgDB: human = org.Hs.eg.db, mouse = org.Mm.eg.db, search BioConductor website for further help"
   },
   {
     "objectID": "pkgfuns.html#value",
     "href": "pkgfuns.html#value",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Value",
     "text": "Value\na data.frame"
   },
   {
     "objectID": "pkgfuns.html#description-2",
     "href": "pkgfuns.html#description-2",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Description",
     "text": "Description\nRead .gmt files. You can download them from https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp WikiPathway database also provides pre-built GMT files (https://data.wikipathways.org/current/gmt/). In default they are recorded as ENTREZ IDs, so you need to provide proper species database (e.g. org.Hs.eg.db for human), to database_from_gmt function and EnrichGT will automatically convert ENTREZ IDs to gene symbols for enrichment analysis."
   },
   {
     "objectID": "pkgfuns.html#usage-1",
     "href": "pkgfuns.html#usage-1",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Usage",
     "text": "Usage\ndatabase_from_gmt(gmtfile, OrgDB = NULL, convert_2_symbols = T)"
   },
   {
     "objectID": "pkgfuns.html#arguments-1",
     "href": "pkgfuns.html#arguments-1",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Arguments",
     "text": "Arguments\n\ngmtfile: gmt file path\nOrgDB: Only need when converting genes, human = org.Hs.eg.db, mouse = org.Mm.eg.db, search BioConductor website for further help. Default is NULL.\nconvert_2_symbols: Force to convert numeric gene ids (as ENTREZIDs) to gene symbols"
   },
   {
     "objectID": "pkgfuns.html#author",
     "href": "pkgfuns.html#author",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Author",
     "text": "Author\ncited from https://github.com/YuLab-SMU/gson/blob/main/R/GMT.R . The further Cache system is written by Zhiming Ye."
   },
   {
     "objectID": "pkgfuns.html#value-1",
     "href": "pkgfuns.html#value-1",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Value",
     "text": "Value\ndata.frame"
   },
   {
     "objectID": "pkgfuns.html#description-3",
     "href": "pkgfuns.html#description-3",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Description",
     "text": "Description\nSee ?EnrichGT()"
   },
   {
     "objectID": "pkgfuns.html#usage-2",
     "href": "pkgfuns.html#usage-2",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Usage",
     "text": "Usage\negt_compare_groups(\n  obj.test,\n  obj.ctrl,\n  name.test = NULL,\n  name.ctrl = NULL,\n  ClusterNum = 15,\n  P.adj = 0.05,\n  force = F,\n  nTop = 10,\n  method = \"ward.D2\",\n  ...\n)"
   },
   {
     "objectID": "pkgfuns.html#arguments-2",
     "href": "pkgfuns.html#arguments-2",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Arguments",
     "text": "Arguments\n\nobj.test: the enriched object from tested group. WARNING: obj.test and obj.ctrl should come from same database (e.g. GO Biological Process(GOBP)).\nobj.ctrl: the enriched object from control group. WARNING: obj.test and obj.ctrl should come from same database (e.g. GO Biological Process(GOBP)).\nname.test: optional, the name of the testing group. If is NULL, the object name of obj.test will be used.\nname.ctrl: optional, the name of the control group. If is NULL, the object name of obj.ctrl will be used.\nClusterNum: how many cluster will be clustered\nP.adj: p.adjust cut-off. To avoid slow visualization, you can make stricter p-cut off.\nforce: ignore all auto-self-checks, which is useful\nnTop: keep n top items according to p-adj in each cluster.\nmethod: the agglomeration method to be used. This should be (an unambiguous abbreviation of) one of “ward.D”, “ward.D2”, “single”, “complete”, “average” (= UPGMA), “mcquitty” (= WPGMA), “median” (= WPGMC) or “centroid” (= UPGMC).\n...: Others options."
   },
   {
     "objectID": "pkgfuns.html#details",
     "href": "pkgfuns.html#details",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Details",
     "text": "Details\nExecute obj.test VS obj.ctrl tests, showing pathway overlaps (or differences) and meta-gene modules of test group and control group. Supports ORA and GSEA results (enriched object or data.frame). !WARNING!: obj.test and obj.ctrl should come from same database (e.g. GO Biological Process(GOBP))."
   },
   {
     "objectID": "pkgfuns.html#author-1",
     "href": "pkgfuns.html#author-1",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Author",
     "text": "Author\nZhiming Ye"
   },
   {
     "objectID": "pkgfuns.html#value-2",
     "href": "pkgfuns.html#value-2",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Value",
     "text": "Value\nList containing multiple EnrichGT_obj objects. The List contains objects with overlapped enriched terms, unique enrich terms."
   },
   {
     "objectID": "pkgfuns.html#description-4",
     "href": "pkgfuns.html#description-4",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Description",
     "text": "Description\nORA is a statistical method used to identify biological pathways or gene sets that are significantly enriched in a given list of genes (e.g., differentially expressed genes). The method compares the proportion of genes in the target list that belong to a specific category (e.g., pathways, GO terms) to the expected proportion in the background gene set. To accelerate the computation in ORA analysis, EnrichGT have implemented a function that leverages C++ for high-performance computation. The core algorithm utilizes hash tables for efficient lookup and counting of genes across categories. Also It provides multi-Core parallel calculation by package parallel."
   },
   {
     "objectID": "pkgfuns.html#usage-3",
     "href": "pkgfuns.html#usage-3",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Usage",
     "text": "Usage\nres &lt;- egt_enrichment_analysis(genes = DEGtable$Genes,\ndatabase = database_GO_BP(org.Hs.eg.db))\n\nres &lt;- egt_enrichment_analysis(genes = c(\"TP53\",\"CD169\",\"CD68\",\"CD163\",...),\ndatabase = database_GO_ALL(org.Hs.eg.db))\n\nres &lt;- egt_enrichment_analysis(genes = genes_with_weights(geneSymbols, log2FC),\ndatabase = database_kegg(kegg_organism=\"hsa\",OrgDB = org.Hs.eg.db))\n\nres &lt;- egt_enrichment_analysis(genes = c(\"TP53\",\"CD169\",\"CD68\",\"CD163\",...),\ndatabase = database_from_gmt(\"MsigDB_Hallmark.gmt\"))\n\nres &lt;- egt_enrichment_analysis(list(Macrophages=c(\"CD169\",\"CD68\",\"CD163\"),\nFibroblast=c(\"COL1A2\",\"COL1A3\"),...),\n database = database_from_gmt(\"panglaoDB.gmt\"))"
   },
   {
     "objectID": "pkgfuns.html#arguments-3",
     "href": "pkgfuns.html#arguments-3",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Arguments",
     "text": "Arguments\n\ngenes: a vector of gene ids like c(\"TP53\",\"CD169\",\"CD68\",\"CD163\"...).If you have genes from multiple source or experiment group, you can also pass a list with gene ids in it. For Example , list(Macrophages=c(\"CD169\",\"CD68\",\"CD163\"),Fibroblast=c(\"COL1A2\",\"COL1A3)).The genes should be match in the second param database’s gene column. For example, if database provides Ensembl IDs, you should input Ensembl IDs. But in default databases provided by EnrichGT is gene symbols.Of note, since ver 0.8, genes argument supports inputs from genes_with_weights(), EnrichGT will use the whole DEG for ORA, and final split gene candidated into high-expressing and lowly-expressing according to weights.\ndatabase: a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run database_GO_CC() to get them, see example.You can run database_GO_CC() to see an example.The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with database_..., like database_GO_BP() or database_Reactome().The default gene in each database EnrichGT provided to input is GENE SYMBOL (like TP53, not 1256 or ENSG…), not ENTREZ ID or Ensembl ID.It will be more convince for new users. Avaliable databases includes database_GO_BP(), database_GO_CC(), database_GO_MF() and database_Reactome().You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)’s GMT files. It can be load by using database_from_gmt(FILE_PATH).If you only have simple a table, you can also pass a data frame through this arguement. Of note, it should contains at least 2 coloumn (colnames(df) = c(“Terms”,“Genes)), the first is term names and the second are the corresponding genes. If you have term ids, you can add a ID column at the first column, and Terms becomes the second column and Genes the third.\np_adj_methods: one of “holm”, “hochberg”, “hommel”, “bonferroni”, “BH”, “BY”, “fdr”, “none”\np_val_cut_off: adjusted pvalue cutoff on enrichment tests to report\nbackground_genes: background genes. If missing, the all genes listed in the database\nmin_geneset_size: minimal size of genes annotated for testing\nmax_geneset_size: maximal size of genes annotated for testing\nmulti_cores: multi_cores (Experimental), only used when analysis a list of genes (multi-source or groups). Set to 0 or 1 to disable. May use lots of RAM."
   },
   {
     "objectID": "pkgfuns.html#author-2",
     "href": "pkgfuns.html#author-2",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Author",
     "text": "Author\nZhiming Ye"
   },
   {
     "objectID": "pkgfuns.html#value-3",
     "href": "pkgfuns.html#value-3",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Value",
     "text": "Value\na data frame with ORA results."
   },
   {
     "objectID": "pkgfuns.html#description-5",
     "href": "pkgfuns.html#description-5",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Description",
     "text": "Description\nA warpper of fgsea::fgsea(). GSEA is a computational method used to determine whether predefined gene sets (e.g., pathways, GO terms) are statistically enriched in a ranked list of genes. Unlike ORA, GSEA considers the entire gene list and focuses on the cumulative distribution of gene ranks to identify coordinated changes. The fgsea (https://github.com/ctlab/fgsea) package is an R tool that implements an accelerated version of GSEA. It uses precomputed statistical methods and efficient algorithms to dramatically speed up enrichment analysis, especially for large datasets."
   },
   {
     "objectID": "pkgfuns.html#usage-4",
     "href": "pkgfuns.html#usage-4",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Usage",
     "text": "Usage\nres &lt;- egt_gsea_analysis(genes = genes_with_weights(genes = DEG$genes, weights = DEG$log2FoldChange),\ndatabase = database_GO_BP())\n\nres &lt;- egt_gsea_analysis(genes = genes_with_weights(genes = PCA_res$genes,weights =PCA_res$PC1_loading),\ndatabase = database_from_gmt(\"MsigDB_Hallmark.gmt\"))"
   },
   {
     "objectID": "pkgfuns.html#arguments-4",
     "href": "pkgfuns.html#arguments-4",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Arguments",
     "text": "Arguments\n\ngenes: a named numeric vector, for example c(TP53=1.2,KRT15=1.1,IL1B=1.0,PMP22 = 0.5,FABP1 = -0.9, GLUT1 = -2).The number is the weight of each gene, can use the logFC form DEG analysis results instead. Also NMF or PCA’s loading can also be used.EnrichGT provides a genes_with_weights(genes,weights) function to build this numeric vector. Importantly, this vector should be !SORTED! for larger to smaller.\ndatabase: a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run database_GO_CC() to get them, see example.The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with database_..., like database_GO_BP() or database_Reactome().The default gene in each database EnrichGT provided to input is GENE SYMBOL (like TP53, not 1256 or ENSG…), not ENTREZ ID or Ensembl ID. It will be more convince for new users.Avaliable databases includes database_GO_BP(), database_GO_CC(), database_GO_MF() and database_Reactome().You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)’s GMT files. It can be load by using database_from_gmt(FILE_PATH).If you only have simple a table, you can also pass a data frame through this arguement. Of note, it should contains at least 2 coloumn (colnames(df) = c(“Terms”,“Genes)), the first is term names and the second are the corresponding genes. If you have term ids, you can add a ID column at the first column, and Terms becomes the second column and Genes the third.\np_val_cut_off: adjusted pvalue cutoff on enrichment tests to report\nmin_geneset_size: minimal size of genes annotated for testing\nmax_geneset_size: maximal size of genes annotated for testing\ngseaParam: other param passing to fgsea\np_adj_methods: one of “holm”, “hochberg”, “hommel”, “bonferroni”, “BH”, “BY”, “fdr”, “none”"
   },
   {
     "objectID": "pkgfuns.html#author-3",
     "href": "pkgfuns.html#author-3",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Author",
     "text": "Author\nwarpped from fgsea package."
   },
   {
     "objectID": "pkgfuns.html#value-4",
     "href": "pkgfuns.html#value-4",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Value",
     "text": "Value\na data frame"
   },
   {
     "objectID": "pkgfuns.html#description-6",
     "href": "pkgfuns.html#description-6",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Description",
     "text": "Description\nOnly supports gene symbols. so you must use enrichedObj |&gt; setReadable(OrgDb = xxx,keyType = “ENTREZID”) |&gt; EnrichGT() . Do Not supports ENTREZIDs! PROGENy is a comprehensive resource containing a curated collection of pathways and their target genes, with weights for each interaction. CollecTRI is a comprehensive resource containing a curated collection of TFs and their transcriptional targets compiled from 12 different resources. This collection provides an increased coverage of transcription factors and a superior performance in identifying perturbed TFs compared to our previous. If when doing re-enrichment, you select a high number of clusters, that may cause low gene number in each meta-gene module, and then can’t be infered sucessfully. So if result is empty, please increase the number of re-clustering when doing it."
   },
   {
     "objectID": "pkgfuns.html#usage-5",
     "href": "pkgfuns.html#usage-5",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Usage",
     "text": "Usage\negt_infer_act(x, DB = \"collectri\", species = \"human\")"
   },
   {
     "objectID": "pkgfuns.html#arguments-5",
     "href": "pkgfuns.html#arguments-5",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Arguments",
     "text": "Arguments\n\nx: an EnrichGT_obj object.\nDB: can be “progeny” (the Pathway activity database), or “collectri” (TF activity database)\nspecies: can be “human” or “mouse”"
   },
   {
     "objectID": "pkgfuns.html#author-4",
     "href": "pkgfuns.html#author-4",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Author",
     "text": "Author\nZhiming Ye, Saez-Rodriguez Lab (The decoupleR package, https://saezlab.github.io/decoupleR/)"
   },
   {
     "objectID": "pkgfuns.html#value-5",
     "href": "pkgfuns.html#value-5",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Value",
     "text": "Value\na compareCluster result from clusterProfiler"
   },
   {
     "objectID": "pkgfuns.html#description-7",
     "href": "pkgfuns.html#description-7",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Description",
     "text": "Description\nThis function creates graphical representations of Gene Set Enrichment Analysis (GSEA) results, including either a multi-panel GSEA table plot for multiple pathways or a single pathway enrichment plot. The visualization leverages the fgsea package’s plotting functions."
   },
   {
     "objectID": "pkgfuns.html#usage-6",
     "href": "pkgfuns.html#usage-6",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Usage",
-    "text": "Usage\negt_plot_gsea(x, genes, database)"
+    "text": "Usage\negt_plot_gsea(resGSEA$Description[1],genes = genes_with_weights(genes = DEGexample$...1, weights = DEGexample$log2FoldChange),database = database_GO_BP(org.Hs.eg.db))\n\negt_plot_gsea(resGSEA[1:8,],genes = genes_with_weights(genes = DEGexample$...1, weights = DEGexample$log2FoldChange),database = database_GO_BP(org.Hs.eg.db))"
   },
   {
     "objectID": "pkgfuns.html#arguments-6",
     "href": "pkgfuns.html#arguments-6",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Arguments",
-    "text": "Arguments\n\nx: A GSEA result object. Can be either:\nA data frame containing GSEA results (requires columns: pvalue, p.adjust, Description)\nA character string specifying a single pathway name\ngenes: A character vector of ranked gene names. These should match the gene identifiers used in the GSEA analysis.\ndatabase: A character string specifying the gene set database name. This should correspond to the database used in the original GSEA analysis."
+    "text": "Arguments\n\nx: A GSEA result object. Can be either:\nA data frame containing GSEA results (requires columns: pvalue, p.adjust, Description)\nA character string specifying a single pathway name\ngenes: A named numeric vector from genes_with_weights(). These should match the gene identifiers used in the GSEA analysis.\ndatabase: A database data.frame, You can obtain it from database_xxx() functions. This should correspond to the database used in the original GSEA analysis."
   },
   {
     "objectID": "pkgfuns.html#author-5",
     "href": "pkgfuns.html#author-5",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Author",
     "text": "Author\nZhiming Ye, warpped from fgsea"
   },
   {
     "objectID": "pkgfuns.html#value-6",
     "href": "pkgfuns.html#value-6",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Value",
     "text": "Value\nA ggplot object:\n\nWhen x is a data frame: Returns a multi-panel plot showing normalized enrichment scores (NES), p-values, and leading edge plots for top pathways\nWhen x is a pathway name: Returns an enrichment plot showing the running enrichment score for the specified pathway"
   },
   {
     "objectID": "pkgfuns.html#description-8",
     "href": "pkgfuns.html#description-8",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Description",
     "text": "Description\nThis plot is the most widely like enrichplot::dotplot()used method to visualize enriched terms. It shows the enrichment scores (e.g. p values) and gene ratio or NES as dot size and color / or bar height. Users can specify the number of terms using ntop or selected terms to color via the low.col and hi.col."
   },
   {
     "objectID": "pkgfuns.html#usage-7",
     "href": "pkgfuns.html#usage-7",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Usage",
     "text": "Usage\negt_plot_results(\n  x,\n  ntop = NULL,\n  showIDs = F,\n  max_len_descript = 40,\n  ...,\n  P.adj = NULL\n)"
   },
   {
     "objectID": "pkgfuns.html#arguments-7",
     "href": "pkgfuns.html#arguments-7",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Arguments",
     "text": "Arguments\n\nx: a data frame form enriched result like egt_enrichment_analysis() or egt_gsea_analysis(), or an re-clustered EnrichGT object\nntop: Show top N in each cluster. In default, for origin enriched result, showing top 15; for re-clustered object, showing top 5 in each cluster.\nshowIDs: bool, show pathway IDs or not. Default is FALSE\nmax_len_descript: the label format length, default as 40.\n...: Other param\nP.adj: If pass an origin data.frame from original enriched result, you can specify the P-adjust value cut off. If is null, default is 0.05. When passing EnrichGT_obj, this filter is previously done by egt_recluster_analysis.\nlow.col: the color for the lowest\nhi.col: the color for the highest"
   },
   {
     "objectID": "pkgfuns.html#author-6",
     "href": "pkgfuns.html#author-6",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Author",
     "text": "Author\nZhiming Ye"
   },
   {
     "objectID": "pkgfuns.html#value-7",
     "href": "pkgfuns.html#value-7",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Value",
     "text": "Value\na ggplot2 object"
   },
   {
     "objectID": "pkgfuns.html#description-9",
     "href": "pkgfuns.html#description-9",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Description",
     "text": "Description\nCluster enrichment results based on hit genes for ORA (e.g, typical GO enrichment) or core enrichment from GSEA using term frequency analysis. This provides a clearer view of biological relevance by focusing on the genes that matter most. Gene enrichment analysis can often be misleading due to the redundancy within gene set databases and the limitations of most enrichment tools. Many tools, by default, only display a few top results and fail to filter out redundancy. This can result in both biological misinterpretation and valuable information being overlooked. For instance, high expression of certain immune genes can cause many immune-related gene sets to appear overrepresented. However, a closer look often reveals that these gene sets are derived from the same group of genes, which might represent only a small fraction. Less than 1/10 of the differentially expressed genes (DEGs). What about the other 9/10? Do they hold no biological significance? The main purpose of developing this package is to provide a lightweight and practical solution to the problems mentioned above."
   },
   {
     "objectID": "pkgfuns.html#usage-8",
     "href": "pkgfuns.html#usage-8",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Usage",
     "text": "Usage\negt_recluster_analysis(\n  x,\n  ClusterNum = 10,\n  P.adj = 0.05,\n  force = F,\n  nTop = 10,\n  method = \"ward.D2\",\n  ...\n)"
   },
   {
     "objectID": "pkgfuns.html#arguments-8",
     "href": "pkgfuns.html#arguments-8",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Arguments",
     "text": "Arguments\n\nx: an enrichment result from clusterProfiler, or a data.frame containing result from clusterProfier. To perform fusing multi-database enrichment results, please give a list object.\nClusterNum: how many cluster will be clustered\nP.adj: p.adjust cut-off. To avoid slow visualization, you can make stricter p-cut off.\nforce: ignore all auto-self-checks, which is useful\nnTop: keep n top items according to p-adj in each cluster.\nmethod: the agglomeration method to be used. This should be (an unambiguous abbreviation of) one of “ward.D”, “ward.D2”, “single”, “complete”, “average” (= UPGMA), “mcquitty” (= WPGMA), “median” (= WPGMC) or “centroid” (= UPGMC).\n...: Others options."
   },
   {
     "objectID": "pkgfuns.html#details-1",
     "href": "pkgfuns.html#details-1",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Details",
     "text": "Details\nFor an ORA result, c(“ID”,“Description”,“GeneRatio”,“pvalue”,“p.adjust”,“geneID”,“Count”) should be contained; For GSEA, c(“ID”,“Description”,“NES”,“pvalue”,“p.adjust”,“core_enrichment”) should be contain. For compareClusterResult, a compareClusterResult object or a data-frame with additional Cluster column should be contained, others similar to ORA result. To perform fusing multi-database enrichment results, please give a list object."
   },
   {
     "objectID": "pkgfuns.html#author-7",
     "href": "pkgfuns.html#author-7",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Author",
     "text": "Author\nZhiming Ye"
   },
   {
     "objectID": "pkgfuns.html#value-8",
     "href": "pkgfuns.html#value-8",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Value",
     "text": "Value\nan EnrichGT_obj object. slot enriched_result contains a data.frame with enriched results. gt_object contains gt object. you can use obj@gt_object to get it and use functions from gt like gtsave. gene_modules is a list containing meta-gene modules of each cluster. pathway_clusters contains pathways names in each cluster. clustering_tree contains the clustering tree object from hclust(), you can use other packages like ggtree for further visualization and analysis. raw_enriched_result contains raw table without selecting nTop."
   },
   {
     "objectID": "pkgfuns.html#description-10",
     "href": "pkgfuns.html#description-10",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Description",
     "text": "Description\nReturn ranked gene list which is use for “GSEA” or other places"
   },
   {
     "objectID": "pkgfuns.html#usage-9",
     "href": "pkgfuns.html#usage-9",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Usage",
     "text": "Usage\ngenes_with_weights(genes, weights)"
   },
   {
     "objectID": "pkgfuns.html#arguments-9",
     "href": "pkgfuns.html#arguments-9",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Arguments",
     "text": "Arguments\n\ngenes: A vector containing genes\nweights: A vector contain weight of genes, typically like log2FC from DEG analysis"
   },
   {
     "objectID": "pkgfuns.html#author-8",
     "href": "pkgfuns.html#author-8",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Author",
     "text": "Author\nZhiming Ye"
   },
   {
     "objectID": "pkgfuns.html#value-9",
     "href": "pkgfuns.html#value-9",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Value",
     "text": "Value\nA ranked named numeric vector. Names of the numbers is the ENTREZID."
   },
   {
     "objectID": "pkgfuns.html#description-11",
     "href": "pkgfuns.html#description-11",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Description",
     "text": "Description\nGet Gene Ontology (GO), Reactome, and other term-to-gene database, for enrichment analysis"
   },
   {
     "objectID": "pkgfuns.html#usage-10",
     "href": "pkgfuns.html#usage-10",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Usage",
     "text": "Usage\ndatabase_GO_BP(OrgDB = org.Hs.eg.db)\n\ndatabase_GO_CC(OrgDB = org.Hs.eg.db)\n\ndatabase_GO_MF(OrgDB = org.Hs.eg.db)\n\ndatabase_GO_ALL(OrgDB = org.Hs.eg.db)\n\ndatabase_Reactome(OrgDB = org.Hs.eg.db)\n\ndatabase_progeny_human()\n\ndatabase_progeny_mouse()\n\ndatabase_CollecTRI_human()\n\ndatabase_CollecTRI_mouse()"
   },
   {
     "objectID": "pkgfuns.html#arguments-10",
     "href": "pkgfuns.html#arguments-10",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Arguments",
     "text": "Arguments\n\nOrgDB: The AnnotationDbi database to fetch pathway data and convert gene IDs to gene symbols. For human it would be org.Hs.eg.db, for mouse it would be org.Mm.eg.db. In AnnotationDbi there are many species, please search AnnotationDbi for other species annotation database. GO and Reactome should add this, progeny and collectri do not."
   },
   {
     "objectID": "pkgfuns.html#author-9",
     "href": "pkgfuns.html#author-9",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Author",
     "text": "Author\nZhiming Ye. Part of functions were inspired by clusterProfiler but with brand new implement."
   },
   {
     "objectID": "pkgfuns.html#value-10",
     "href": "pkgfuns.html#value-10",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Value",
     "text": "Value\na data.frame with ID, terms and genes"
   },
   {
     "objectID": "pkgfuns.html#description-12",
     "href": "pkgfuns.html#description-12",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Description",
     "text": "Description\nKEGG is a commercialized database. So EnrichGT can’t pre-cache them locally. You can use this function to fetch KEGG database pathways and modules."
   },
   {
     "objectID": "pkgfuns.html#usage-11",
     "href": "pkgfuns.html#usage-11",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Usage",
     "text": "Usage\ndatabase_KEGG(kegg_organism=\"hsa\",OrgDB = org.Hs.eg.db,kegg_modules=F,local_cache=F)\n\ndatabase_KEGG_show_organism()"
   },
   {
     "objectID": "pkgfuns.html#arguments-11",
     "href": "pkgfuns.html#arguments-11",
-    "title": "DESCRIPTION",
+    "title": "Package Functions Help",
     "section": "Arguments",
     "text": "Arguments\n\nkegg_organism: Determine which species data from KEGG will be fetch. For human, it would be hsa(in default); For mouse, it would be mmu. If you wants other species, see database_kegg_show_organism() for details.\nOrgDB: The AnnotationDbi database to convert KEGG gene ID to gene symbols. For human it would be org.Hs.eg.db, for mouse it would be org.Mm.eg.db. In AnnotationDbi there are many species, please search AnnotationDbi for other species annotation database.\nkegg_modules: If TRUE, returns KEGG module; If FALSE returns KEGG pathways. In default, this is setted to FALSE to get mouse commonly used KEGG pathways.\nlocal_cache: cache a copy in local working folder. It will be saved as a .enrichgt_cache file in working dictionary. The .enrichgt_cache is just a .rds file, feel free to read it using readRDS()."
   },
@@ -475,7 +486,7 @@
     "href": "enrichment_core.html",
     "title": "Core Enrichment Functions",
     "section": "",
-    "text": "Basic enrichment analysis involves performing a batch “dictionary lookup” for a set of genes to determine their associations. The most commonly used method is over-representation analysis (ORA). If you also have information on weights, then Gene Set Enrichment Analysis (GSEA) is another classic choice.\n\n\nEnrichment of genes\nThis is a C++ accelerated ORA tool. The only things you need is your favourite gene symbols. If is all prepared, then load a database, run it!\n\n\n\n\n\n\nDifference from other tools\n\n\n\n\n\nCompared to the most popular clusterProfiler, the functions of EnrichGT differ slightly. This is mainly to accommodate wet lab researchers. First, most beginners are confused by the default input of clusterProfiler, which is “ENTREZ ID.” Most people familiar with biology are used to Gene Symbols, and even Ensembl IDs are not widely known, let alone a series of seemingly random numbers. Therefore, EnrichGT uses Gene Symbol as the default input, seamlessly integrating with most downstream results from various companies, making it more suitable for non-experts in the lab.\nSecond, clusterProfiler outputs an S4 object, which may be too complex for beginners (this is no joke); whereas EnrichGT outputs a simple table. The time of non-experts is precious, so I made these two adjustments. The only downside is that the GSEA peak plot is difficult to generate, but in reality, we focus more on NES and p-values, and in this case, bar plots are more convincing.\nFurthermore, The pre-processing step of the hypergeometric test in EnrichGT’s ORA function (which determines overlap) is accelerated using hash tables in C++, making it over five times faster than clusterProfiler::enricher(), which is a pure R implementation.\n\n\n\n\n\n\n\n\n\nBasic usage\n\n\n\n\n\nres &lt;- egt_enrichment_analysis(genes = DEGtable$Genes,\ndatabase = database_GO_BP(org.Hs.eg.db))\n\nres &lt;- egt_enrichment_analysis(genes = c(\"TP53\",\"CD169\",\"CD68\",\"CD163\",\n                                         \"You can add more genes\"),\ndatabase = database_Reactome(org.Hs.eg.db))\n\nres &lt;- egt_enrichment_analysis(genes = c(\"TP53\",\"CD169\",\"CD68\",\"CD163\",\n                                         \"You can add more genes\"),\ndatabase = database_from_gmt(\"MsigDB_Hallmark.gmt\"))\n\n\n\nNow, we load the necessary packages and example dataset, to provide you with an example.\n\nlibrary(dplyr)\nlibrary(tibble)\nlibrary(ggplot2)\nlibrary(org.Hs.eg.db)\nlibrary(gt)\nlibrary(EnrichGT)\nlibrary(readr)\nDEGexample &lt;- read_csv(\"./DEG.csv\")\nDEGexample_UpReg &lt;- DEGexample |&gt; dplyr::filter(pvalue&lt;0.05,log2FoldChange&gt;0.7)\n\n\n\n\n\n\n\nRemember to load AnnotationDbi object\n\n\n\nMost of errors are caused by this. Please load Like AnnotationDbi like org.Hs.eg.db before doing enrichment.\n\n\nThen we start ORA:\n\nora_result &lt;- egt_enrichment_analysis(genes = DEGexample_UpReg$...1,database = database_GO_BP(org.Hs.eg.db))\n\n\n\n\n✔ success loaded database, time used : 14.0337750911713 sec.\n\n\n✔ Done ORA in 0.127933979034424 sec.\n\nora_result |&gt; as_tibble() # You don't need to call as_tibble, this is just for better printing\n\n# A tibble: 2,979 × 9\n   ID       Description GeneRatio BgRatio   pvalue p.adjust  qvalue geneID Count\n   &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt;\n 1 GO:0035… synaptic t… 19/457    111/18… 2.06e-11  8.05e-8 8.41e-5 ATP1A…    19\n 2 GO:0051… regulation… 16/457    79/188… 5.74e-11  8.05e-8 8.41e-5 ATP1A…    16\n 3 GO:0050… modulation… 39/457    489/18… 7.26e-11  8.05e-8 8.41e-5 ACHE/…    39\n 4 GO:0099… regulation… 39/457    490/18… 7.71e-11  8.05e-8 8.41e-5 ACHE/…    39\n 5 GO:0050… synapse or… 36/457    483/18… 2.51e- 9  2.10e-6 1.11e-3 ACHE/…    36\n 6 GO:0048… regulation… 12/457    56/188… 7.50e- 9  4.18e-6 1.11e-3 APOE/…    12\n 7 GO:0007… mitotic sp… 11/457    46/188… 9.27e- 9  4.18e-6 1.11e-3 BIRC5…    11\n 8 GO:0071… mitotic sp… 11/457    46/188… 9.27e- 9  4.18e-6 1.11e-3 BIRC5…    11\n 9 GO:0071… spindle as… 11/457    46/188… 9.27e- 9  4.18e-6 1.11e-3 BIRC5…    11\n10 GO:0031… spindle ch… 11/457    47/188… 1.18e- 8  4.18e-6 1.11e-3 BIRC5…    11\n# ℹ 2,969 more rows\n\n\n\n\n\n\n\n\nHave many sources of genes?\n\n\n\n\nCase 1: many groups of genes:\n\nThis function also support many groups of genes, you can input a list.\n# For many groups of genes\nres &lt;- egt_enrichment_analysis(list(Macrophages=c(\"CD169\",\"CD68\",\"CD163\"),\nFibroblast=c(\"COL1A2\",\"COL1A3\"),\"You can add more groups\"),\n database = database_from_gmt(\"panglaoDB.gmt\"))\n\nCase 2: Differential expressed genes with different direction:\n\nIn above example, if we don’t filter out the up-regulated genes for ORA, but want to combine all DEGs without selecting them according to log2FC. How can we achieve that?\nFrom version 0.8, egt_enrichment_analysis() supports input genes using genes_with_weights() function. For example:\nDEGexample &lt;- read_csv(\"~/Documents/4Fun/EGTFun/DEG.csv\")\nDEGexample2 &lt;- DEGexample |&gt; dplyr::filter(pvalue&lt;0.05)\nora_result &lt;- egt_enrichment_analysis(genes = genes_with_weights(DEGexample2$...1,DEGexample2$log2FoldChange), database = database_GO_BP(org.Hs.eg.db))\nThen, the output will automatically consider the proportion of up-regulated genes and down-regulated genes, and finally showing them in any results EnrichGT generated, like data.frames, gt table or dot plots.\n\n\nFor visualize, see ploting ORA results for details. You can use `egt_plot_results()` to view the enriched result. See re-enrichment and FUSING guides for more further analysis.\n\n\nEnrichment of weighted genes (GSEA)\nGenes with specific weights (e.g. the log2FC) can use GSEA method. It should input a pre-ranked geneset. This use C++ accelerated fgsea::fgsea() as backend, so it is also very fast.\nThis provides a quick display of NES, p-values, and leading-edge genes. This function uses the same backend as the industry-standard clusterProfiler (it is also implemented using the fgsea package). However, EnrichGT does not delve as deeply as clusterProfiler and lacks advanced visualization capabilities. While it may not be sufficient for bioinformatics experts, the current implementation is adequate for wet-lab researchers. If comprehensive analysis is required, consider using clusterProfiler. However, if you only need an overview and reclustering, EnrichGT may be enough.\n\n\n\n\n\n\nHow to build pre-ranked gene set?\n\n\n\ngenes_with_weights(genes,weights) function is used to build the pre-ranked gene set for GSEA analysis.\n\n\nUsually, GSEA use the log2FoldChange from DEG analysis as the weights of genes. This is an example:\n\nresGSEA &lt;- egt_gsea_analysis(genes = \n                           genes_with_weights(genes = DEGexample$...1, \n                                              weights = DEGexample$log2FoldChange),\n                         database = database_GO_BP(org.Hs.eg.db)\n                         )\n\n✔ Use cached database: GO_BP_org.Hs.eg.db\n\n\nWarning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.02% of the list).\nThe order of those tied genes will be arbitrary, which may produce unexpected results.\n\n\n✔ Sucessful GSEA, time last 7.86985492706299 secs.\n\nresGSEA |&gt; as_tibble() # You don't need to call as_tibble, this is just for better printing\n\n# A tibble: 3,875 × 7\n   ID         Description              ES   NES  pvalue p.adjust core_enrichment\n   &lt;chr&gt;      &lt;chr&gt;                 &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;          \n 1 GO:0060078 regulation of postsy… 0.564  1.93 6.60e-6 0.000257 GRIK3/HCN1/GRM…\n 2 GO:0050907 detection of chemica… 0.767  1.92 2.57e-4 0.00504  OR51E1/CST1/OR…\n 3 GO:0007216 G protein-coupled gl… 0.840  1.92 1.83e-4 0.00394  GRIK3/GRM1/GRM…\n 4 GO:0035249 synaptic transmissio… 0.560  1.91 1.85e-5 0.000612 GRIK3/UNC13C/G…\n 5 GO:0050906 detection of stimulu… 0.594  1.91 9.03e-5 0.00227  OR51E1/CST1/OR…\n 6 GO:0051966 regulation of synapt… 0.581  1.88 1.92e-4 0.00405  GRIK3/GRM1/CAC…\n 7 GO:0061982 meiosis I cell cycle… 0.553  1.87 6.97e-5 0.00186  SPATA22/KASH5/…\n 8 GO:0045132 meiotic chromosome s… 0.587  1.86 2.17e-4 0.00445  SPATA22/KASH5/…\n 9 GO:0031577 spindle checkpoint s… 0.627  1.85 4.00e-4 0.00695  SPC24/BIRC5/PL…\n10 GO:0007628 adult walking behavi… 0.717  1.85 4.76e-4 0.00803  ZIC1/CNTN2/CAC…\n# ℹ 3,865 more rows\n\n\nOther kind of weights, like the loading from PCA or NMF, or the importance of random forest, can be also used.\nresExample &lt;- egt_gsea_analysis(genes = genes_with_weights(genes = PCA_res$genes,\n                                                    weights =PCA_res$PC1_loading),\n                         database = database_from_gmt(\"MsigDB_Hallmark.gmt\")\n                         )\nGSEA results also support re-enrichment. Brifely, GSEA now supports two kinds of figures. For visualize, see plotting page for further guides. The most frequently used is the bar plot (by function), showing p-values and NES. And we provides two ranking figures (single figure / viewing by table) by warping plotting functions from fgsea - the function is called egt_plot_gsea().\n\n\n\n\n Back to top",
+    "text": "Basic enrichment analysis involves performing a batch “dictionary lookup” for a set of genes to determine their associations. The most commonly used method is over-representation analysis (ORA). If you also have information on weights, then Gene Set Enrichment Analysis (GSEA) is another classic choice.\n\n\nEnrichment of genes\nThis is a C++ accelerated ORA tool. The only things you need is your favourite gene symbols. If is all prepared, then load a database, run it!\n\n\n\n\n\n\nDifference from other tools\n\n\n\n\n\nCompared to the most popular clusterProfiler, the functions of EnrichGT differ slightly. This is mainly to accommodate wet lab researchers. First, most beginners are confused by the default input of clusterProfiler, which is “ENTREZ ID.” Most people familiar with biology are used to Gene Symbols, and even Ensembl IDs are not widely known, let alone a series of seemingly random numbers. Therefore, EnrichGT uses Gene Symbol as the default input, seamlessly integrating with most downstream results from various companies, making it more suitable for non-experts in the lab.\nSecond, clusterProfiler outputs an S4 object, which may be too complex for beginners (this is no joke); whereas EnrichGT outputs a simple table. The time of non-experts is precious, so I made these two adjustments. The only downside is that the GSEA peak plot is difficult to generate, but in reality, we focus more on NES and p-values, and in this case, bar plots are more convincing.\nFurthermore, The pre-processing step of the hypergeometric test in EnrichGT’s ORA function (which determines overlap) is accelerated using hash tables in C++, making it over five times faster than clusterProfiler::enricher(), which is a pure R implementation.\n\n\n\n\n\n\n\n\n\nBasic usage\n\n\n\n\n\nres &lt;- egt_enrichment_analysis(genes = DEGtable$Genes,\ndatabase = database_GO_BP(org.Hs.eg.db))\n\nres &lt;- egt_enrichment_analysis(genes = c(\"TP53\",\"CD169\",\"CD68\",\"CD163\",\n                                         \"You can add more genes\"),\ndatabase = database_Reactome(org.Hs.eg.db))\n\nres &lt;- egt_enrichment_analysis(genes = c(\"TP53\",\"CD169\",\"CD68\",\"CD163\",\n                                         \"You can add more genes\"),\ndatabase = database_from_gmt(\"MsigDB_Hallmark.gmt\"))\n\n\n\nNow, we load the necessary packages and example dataset, to provide you with an example.\n\nlibrary(dplyr)\nlibrary(tibble)\nlibrary(ggplot2)\nlibrary(org.Hs.eg.db)\nlibrary(gt)\nlibrary(EnrichGT)\nlibrary(readr)\nDEGexample &lt;- read_csv(\"./DEG.csv\")\nDEGexample_UpReg &lt;- DEGexample |&gt; dplyr::filter(pvalue&lt;0.05,log2FoldChange&gt;0.7)\n\n\n\n\n\n\n\nRemember to load AnnotationDbi object\n\n\n\nMost of errors are caused by this. Please load Like AnnotationDbi like org.Hs.eg.db before doing enrichment.\n\n\nThen we start ORA:\n\nora_result &lt;- egt_enrichment_analysis(genes = DEGexample_UpReg$...1,database = database_GO_BP(org.Hs.eg.db))\n\n\n\n\n✔ success loaded database, time used : 14.9625239372253 sec.\n\n\n✔ Done ORA in 0.138070106506348 sec.\n\nora_result |&gt; as_tibble() # You don't need to call as_tibble, this is just for better printing\n\n# A tibble: 2,979 × 9\n   ID       Description GeneRatio BgRatio   pvalue p.adjust  qvalue geneID Count\n   &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt;\n 1 GO:0035… synaptic t… 19/457    111/18… 2.06e-11  8.05e-8 8.41e-5 ATP1A…    19\n 2 GO:0051… regulation… 16/457    79/188… 5.74e-11  8.05e-8 8.41e-5 ATP1A…    16\n 3 GO:0050… modulation… 39/457    489/18… 7.26e-11  8.05e-8 8.41e-5 ACHE/…    39\n 4 GO:0099… regulation… 39/457    490/18… 7.71e-11  8.05e-8 8.41e-5 ACHE/…    39\n 5 GO:0050… synapse or… 36/457    483/18… 2.51e- 9  2.10e-6 1.11e-3 ACHE/…    36\n 6 GO:0048… regulation… 12/457    56/188… 7.50e- 9  4.18e-6 1.11e-3 APOE/…    12\n 7 GO:0007… mitotic sp… 11/457    46/188… 9.27e- 9  4.18e-6 1.11e-3 BIRC5…    11\n 8 GO:0071… mitotic sp… 11/457    46/188… 9.27e- 9  4.18e-6 1.11e-3 BIRC5…    11\n 9 GO:0071… spindle as… 11/457    46/188… 9.27e- 9  4.18e-6 1.11e-3 BIRC5…    11\n10 GO:0031… spindle ch… 11/457    47/188… 1.18e- 8  4.18e-6 1.11e-3 BIRC5…    11\n# ℹ 2,969 more rows\n\n\n\n\n\n\n\n\nHave many sources of genes?\n\n\n\n\nCase 1: many groups of genes:\n\nThis function also support many groups of genes, you can input a list.\n# For many groups of genes\nres &lt;- egt_enrichment_analysis(list(Macrophages=c(\"CD169\",\"CD68\",\"CD163\"),\nFibroblast=c(\"COL1A2\",\"COL1A3\"),\"You can add more groups\"),\n database = database_from_gmt(\"panglaoDB.gmt\"))\n\nCase 2: Differential expressed genes with different direction:\n\nIn above example, if we don’t filter out the up-regulated genes for ORA, but want to combine all DEGs without selecting them according to log2FC. How can we achieve that?\nFrom version 0.8, egt_enrichment_analysis() supports input genes using genes_with_weights() function. For example:\nDEGexample &lt;- read_csv(\"~/Documents/4Fun/EGTFun/DEG.csv\")\nDEGexample2 &lt;- DEGexample |&gt; dplyr::filter(pvalue&lt;0.05)\nora_result &lt;- egt_enrichment_analysis(genes = genes_with_weights(DEGexample2$...1,DEGexample2$log2FoldChange), database = database_GO_BP(org.Hs.eg.db))\nThen, the output will automatically consider the proportion of up-regulated genes and down-regulated genes, and finally showing them in any results EnrichGT generated, like data.frames, gt table or dot plots.\n\n\nFor visualize, see ploting ORA results for details. You can use egt_plot_results() to view the enriched result. And you can see re-enrichment and FUSING guides for more further analysis.\n\n\nEnrichment of weighted genes (GSEA)\nGenes with specific weights (e.g. the log2FC) can use GSEA method. It should input a pre-ranked geneset. This use C++ accelerated fgsea::fgsea() as backend, so it is also very fast.\nThis provides a quick display of NES, p-values, and leading-edge genes. This function uses the same backend as the industry-standard clusterProfiler (it is also implemented using the fgsea package). However, EnrichGT does not delve as deeply as clusterProfiler and lacks advanced visualization capabilities. While it may not be sufficient for bioinformatics experts, the current implementation is adequate for wet-lab researchers. If comprehensive analysis is required, consider using clusterProfiler. However, if you only need an overview and reclustering, EnrichGT may be enough.\n\n\n\n\n\n\nHow to build pre-ranked gene set?\n\n\n\ngenes_with_weights(genes,weights) function is used to build the pre-ranked gene set for GSEA analysis.\n\n\nUsually, GSEA use the log2FoldChange from DEG analysis as the weights of genes. This is an example:\n\nresGSEA &lt;- egt_gsea_analysis(genes = \n                           genes_with_weights(genes = DEGexample$...1, \n                                              weights = DEGexample$log2FoldChange),\n                         database = database_GO_BP(org.Hs.eg.db)\n                         )\n\n✔ Use cached database: GO_BP_org.Hs.eg.db\n\n\nWarning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.02% of the list).\nThe order of those tied genes will be arbitrary, which may produce unexpected results.\n\n\n✔ Sucessful GSEA, time last 8.56986784934998 secs.\n\nresGSEA |&gt; as_tibble() # You don't need to call as_tibble, this is just for better printing\n\n# A tibble: 3,847 × 7\n   ID         Description              ES   NES  pvalue p.adjust core_enrichment\n   &lt;chr&gt;      &lt;chr&gt;                 &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;          \n 1 GO:0050906 detection of stimulu… 0.594  1.95 8.15e-5 0.00203  OR51E1/CST1/OR…\n 2 GO:0050907 detection of chemica… 0.767  1.95 2.22e-4 0.00457  OR51E1/CST1/OR…\n 3 GO:0060078 regulation of postsy… 0.564  1.94 9.08e-6 0.000343 GRIK3/HCN1/GRM…\n 4 GO:0035249 synaptic transmissio… 0.560  1.92 1.57e-5 0.000523 GRIK3/UNC13C/G…\n 5 GO:0051966 regulation of synapt… 0.581  1.91 9.37e-5 0.00228  GRIK3/GRM1/CAC…\n 6 GO:0031577 spindle checkpoint s… 0.627  1.90 5.41e-4 0.00873  SPC24/BIRC5/PL…\n 7 GO:0007216 G protein-coupled gl… 0.840  1.90 1.76e-4 0.00378  GRIK3/GRM1/GRM…\n 8 GO:0007628 adult walking behavi… 0.717  1.88 1.16e-3 0.0150   ZIC1/CNTN2/CAC…\n 9 GO:0045132 meiotic chromosome s… 0.587  1.88 1.50e-4 0.00332  SPATA22/KASH5/…\n10 GO:0007094 mitotic spindle asse… 0.628  1.88 5.47e-4 0.00873  SPC24/BIRC5/PL…\n# ℹ 3,837 more rows\n\n\nOther kind of weights, like the loading from PCA or NMF, or the importance of random forest, can be also used.\nresExample &lt;- egt_gsea_analysis(genes = genes_with_weights(genes = PCA_res$genes,\n                                                    weights =PCA_res$PC1_loading),\n                         database = database_from_gmt(\"MsigDB_Hallmark.gmt\")\n                         )\nGSEA results also support re-enrichment. Brifely, GSEA now supports two kinds of figures. For visualize, see plotting page for further guides. The most frequently used is the bar plot (by function egt_plot_results), showing p-values and NES. And we provides two ranking figures (single figure / viewing by table) by warping plotting functions from fgsea - the function is called egt_plot_gsea().\n\n\n\n\n Back to top",
     "crumbs": [
       "Home",
       "Core Enrichment Functions"
@@ -530,7 +541,7 @@
     "href": "re_enrichment.html",
     "title": "Re-enrich Enriched Results",
     "section": "",
-    "text": "Enrichment of Enriched Results\nThe enriched result is too messy? Clean up it!\nEnrichGT generates insightful results by simply constructing a term frequency matrix of genes enriched in pathways and performing clustering. While the results may not be statistically optimal, they offer significant interpretive insights.\nPrint ?egt_recluster_analysis for further help. But of note, you can adjust ClusterNum (Cluster the enrichment into N clusters) and nTop (Show how many top items in GT table) for a better result (the default is not all the best for your data).\n\n\n\n\n\n\nForm clusterProfiler ?\n\n\n\nThis can also supports the results from clusterProfiler, so you can use any tool to do this.\n\n\n\n\n\n\n\n\nWhy the re-enrichment is necessary?\n\n\n\n\n\n\nChallenges in Biological Gene Enrichment Analysis\nGene enrichment analysis can often be misleading due to the redundancy within gene set databases and the limitations of most enrichment tools. Many tools, by default, only display a few top results and fail to filter out redundancy. This can result in both biological misinterpretation and valuable information being overlooked.\nFor instance, high expression of certain immune genes can cause many immune-related gene sets to appear overrepresented. However, a closer look often reveals that these gene sets are derived from the same group of genes, which might represent only a small fraction (less than 10%) of the differentially expressed genes (DEGs). What about the other 90%? Do they hold no biological significance?\n\n\nCurrent Solutions\nclusterProfiler is one of the most powerful tools in R for enrichment analysis. It’s designed with pathway redundancy in mind and includes the clusterProfiler::simplify function to address this issue. This method, based on GOSemSim for GO similarity evaluation, is scientifically robust and highly effective.\nHowever, there are some drawbacks:\n\nGOSemSim is not fast, particularly when dealing with large or complex gene sets.\nIt doesn’t support databases like KEGG or Reactome.\n\nUsing GOSemSim to measure the semantic similarity between pathways is, theoretically, the best way to tackle redundancy. However, in practical cases—especially in experimental bioinformatics validation—researchers are more focused on the genes behind these pathways rather than the pathways themselves.\n\n\nAlternative Approaches\nAlthough clustering pathways based on gene overlap has received some criticism, it remains a viable approach in many situations. For this reason, I developed BioThemeFinder a few years ago to solve this problem. However, the tool is so awful (I am poor in coding…)\nToday, two excellent alternatives exist:\n\nsimplifyEnrichment: This package is more scientifically rigorous (based on semantic similarity) and creates beautiful visualizations. It also doesn’t support databases like KEGG or Reactome.\naPEAR: A simpler and faster tool that better aligns with practical needs, making it my preferred choice.\n\nHowever, both of these tools have a common limitation: their visualizations are optimized for publication purposes rather than for exploratory research. I often find myself exporting CSV files or struggling with RStudio’s preview pane to fully explore enrichment tables. This inspired me to develop a more efficient solution. Also, they are slow.\n\n\nGoals of This Package\nThe main purpose of developing this package is to provide a lightweight and practical solution to the problems mentioned above. Specifically, this package aims to:\nCluster enrichment results based on hit genes or core enrichment from GSEA using term frequency analysis (from the output of the powerful clusterProfiler). This provides a clearer view of biological relevance by focusing on the genes that matter most.\n\n\n\n\n# From results generated before\nres &lt;- egt_enrichment_analysis(genes = DEGtable$Genes,\ndatabase = database_GO_BP(Org.Hs.eg.db))\n\nre_enrich &lt;- egt_recluster_analysis(\n  res,\n  ClusterNum = 10,\n  P.adj = 0.05,\n  force = F,\n  nTop = 10,\n  method = \"ward.D2\"\n)\nYou can see the structure of re_enrich object above. The re_enrich object is an S4 EnrichGT_obj object. The first slot is the result table (a data.frame), and the second slot contains gt table.\n\nstr(re_enrich,max.level = 2)\n\nFormal class 'EnrichGT_obj' [package \"EnrichGT\"] with 8 slots\n  ..@ enriched_result     : tibble [67 × 7] (S3: tbl_df/tbl/data.frame)\n  ..@ gt_object           :List of 17\n  .. ..- attr(*, \"class\")= chr [1:2] \"gt_tbl\" \"list\"\n  ..@ gene_modules        :List of 10\n  ..@ pathway_clusters    :List of 10\n  ..@ document_term_matrix:Formal class 'dgCMatrix' [package \"Matrix\"] with 6 slots\n  ..@ clustering_tree     :List of 7\n  .. ..- attr(*, \"class\")= chr \"hclust\"\n  ..@ raw_enriched_result :'data.frame':    175 obs. of  7 variables:\n  ..@ fused               : logi FALSE\n\n\n\n\n\n\n\n\nHow to get objects inside the S4 object?\n\n\n\nYou can use @, for example, x &lt;- re_enrich@enriched_result returns a result table and x &lt;- re_enrich@gt_object returns a gt object.\n\n\nYou can simple View(re_enrich@enriched_result) for the first slot.\n\nx &lt;- re_enrich@enriched_result # Get the re-enrichment result table\ntable(x$Cluster) # You can see all enriched results splited into 17 clusters\n\n\n Cluster_1 Cluster_10  Cluster_2  Cluster_3  Cluster_4  Cluster_5  Cluster_6 \n        10          3         10         10         10         10          4 \n Cluster_7  Cluster_8  Cluster_9 \n         4          5          1 \n\nx\n\n# A tibble: 67 × 7\n   Description                          ID    Count Cluster   PCT    Padj geneID\n   &lt;chr&gt;                                &lt;chr&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; \n 1 synaptic transmission, glutamatergic GO:0…    19 Cluste…   4.2 8.10e-8 ATP1A…\n 2 regulation of synaptic transmission… GO:0…    16 Cluste…   3.5 8.10e-8 ATP1A…\n 3 modulation of chemical synaptic tra… GO:0…    39 Cluste…   8.5 8.10e-8 ACHE,…\n 4 regulation of trans-synaptic signal… GO:0…    39 Cluste…   8.5 8.10e-8 ACHE,…\n 5 synapse organization                 GO:0…    36 Cluste…   7.9 2.10e-6 ACHE,…\n 6 regulation of neuronal synaptic pla… GO:0…    12 Cluste…   2.6 4.20e-6 APOE,…\n 7 glutamate receptor signaling pathway GO:0…    11 Cluste…   2.4 5.20e-6 GRIA4…\n 8 ionotropic glutamate receptor signa… GO:0…     8 Cluste…   1.8 1.10e-5 GRIA4…\n 9 regulation of synaptic plasticity    GO:0…    20 Cluste…   4.4 4.50e-5 APOE,…\n10 regulation of postsynaptic membrane… GO:0…    16 Cluste…   3.5 8.5 e-5 GABRD…\n# ℹ 57 more rows\n\n\nBut EnrichGT offers more than data frames. Please see HTML reports (gt table) for further visualization.\n\n\nInfering TFs or pathway activity and more based on meta-gene modules\nBased on re-enriched result, the S4 object return from re-enrichment contains gene_modules slot and pathway_clusters slot. In gene_modules slot you can find a group of meta-genes take part in specific pathway cluster (in pathway_clusters slot).\nEnrichGT supports inferring Pathway or Transcript Factors activity from re-enriched meta-gene modules. This is accomplished by two amazing database:\n\nPROGENy is a comprehensive resource containing a curated collection of pathways and their target genes, with weights for each interaction.\nCollecTRI is a comprehensive resource containing a curated collection of TFs and their transcriptional targets compiled from 12 different resources. This collection provides an increased coverage of transcription factors and a superior performance in identifying perturbed TFs compared to our previous.\n\n\n\n\n\n\n\nTF infering Example:\n\n\n\n\n\n\nre_enrich_smaller_clusterNum &lt;- \n  egt_recluster_analysis(\n  ora_result,\n  ClusterNum = 6, # reduce the cluster nums. \n  P.adj = 0.05,\n  force = F,\n  nTop = 10,\n  method = \"ward.D2\"\n)\n\n✔ re-enrichment done.\n\n\nℹ You can adjust the param of egt_recluster_analysis() for better results. Please refer to the help page. \n\nTF_Act &lt;- egt_infer_act(re_enrich_smaller_clusterNum,DB = \"collectri\", species = \"human\")\n\n! If when doing re-enrichment, you select a high number of clusters, that may cause low gene number in each meta-gene module, and then can't be infered sucessfully. So if result is empty, please increase the number of re-clustering when doing it. \n\n\n✔ success loaded self-contained database\n\n\n✔ Done ORA in 0.0165550708770752 sec.\n\n\n✔ Done ORA in 0.0127909183502197 sec.\n\n\n✔ Done ORA in 0.0141239166259766 sec.\n\n\n✔ Done ORA in 0.0135409832000732 sec.\n\n\n✔ Done ORA in 0.0134940147399902 sec.\n\n\n✔ Done ORA in 0.0140438079833984 sec.\n\negt_plot_results(TF_Act$Cluster_3)\n\nℹ Use Default P-adjust cut-off 0.05. You can pass `P.adj=xxx` arugument to filter. \n\n\n! You are drawing origin results, for better result you can re-cluster it by egt_recluster_analysis()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWants to interpret the regulator of whole inputted genes?\n\n\n\nPROGENy and CollecTRI can be used just like other database in ORA or GSEA enrichment, for example, the database_GO_BP(). See [Progeny Database] and [CollecTRI Database] page for detail.\nExample:\nTFActivity &lt;- egt_enrichment_analysis(genes = DEGtable$Genes,\ndatabase = database_CollecTRI_human())\n\n\n\n\n\n\n\n\nWhy many inferred results are empty?\n\n\n\nIf when doing re-enrichment with a high number of clusters, that may cause low gene number in each meta-gene module (splitting into too many clusters make gene in each cluster is not enough to enrich), and then can’t be inferred successfully. So if result is empty, please increase the number of re-clustering when doing it.\n\n\n\n\n\n\n Back to top",
+    "text": "Enrichment of Enriched Results\nThe enriched result is too messy? Clean up it!\nEnrichGT generates insightful results by simply constructing a term frequency matrix of genes enriched in pathways and performing clustering. While the results may not be statistically optimal, they offer significant interpretive insights.\nPrint ?egt_recluster_analysis for further help. But of note, you can adjust ClusterNum (Cluster the enrichment into N clusters) and nTop (Show how many top items in GT table) for a better result (the default is not all the best for your data).\n\n\n\n\n\n\nForm clusterProfiler ?\n\n\n\nThis can also supports the results from clusterProfiler, so you can use any tool to do this.\n\n\n\n\n\n\n\n\nWhy the re-enrichment is necessary?\n\n\n\n\n\n\nChallenges in Biological Gene Enrichment Analysis\nGene enrichment analysis can often be misleading due to the redundancy within gene set databases and the limitations of most enrichment tools. Many tools, by default, only display a few top results and fail to filter out redundancy. This can result in both biological misinterpretation and valuable information being overlooked.\nFor instance, high expression of certain immune genes can cause many immune-related gene sets to appear overrepresented. However, a closer look often reveals that these gene sets are derived from the same group of genes, which might represent only a small fraction (less than 10%) of the differentially expressed genes (DEGs). What about the other 90%? Do they hold no biological significance?\n\n\nCurrent Solutions\nclusterProfiler is one of the most powerful tools in R for enrichment analysis. It’s designed with pathway redundancy in mind and includes the clusterProfiler::simplify function to address this issue. This method, based on GOSemSim for GO similarity evaluation, is scientifically robust and highly effective.\nHowever, there are some drawbacks:\n\nGOSemSim is not fast, particularly when dealing with large or complex gene sets.\nIt doesn’t support databases like KEGG or Reactome.\n\nUsing GOSemSim to measure the semantic similarity between pathways is, theoretically, the best way to tackle redundancy. However, in practical cases—especially in experimental bioinformatics validation—researchers are more focused on the genes behind these pathways rather than the pathways themselves.\n\n\nAlternative Approaches\nAlthough clustering pathways based on gene overlap has received some criticism, it remains a viable approach in many situations. For this reason, I developed BioThemeFinder a few years ago to solve this problem. However, the tool is so awful (I am poor in coding…)\nToday, two excellent alternatives exist:\n\nsimplifyEnrichment: This package is more scientifically rigorous (based on semantic similarity) and creates beautiful visualizations. It also doesn’t support databases like KEGG or Reactome.\naPEAR: A simpler and faster tool that better aligns with practical needs, making it my preferred choice.\n\nHowever, both of these tools have a common limitation: their visualizations are optimized for publication purposes rather than for exploratory research. I often find myself exporting CSV files or struggling with RStudio’s preview pane to fully explore enrichment tables. This inspired me to develop a more efficient solution. Also, they are slow.\n\n\nGoals of This Package\nThe main purpose of developing this package is to provide a lightweight and practical solution to the problems mentioned above. Specifically, this package aims to:\nCluster enrichment results based on hit genes or core enrichment from GSEA using term frequency analysis (from the output of the powerful clusterProfiler). This provides a clearer view of biological relevance by focusing on the genes that matter most.\n\n\n\n\n# From results generated before\nres &lt;- egt_enrichment_analysis(genes = DEGtable$Genes,\ndatabase = database_GO_BP(Org.Hs.eg.db))\n\nre_enrich &lt;- egt_recluster_analysis(\n  res,\n  ClusterNum = 10,\n  P.adj = 0.05,\n  force = F,\n  nTop = 10,\n  method = \"ward.D2\"\n)\nYou can see the structure of re_enrich object above. The re_enrich object is an S4 EnrichGT_obj object. The first slot is the result table (a data.frame), and the second slot contains gt table.\n\nstr(re_enrich,max.level = 2)\n\nFormal class 'EnrichGT_obj' [package \"EnrichGT\"] with 8 slots\n  ..@ enriched_result     : tibble [67 × 7] (S3: tbl_df/tbl/data.frame)\n  ..@ gt_object           :List of 17\n  .. ..- attr(*, \"class\")= chr [1:2] \"gt_tbl\" \"list\"\n  ..@ gene_modules        :List of 10\n  ..@ pathway_clusters    :List of 10\n  ..@ document_term_matrix:Formal class 'dgCMatrix' [package \"Matrix\"] with 6 slots\n  ..@ clustering_tree     :List of 7\n  .. ..- attr(*, \"class\")= chr \"hclust\"\n  ..@ raw_enriched_result :'data.frame':    175 obs. of  7 variables:\n  ..@ fused               : logi FALSE\n\n\n\n\n\n\n\n\nHow to get objects inside the S4 object?\n\n\n\nYou can use @, for example, x &lt;- re_enrich@enriched_result returns a result table and x &lt;- re_enrich@gt_object returns a gt object.\n\n\nYou can simple View(re_enrich@enriched_result) for the first slot.\n\nx &lt;- re_enrich@enriched_result # Get the re-enrichment result table\ntable(x$Cluster) # You can see all enriched results splited into 17 clusters\n\n\n Cluster_1 Cluster_10  Cluster_2  Cluster_3  Cluster_4  Cluster_5  Cluster_6 \n        10          3         10         10         10         10          4 \n Cluster_7  Cluster_8  Cluster_9 \n         4          5          1 \n\nx\n\n# A tibble: 67 × 7\n   Description                          ID    Count Cluster   PCT    Padj geneID\n   &lt;chr&gt;                                &lt;chr&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; \n 1 synaptic transmission, glutamatergic GO:0…    19 Cluste…   4.2 8.10e-8 ATP1A…\n 2 regulation of synaptic transmission… GO:0…    16 Cluste…   3.5 8.10e-8 ATP1A…\n 3 modulation of chemical synaptic tra… GO:0…    39 Cluste…   8.5 8.10e-8 ACHE,…\n 4 regulation of trans-synaptic signal… GO:0…    39 Cluste…   8.5 8.10e-8 ACHE,…\n 5 synapse organization                 GO:0…    36 Cluste…   7.9 2.10e-6 ACHE,…\n 6 regulation of neuronal synaptic pla… GO:0…    12 Cluste…   2.6 4.20e-6 APOE,…\n 7 glutamate receptor signaling pathway GO:0…    11 Cluste…   2.4 5.20e-6 GRIA4…\n 8 ionotropic glutamate receptor signa… GO:0…     8 Cluste…   1.8 1.10e-5 GRIA4…\n 9 regulation of synaptic plasticity    GO:0…    20 Cluste…   4.4 4.50e-5 APOE,…\n10 regulation of postsynaptic membrane… GO:0…    16 Cluste…   3.5 8.5 e-5 GABRD…\n# ℹ 57 more rows\n\n\nBut EnrichGT offers more than data frames. Please see HTML reports (gt table) for further visualization.\n\n\nInfering TFs or pathway activity and more based on meta-gene modules\nBased on re-enriched result, the S4 object return from re-enrichment contains gene_modules slot and pathway_clusters slot. In gene_modules slot you can find a group of meta-genes take part in specific pathway cluster (in pathway_clusters slot).\nEnrichGT supports inferring Pathway or Transcript Factors activity from re-enriched meta-gene modules. This is accomplished by two amazing database:\n\nPROGENy is a comprehensive resource containing a curated collection of pathways and their target genes, with weights for each interaction.\nCollecTRI is a comprehensive resource containing a curated collection of TFs and their transcriptional targets compiled from 12 different resources. This collection provides an increased coverage of transcription factors and a superior performance in identifying perturbed TFs compared to our previous.\n\n\n\n\n\n\n\nTF infering Example:\n\n\n\n\n\n\nre_enrich_smaller_clusterNum &lt;- \n  egt_recluster_analysis(\n  ora_result,\n  ClusterNum = 6, # reduce the cluster nums. \n  P.adj = 0.05,\n  force = F,\n  nTop = 10,\n  method = \"ward.D2\"\n)\n\n✔ re-enrichment done.\n\n\nℹ You can adjust the param of egt_recluster_analysis() for better results. Please refer to the help page. \n\nTF_Act &lt;- egt_infer_act(re_enrich_smaller_clusterNum,DB = \"collectri\", species = \"human\")\n\n! If when doing re-enrichment, you select a high number of clusters, that may cause low gene number in each meta-gene module, and then can't be infered sucessfully. So if result is empty, please increase the number of re-clustering when doing it. \n\n\n✔ success loaded self-contained database\n\n\n✔ Done ORA in 0.0171589851379395 sec.\n\n\n✔ Done ORA in 0.0127809047698975 sec.\n\n\n✔ Done ORA in 0.0137960910797119 sec.\n\n\n✔ Done ORA in 0.0139439105987549 sec.\n\n\n✔ Done ORA in 0.0138928890228271 sec.\n\n\n✔ Done ORA in 0.0131402015686035 sec.\n\negt_plot_results(TF_Act$Cluster_3)\n\nℹ Use Default P-adjust cut-off 0.05. You can pass `P.adj=xxx` arugument to filter. \n\n\n! You are drawing origin results, for better result you can re-cluster it by egt_recluster_analysis()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWants to interpret the regulator of whole inputted genes?\n\n\n\nPROGENy and CollecTRI can be used just like other database in ORA or GSEA enrichment, for example, the database_GO_BP(). See [Progeny Database] and [CollecTRI Database] page for detail.\nExample:\nTFActivity &lt;- egt_enrichment_analysis(genes = DEGtable$Genes,\ndatabase = database_CollecTRI_human())\n\n\n\n\n\n\n\n\nWhy many inferred results are empty?\n\n\n\nIf when doing re-enrichment with a high number of clusters, that may cause low gene number in each meta-gene module (splitting into too many clusters make gene in each cluster is not enough to enrich), and then can’t be inferred successfully. So if result is empty, please increase the number of re-clustering when doing it.\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Home",
       "Re-enrich Enriched Results"
@@ -548,7 +559,7 @@
     "href": "index.html",
     "title": "EnrichGT: all-in-one enrichment analysis",
     "section": "",
-    "text": "Intro\n\n\n\n\n\n\nHighlights\n\n\n\n\n\n\n\n\n\nEnrichGT means enriching previously enriched results (\\(E^2_{\\text{enrich}}\\)) into great tables and more …\n\n\n\n\nEfficient C++-based functions for rapid enrichment analysis\n\n\nSimple input format, empowering non-pro users\n\n\nRe-clustering of enriched results provides clear and actionable insights\n\n\nUser-friendly HTML output that is easy to read and interpret\n\n\nDo a series of things just in ONE package\n\n\n\n\n\n\n\n\n\n\n\nAim and Scope\n\n\n\n\n\nPlease note that the primary goal of EnrichGT is to provide researchers in wet labs, who have been busy all day, with quick and insightful biological interpretations from dry lab data to support their experiments. Therefore, all computational methods employed are relatively straightforward and pragmatic. For example, C++ based ORA enrichment function, GSEA only using fgsea output without more analysis, use only vocabulary frequency matrix for re-enrichment instead of term’s similarity, and more… Its purpose is to offer a “quick overview”. After this initial overview, you can use more widely recognized tools to generate statistically rigorous results (not necessary though). However, don’t misunderstand—this does not mean that the statistical processes in EnrichGT are incorrect. I’ve made every effort to ensure their accuracy; they are just less refined. Additionally, the tool has been tested in most typical scenarios, but extreme cases cannot be entirely ruled out.\nThis package was developed under the inspiration of clusterProfiler (a wonderful and powerful package! I have learned a lot. Without it I won’t develop EnrichGT.), but none of EnrichGT’s internal functions rely on any clusterProfiler functions. Some database-loading code references clusterProfiler‘s implementation, but it has been extensively modified to provide lightweight experience. In other words, this is not a case of rebranding clusterProfiler under a different name. It’s a lightweight implementation designed to wet-labs. If you need a tool that handles every detail, please use clusterProfiler instead. Please see acknowledgment page for citing clusterProfiler.\n\n\n\n\n\nInstall EnrichGT\ninstall.packages(\"pak\")\npak::pkg_install(\"ZhimingYe/EnrichGT\")\nThe AnnotationDbi, fgsea, reactome.db and GO.db were from BioConductor and might be slow to install. If you can’t install, please re-check your web connections or update your R and BioConductor, or use Posit Package Manager to install when using old R.\n\n\nMeet EnrichGT\nPlease see articles on the left! Especially the basic workflow introduction.\n\n\n\n\n\n\nTip\n\n\n\nSee package function page for further detail params of functions. (For example, how to use a function)\nYou can use ? function to get further help when installed.\n?egt_recluster_analysis\n\n\nIn most examples of this document, we use a result table of DEG analysis DEG.csv. The gene symbols of DEG.csv is on the first column without column name. In default read_csv() convert the unamed column name to ...1. So DEGtable$...1 refers to gene symbols.\n\n\nOverview\n\n\n\n\n\ngraph LR\n    \n    M[genes]\n    N[genes with weights]\n    \n    subgraph Enrichment Analysis\n        A[egt_enrichment_analysis]\n        B[egt_gsea_analysis]\n    end\n\n    subgraph Pathway Databases\n        D[database_* funcs]\n    end\n\n    subgraph Visualize results\n        P1[egt_plot_results]\n        P2[egt_plot_gsea]\n    end\n\n    subgraph egt_recluster_analysis\n        K1[Pretty table]\n        CC[cluster modules]\n        MG[gene modules]\n    end\n\n    subgraph Pathway Act. and TF infer \n        \n        I[egt_infer]\n    end\n    \n    M --&gt; A\n    N --&gt; B\n    \n    D --&gt; A\n    D --&gt; B\n    \n    A --&gt; C[Enriched Result]\n    B --&gt; C\n\n    C --&gt; CC\n    C --&gt; MG\n\n    C --&gt; P1\n\n    CC --&gt; K1\n    MG --&gt; K1\n\n    CC --&gt; P1\n    C --&gt; P2\n\n    MG --&gt; I\n\n\n\n\n\n\n\nThe functions from EnrichGT are starting with “egt_” or “database_”.\n\n\n\n\n Back to top",
+    "text": "Intro\n\n\n\n\n\n\n\nHighlights\n\n\n\n\n\n\n\n\n\nEnrichGT means enriching previously enriched results (\\(E^2_{\\text{enrich}}\\)) into great tables and more …\n\n\n\n\nEfficient C++-based functions for rapid enrichment analysis\n\n\nSimple input format, empowering non-pro users\n\n\nRe-clustering of enriched results provides clear and actionable insights\n\n\nUser-friendly HTML output that is easy to read and interpret\n\n\nDo a series of things just in ONE package\n\n\n\n\n\n\n\n\n\n\n\nAim and Scope\n\n\n\n\n\nPlease note that the primary goal of EnrichGT is to provide researchers in wet labs, who have been busy all day, with quick and insightful biological interpretations from dry lab data to support their experiments. Therefore, all computational methods employed are relatively straightforward and pragmatic. For example, C++ based ORA enrichment function, GSEA only using fgsea output without more analysis, use only vocabulary frequency matrix for re-enrichment instead of term’s similarity, and more… Its purpose is to offer a “quick overview”. After this initial overview, you can use more widely recognized tools to generate statistically rigorous results (not necessary though). However, don’t misunderstand—this does not mean that the statistical processes in EnrichGT are incorrect. I’ve made every effort to ensure their accuracy; they are just less refined. Additionally, the tool has been tested in most typical scenarios, but extreme cases cannot be entirely ruled out.\nThis package was developed under the inspiration of clusterProfiler (a wonderful and powerful package! I have learned a lot. Without it I won’t develop EnrichGT.), but none of EnrichGT’s internal functions rely on any clusterProfiler functions. Some database-loading code references clusterProfiler‘s implementation, but it has been extensively modified to provide lightweight experience. In other words, this is not a case of rebranding clusterProfiler under a different name. It’s a lightweight implementation designed to wet-labs. If you need a tool that handles every detail, please use clusterProfiler instead. Please see acknowledgment page for citing clusterProfiler.\n\n\n\n\n\nInstall EnrichGT\ninstall.packages(\"pak\")\npak::pkg_install(\"ZhimingYe/EnrichGT\")\nThe AnnotationDbi, fgsea, reactome.db and GO.db were from BioConductor and might be slow to install. If you can’t install, please re-check your web connections or update your R and BioConductor, or use Posit Package Manager to install when using old R.\n\n\nMeet EnrichGT\nPlease see articles on the left! Especially the basic workflow introduction.\n\n\n\n\n\n\nTip\n\n\n\nSee package function page for further detail params of functions. (For example, how to use a function)\nYou can use ? function to get further help when installed.\n?egt_recluster_analysis\n\n\nIn most examples of this document, we use a result table of DEG analysis DEG.csv. The gene symbols of DEG.csv is on the first column without column name. In default read_csv() convert the unamed column name to ...1. So DEGtable$...1 refers to gene symbols.\n\n\nOverview\n\n\n\n\n\ngraph LR\n    \n    M[genes]\n    N[genes with weights]\n    \n    subgraph Enrichment Analysis\n        A[egt_enrichment_analysis]\n        B[egt_gsea_analysis]\n    end\n\n    subgraph Pathway Databases\n        D[database_* funcs]\n    end\n\n    subgraph Visualize results\n        P1[egt_plot_results]\n        P2[egt_plot_gsea]\n    end\n\n    subgraph egt_recluster_analysis\n        K1[Pretty table]\n        CC[cluster modules]\n        MG[gene modules]\n    end\n\n    subgraph Pathway Act. and TF infer \n        \n        I[egt_infer]\n    end\n    \n    M --&gt; A\n    N --&gt; B\n    \n    D --&gt; A\n    D --&gt; B\n    \n    A --&gt; C[Enriched Result]\n    B --&gt; C\n\n    C --&gt; CC\n    C --&gt; MG\n\n    C --&gt; P1\n\n    CC --&gt; K1\n    MG --&gt; K1\n\n    CC --&gt; P1\n    C --&gt; P2\n\n    MG --&gt; I\n\n\n\n\n\n\n\nThe functions from EnrichGT are starting with “egt_” or “database_”.\n\n\n\n\n Back to top",
     "crumbs": [
       "Home",
       "EnrichGT: all-in-one enrichment analysis"

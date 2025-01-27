@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>pkgfuns – EnrichGT</title>
+<title>Package Functions Help – EnrichGT</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -261,9 +261,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/pkgfuns.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Package Functions Help</h1>
+</div>
 
 
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
 
 
 <section id="description" class="level1">
@@ -271,7 +287,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Type: Package
 Package: EnrichGT
 Title: EnrichGT - all in one enrichment analysis soluction
-Version: 0.8.6
+Version: 0.8.7
 Author: Zhiming Ye
 Maintainer: Zhiming Ye &lt;garnetcrow@hotmail.com&gt;
 Description: Do biological enrichment analysis and parsing and clustering
@@ -311,7 +327,7 @@ Imports:
     xfun
 Suggests: 
     readr,
-    testthat (&gt;= 3.0.0),
+    testthat (&gt;= 3.0.0)
 LinkingTo: 
     Rcpp
 Config/testthat/edition: 3
@@ -535,7 +551,9 @@ RoxygenNote: 7.3.2</code></pre>
 </section>
 <section id="usage-6" class="level2">
 <h2 class="anchored" data-anchor-id="usage-6">Usage</h2>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_gsea</span>(x, genes, database)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_gsea</span>(resGSEA<span class="sc">$</span>Description[<span class="dv">1</span>],<span class="at">genes =</span> <span class="fu">genes_with_weights</span>(<span class="at">genes =</span> DEGexample<span class="sc">$</span>...<span class="dv">1</span>, <span class="at">weights =</span> DEGexample<span class="sc">$</span>log2FoldChange),<span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_gsea</span>(resGSEA[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,],<span class="at">genes =</span> <span class="fu">genes_with_weights</span>(<span class="at">genes =</span> DEGexample<span class="sc">$</span>...<span class="dv">1</span>, <span class="at">weights =</span> DEGexample<span class="sc">$</span>log2FoldChange),<span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="arguments-6" class="level2">
 <h2 class="anchored" data-anchor-id="arguments-6">Arguments</h2>
@@ -543,8 +561,8 @@ RoxygenNote: 7.3.2</code></pre>
 <li><code>x</code>: A GSEA result object. Can be either:</li>
 <li>A data frame containing GSEA results (requires columns: pvalue, p.adjust, Description)</li>
 <li>A character string specifying a single pathway name</li>
-<li><code>genes</code>: A character vector of ranked gene names. These should match the gene identifiers used in the GSEA analysis.</li>
-<li><code>database</code>: A character string specifying the gene set database name. This should correspond to the database used in the original GSEA analysis.</li>
+<li><code>genes</code>: A named numeric vector from <code>genes_with_weights()</code>. These should match the gene identifiers used in the GSEA analysis.</li>
+<li><code>database</code>: A database <code>data.frame</code>, You can obtain it from <code>database_xxx()</code> functions. This should correspond to the database used in the original GSEA analysis.</li>
 </ul>
 </section>
 <section id="author-5" class="level2">
