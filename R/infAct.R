@@ -1,7 +1,7 @@
 #' Infering Pathway or Transcript Factors activity from EnrichGT meta-gene modules
 #' @description
-#' Only supports gene symbols. so you must use enrichedObj |> setReadable(OrgDb = xxx,keyType = "ENTREZID") |> EnrichGT() . Do Not supports ENTREZIDs!
-#'
+#' Only supports gene symbols. 
+#' 
 #' [PROGENy](https://saezlab.github.io/progeny/) is a comprehensive resource containing a curated collection of pathways and their target genes, with weights for each interaction.
 #'
 #'[CollecTRI](https://github.com/saezlab/CollecTRI) is a comprehensive resource containing a curated collection of TFs and their transcriptional targets compiled from 12 different resources. This collection provides an increased coverage of transcription factors and a superior performance in identifying perturbed TFs compared to our previous.
@@ -12,7 +12,7 @@
 #' @param DB can be "progeny" (the Pathway activity database), or "collectri" (TF activity database)
 #' @param species can be "human" or "mouse"
 #'
-#' @return a `compareCluster` result from `clusterProfiler`
+#' @return an ORA result list
 #' @export
 #' @importFrom stringr str_to_title
 #' @author Zhiming Ye, Saez-Rodriguez Lab (The decoupleR package, https://saezlab.github.io/decoupleR/)

@@ -15,7 +15,7 @@ egt_recluster_analysis(
 )
 }
 \arguments{
-\item{x}{an enrichment result from `clusterProfiler`, or a `data.frame` containing result from `clusterProfier`. To perform fusing multi-database enrichment results, please give a `list` object.}
+\item{x}{an enrichment result from `EnrichGT` or `clusterProfiler`. To perform fusing multi-database enrichment results, please give a `list` object.}
 
 \item{ClusterNum}{how many cluster will be clustered}
 

@@ -58,6 +58,38 @@ test_that("Recluster analysis works", {
   expect_true("gt_tbl" %in% class(re_enrichment_results@gt_object))
 })
 
+
+test_that("Fusing analysis works", {
+  data("DEGexample", package = "EnrichGT")
+  
+  DEGexample_UpReg <- DEGexample |> dplyr::filter(pvalue < 0.05, log2FoldChange > 0.7)
+  DEGexample_DownReg <- DEGexample |> dplyr::filter(pvalue < 0.05, log2FoldChange < (-0.7))
+  DEGs <- DEGexample_UpReg$...1
+  
+  ora_result1 <- egt_enrichment_analysis(
+    genes = DEGs, 
+    database = database_GO_BP(OrgDB = org.Hs.eg.db)
+  )
+
+  ora_result2 <- egt_enrichment_analysis(
+    genes = DEGs, 
+    database = database_Reactome(OrgDB = org.Hs.eg.db)
+  )
+
+  ora_result3 <- egt_enrichment_analysis(
+    genes = DEGexample_DownReg$...1, 
+    database = database_Reactome(OrgDB = org.Hs.eg.db)
+  )
+  
+  # 重聚类测试
+  re_enrichment_results <- egt_recluster_analysis(list(ora_result1,ora_result2))
+  re_enrichment_results2 <- egt_compare_groups(ora_result3,ora_result2)
+  expect_s4_class(re_enrichment_results, "EnrichGT_obj")
+  expect_true("gt_tbl" %in% class(re_enrichment_results@gt_object))
+  expect_s4_class(re_enrichment_results2[[1]], "EnrichGT_obj")
+})
+
+
 test_that("Visualization functions work", {
   data("DEGexample", package = "EnrichGT")
   

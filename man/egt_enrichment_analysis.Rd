@@ -11,14 +11,14 @@ res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
 database = database_GO_ALL(org.Hs.eg.db))
 
 res <- egt_enrichment_analysis(genes = genes_with_weights(geneSymbols, log2FC),
-database = database_kegg(kegg_organism="hsa",OrgDB = org.Hs.eg.db))
+database = database_KEGG(kegg_organism="hsa",OrgDB = org.Hs.eg.db))
 
 res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
-database = database_from_gmt("MsigDB_Hallmark.gmt"))
+database = database_from_gmt("./MsigDB_Hallmark.gmt"))
 
 res <- egt_enrichment_analysis(list(Macrophages=c("CD169","CD68","CD163"),
 Fibroblast=c("COL1A2","COL1A3"),...),
- database = database_from_gmt("panglaoDB.gmt"))
+ database = database_from_gmt("./panglaoDB.gmt"))
 }
 \arguments{
 \item{genes}{a vector of gene ids like `c("TP53","CD169","CD68","CD163"...)`.
@@ -33,11 +33,11 @@ Of note, since ver 0.8, genes argument supports inputs from genes_with_weights()
 
 You can run `database_GO_CC()` to see an example.
 
-The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with `database_...`, like `database_GO_BP()` or `database_Reactome()`.
+The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with `database_...`, like `database_GO_BP()` or `database_Reactome()`. 
 
 The default gene in each database EnrichGT provided to input is `GENE SYMBOL` (like TP53, not 1256 or ENSG...), not `ENTREZ ID` or `Ensembl ID`.
 
-It will be more convince for new users. Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()` and `database_Reactome()`.
+It will be more convince for new users. Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()`, `database_KEGG()` and `database_Reactome()`. See \code{https://zhimingye.github.io/EnrichGT/database.html}. 
 
 You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using `database_from_gmt(FILE_PATH)`.
 
@@ -61,7 +61,7 @@ a data frame with ORA results.
 \description{
 ORA is a statistical method used to identify biological pathways or gene sets that are significantly enriched in a given list of genes (e.g., differentially expressed genes). The method compares the proportion of genes in the target list that belong to a specific category (e.g., pathways, GO terms) to the expected proportion in the background gene set.
 
-To accelerate the computation in ORA analysis, `EnrichGT` have implemented a function that leverages C++ for high-performance computation. The core algorithm utilizes hash tables for efficient lookup and counting of genes across categories. Also It provides multi-Core parallel calculation by package `parallel`.
+To accelerate the computation in ORA analysis, `EnrichGT` have implemented a function that leverages C++ for high-performance computation. The core algorithm utilizes hash tables for efficient lookup and counting of genes across categories. Also It provides multi-Core parallel calculation by package `parallel`. But this function is fast enough, `parallel` function will be removed in future.
 }
 \author{
 Zhiming Ye

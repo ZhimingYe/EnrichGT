@@ -49,7 +49,7 @@ setMethod("cpres_internal_getter", signature(x = "data.frame"),function(x,...){
 #' 2-Group Comparison of enrichment results and further clustering and visualizing
 #'
 #' @description
-#' See `?EnrichGT()`
+#' See \code{?egt_enrichment_analysis()}
 #'
 #' @param obj.test the enriched object from tested group. WARNING: `obj.test` and `obj.ctrl` should come from same database (e.g. GO Biological Process(GOBP)).
 #' @param obj.ctrl the enriched object from control group. WARNING: `obj.test` and `obj.ctrl` should come from same database (e.g. GO Biological Process(GOBP)).
