@@ -44,7 +44,7 @@ egt_compare_groups(
 The `List` contains objects with overlapped enriched terms, unique enrich terms.
 }
 \description{
-See `?EnrichGT()`
+See \code{?egt_enrichment_analysis()}
 }
 \details{
 Execute `obj.test` VS `obj.ctrl` tests, showing pathway overlaps (or differences) and meta-gene modules of test group and control group.

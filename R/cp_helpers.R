@@ -80,7 +80,7 @@ database_from_gmt <- function (gmtfile,OrgDB = NULL,convert_2_symbols=T) {
 #' @description
 #' ORA is a statistical method used to identify biological pathways or gene sets that are significantly enriched in a given list of genes (e.g., differentially expressed genes). The method compares the proportion of genes in the target list that belong to a specific category (e.g., pathways, GO terms) to the expected proportion in the background gene set.
 #'
-#' To accelerate the computation in ORA analysis, `EnrichGT` have implemented a function that leverages C++ for high-performance computation. The core algorithm utilizes hash tables for efficient lookup and counting of genes across categories. Also It provides multi-Core parallel calculation by package `parallel`.
+#' To accelerate the computation in ORA analysis, `EnrichGT` have implemented a function that leverages C++ for high-performance computation. The core algorithm utilizes hash tables for efficient lookup and counting of genes across categories. Also It provides multi-Core parallel calculation by package `parallel`. But this function is fast enough, `parallel` function will be removed in future. 
 #' 
 #' 
 #'
@@ -91,14 +91,14 @@ database_from_gmt <- function (gmtfile,OrgDB = NULL,convert_2_symbols=T) {
 #' database = database_GO_ALL(org.Hs.eg.db))
 #' 
 #' @usage res <- egt_enrichment_analysis(genes = genes_with_weights(geneSymbols, log2FC),
-#' database = database_kegg(kegg_organism="hsa",OrgDB = org.Hs.eg.db))
+#' database = database_KEGG(kegg_organism="hsa",OrgDB = org.Hs.eg.db))
 #' 
 #' @usage res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
-#' database = database_from_gmt("MsigDB_Hallmark.gmt"))
+#' database = database_from_gmt("./MsigDB_Hallmark.gmt"))
 #'
 #' @usage res <- egt_enrichment_analysis(list(Macrophages=c("CD169","CD68","CD163"),
 #' Fibroblast=c("COL1A2","COL1A3"),...),
-#'  database = database_from_gmt("panglaoDB.gmt"))
+#'  database = database_from_gmt("./panglaoDB.gmt"))
 #'
 #' @param genes a vector of gene ids like `c("TP53","CD169","CD68","CD163"...)`.
 #'
@@ -112,11 +112,11 @@ database_from_gmt <- function (gmtfile,OrgDB = NULL,convert_2_symbols=T) {
 #'
 #' You can run `database_GO_CC()` to see an example.
 #'
-#' The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with `database_...`, like `database_GO_BP()` or `database_Reactome()`.
+#' The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with `database_...`, like `database_GO_BP()` or `database_Reactome()`. 
 #'
 #' The default gene in each database EnrichGT provided to input is `GENE SYMBOL` (like TP53, not 1256 or ENSG...), not `ENTREZ ID` or `Ensembl ID`.
 #'
-#' It will be more convince for new users. Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()` and `database_Reactome()`.
+#' It will be more convince for new users. Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()`, `database_KEGG()` and `database_Reactome()`. See \code{https://zhimingye.github.io/EnrichGT/database.html}. 
 #'
 #' You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using `database_from_gmt(FILE_PATH)`.
 #'
@@ -190,7 +190,7 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
 #' database = database_GO_BP())
 #'
 #' @usage res <- egt_gsea_analysis(genes = genes_with_weights(genes = PCA_res$genes,weights =PCA_res$PC1_loading),
-#' database = database_from_gmt("MsigDB_Hallmark.gmt"))
+#' database = database_from_gmt("./MsigDB_Hallmark.gmt"))
 #' @param genes a named numeric vector, for example c(`TP53`=1.2,`KRT15`=1.1,`IL1B`=1.0,`PMP22` = 0.5,`FABP1` = -0.9, `GLUT1` = -2).
 #'
 #' The number is the weight of each gene, can use the logFC form DEG analysis results instead. Also NMF or PCA's loading can also be used.
@@ -203,7 +203,7 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
 #'
 #' The default gene in each database EnrichGT provided to input is `GENE SYMBOL` (like TP53, not 1256 or ENSG...), not `ENTREZ ID` or `Ensembl ID`. It will be more convince for new users.
 #'
-#' Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()` and `database_Reactome()`.
+#' Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()`, `database_KEGG()` and `database_Reactome()`. See \code{https://zhimingye.github.io/EnrichGT/database.html}. 
 #'
 #' You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using `database_from_gmt(FILE_PATH)`.
 #'
@@ -218,6 +218,7 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
 #' @returns a data frame
 #' @export
 #' @author warpped from fgsea package.
+#' @importFrom fgsea fgsea
 #'
 egt_gsea_analysis <- function(genes,database,p_val_cut_off=0.5,min_geneset_size=10,max_geneset_size=500,gseaParam=1){
   if(!is.list(genes)){
@@ -241,7 +242,10 @@ egt_gsea_analysis_internal <- function(genes,database,p_val_cut_off=0.5,min_gene
       message_wrong_db()
       cli::cli_abort("Not valid database")
     }
-  },error=function(e){cli::cli_abort("Not valid database")})
+  },error=function(e){
+    message_wrong_db()
+    cli::cli_abort("Not valid database")
+  })
   if(ncol(database)==3){
     colnames(database) <- c("ID","term","gene")
     db0 <- database[,c(1,2)]
@@ -262,7 +266,7 @@ egt_gsea_analysis_internal <- function(genes,database,p_val_cut_off=0.5,min_gene
                     minSize  = min_geneset_size,
                     maxSize  = max_geneset_size,
                     gseaParam=gseaParam)
-  fgseaRes <- fgseaRes |> left_join(db0,by="pathway")
+  fgseaRes <- fgseaRes |> dplyr::left_join(db0,by="pathway")
   t2 <- Sys.time()
   cli::cli_alert_success(paste0("Sucessful GSEA, time last ", (t2-t1)," secs."))
   fgseaRes2 <- data.frame(ID = fgseaRes$ID,
@@ -282,7 +286,7 @@ egt_gsea_analysis_internal <- function(genes,database,p_val_cut_off=0.5,min_gene
 }
 
 message_wrong_db<-function(){
-  cli::cli_alert_danger("Please re-check the database OrgDB argument or input GMT file matchs the inputed genes. Some time you may forget to run: ")
+  cli::cli_alert_danger("Please re-check the database OrgDB argument or input GMT file matchs the inputed genes. \nYou should input gene symbols when your database contains gene symbols, ENSEMBL IDs when ENSEMBL IDs. \nAnother possible reason is that you may forget to run: ")
   cli::cli_code("library(org.Hs.eg.db) # for humans, if mouse use org.Mm.eg.db. Please re-check")
-  cli::cli_code("See https://zhimingye.github.io/EnrichGT/#built-in-database-form-annotationdbi for further details")
+  cli::cli_code("See https://zhimingye.github.io/EnrichGT/database.html for further details")
 }

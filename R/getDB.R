@@ -2,6 +2,73 @@
 
 db_getter_env<-new.env()
 
+
+# The Database cache system
+#' @importFrom xfun md5
+UniversalInternalDBFetcher <- function(Type,OrgDB=org.Hs.eg.db,ONTOLOGY=NULL,...){
+  Spec<-OrgDB$packageName
+  if(Type=="GO"){
+    FUNInternal<-database_GO
+    key <- "GO_"
+    if(is.null(ONTOLOGY)){cli::cli_abort("please provide ont.")}
+  }else if(Type=="Reactome"){
+    FUNInternal<-database_RA
+    key <- "RA_"
+  }else if(Type=="SelfBuild"){
+    FUNInternal <- getGMT
+    DBreaded <- readLines(ONTOLOGY)
+    hashval <- xfun::md5(DBreaded)
+    key <- "Self_"
+    ONTOLOGY <- hashval
+    OrgDB <- DBreaded
+  }
+  ObjName<-paste0(key,ONTOLOGY,"_",Spec)
+  if(exists(ObjName,envir = db_getter_env)){
+    cli::cli_alert_success(paste0("Use cached database: ",ObjName))
+    x <- get(ObjName,envir = db_getter_env)
+  }else{
+    assign("GETFUN",FUNInternal,envir = db_getter_env)
+    x <- db_getter_env$GETFUN(OrgDB=OrgDB,ONTOLOGY=ONTOLOGY)
+    assign(ObjName,x,envir = db_getter_env)
+  }
+  return(x)
+}
+
+
+#' @importFrom stringr str_to_title
+dbParser<-function(DB,species){
+  type<-dplyr::case_when((DB=="progeny"&species=="human")~"1",
+                  (DB=="progeny"&species=="mouse")~"2",
+                  (DB=="collectri"&species=="human")~"3",
+                  (DB=="collectri"&species=="mouse")~"4",
+                  T~"Error"
+  )
+  if(type=="Error"){
+    cli::cli_abort("Please check your DB and species Input! ")
+  }
+  if(type=="1"){
+    data("pws_human")
+    tdb0<-pws_human |> dplyr::filter(p_value<0.1) |> dplyr::mutate(Direction=ifelse(weight>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
+  }
+  else if(type=="2"){
+    data("pws_mouse")
+    tdb0<-pws_mouse |> dplyr::filter(p_value<0.1) |> dplyr::mutate(Direction=ifelse(weight>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
+    tdb0$target <- stringr::str_to_title(tdb0$target)
+  }
+  else if(type=="3"){
+    data("TF_human")
+    tdb0<-TF_human |> dplyr::mutate(Direction=ifelse(mor>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
+  }
+  else{
+    data("TF_mouse")
+    tdb0<-TF_mouse |> dplyr::mutate(Direction=ifelse(mor>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
+    tdb0$target <- stringr::str_to_title(tdb0$target)
+  }
+  cli::cli_alert_success(paste0("success loaded self-contained database"))
+  return(tdb0)
+}
+
+
 cvgs<-function(genes,from_what,to_what,orgDB){
   loadNamespace("AnnotationDbi")
   x <- AnnotationDbi::select(orgDB, keys =genes,
@@ -96,39 +163,6 @@ database_RA <- function(OrgDB,...) {
 }
 
 
-#' @importFrom stringr str_to_title
-dbParser<-function(DB,species){
-  type<-dplyr::case_when((DB=="progeny"&species=="human")~"1",
-                  (DB=="progeny"&species=="mouse")~"2",
-                  (DB=="collectri"&species=="human")~"3",
-                  (DB=="collectri"&species=="mouse")~"4",
-                  T~"Error"
-  )
-  if(type=="Error"){
-    cli::cli_abort("Please check your DB and species Input! ")
-  }
-  if(type=="1"){
-    data("pws_human")
-    tdb0<-pws_human |> dplyr::filter(p_value<0.1) |> dplyr::mutate(Direction=ifelse(weight>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
-  }
-  else if(type=="2"){
-    data("pws_mouse")
-    tdb0<-pws_mouse |> dplyr::filter(p_value<0.1) |> dplyr::mutate(Direction=ifelse(weight>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
-    tdb0$target <- stringr::str_to_title(tdb0$target)
-  }
-  else if(type=="3"){
-    data("TF_human")
-    tdb0<-TF_human |> dplyr::mutate(Direction=ifelse(mor>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
-  }
-  else{
-    data("TF_mouse")
-    tdb0<-TF_mouse |> dplyr::mutate(Direction=ifelse(mor>0,"Up","Down")) |> dplyr::mutate(TERM=paste0(source,"|",Direction)) |> dplyr::select(TERM,target)
-    tdb0$target <- stringr::str_to_title(tdb0$target)
-  }
-  cli::cli_alert_success(paste0("success loaded self-contained database"))
-  return(tdb0)
-}
-
 
 getGMT <- function (OrgDB,ONTOLOGY) {
   x <- OrgDB
@@ -142,39 +176,9 @@ getGMT <- function (OrgDB,ONTOLOGY) {
 }
 
 
-# The Database cache system
-#' @importFrom xfun md5
-UniversalInternalDBFetcher <- function(Type,OrgDB=org.Hs.eg.db,ONTOLOGY=NULL,...){
-  Spec<-OrgDB$packageName
-  if(Type=="GO"){
-    FUNInternal<-database_GO
-    key <- "GO_"
-    if(is.null(ONTOLOGY)){cli::cli_abort("please provide ont.")}
-  }else if(Type=="Reactome"){
-    FUNInternal<-database_RA
-    key <- "RA_"
-  }else if(Type=="SelfBuild"){
-    FUNInternal <- getGMT
-    DBreaded <- readLines(ONTOLOGY)
-    hashval <- xfun::md5(DBreaded)
-    key <- "Self_"
-    ONTOLOGY <- hashval
-    OrgDB <- DBreaded
-  }
-  ObjName<-paste0(key,ONTOLOGY,"_",Spec)
-  if(exists(ObjName,envir = db_getter_env)){
-    cli::cli_alert_success(paste0("Use cached database: ",ObjName))
-    x <- get(ObjName,envir = db_getter_env)
-  }else{
-    assign("GETFUN",FUNInternal,envir = db_getter_env)
-    x <- db_getter_env$GETFUN(OrgDB=OrgDB,ONTOLOGY=ONTOLOGY)
-    assign(ObjName,x,envir = db_getter_env)
-  }
-  return(x)
-}
-
 
 #' @rdname get_database
+#' @name database_...
 #' @title Get database for enrichment analysis
 #' @description
 #' Get Gene Ontology (GO), Reactome, and other term-to-gene database, for enrichment analysis

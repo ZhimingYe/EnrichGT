@@ -25,7 +25,10 @@ doEnrich_Internal <- function(genes,database,p_adj_methods,p_val_cut_off,backgro
       message_wrong_db()
       cli::cli_abort("Not valid database")
     }
-  },error=function(e){cli::cli_abort("Not valid database")})
+  },error=function(e){
+    message_wrong_db()
+    cli::cli_abort("Not valid database")
+  })
   if(ncol(database)==3){
     colnames(database) <- c("ID","term","gene")
     db0 <- database[,c(1,2)]

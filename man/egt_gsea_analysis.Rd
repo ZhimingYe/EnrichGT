@@ -8,7 +8,7 @@ res <- egt_gsea_analysis(genes = genes_with_weights(genes = DEG$genes, weights =
 database = database_GO_BP())
 
 res <- egt_gsea_analysis(genes = genes_with_weights(genes = PCA_res$genes,weights =PCA_res$PC1_loading),
-database = database_from_gmt("MsigDB_Hallmark.gmt"))
+database = database_from_gmt("./MsigDB_Hallmark.gmt"))
 }
 \arguments{
 \item{genes}{a named numeric vector, for example c(`TP53`=1.2,`KRT15`=1.1,`IL1B`=1.0,`PMP22` = 0.5,`FABP1` = -0.9, `GLUT1` = -2).
@@ -23,7 +23,7 @@ The ID column is not necessary. EnrichGT contains several databases, functions a
 
 The default gene in each database EnrichGT provided to input is `GENE SYMBOL` (like TP53, not 1256 or ENSG...), not `ENTREZ ID` or `Ensembl ID`. It will be more convince for new users.
 
-Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()` and `database_Reactome()`.
+Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()`, `database_KEGG()` and `database_Reactome()`. See \code{https://zhimingye.github.io/EnrichGT/database.html}. 
 
 You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using `database_from_gmt(FILE_PATH)`.
 
