@@ -45,6 +45,10 @@
 #'
 #' @author Zhiming Ye
 egt_recluster_analysis<-function(x,ClusterNum=10,P.adj=0.05,force=F,nTop=10,method="ward.D2",...){
+  if(!"gt" %in% loadedNamespaces()){
+    cli::cli_alert_info("Please load gt package: ")
+    cli::cli_code("library(gt)# for extra analysis")
+  }
   objname<-deparse(substitute(x))
   if(objname=="."){
     objname<-"`Magrittr` pipe conveyed object"
