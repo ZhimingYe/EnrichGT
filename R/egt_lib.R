@@ -45,6 +45,10 @@ is_numeric_string <- function(x) {
 #' @importFrom text2vec create_dtm
 #' @importFrom proxy dist
 .enrichpws<-function(ID,geneID,k,method,sep="/"){
+  suppressPackageStartupMessages({
+    requireNamespace("text2vec")
+    requireNamespace("proxy")
+  })
   # cli::cli_blockquote("Package `text2vec` loading...")
   # suppressPackageStartupMessages(require(text2vec))
   tokens_list <- strsplit(geneID,sep)

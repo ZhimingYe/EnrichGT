@@ -14,7 +14,7 @@ egt_infer_act(x, DB = "collectri", species = "human")
 \item{species}{can be "human" or "mouse"}
 }
 \value{
-a `compareCluster` result from `clusterProfiler`
+an ORA result list
 }
 \description{
 Only supports gene symbols. 
