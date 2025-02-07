@@ -36,6 +36,9 @@
 #' @export
 #' 
 egt_plot_gsea <- function(x, genes, database){
+  suppressPackageStartupMessages({
+    requireNamespace("fgsea")
+  })
   ref <- egt_gsea_analysis_internal(genes=genes,database=database,for_figures=T)
   if(is.data.frame(x)){
     x$pval <- x$pvalue

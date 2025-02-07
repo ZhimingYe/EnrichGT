@@ -237,6 +237,9 @@ egt_gsea_analysis <- function(genes,database,p_val_cut_off=0.5,min_geneset_size=
 }
 #' @importFrom fgsea fgsea
 egt_gsea_analysis_internal <- function(genes,database,p_val_cut_off=0.5,min_geneset_size=10,max_geneset_size=500,gseaParam=1,for_figures=F){
+  suppressPackageStartupMessages({
+    requireNamespace("fgsea")
+  })
   tryCatch({
     if(ncol(database)!=2&ncol(database)!=3){
       message_wrong_db()

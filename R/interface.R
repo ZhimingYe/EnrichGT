@@ -69,12 +69,15 @@ egt_recluster_analysis<-function(x,ClusterNum=10,P.adj=0.05,force=F,nTop=10,meth
     package_message <- paste(package_message, "\nPlease install them using install.packages() or BiocManager::install() for Bioconductor packages.")
     packageStartupMessage(package_message)
   } else {
-    require("dplyr")
-    require("tibble")
-    require("gt")
-    require("Matrix")
-    require("cli")
-    cli::cli_h1("EnrichGT Version 0.8")
+    suppressPackageStartupMessages({
+      requireNamespace("dplyr")
+      requireNamespace("tibble")
+      requireNamespace("ggplot2")
+      requireNamespace("Matrix")
+      requireNamespace("gt")
+      requireNamespace("cli")
+    })
+    cli::cli_h1("EnrichGT Version 0.9")
     cli::cli_alert_info("See help on https://zhimingye.github.io/EnrichGT/")
     cli::cli_alert("by Zhiming Ye")
   }
