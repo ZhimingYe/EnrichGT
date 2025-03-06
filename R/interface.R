@@ -1,4 +1,3 @@
-
 #' Parse enrichment results and further clustering and visualizing
 #'
 #' @description
@@ -44,33 +43,70 @@
 #' @export
 #'
 #' @author Zhiming Ye
-egt_recluster_analysis<-function(x,ClusterNum=10,P.adj=0.05,force=F,nTop=10,method="ward.D2",...){
-  if(!"gt" %in% loadedNamespaces()){
+egt_recluster_analysis <- function(
+  x,
+  ClusterNum = 10,
+  P.adj = 0.05,
+  force = F,
+  nTop = 10,
+  method = "ward.D2",
+  ...
+) {
+  if (!"gt" %in% loadedNamespaces()) {
     cli::cli_alert_info("Please load gt package: ")
     cli::cli_code("library(gt)# for extra analysis")
   }
-  objname<-deparse(substitute(x))
-  if(objname=="."){
-    objname<-"`Magrittr` pipe conveyed object"
+  objname <- deparse(substitute(x))
+  if (objname == ".") {
+    objname <- "`Magrittr` pipe conveyed object"
   }
-  res<-doEnrichGT(x,ClusterNum,P.adj,force,objname=objname,nTop=nTop,method,...)
+  res <- doEnrichGT(
+    x,
+    ClusterNum,
+    P.adj,
+    force,
+    objname = objname,
+    nTop = nTop,
+    method,
+    ...
+  )
   cli::cli_alert_success("re-enrichment done.")
-  cli::cli_alert_info("You can adjust the param of egt_recluster_analysis() for better results. Please refer to the help page. ")
+  cli::cli_alert_info(
+    "You can adjust the param of egt_recluster_analysis() for better results. Please refer to the help page. "
+  )
   return(res)
 }
 
 .onAttach <- function(libname, pkgname) {
   required_packages <- c(
-    "dplyr", "fontawesome", "glue", "gt", "proxy",
-    "RColorBrewer", "rlang", "scales", "text2vec",
-    "tibble","forcats","ggplot2", "Matrix", "xfun"
+    "dplyr",
+    "fontawesome",
+    "glue",
+    "gt",
+    "proxy",
+    "RColorBrewer",
+    "rlang",
+    "scales",
+    "text2vec",
+    "tibble",
+    "forcats",
+    "ggplot2",
+    "Matrix",
+    "xfun"
   )
-  missing_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
+  missing_packages <- required_packages[
+    !(required_packages %in% installed.packages()[, "Package"])
+  ]
 
   if (length(missing_packages) > 0) {
-    package_message <- paste("The following packages are not installed but are required: ",
-                             paste(missing_packages, collapse = ", "))
-    package_message <- paste(package_message, "\nPlease install them using install.packages() or BiocManager::install() for Bioconductor packages.")
+    package_message <- paste(
+      "The following packages are not installed but are required: ",
+      paste(missing_packages, collapse = ", ")
+    )
+    package_message <- paste(
+      package_message,
+      "\nPlease install them using install.packages() or BiocManager::install() for Bioconductor packages."
+    )
     packageStartupMessage(package_message)
   } else {
     suppressPackageStartupMessages({

@@ -7,14 +7,14 @@
 #' @export
 #' @author Zhiming Ye
 #'
-genes_with_weights<-function(genes,weights){
+genes_with_weights <- function(genes, weights) {
   genes -> Gene
   weights -> Weight
   log2FC <- Weight
-  Genetable <- data.frame(Gene=Gene,log2FC=log2FC)
+  Genetable <- data.frame(Gene = Gene, log2FC = log2FC)
   Genetable <- Genetable |> dplyr::arrange(desc(log2FC))
   GSElist <- as.numeric(Genetable$log2FC)
-  names(GSElist)<-Genetable$Gene
+  names(GSElist) <- Genetable$Gene
   GSElist = sort(GSElist, decreasing = TRUE)
   return(GSElist)
 }
@@ -38,36 +38,52 @@ genes_with_weights<-function(genes,weights){
 #' @return data.frame
 #' @author cited from https://github.com/YuLab-SMU/gson/blob/main/R/GMT.R . The further Cache system is written by Zhiming Ye.
 
-database_from_gmt <- function (gmtfile,OrgDB = NULL,convert_2_symbols=T) {
-  x <- UniversalInternalDBFetcher("SelfBuild",NULL,gmtfile)
-  if(convert_2_symbols){
-    if(is.null(OrgDB)){
+database_from_gmt <- function(gmtfile, OrgDB = NULL, convert_2_symbols = T) {
+  x <- UniversalInternalDBFetcher("SelfBuild", NULL, gmtfile)
+  if (convert_2_symbols) {
+    if (is.null(OrgDB)) {
       cli::cli_abort("No valid OrgDB, please load it and input")
     }
     x <- x |> as_tibble()
-    if(ncol(x)>3){
+    if (ncol(x) > 3) {
       cli::cli_abort("Not valid gmt file! ")
     }
-    if(nrow(x)<20){
+    if (nrow(x) < 20) {
       Target <- nrow(x)
-    }else{
-      Target <-20
+    } else {
+      Target <- 20
     }
-    if(((is_numeric_string(x[1:Target,ncol(x),drop=T]) |> sum())/Target)>0.75){
-      cli::cli_alert_info("Detectd numeric gene ids, try to convert to symols.\n You can set convert_2_symbols=F to disable this.")
-      colnames(x)[ncol(x)]<-"ENTREZID"
-      tryCatch({
-        qq <- convert_annotations_genes(x$ENTREZID,from_what = "ENTREZID",to_what = "SYMBOL",OrgDB = OrgDB)
-        if(nrow(qq |> na.omit())<5){
-          cli::cli_abort("Error in convert. Please set convert_2_symbols=F to disable this")
+    if (
+      ((is_numeric_string(x[1:Target, ncol(x), drop = T]) |> sum()) / Target) >
+        0.75
+    ) {
+      cli::cli_alert_info(
+        "Detectd numeric gene ids, try to convert to symols.\n You can set convert_2_symbols=F to disable this."
+      )
+      colnames(x)[ncol(x)] <- "ENTREZID"
+      tryCatch(
+        {
+          qq <- convert_annotations_genes(
+            x$ENTREZID,
+            from_what = "ENTREZID",
+            to_what = "SYMBOL",
+            OrgDB = OrgDB
+          )
+          if (nrow(qq |> na.omit()) < 5) {
+            cli::cli_abort(
+              "Error in convert. Please set convert_2_symbols=F to disable this"
+            )
+          }
+
+          x <- x |> left_join(qq, by = "ENTREZID")
+          x <- x |> dplyr::select(-ENTREZID)
+        },
+        error = function(e) {
+          cli::cli_abort(
+            "Error in convert. Please set convert_2_symbols=F to disable this"
+          )
         }
-
-        x <- x |> left_join(qq,by="ENTREZID")
-        x <- x |> dplyr::select(-ENTREZID)
-      },error=function(e){
-        cli::cli_abort("Error in convert. Please set convert_2_symbols=F to disable this")
-      })
-
+      )
     }
   }
 
@@ -80,19 +96,19 @@ database_from_gmt <- function (gmtfile,OrgDB = NULL,convert_2_symbols=T) {
 #' @description
 #' ORA is a statistical method used to identify biological pathways or gene sets that are significantly enriched in a given list of genes (e.g., differentially expressed genes). The method compares the proportion of genes in the target list that belong to a specific category (e.g., pathways, GO terms) to the expected proportion in the background gene set.
 #'
-#' To accelerate the computation in ORA analysis, `EnrichGT` have implemented a function that leverages C++ for high-performance computation. The core algorithm utilizes hash tables for efficient lookup and counting of genes across categories. Also It provides multi-Core parallel calculation by package `parallel`. But this function is fast enough, `parallel` function will be removed in future. 
-#' 
-#' 
+#' To accelerate the computation in ORA analysis, `EnrichGT` have implemented a function that leverages C++ for high-performance computation. The core algorithm utilizes hash tables for efficient lookup and counting of genes across categories. Also It provides multi-Core parallel calculation by package `parallel`. But this function is fast enough, `parallel` function will be removed in future.
+#'
+#'
 #'
 #' @usage res <- egt_enrichment_analysis(genes = DEGtable$Genes,
 #' database = database_GO_BP(org.Hs.eg.db))
 #'
 #' @usage res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
 #' database = database_GO_ALL(org.Hs.eg.db))
-#' 
+#'
 #' @usage res <- egt_enrichment_analysis(genes = genes_with_weights(geneSymbols, log2FC),
 #' database = database_KEGG(kegg_organism="hsa",OrgDB = org.Hs.eg.db))
-#' 
+#'
 #' @usage res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
 #' database = database_from_gmt("./MsigDB_Hallmark.gmt"))
 #'
@@ -105,18 +121,18 @@ database_from_gmt <- function (gmtfile,OrgDB = NULL,convert_2_symbols=T) {
 #' If you have genes from multiple source or experiment group, you can also pass a list with gene ids in it. For Example , `list(Macrophages=c("CD169","CD68","CD163"),Fibroblast=c("COL1A2","COL1A3))`.
 #'
 #' The genes should be match in the second param `database`'s `gene` column. For example, if database provides Ensembl IDs, you should input Ensembl IDs. But in default databases provided by `EnrichGT` is gene symbols.
-#' 
-#' Of note, since ver 0.8, genes argument supports inputs from genes_with_weights(), EnrichGT will use the whole DEG for ORA, and final split gene candidated into high-expressing and lowly-expressing according to weights. 
+#'
+#' Of note, since ver 0.8, genes argument supports inputs from genes_with_weights(), EnrichGT will use the whole DEG for ORA, and final split gene candidated into high-expressing and lowly-expressing according to weights.
 #'
 #' @param database a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run `database_GO_CC()` to get them, see example.
 #'
 #' You can run `database_GO_CC()` to see an example.
 #'
-#' The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with `database_...`, like `database_GO_BP()` or `database_Reactome()`. 
+#' The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with `database_...`, like `database_GO_BP()` or `database_Reactome()`.
 #'
 #' The default gene in each database EnrichGT provided to input is `GENE SYMBOL` (like TP53, not 1256 or ENSG...), not `ENTREZ ID` or `Ensembl ID`.
 #'
-#' It will be more convince for new users. Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()`, `database_KEGG()` and `database_Reactome()`. See \code{https://zhimingye.github.io/EnrichGT/database.html}. 
+#' It will be more convince for new users. Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()`, `database_KEGG()` and `database_Reactome()`. See \code{https://zhimingye.github.io/EnrichGT/database.html}.
 #'
 #' You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using `database_from_gmt(FILE_PATH)`.
 #'
@@ -133,48 +149,96 @@ database_from_gmt <- function (gmtfile,OrgDB = NULL,convert_2_symbols=T) {
 #' @export
 #'
 #' @author Zhiming Ye
-egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_off=0.5,background_genes=NULL,min_geneset_size=10,max_geneset_size=500,multi_cores=0){
-  if(is.character(genes)|is.numeric(genes)){
-    result <- doEnrich_Internal(genes,database,p_adj_methods,p_val_cut_off,background_genes,min_geneset_size,max_geneset_size)
-  }else if(is.list(genes)&multi_cores<=1){
-    result <- lapply(genes,function(x){
-      tryCatch({
-        res <- doEnrich_Internal(genes=x,database,p_adj_methods,p_val_cut_off,background_genes,min_geneset_size,max_geneset_size)
-        return(res)
-      },error=function(e){
-        return(data.frame(ERROR="error..."))
-      })
-    })
-  }else if(is.list(genes)&multi_cores>=2){
-    require(parallel)
-    result <- parallel::mclapply(genes,function(x){
-      tryCatch({
-        res <- doEnrich_Internal(genes=x,database,p_adj_methods,p_val_cut_off,background_genes,min_geneset_size,max_geneset_size)
-        return(res)
-      },error=function(e){
-        return(data.frame(ERROR="error..."))
-      })
-    },mc.cores = multi_cores)
-  }
-  tryCatch({
-    if(is.data.frame(result)){
-      result <- result |> dplyr::filter(pvalue<p_val_cut_off) |> dplyr::arrange(pvalue)
-    }else if(is.list(result)){
-      result <- lapply(result,function(x){
-        if(is.data.frame(x)){
-          if(ncol(x)>3 & nrow(x)>3){
-            z <- x |> dplyr::filter(pvalue<p_val_cut_off) |> dplyr::arrange(pvalue)
-            return(z)
-          }
+egt_enrichment_analysis <- function(
+  genes,
+  database,
+  p_adj_methods = "BH",
+  p_val_cut_off = 0.5,
+  background_genes = NULL,
+  min_geneset_size = 10,
+  max_geneset_size = 500,
+  multi_cores = 0
+) {
+  if (is.character(genes) | is.numeric(genes)) {
+    result <- doEnrich_Internal(
+      genes,
+      database,
+      p_adj_methods,
+      p_val_cut_off,
+      background_genes,
+      min_geneset_size,
+      max_geneset_size
+    )
+  } else if (is.list(genes) & multi_cores <= 1) {
+    result <- lapply(genes, function(x) {
+      tryCatch(
+        {
+          res <- doEnrich_Internal(
+            genes = x,
+            database,
+            p_adj_methods,
+            p_val_cut_off,
+            background_genes,
+            min_geneset_size,
+            max_geneset_size
+          )
+          return(res)
+        },
+        error = function(e) {
+          return(data.frame(ERROR = "error..."))
         }
-
+      )
+    })
+  } else if (is.list(genes) & multi_cores >= 2) {
+    require(parallel)
+    result <- parallel::mclapply(
+      genes,
+      function(x) {
+        tryCatch(
+          {
+            res <- doEnrich_Internal(
+              genes = x,
+              database,
+              p_adj_methods,
+              p_val_cut_off,
+              background_genes,
+              min_geneset_size,
+              max_geneset_size
+            )
+            return(res)
+          },
+          error = function(e) {
+            return(data.frame(ERROR = "error..."))
+          }
+        )
+      },
+      mc.cores = multi_cores
+    )
+  }
+  tryCatch(
+    {
+      if (is.data.frame(result)) {
+        result <- result |>
+          dplyr::filter(pvalue < p_val_cut_off) |>
+          dplyr::arrange(pvalue)
+      } else if (is.list(result)) {
+        result <- lapply(result, function(x) {
+          if (is.data.frame(x)) {
+            if (ncol(x) > 3 & nrow(x) > 3) {
+              z <- x |>
+                dplyr::filter(pvalue < p_val_cut_off) |>
+                dplyr::arrange(pvalue)
+              return(z)
+            }
+          }
         })
+      }
+    },
+    error = function(e) {
+      message_wrong_db()
+      cli::cli_abort("No useable result!")
     }
-
-  },error=function(e){
-    message_wrong_db()
-    cli::cli_abort("No useable result!")
-  })
+  )
   return(result)
 }
 
@@ -203,7 +267,7 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
 #'
 #' The default gene in each database EnrichGT provided to input is `GENE SYMBOL` (like TP53, not 1256 or ENSG...), not `ENTREZ ID` or `Ensembl ID`. It will be more convince for new users.
 #'
-#' Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()`, `database_KEGG()` and `database_Reactome()`. See \code{https://zhimingye.github.io/EnrichGT/database.html}. 
+#' Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()`, `database_KEGG()` and `database_Reactome()`. See \code{https://zhimingye.github.io/EnrichGT/database.html}.
 #'
 #' You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using `database_from_gmt(FILE_PATH)`.
 #'
@@ -220,76 +284,137 @@ egt_enrichment_analysis <- function(genes,database,p_adj_methods="BH",p_val_cut_
 #' @author warpped from fgsea package.
 #' @importFrom fgsea fgsea
 #'
-egt_gsea_analysis <- function(genes,database,p_val_cut_off=0.5,min_geneset_size=10,max_geneset_size=500,gseaParam=1){
-  if(!is.list(genes)){
-    res <- egt_gsea_analysis_internal(genes=genes,database=database,p_val_cut_off=p_val_cut_off,min_geneset_size=min_geneset_size,max_geneset_size=max_geneset_size,gseaParam=gseaParam)
-  }else{
-    res <- lapply(genes,function(x){
-      tryCatch({
-        output <- egt_gsea_analysis_internal(genes=x,database=database,p_val_cut_off=p_val_cut_off,min_geneset_size=min_geneset_size,max_geneset_size=max_geneset_size,gseaParam=gseaParam)
-      },error=function(e){
-        output <- NULL
-      })
+egt_gsea_analysis <- function(
+  genes,
+  database,
+  p_val_cut_off = 0.5,
+  min_geneset_size = 10,
+  max_geneset_size = 500,
+  gseaParam = 1
+) {
+  if (!is.list(genes)) {
+    res <- egt_gsea_analysis_internal(
+      genes = genes,
+      database = database,
+      p_val_cut_off = p_val_cut_off,
+      min_geneset_size = min_geneset_size,
+      max_geneset_size = max_geneset_size,
+      gseaParam = gseaParam
+    )
+  } else {
+    res <- lapply(genes, function(x) {
+      tryCatch(
+        {
+          output <- egt_gsea_analysis_internal(
+            genes = x,
+            database = database,
+            p_val_cut_off = p_val_cut_off,
+            min_geneset_size = min_geneset_size,
+            max_geneset_size = max_geneset_size,
+            gseaParam = gseaParam
+          )
+        },
+        error = function(e) {
+          output <- NULL
+        }
+      )
       return(output)
     })
   }
   return(res)
 }
 #' @importFrom fgsea fgsea
-egt_gsea_analysis_internal <- function(genes,database,p_val_cut_off=0.5,min_geneset_size=10,max_geneset_size=500,gseaParam=1,for_figures=F){
+egt_gsea_analysis_internal <- function(
+  genes,
+  database,
+  p_val_cut_off = 0.5,
+  min_geneset_size = 10,
+  max_geneset_size = 500,
+  gseaParam = 1,
+  for_figures = F
+) {
   suppressPackageStartupMessages({
     requireNamespace("fgsea")
   })
-  tryCatch({
-    if(ncol(database)!=2&ncol(database)!=3){
+  tryCatch(
+    {
+      if (ncol(database) != 2 & ncol(database) != 3) {
+        message_wrong_db()
+        cli::cli_abort("Not valid database")
+      }
+    },
+    error = function(e) {
       message_wrong_db()
       cli::cli_abort("Not valid database")
     }
-  },error=function(e){
-    message_wrong_db()
-    cli::cli_abort("Not valid database")
-  })
-  if(ncol(database)==3){
-    colnames(database) <- c("ID","term","gene")
-    db0 <- database[,c(1,2)]
-    database <- database[,c(2,3)]
-  }else{
+  )
+  if (ncol(database) == 3) {
+    colnames(database) <- c("ID", "term", "gene")
+    db0 <- database[, c(1, 2)]
+    database <- database[, c(2, 3)]
+  } else {
     colnames(database)[1] <- "term"
     db0 <- data.frame(ID = database$term, term = database$term)
   }
-  db0 <- db0 |> dplyr::mutate(CheckDup = paste0(ID,term)) |> dplyr::filter(!duplicated(CheckDup)) |> dplyr::select(-CheckDup) |> dplyr::rename(pathway = term) # Because of output is pathway
+  db0 <- db0 |>
+    dplyr::mutate(CheckDup = paste0(ID, term)) |>
+    dplyr::filter(!duplicated(CheckDup)) |>
+    dplyr::select(-CheckDup) |>
+    dplyr::rename(pathway = term) # Because of output is pathway
   colnames(database) <- c("term", "gene")
-  database2 <- split(database$gene,database$term)
+  database2 <- split(database$gene, database$term)
   t1 <- Sys.time()
-  if(for_figures){
+  if (for_figures) {
     return(list(PWS = database2, RKS = genes))
   }
-  fgseaRes <- fgsea::fgsea(pathways = database2,
-                    stats    = genes,
-                    minSize  = min_geneset_size,
-                    maxSize  = max_geneset_size,
-                    gseaParam=gseaParam)
-  fgseaRes <- fgseaRes |> dplyr::left_join(db0,by="pathway")
+  fgseaRes <- fgsea::fgsea(
+    pathways = database2,
+    stats = genes,
+    minSize = min_geneset_size,
+    maxSize = max_geneset_size,
+    gseaParam = gseaParam
+  )
+  fgseaRes <- fgseaRes |> dplyr::left_join(db0, by = "pathway")
   t2 <- Sys.time()
-  cli::cli_alert_success(paste0("Sucessful GSEA, time last ", (t2-t1)," secs."))
-  fgseaRes2 <- data.frame(ID = fgseaRes$ID,
-                          Description = fgseaRes$pathway,
-                          ES = fgseaRes$ES,
-                          NES = fgseaRes$NES,
-                          pvalue = fgseaRes$pval,
-                          p.adjust = fgseaRes$padj,
-                          core_enrichment = sapply(fgseaRes$leadingEdge,function(x)paste(x,collapse ="/")))#,fgsea_leadingEdge = fgseaRes$leadingEdge
-  tryCatch({
-    fgseaRes2 <- fgseaRes2 |> dplyr::filter(pvalue<p_val_cut_off) |> dplyr::arrange(desc(NES))
-  },error=function(e){
-    message_wrong_db()
-    cli::cli_abort("No useable result!")
-  })
+  cli::cli_alert_success(paste0(
+    "Sucessful GSEA, time last ",
+    (t2 - t1),
+    " secs."
+  ))
+  fgseaRes2 <- data.frame(
+    ID = fgseaRes$ID,
+    Description = fgseaRes$pathway,
+    ES = fgseaRes$ES,
+    NES = fgseaRes$NES,
+    pvalue = fgseaRes$pval,
+    p.adjust = fgseaRes$padj,
+    core_enrichment = sapply(
+      fgseaRes$leadingEdge,
+      function(x) paste(x, collapse = "/")
+    )
+  ) #,fgsea_leadingEdge = fgseaRes$leadingEdge
+  tryCatch(
+    {
+      fgseaRes2 <- fgseaRes2 |>
+        dplyr::filter(pvalue < p_val_cut_off) |>
+        dplyr::arrange(desc(NES))
+    },
+    error = function(e) {
+      message_wrong_db()
+      cli::cli_abort("No useable result!")
+    }
+  )
   return(fgseaRes2)
 }
 
-message_wrong_db<-function(){
-  cli::cli_alert_danger("Please re-check the database OrgDB argument or input GMT file matchs the inputed genes. \nYou should input gene symbols when your database contains gene symbols, ENSEMBL IDs when ENSEMBL IDs. \nAnother possible reason is that you may forget to run: ")
-  cli::cli_code("library(org.Hs.eg.db) # for humans, if mouse use org.Mm.eg.db. Please re-check")
-  cli::cli_code("See https://zhimingye.github.io/EnrichGT/database.html for further details")
+message_wrong_db <- function() {
+  cli::cli_alert_danger(
+    "Please re-check the database OrgDB argument or input GMT file matchs the inputed genes. \nYou should input gene symbols when your database contains gene symbols, ENSEMBL IDs when ENSEMBL IDs. \nAnother possible reason is that you may forget to run: "
+  )
+  cli::cli_code(
+    "library(org.Hs.eg.db) # for humans, if mouse use org.Mm.eg.db. Please re-check"
+  )
+  cli::cli_code(
+    "See https://zhimingye.github.io/EnrichGT/database.html for further details"
+  )
 }

@@ -35,3 +35,27 @@ new.egt <- function(x1,x2,x3,x4,x5,x6,x7){
   }
   return(objegt)
 }
+
+`%del%` <- function(x,y){
+  if(class(x)=="EnrichGT_obj"){
+    if(nrow(x@enriched_result)>2){
+      x@enriched_result <- x@enriched_result |> dplyr::filter(!grepl(y,x@enriched_result$Description))
+      if(sum(colnames(x@enriched_result)=="NES")>0){
+        xx <- x@enriched_result |> dplyr::mutate(Reg=ifelse(NES>0,"red","forestgreen"))
+        x@gt_object <-xx |> gt_gsea(ClusterNum="previous",objname=glue::glue("remove:{x}"),...)
+        obj3 <- x@enriched_result |> genMetaGM(type="GSEA")
+        x@gene_modules <- obj3[[1]]
+        x@pathway_clusters <- obj3[[2]]
+      }
+      return(x)
+    }
+  }
+  else if(is.data.frame(x)){
+      x <- x |> dplyr::filter(!grepl(y,x$Description))
+      return(x)
+  }
+  else{
+    cli::cli_abort("Please provide enriched results. ")
+  }
+  
+}
