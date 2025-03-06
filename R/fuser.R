@@ -1,50 +1,122 @@
-setGeneric("cpres_internal_getter",function(x,...) standardGeneric("cpres_internal_getter"))
-setMethod("cpres_internal_getter", signature(x = "enrichResult"),function(x,...){
-  y<-x@result
-  if(dim(y)[1]==0){
-    cli::cli_abort("no enrichment result contains")
-  }
-  if(sum(colnames(y)%in%c("ID","Description","GeneRatio","pvalue","p.adjust","geneID","Count"))!=7){
-    cli::cli_abort("At list contains needed columns")
-  }
-  y<-y |> dplyr::select(ID,Description,GeneRatio,pvalue,p.adjust,geneID,Count)
-  return(y)
-})
-setMethod("cpres_internal_getter", signature(x = "gseaResult"),function(x,...){
-  y<-x@result
-  if(dim(y)[1]==0){
-    cli::cli_abort("no enrichment result contains")
-  }
-  if(sum(colnames(y)%in%c("ID","Description","NES","pvalue","p.adjust","core_enrichment"))!=6){
-    cli::cli_abort("At list contains needed columns")
-  }
-  y<-y |> dplyr::select(ID,Description,NES,pvalue,p.adjust,core_enrichment)
-  return(y)
-})
-setMethod("cpres_internal_getter", signature(x = "data.frame"),function(x,...){
-  x -> y
-  if(sum(colnames(x)=="NES")==0){
-    if(sum(colnames(y)%in%c("ID","Description","GeneRatio","pvalue","p.adjust","geneID","Count"))!=7){
-      cli::cli_abort("At list contains needed columns")
-    }
-    if(dim(y)[1]==0){
+setGeneric(
+  "cpres_internal_getter",
+  function(x, ...) standardGeneric("cpres_internal_getter")
+)
+setMethod(
+  "cpres_internal_getter",
+  signature(x = "enrichResult"),
+  function(x, ...) {
+    y <- x@result
+    if (dim(y)[1] == 0) {
       cli::cli_abort("no enrichment result contains")
     }
-    y<-y |> dplyr::select(ID,Description,GeneRatio,pvalue,p.adjust,geneID,Count)
-    return(y)
-  }
-  else{
-    if(sum(colnames(y)%in%c("ID","Description","NES","pvalue","p.adjust","core_enrichment"))!=6){
+    if (
+      sum(
+        colnames(y) %in%
+          c(
+            "ID",
+            "Description",
+            "GeneRatio",
+            "pvalue",
+            "p.adjust",
+            "geneID",
+            "Count"
+          )
+      ) !=
+        7
+    ) {
       cli::cli_abort("At list contains needed columns")
     }
-    if(dim(y)[1]==0){
-      cli::cli_abort("no enrichment result contains")
-    }
-    y<-y |> dplyr::select(ID,Description,NES,pvalue,p.adjust,core_enrichment)
+    y <- y |>
+      dplyr::select(ID, Description, GeneRatio, pvalue, p.adjust, geneID, Count)
     return(y)
   }
-
-})
+)
+setMethod(
+  "cpres_internal_getter",
+  signature(x = "gseaResult"),
+  function(x, ...) {
+    y <- x@result
+    if (dim(y)[1] == 0) {
+      cli::cli_abort("no enrichment result contains")
+    }
+    if (
+      sum(
+        colnames(y) %in%
+          c("ID", "Description", "NES", "pvalue", "p.adjust", "core_enrichment")
+      ) !=
+        6
+    ) {
+      cli::cli_abort("At list contains needed columns")
+    }
+    y <- y |>
+      dplyr::select(ID, Description, NES, pvalue, p.adjust, core_enrichment)
+    return(y)
+  }
+)
+setMethod(
+  "cpres_internal_getter",
+  signature(x = "data.frame"),
+  function(x, ...) {
+    x -> y
+    if (sum(colnames(x) == "NES") == 0) {
+      if (
+        sum(
+          colnames(y) %in%
+            c(
+              "ID",
+              "Description",
+              "GeneRatio",
+              "pvalue",
+              "p.adjust",
+              "geneID",
+              "Count"
+            )
+        ) !=
+          7
+      ) {
+        cli::cli_abort("At list contains needed columns")
+      }
+      if (dim(y)[1] == 0) {
+        cli::cli_abort("no enrichment result contains")
+      }
+      y <- y |>
+        dplyr::select(
+          ID,
+          Description,
+          GeneRatio,
+          pvalue,
+          p.adjust,
+          geneID,
+          Count
+        )
+      return(y)
+    } else {
+      if (
+        sum(
+          colnames(y) %in%
+            c(
+              "ID",
+              "Description",
+              "NES",
+              "pvalue",
+              "p.adjust",
+              "core_enrichment"
+            )
+        ) !=
+          6
+      ) {
+        cli::cli_abort("At list contains needed columns")
+      }
+      if (dim(y)[1] == 0) {
+        cli::cli_abort("no enrichment result contains")
+      }
+      y <- y |>
+        dplyr::select(ID, Description, NES, pvalue, p.adjust, core_enrichment)
+      return(y)
+    }
+  }
+)
 
 #' 2-Group Comparison of enrichment results and further clustering and visualizing
 #'
@@ -75,50 +147,125 @@ setMethod("cpres_internal_getter", signature(x = "data.frame"),function(x,...){
 #' @export
 #'
 #' @author Zhiming Ye
-egt_compare_groups<-function(obj.test,obj.ctrl,name.test=NULL,name.ctrl=NULL,ClusterNum=15,P.adj=0.05,force=F,nTop=10,method="ward.D2",...){
-  testdf<-cpres_internal_getter(obj.test)
-  ctrldf<-cpres_internal_getter(obj.ctrl)
-  overlapped <- testdf$ID[testdf$ID%in%ctrldf$ID]
-  testOnly <- testdf$ID[!testdf$ID%in%ctrldf$ID]
-  ctrlOnly <- ctrldf$ID[!ctrldf$ID%in%testdf$ID]
-  ctrlOnlyDF<-ctrldf[ctrldf$ID%in%ctrlOnly,]
-  testOnlyDF<-testdf[testdf$ID%in%testOnly,]
-  ctrlOverlapDF<-ctrldf[!ctrldf$ID%in%ctrlOnly,]
-  testOverlapDF<-testdf[!testdf$ID%in%testOnly,]
-  Overlap_Control<-tryCatch({
-    universalGT(ctrlOverlapDF,objname2="Overlap_Control",ClusterNum=ClusterNum,P.adj=P.adj,force=force,nTop=nTop,method=method,...)},error=function(e){
-      message_egt("Error in parsing Overlap_Control, EnrichGT will return the raw data frame.",Type=1)
+egt_compare_groups <- function(
+  obj.test,
+  obj.ctrl,
+  name.test = NULL,
+  name.ctrl = NULL,
+  ClusterNum = 15,
+  P.adj = 0.05,
+  force = F,
+  nTop = 10,
+  method = "ward.D2",
+  ...
+) {
+  testdf <- cpres_internal_getter(obj.test)
+  ctrldf <- cpres_internal_getter(obj.ctrl)
+  overlapped <- testdf$ID[testdf$ID %in% ctrldf$ID]
+  testOnly <- testdf$ID[!testdf$ID %in% ctrldf$ID]
+  ctrlOnly <- ctrldf$ID[!ctrldf$ID %in% testdf$ID]
+  ctrlOnlyDF <- ctrldf[ctrldf$ID %in% ctrlOnly, ]
+  testOnlyDF <- testdf[testdf$ID %in% testOnly, ]
+  ctrlOverlapDF <- ctrldf[!ctrldf$ID %in% ctrlOnly, ]
+  testOverlapDF <- testdf[!testdf$ID %in% testOnly, ]
+  Overlap_Control <- tryCatch(
+    {
+      universalGT(
+        ctrlOverlapDF,
+        objname2 = "Overlap_Control",
+        ClusterNum = ClusterNum,
+        P.adj = P.adj,
+        force = force,
+        nTop = nTop,
+        method = method,
+        ...
+      )
+    },
+    error = function(e) {
+      message_egt(
+        "Error in parsing Overlap_Control, EnrichGT will return the raw data frame.",
+        Type = 1
+      )
       return(ctrlOverlapDF)
     }
   )
-  Overlap_Test<-tryCatch({
-    universalGT(testOverlapDF,objname2="Overlap_Test",ClusterNum=ClusterNum,P.adj=P.adj,force=force,nTop=nTop,method=method,...)},error=function(e){
-      message_egt("Error in parsing Overlap_Test, EnrichGT will return the raw data frame.",Type=1)
+  Overlap_Test <- tryCatch(
+    {
+      universalGT(
+        testOverlapDF,
+        objname2 = "Overlap_Test",
+        ClusterNum = ClusterNum,
+        P.adj = P.adj,
+        force = force,
+        nTop = nTop,
+        method = method,
+        ...
+      )
+    },
+    error = function(e) {
+      message_egt(
+        "Error in parsing Overlap_Test, EnrichGT will return the raw data frame.",
+        Type = 1
+      )
       return(testOverlapDF)
     }
   )
-  Control_Only<-tryCatch({
-    universalGT(ctrlOnlyDF,objname2="Control_Only",ClusterNum=ClusterNum,P.adj=P.adj,force=force,nTop=nTop,method=method,...)},error=function(e){
-      message_egt("Error in parsing Control_Only, EnrichGT will return the raw data frame.",Type=1)
+  Control_Only <- tryCatch(
+    {
+      universalGT(
+        ctrlOnlyDF,
+        objname2 = "Control_Only",
+        ClusterNum = ClusterNum,
+        P.adj = P.adj,
+        force = force,
+        nTop = nTop,
+        method = method,
+        ...
+      )
+    },
+    error = function(e) {
+      message_egt(
+        "Error in parsing Control_Only, EnrichGT will return the raw data frame.",
+        Type = 1
+      )
       return(ctrlOnlyDF)
     }
   )
-  Test_Only<-tryCatch({
-    universalGT(testOnlyDF,objname2="Test_Only",ClusterNum=ClusterNum,P.adj=P.adj,force=force,nTop=nTop,method=method,...)},error=function(e){
-      message_egt("Error in parsing Test_Only, EnrichGT will return the raw data frame.",Type=1)
+  Test_Only <- tryCatch(
+    {
+      universalGT(
+        testOnlyDF,
+        objname2 = "Test_Only",
+        ClusterNum = ClusterNum,
+        P.adj = P.adj,
+        force = force,
+        nTop = nTop,
+        method = method,
+        ...
+      )
+    },
+    error = function(e) {
+      message_egt(
+        "Error in parsing Test_Only, EnrichGT will return the raw data frame.",
+        Type = 1
+      )
       return(testOnlyDF)
     }
   )
-  resultlist<-list(`Overlap_Control`=Overlap_Control,`Overlap_Test`=Overlap_Test,`Control_Only`=Control_Only,`Test_Only`=Test_Only)
+  resultlist <- list(
+    `Overlap_Control` = Overlap_Control,
+    `Overlap_Test` = Overlap_Test,
+    `Control_Only` = Control_Only,
+    `Test_Only` = Test_Only
+  )
   return(resultlist)
 }
 
-universalGT<-function(x,...){
-  if("NES"%in%colnames(x)){
-    x1<-.genGSEAGT(x,...)
-  }
-  else{
-    x1<-.genGT(x,...)
+universalGT <- function(x, ...) {
+  if ("NES" %in% colnames(x)) {
+    x1 <- .genGSEAGT(x, ...)
+  } else {
+    x1 <- .genGT(x, ...)
   }
   x1@fused <- T
   return(x1)
