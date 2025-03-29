@@ -14,7 +14,6 @@ gt_gsea <- function(x, ClusterNum, objname, objname2 = NULL, ...) {
       absNES,
       pal = RColorBrewer::brewer.pal(8, "PuBuGn") |> rev()
     ) |>
-    gt_merge_stack2(col2 = ID, col1 = Description) |>
     # gt::cols_add(dir = ifelse(Reg=="Up", "red", "forestgreen")) |>
     gt::cols_label(Reg = "") |>
     gt::text_case_match(
@@ -30,6 +29,7 @@ gt_gsea <- function(x, ClusterNum, objname, objname2 = NULL, ...) {
       locations = cells_body()
     ) |>
     gt::row_group_order(groups = c(orderlist)) |>
+    gt_merge_stack2(col2 = ID, col1 = Description) |>
     gt::tab_header(
       title = paste0("Parse form: ", objname),
       subtitle = paste0(
@@ -61,12 +61,12 @@ gt_ora <- function(x, ClusterNum, objname, objname2 = NULL, ...) {
       Count,
       pal = RColorBrewer::brewer.pal(8, "PuBuGn") |> rev()
     ) |>
-    gt_merge_stack2(col2 = ID, col1 = Description) |>
     gt::tab_style(
       style = cell_text(size = px(13)),
       locations = cells_body()
     ) |>
     gt::row_group_order(groups = c(orderlist)) |>
+    gt_merge_stack2(col2 = ID, col1 = Description) |>
     gt::tab_header(
       title = paste0("Parse form: ", objname),
       subtitle = paste0(
