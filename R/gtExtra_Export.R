@@ -17,7 +17,7 @@ gt_merge_stack2 <- function(
   row_name_var <- gt_object[["_boxhead"]][["var"]][which(
     gt_object[["_boxhead"]][["type"]] == "stub"
   )]
-  data_in <- gt::gt_index2(gt_object, column = {{ col2 }})
+  data_in <- gt_index2(gt_object, column = {{ col2 }})
   gt_object |>
     gt::text_transform(
       locations = if (isTRUE(row_name_var == col1_bare)) {
