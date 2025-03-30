@@ -9,6 +9,7 @@ egt_plot_results(
   ntop = NULL,
   showIDs = F,
   max_len_descript = 40,
+  keepAll = F,
   ...,
   P.adj = NULL
 )

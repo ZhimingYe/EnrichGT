@@ -17,7 +17,7 @@ egt_infer_act(x, DB = "collectri", species = "human")
 an ORA result list
 }
 \description{
-Only supports gene symbols. 
+Only supports gene symbols.
 
 [PROGENy](https://saezlab.github.io/progeny/) is a comprehensive resource containing a curated collection of pathways and their target genes, with weights for each interaction.
 
