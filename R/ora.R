@@ -8,6 +8,8 @@ parse_gs <- function(gset) {
 
 #' @importFrom qvalue qvalue
 #' @importFrom stats p.adjust
+#' @importFrom utils stack
+#' @importFrom dplyr filter arrange left_join select mutate case_when
 #' @useDynLib EnrichGT
 #' @importFrom Rcpp sourceCpp
 doEnrich_Internal <- function(

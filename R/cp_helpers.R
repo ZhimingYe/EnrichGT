@@ -1,5 +1,9 @@
 #' @title Return ranked gene list which is use for "GSEA" or other places
-#'
+#' 
+#' @importFrom parallel mclapply
+#' @importFrom fgsea fgsea
+#' @importFrom utils stack
+#' 
 #' @param genes A vector containing genes
 #' @param weights A vector contain weight of genes, typically like log2FC from DEG analysis
 #'

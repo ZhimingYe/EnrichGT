@@ -31,8 +31,8 @@ A ggplot object:
 }
 }
 \description{
-This function creates graphical representations of Gene Set Enrichment Analysis (GSEA) results, 
-including either a multi-panel GSEA table plot for multiple pathways or a single pathway 
+This function creates graphical representations of Gene Set Enrichment Analysis (GSEA) results,
+including either a multi-panel GSEA table plot for multiple pathways or a single pathway
 enrichment plot. The visualization leverages the \code{fgsea} package's plotting functions.
 }
 \author{

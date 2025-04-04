@@ -1,7 +1,16 @@
-# Function export from gtExtra with litte modifying
+# Function export from gtExtra with litte modifying  
 # copyright Thomas Mock
 # MIT license
 # https://jthomasmock.github.io/gtExtras/index.html
+#
+#' @importFrom rlang enexpr as_string
+#' @importFrom glue glue
+#' @importFrom gt text_transform cells_stub cells_body cols_hide everything
+#' @importFrom scales col2hcl
+#' @importFrom rlang enexpr as_string
+#' @importFrom glue glue
+#' @importFrom gt text_transform cells_stub cells_body cols_hide everything
+#' @importFrom scales col2hcl
 gt_merge_stack2 <- function(
   gt_object,
   col1,
@@ -38,7 +47,7 @@ gt_merge_stack2 <- function(
     ) |>
     gt::cols_hide(columns = {{ col2 }})
 }
-
+#' @importFrom dplyr pull mutate arrange slice
 gt_index2 <- function(gt_object, column, as_vector = TRUE) {
   if (length(gt_object[["_row_groups"]]) >= 1) {
     gt_row_grps <- gt_object[["_row_groups"]]
@@ -56,6 +65,8 @@ gt_index2 <- function(gt_object, column, as_vector = TRUE) {
     df_ordered
   }
 }
+#' @importFrom scales col_numeric
+#' @importFrom gt data_color
 gt_hulk_col_numeric2 <- function(
   gt_object,
   columns = NULL,
