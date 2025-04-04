@@ -2,11 +2,7 @@ setClass(
   "egt_llm",
   slots = list(
     pathways = "list",
-    genes = "list",
-    titles = "list",
-    index_of_pathways = "numeric",
-    index_of_genes = "numeric",
-    index_of_titles = "numeric"
+    genes_and_title = "list"
   )
 )
 

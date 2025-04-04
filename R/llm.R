@@ -7,7 +7,7 @@ promptList <- list(
   getTitle_English = "You are a biologist. I will provide you with a piece of biological text. \n``` text\n <PRERES> \n```\n Please help me generate a title for the biological topic. Only return the title itself—choose the single best (and only one) title. Do not return any other content."
 )
 
-retry_function <- function(FUN, ntry = 3, delay = 3, ...) {
+retry_function <- function(FUN, ntry = 5, delay = 3, ...) {
   for (attempt in 1:ntry) {
     result <- tryCatch(
       {
@@ -92,11 +92,13 @@ summarize_clusters <- function(x, chat, prompt_type = "English") {
       )
     }
   )
-  results
+  return(list(results = results,cluster_names = cluster_names))
 }
 
 
 summarize_genes <- function(x, y, chat, prompt_type = "English") {
+  clustersName <- y[["cluster_names"]]
+  y <- y[["results"]]
   have_exclude <- F
   excludeIndex <- c()
   if (!inherits(x, "EnrichGT_obj")) {
@@ -105,8 +107,8 @@ summarize_genes <- function(x, y, chat, prompt_type = "English") {
   if (sum(sapply(y, is.null)) > 0) {
     have_exclude <- T
     excludeIndex <- which(sapply(y, is.null))
-    x@gene_modules <- x@gene_modules[-excludeIndex]
     y <- y[-excludeIndex]
+    clustersName <- clustersName[-excludeIndex]
     excludeIndex_warning <- paste(excludeIndex, collapse = ", ")
     cli::cli_alert_danger(glue::glue(
       "In cluster summarize, {excludeIndex_warning} were faild to fetch LLM summary, in next steps they will be excluded. "
@@ -118,20 +120,35 @@ summarize_genes <- function(x, y, chat, prompt_type = "English") {
     "Chinese" = promptList$getGeneSummary_Chinese,
     cli::cli_abort("Invalid prompt_type, must be 'English' or 'Chinese'")
   )
+  prompt3 <- switch(
+    prompt_type,
+    "English" = promptList$getTitle_English,
+    "Chinese" = promptList$getTitle_Chinese,
+    cli::cli_abort("Invalid prompt_type, must be 'English' or 'Chinese'")
+  )
   need2summarize <- list()
-  for (i in 1:length(y)) {
+  need2summarize_names <- list()
+  index0 <- 1
+  for (i in clustersName) {
     prompt2 <- gsub(
       "<GENELIST>",
       paste(x@gene_modules[[i]], collapse = ", "),
       prompt
     )
-    prompt2 <- gsub("<BIOFUNS>", y[[i]], prompt2)
-    need2summarize[i] <- prompt2
+    prompt2 <- gsub("<BIOFUNS>", y[[which(clustersName == i)]], prompt2)
+    prompt3 <- gsub(
+      "<PRERES>",
+      y[[which(clustersName == i)]],
+      prompt3
+    )
+    need2summarize[index0] <- prompt2
+    names(need2summarize[index0]) <- i
+    need2summarize_names[index0] <- prompt3
+    names(need2summarize_names[index0]) <- i
+    index0 <- index0 + 1
   }
-  cluster_names <- names(x@gene_modules)
-  names(need2summarize) <- cluster_names
   results <- lapply(
-    cli::cli_progress_along(cluster_names, name = "Summarizing genes"),
+    cli::cli_progress_along(clustersName, name = "Summarizing genes"),
     function(cluster) {
       tryCatch(
         {
@@ -147,42 +164,13 @@ summarize_genes <- function(x, y, chat, prompt_type = "English") {
       )
     }
   )
-  return(list(
-    results = results,
-    have_exclude = have_exclude,
-    excludeIndex = excludeIndex
-  ))
-}
 
-summarize_title <- function(x, chat, prompt_type = "English") {
-  have_exclude <- F
-  excludeIndex <- c()
-  if (sum(sapply(x, is.null)) > 0) {
-    have_exclude <- T
-    excludeIndex <- which(sapply(x, is.null))
-    x <- x[-excludeIndex]
-    excludeIndex_warning <- paste(excludeIndex, collapse = ", ")
-    cli::cli_alert_danger(glue::glue(
-      "In cluster summarize, {excludeIndex_warning} were faild to fetch LLM summary, in next steps they will be excluded. "
-    ))
-  }
-  prompt <- switch(
-    prompt_type,
-    "English" = promptList$getTitle_English,
-    "Chinese" = promptList$getTitle_Chinese,
-    cli::cli_abort("Invalid prompt_type, must be 'English' or 'Chinese'")
-  )
-  cluster_names <- length(x)
-  results <- lapply(
-    cli::cli_progress_along(1:cluster_names, name = "Summarizing title"),
+  results2 <- lapply(
+    cli::cli_progress_along(clustersName, name = "Summarizing Titles"),
     function(cluster) {
       tryCatch(
         {
-          cluster_prompt <- gsub(
-            "<PRERES>",
-            paste(x[[cluster]], collapse = ", "),
-            prompt
-          )
+          cluster_prompt <- need2summarize_names[[cluster]]
           chatter(chat, cluster_prompt)
         },
         error = function(e) {
@@ -196,9 +184,57 @@ summarize_title <- function(x, chat, prompt_type = "English") {
   )
   return(list(
     results = results,
+    resultsTitle = results2,
     have_exclude = have_exclude,
-    excludeIndex = excludeIndex
+    excludeIndex = excludeIndex,
+    clustersName = clustersName
   ))
 }
 
-
+#' Summarize EnrichGT results using LLM
+#'
+#' This function uses a Large Language Model (LLM) to generate summaries for 
+#' pathway clusters and gene modules in an EnrichGT_obj object.
+#'
+#' @param x An EnrichGT_obj object created by \code{\link{egt_recluster_analysis}}.
+#' @param chat An LLM chat object created by the \code{ellmer} package.
+#'
+#' @return Returns the input EnrichGT_obj object with added LLM annotations in 
+#' the \code{LLM_Annotation} slot. The annotations include:
+#' \itemize{
+#'   \item \code{pathways}: Summaries of pathway clusters
+#'   \item \code{genes_and_title}: Summaries of gene modules and their titles
+#' }
+#'
+#' @examples
+#' \dontrun{
+#' # Create LLM chat object
+#' chat <- chat_deepseek(api_key = YOUR_API_KEY, model = "deepseek-chat", system_prompt = "")
+#' 
+#' # Run enrichment analysis and get EnrichGT_obj
+#' re_enrichment_results <- egt_recluster_analysis(...)
+#' 
+#' # Get LLM summaries
+#' re_enrichment_results <- egt_llm_summary(re_enrichment_results, chat)
+#' }
+#'
+#' @references
+#' For more information about creating chat objects, see the 
+#' \href{https://ellmer.tidyverse.org/index.html}{ellmer package documentation}.
+#'
+#' @note 
+#' It is recommended not to add system prompts when creating the chat object.
+#' The function provides its own carefully crafted prompts for biological analysis.
+#'
+#' @seealso \code{\link{egt_recluster_analysis}} to create the input object.
+#' @export
+egt_llm_summary <- function(x, chat){
+  if (class(x) != "EnrichGT_obj") cli::cli_abort("Please run `egt_recluster_analysis()` before summarizing. ")
+  a1 <- summarize_clusters(x, chat)
+  a2 <- summarize_genes(x, a1, chat)
+  obj_llm <- new("egt_llm")
+  obj_llm@pathways <- a1
+  obj_llm@genes_and_title <- a2
+  x@LLM_Annotation <- obj_llm
+  return(x)
+}
