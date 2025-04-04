@@ -1,12 +1,3 @@
-promptList <- list(
-  getModuleSummary_Chinese = "这是一些生物学富集分析后重新再次整理后得到的生物学主题列表。你是一名专业生物学家,帮我用一些话概括这些通路的主题是什么,反映了什么,有什么生物学解释的角度。请简洁有力,必要时提供依据。请您还需要为这个模块拟定一个代表性名字。请使用学术写作风格。请控制字数在250字左右,避免长篇大论。请输出纯文本,不包括markdown格式。参与这个模块的通路包括:<PATHWAYLIST>",
-  getGeneSummary_Chinese = "这是一系列Gene,可能具有类似生物学功能。前面已经总结他们的生物学功能可能包括\n```biofuns\n<BIOFUNS>\n```\n,帮我总结探索这些基因可能潜在的生物学角色,哪一些更加值得关注,提出您的见解。请不要分点,写成一段,请控制字数在250字左右。请输出纯文本,不包括markdown格式。这些Gene包括:<GENELIST>",
-  getTitle_Chinese = "你是一名生物学家,我提供给你一段生物学文本\n``` text\n <PRERES> \n```\n,请帮我的生物学主题拟定一个title。请您只返回标题本身,只返回最优的唯一(注意是唯一)标题,请不要返回任何其他的内容.",
-  getModuleSummary_English = "Here is a list of reorganized biological themes derived from enrichment analysis. As a professional biologist, please concisely summarize the overarching theme of these pathways, their biological implications, and possible interpretations. Provide evidence where necessary. Also, propose a representative name for this module. Use an academic writing style and limit the response to ~250 words. Output plain text only (no markdown). The included pathways are:<PATHWAYLIST>",
-  getGeneSummary_English = "Here is a set of genes that may share similar biological functions. Previous analysis suggests their potential functions may include \n```biofuns\n<BIOFUNS>\n```\n. As a professional biologist, please help summarize their potential biological roles, highlight which ones may be most noteworthy, and provide your insights. Write in a single paragraph (~250 words) without bullet points. Output plain text only (no markdown). The genes include:<GENELIST>",
-  getTitle_English = "You are a biologist. I will provide you with a piece of biological text. \n``` text\n <PRERES> \n```\n Please help me generate a title for the biological topic. Only return the title itself—choose the single best (and only one) title. Do not return any other content."
-)
-
 retry_function <- function(FUN, ntry = 5, delay = 3, ...) {
   for (attempt in 1:ntry) {
     result <- tryCatch(
@@ -58,6 +49,11 @@ wrong_llm <- function() {
 }
 
 summarize_clusters <- function(x, chat, prompt_type = "English") {
+  promptList <- readRDS(system.file(
+    "extdata",
+    "egtllm.data",
+    package = "EnrichGT"
+  ))
   if (!inherits(x, "EnrichGT_obj")) {
     cli::cli_abort("Input must be an EnrichGT_obj object")
   }
@@ -92,11 +88,16 @@ summarize_clusters <- function(x, chat, prompt_type = "English") {
       )
     }
   )
-  return(list(results = results,cluster_names = cluster_names))
+  return(list(results = results, cluster_names = cluster_names))
 }
 
 
 summarize_genes <- function(x, y, chat, prompt_type = "English") {
+  promptList <- readRDS(system.file(
+    "extdata",
+    "egtllm.data",
+    package = "EnrichGT"
+  ))
   clustersName <- y[["cluster_names"]]
   y <- y[["results"]]
   have_exclude <- F
@@ -193,13 +194,13 @@ summarize_genes <- function(x, y, chat, prompt_type = "English") {
 
 #' Summarize EnrichGT results using LLM
 #'
-#' This function uses a Large Language Model (LLM) to generate summaries for 
+#' This function uses a Large Language Model (LLM) to generate summaries for
 #' pathway clusters and gene modules in an EnrichGT_obj object.
 #'
 #' @param x An EnrichGT_obj object created by \code{\link{egt_recluster_analysis}}.
 #' @param chat An LLM chat object created by the \code{ellmer} package.
 #'
-#' @return Returns the input EnrichGT_obj object with added LLM annotations in 
+#' @return Returns the input EnrichGT_obj object with added LLM annotations in
 #' the \code{LLM_Annotation} slot. The annotations include:
 #' \itemize{
 #'   \item \code{pathways}: Summaries of pathway clusters
@@ -210,26 +211,27 @@ summarize_genes <- function(x, y, chat, prompt_type = "English") {
 #' \dontrun{
 #' # Create LLM chat object
 #' chat <- chat_deepseek(api_key = YOUR_API_KEY, model = "deepseek-chat", system_prompt = "")
-#' 
+#'
 #' # Run enrichment analysis and get EnrichGT_obj
 #' re_enrichment_results <- egt_recluster_analysis(...)
-#' 
+#'
 #' # Get LLM summaries
 #' re_enrichment_results <- egt_llm_summary(re_enrichment_results, chat)
 #' }
 #'
 #' @references
-#' For more information about creating chat objects, see the 
+#' For more information about creating chat objects, see the
 #' \href{https://ellmer.tidyverse.org/index.html}{ellmer package documentation}.
 #'
-#' @note 
+#' @note
 #' It is recommended not to add system prompts when creating the chat object.
 #' The function provides its own carefully crafted prompts for biological analysis.
 #'
 #' @seealso \code{\link{egt_recluster_analysis}} to create the input object.
 #' @export
-egt_llm_summary <- function(x, chat){
-  if (class(x) != "EnrichGT_obj") cli::cli_abort("Please run `egt_recluster_analysis()` before summarizing. ")
+egt_llm_summary <- function(x, chat) {
+  if (class(x) != "EnrichGT_obj")
+    cli::cli_abort("Please run `egt_recluster_analysis()` before summarizing. ")
   a1 <- summarize_clusters(x, chat)
   a2 <- summarize_genes(x, a1, chat)
   obj_llm <- new("egt_llm")
