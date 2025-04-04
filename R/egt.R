@@ -65,6 +65,7 @@ setMethod("doEnrichGT", signature(x = "list"), function(x, ...) {
   ...
 ) {
   InnerDF <- x
+  InnerDF -> InnerDF_000
   InnerDF <- InnerDF |> dplyr::filter(pvalue < 0.05)
   if (dim(x)[1] <= 5) {
     cli::cli_abort(
@@ -160,7 +161,13 @@ setMethod("doEnrichGT", signature(x = "list"), function(x, ...) {
     obj3_2,
     clsObj[[3]],
     clsObj[[2]],
-    InnerDF_raw
+    InnerDF_000,
+    list(ClusterNum = ClusterNum, 
+      P.adj = P.adj,
+      force = force,
+      objname = objname,
+      nTop = nTop,
+      method = method)
   )
   return(objA)
 }
@@ -185,6 +192,7 @@ remove_more_updownInfo <- function(x) {
   ...
 ) {
   InnerDF <- x
+  InnerDF -> InnerDF_000
   InnerDF <- InnerDF |> dplyr::filter(pvalue < 0.05)
   if (dim(x)[1] <= 5) {
     cli::cli_abort(
@@ -244,7 +252,13 @@ remove_more_updownInfo <- function(x) {
     obj3_2,
     clsObj[[3]],
     clsObj[[2]],
-    InnerDF_raw
+    InnerDF_000,
+    list(ClusterNum = ClusterNum, 
+      P.adj = P.adj,
+      force = force,
+      objname = objname,
+      nTop = nTop,
+      method = method)
   )
   return(objA)
 }
