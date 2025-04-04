@@ -87,6 +87,7 @@ dbParser <- function(DB, species) {
 
 
 cvgs <- function(genes, from_what, to_what, orgDB) {
+  genes <- genes |> as.character()
   loadNamespace("AnnotationDbi")
   x <- AnnotationDbi::select(
     orgDB,
