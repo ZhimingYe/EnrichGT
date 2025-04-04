@@ -137,7 +137,7 @@ egt_plot_results <- function(
       if (!keepAll) {
         obj <- obj |>
           dplyr::group_by(geneID) |>
-          dplyr::arrange(desc(Count), .by_group = TRUE) |>
+          dplyr::arrange(Padj, .by_group = TRUE) |>
           dplyr::slice_head(n = 2) |>
           dplyr::ungroup()
       }
@@ -175,7 +175,7 @@ egt_plot_results <- function(
       if (!keepAll) {
         obj <- obj |>
           dplyr::group_by(geneID) |>
-          dplyr::arrange(desc(Count), .by_group = TRUE) |>
+          dplyr::arrange(Padj, .by_group = TRUE) |>
           dplyr::slice_head(n = 2) |>
           dplyr::ungroup()
       }
@@ -258,7 +258,7 @@ ORA2dp <- function(
     {
       df <- TempPlotingEnv$df0 |>
         group_by(Cluster) |>
-        slice_max(order_by = Count, n = ntop, with_ties = FALSE) |>
+        slice_min(order_by = Padj, n = ntop, with_ties = FALSE) |>
         ungroup()
     },
     error = function(e) {
