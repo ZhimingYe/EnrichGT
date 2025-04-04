@@ -165,7 +165,7 @@ setMethod("doEnrichGT", signature(x = "list"), function(x, ...) {
     list(ClusterNum = ClusterNum, 
       P.adj = P.adj,
       force = force,
-      objname = objname,
+      objname = "CleanedObj",
       nTop = nTop,
       method = method)
   )
@@ -256,7 +256,7 @@ remove_more_updownInfo <- function(x) {
     list(ClusterNum = ClusterNum, 
       P.adj = P.adj,
       force = force,
-      objname = objname,
+      objname = "CleanedObj",
       nTop = nTop,
       method = method)
   )

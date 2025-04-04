@@ -1,4 +1,16 @@
 setClass(
+  "egt_llm",
+  slots = list(
+    pathways = "list",
+    genes = "list",
+    titles = "list",
+    index_of_pathways = "numeric",
+    index_of_genes = "numeric",
+    index_of_titles = "numeric"
+  )
+)
+
+setClass(
   "EnrichGT_obj",
   slots = list(
     enriched_result = "data.frame",
@@ -14,24 +26,13 @@ setClass(
   )
 )
 
-setClass(
-  "egt_llm",
-  slots = list(
-    pathways = "list",
-    genes = "list",
-    titles = "list",
-    index_of_pathways = "numeric",
-    index_of_genes = "numeric",
-    index_of_titles = "numeric"
-  )
-)
+
 
 setMethod("show", "EnrichGT_obj", function(object) {
   print(object@gt_object)
 })
 
 new.egt <- function(x1, x2, x3, x4, x5, x6, x7, x8) {
-  require("gt")
   flag0 <- F
   tryCatch(
     {

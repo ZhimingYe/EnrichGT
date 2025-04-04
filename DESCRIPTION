@@ -15,6 +15,7 @@ Imports:
     BiocManager,
     cli,
     dplyr,
+    ellmer,
     fgsea,
     fontawesome,
     forcats,
