@@ -1,3 +1,6 @@
+#' @importFrom RColorBrewer brewer.pal
+#' @importFrom fontawesome fa
+#' @importFrom gt gt tab_style row_group_order tab_header
 gt_gsea <- function(x, ClusterNum, objname, objname2 = NULL, ...) {
   if (!is.null(objname2)) {
     objname <- objname2

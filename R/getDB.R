@@ -3,6 +3,9 @@ db_getter_env <- new.env()
 
 # The Database cache system
 #' @importFrom xfun md5
+#' @importFrom AnnotationDbi select keys mapIds
+#' @importFrom GO.db GOTERM
+#' @importFrom reactome.db reactomeEXTID2PATHID reactomePATHID2EXTID reactomePATHID2NAME
 UniversalInternalDBFetcher <- function(
   Type,
   OrgDB = org.Hs.eg.db,

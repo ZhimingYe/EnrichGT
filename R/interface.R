@@ -40,6 +40,8 @@
 #'
 #' `raw_enriched_result` contains raw table without selecting `nTop`.
 #'
+#' @importFrom dplyr group_by arrange slice_head ungroup filter
+#' @importFrom cli cli_alert_info cli_alert_warning cli_abort
 #' @export
 #'
 #' @author Zhiming Ye

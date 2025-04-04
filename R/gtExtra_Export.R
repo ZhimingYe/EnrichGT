@@ -1,7 +1,12 @@
-# Function export from gtExtra with litte modifying
+# Function export from gtExtra with litte modifying  
 # copyright Thomas Mock
 # MIT license
 # https://jthomasmock.github.io/gtExtras/index.html
+#
+#' @importFrom rlang enexpr as_string
+#' @importFrom glue glue
+#' @importFrom gt text_transform cells_stub cells_body cols_hide everything
+#' @importFrom scales col2hcl
 #' @importFrom rlang enexpr as_string
 #' @importFrom glue glue
 #' @importFrom gt text_transform cells_stub cells_body cols_hide everything

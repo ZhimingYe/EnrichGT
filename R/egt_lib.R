@@ -50,10 +50,11 @@ is_numeric_string <- function(x) {
 }
 
 #' @importFrom text2vec itoken
-#' @importFrom text2vec create_vocabulary
+#' @importFrom text2vec create_vocabulary  
 #' @importFrom text2vec vocab_vectorizer
 #' @importFrom text2vec create_dtm
 #' @importFrom proxy dist
+#' @importFrom stats hclust cutree
 .enrichpws <- function(ID, geneID, k, method, sep = "/") {
   suppressPackageStartupMessages({
     requireNamespace("text2vec")
