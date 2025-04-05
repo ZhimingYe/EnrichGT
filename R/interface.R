@@ -119,7 +119,7 @@ egt_recluster_analysis <- function(
       requireNamespace("gt")
       requireNamespace("cli")
     })
-    cli::cli_h1("EnrichGT Version 0.9")
+    cli::cli_h1("EnrichGT")
     cli::cli_alert_info("See help on https://zhimingye.github.io/EnrichGT/")
     cli::cli_alert("by Zhiming Ye")
   }

@@ -199,6 +199,7 @@ summarize_genes <- function(x, y, chat, prompt_type = "English") {
 #'
 #' @param x An EnrichGT_obj object created by \code{\link{egt_recluster_analysis}}.
 #' @param chat An LLM chat object created by the \code{ellmer} package.
+#' @param lang Language pass to LLM. Can be \code{English} or \code{Chinese}.
 #'
 #' @return Returns the input EnrichGT_obj object with added LLM annotations in
 #' the \code{LLM_Annotation} slot. The annotations include:
@@ -229,11 +230,14 @@ summarize_genes <- function(x, y, chat, prompt_type = "English") {
 #'
 #' @seealso \code{\link{egt_recluster_analysis}} to create the input object.
 #' @export
-egt_llm_summary <- function(x, chat) {
+egt_llm_summary <- function(x, chat, lang = "English") {
+  if (sum(lang %in% c("English", "Chinese")) != 1) {
+    cli::cli_abort("Invalid prompt_type, must be 'English' or 'Chinese'")
+  }
   if (class(x) != "EnrichGT_obj")
     cli::cli_abort("Please run `egt_recluster_analysis()` before summarizing. ")
-  a1 <- summarize_clusters(x, chat)
-  a2 <- summarize_genes(x, a1, chat)
+  a1 <- summarize_clusters(x, chat, lang)
+  a2 <- summarize_genes(x, a1, chat, lang)
   obj_llm <- new("egt_llm")
   obj_llm@pathways <- a1
   obj_llm@genes_and_title <- a2

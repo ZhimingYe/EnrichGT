@@ -1,6 +1,6 @@
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom fontawesome fa
-#' @importFrom gt gt tab_style row_group_order tab_header
+#' @importFrom gt gt tab_style row_group_order tab_header cell_text
 gt_gsea <- function(x, ClusterNum, objname, objname2 = NULL, ...) {
   if (!is.null(objname2)) {
     objname <- objname2
@@ -24,11 +24,11 @@ gt_gsea <- function(x, ClusterNum, objname, objname2 = NULL, ...) {
       "forestgreen" ~ fontawesome::fa("arrow-down")
     ) |>
     gt::tab_style(
-      style = cell_text(color = from_column("Reg")),
+      style = gt::cell_text(color = from_column("Reg")),
       locations = cells_body(columns = Reg)
     ) |>
     gt::tab_style(
-      style = cell_text(size = px(13)),
+      style = gt::cell_text(size = gt::px(13)),
       locations = cells_body()
     ) |>
     gt::row_group_order(groups = c(orderlist)) |>
@@ -65,7 +65,7 @@ gt_ora <- function(x, ClusterNum, objname, objname2 = NULL, ...) {
       pal = RColorBrewer::brewer.pal(8, "PuBuGn") |> rev()
     ) |>
     gt::tab_style(
-      style = cell_text(size = px(13)),
+      style = gt::cell_text(size = gt::px(13)),
       locations = cells_body()
     ) |>
     gt::row_group_order(groups = c(orderlist)) |>
