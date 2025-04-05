@@ -2,66 +2,87 @@
 % Please edit documentation in R/cp_helpers.R
 \name{egt_enrichment_analysis}
 \alias{egt_enrichment_analysis}
-\title{A C++ accelerated universal enrichment analyzer (Over-Representation Analysis (ORA))}
+\title{Perform Over-Representation Analysis (ORA)}
 \usage{
-res <- egt_enrichment_analysis(genes = DEGtable$Genes,
-database = database_GO_BP(org.Hs.eg.db))
-
-res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
-database = database_GO_ALL(org.Hs.eg.db))
-
-res <- egt_enrichment_analysis(genes = genes_with_weights(geneSymbols, log2FC),
-database = database_KEGG(kegg_organism="hsa",OrgDB = org.Hs.eg.db))
-
-res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
-database = database_from_gmt("./MsigDB_Hallmark.gmt"))
-
-res <- egt_enrichment_analysis(list(Macrophages=c("CD169","CD68","CD163"),
-Fibroblast=c("COL1A2","COL1A3"),...),
- database = database_from_gmt("./panglaoDB.gmt"))
+egt_enrichment_analysis(
+  genes,
+  database,
+  p_adj_methods = "BH",
+  p_val_cut_off = 0.5,
+  background_genes = NULL,
+  min_geneset_size = 10,
+  max_geneset_size = 500,
+  multi_cores = 0
+)
 }
 \arguments{
-\item{genes}{a vector of gene ids like `c("TP53","CD169","CD68","CD163"...)`.
+\item{genes}{Input genes, either:
+\itemize{
+  \item Character vector of gene IDs (e.g., `c("TP53","BRCA1")`)
+  \item Named numeric vector from `genes_with_weights()` (will split by expression direction)
+  \item List of gene vectors for multiple comparisons (e.g., by cell type)
+}}
 
-If you have genes from multiple source or experiment group, you can also pass a list with gene ids in it. For Example , `list(Macrophages=c("CD169","CD68","CD163"),Fibroblast=c("COL1A2","COL1A3))`.
+\item{database}{Gene set database, either:
+\itemize{
+  \item Built-in database from `database_GO_BP()`, `database_KEGG()` etc.
+  \item Custom data frame with columns: (ID, Pathway_Name, Genes) or (Pathway_Name, Genes)
+  \item GMT file loaded via `database_from_gmt()`
+}}
 
-The genes should be match in the second param `database`'s `gene` column. For example, if database provides Ensembl IDs, you should input Ensembl IDs. But in default databases provided by `EnrichGT` is gene symbols.
+\item{p_val_cut_off}{Adjusted p-value cutoff (default 0.5)}
 
-Of note, since ver 0.8, genes argument supports inputs from genes_with_weights(), EnrichGT will use the whole DEG for ORA, and final split gene candidated into high-expressing and lowly-expressing according to weights.}
+\item{background_genes}{Custom background genes (default: all genes in database)}
 
-\item{database}{a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run `database_GO_CC()` to get them, see example.
+\item{min_geneset_size}{Minimum genes per set (default 10)}
 
-You can run `database_GO_CC()` to see an example.
+\item{max_geneset_size}{Maximum genes per set (default 500)}
 
-The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with `database_...`, like `database_GO_BP()` or `database_Reactome()`.
+\item{multi_cores}{(Please don't use this since it has several known bugs) Number of cores for parallel processing (default 0 = serial)}
 
-The default gene in each database EnrichGT provided to input is `GENE SYMBOL` (like TP53, not 1256 or ENSG...), not `ENTREZ ID` or `Ensembl ID`.
-
-It will be more convince for new users. Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()`, `database_KEGG()` and `database_Reactome()`. See \code{https://zhimingye.github.io/EnrichGT/database.html}.
-
-You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using `database_from_gmt(FILE_PATH)`.
-
-If you only have simple a table, you can also pass a data frame through this arguement. Of note, it should contains at least 2 coloumn (colnames(df) = c("Terms","Genes)), the first is term names and the second are the corresponding genes. If you have term ids, you can add a `ID` column at the first column, and `Terms` becomes the second column and `Genes` the third.}
-
-\item{p_adj_methods}{one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"}
-
-\item{p_val_cut_off}{adjusted pvalue cutoff on enrichment tests to report}
-
-\item{background_genes}{background genes. If missing, the all genes listed in the database}
-
-\item{min_geneset_size}{minimal size of genes annotated for testing}
-
-\item{max_geneset_size}{maximal size of genes annotated for testing}
-
-\item{multi_cores}{multi_cores (Experimental), only used when analysis a list of genes (multi-source or groups). Set to 0 or 1 to disable. May use lots of RAM.}
+\item{p_adj_method}{Multiple testing correction method (default "BH" for Benjamini-Hochberg)}
 }
 \value{
-a data frame with ORA results.
+A data frame with columns:
+  \itemize{
+    \item ID: Gene set identifier
+    \item Description: Gene set name  
+    \item GeneRatio: Enriched genes / input genes
+    \item BgRatio: Set genes / background genes
+    \item pvalue: Raw p-value
+    \item p.adjust: Adjusted p-value
+    \item geneID: Enriched genes
+    \item Count: Number of enriched genes
+  }
+  For weighted input, additional columns show up/down regulated genes.
 }
 \description{
-ORA is a statistical method used to identify biological pathways or gene sets that are significantly enriched in a given list of genes (e.g., differentially expressed genes). The method compares the proportion of genes in the target list that belong to a specific category (e.g., pathways, GO terms) to the expected proportion in the background gene set.
+ORA compares the proportion of genes in your target list that belong to specific
+categories (pathways, GO terms etc.) against the expected proportion in a background
+set. This implementation uses hash tables for efficient gene counting and supports
+parallel processing for analyzing multiple gene lists.
+}
+\details{
+Identifies enriched biological pathways or gene sets in a gene list using
+high-performance C++ implementation with parallel processing support.
+}
+\examples{
+\dontrun{
+# Basic ORA with GO Biological Processes
+genes <- c("TP53", "BRCA1", "EGFR", "CDK2")
+res <- egt_enrichment_analysis(genes, database_GO_BP())
 
-To accelerate the computation in ORA analysis, `EnrichGT` have implemented a function that leverages C++ for high-performance computation. The core algorithm utilizes hash tables for efficient lookup and counting of genes across categories. Also It provides multi-Core parallel calculation by package `parallel`. But this function is fast enough, `parallel` function will be removed in future.
+# ORA with DEG results (split by direction)
+deg_genes <- genes_with_weights(DEG$gene, DEG$log2FC)
+res <- egt_enrichment_analysis(deg_genes, database_KEGG())
+
+# Multi-group ORA with parallel processing
+gene_lists <- list(
+  Macrophages = c("CD68", "CD163", "CD169"),
+  Fibroblasts = c("COL1A1", "COL1A2", "ACTA2")
+)
+res <- egt_enrichment_analysis(gene_lists, database_Reactome(), multi_cores=0)
+}
 }
 \author{
 Zhiming Ye

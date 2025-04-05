@@ -93,12 +93,13 @@ new.egt <- function(x1, x2, x3, x4, x5, x6, x7, x8) {
 #' @examples
 #' \dontrun{
 #' # Filter out "ribosome" related terms
-#' filtered_results <- reenrichment_obj %del% "ribosome"
+#' filtered_results <- reenrichment_obj %-delete->% "ribosome"
 #'
 #' # Filter data.frame directly
-#' filtered_df <- df %del% "metabolism"
+#' filtered_df <- df %-delete->% "metabolism"
 #' }
 #'
+#' @rdname MaskTerms
 #' @export
 `%-delete->%` <- function(x, y) {
   if (class(x) == "EnrichGT_obj") {

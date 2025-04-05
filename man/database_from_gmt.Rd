@@ -2,25 +2,44 @@
 % Please edit documentation in R/cp_helpers.R
 \name{database_from_gmt}
 \alias{database_from_gmt}
-\title{parse GMT files file to a data.frame}
+\title{Parse GMT format gene set files}
 \usage{
 database_from_gmt(gmtfile, OrgDB = NULL, convert_2_symbols = T)
 }
 \arguments{
-\item{gmtfile}{gmt file path}
+\item{gmtfile}{Path to GMT format file}
 
-\item{OrgDB}{Only need when converting genes, human = org.Hs.eg.db, mouse = org.Mm.eg.db, search BioConductor website for further help. Default is NULL.}
+\item{OrgDB}{Annotation database for ID conversion (e.g., org.Hs.eg.db for human).
+Required if convert_2_symbols=TRUE.}
 
-\item{convert_2_symbols}{Force to convert numeric gene ids (as ENTREZIDs) to gene symbols}
+\item{convert_2_symbols}{Logical indicating whether to convert ENTREZ IDs to gene symbols.
+Default is TRUE.}
 }
 \value{
-data.frame
+A data frame with columns:
+  \itemize{
+    \item term: Gene set name
+    \item gene: Gene identifiers (symbols or ENTREZ IDs)
+  }
+  If input has 3 columns, includes an additional ID column.
 }
 \description{
-Read `.gmt` files. You can download them from https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp
+Reads gene set files in GMT format (e.g., from MSigDB or WikiPathways) and converts
+them to a data frame suitable for enrichment analysis. Can optionally convert ENTREZ IDs
+to gene symbols.
+}
+\examples{
+\dontrun{
+# Read MSigDB hallmark gene sets
+gmt_file <- system.file("extdata", "h.all.v7.4.symbols.gmt", package = "EnrichGT")
+gene_sets <- database_from_gmt(gmt_file)
 
-WikiPathway database also provides pre-built GMT files (https://data.wikipathways.org/current/gmt/). In default they are recorded as ENTREZ IDs, so you need to provide proper species database (e.g. org.Hs.eg.db for human), to database_from_gmt function and EnrichGT will automatically convert ENTREZ IDs to gene symbols for enrichment analysis.
+# Read WikiPathways with ENTREZ to symbol conversion  
+gmt_file <- "wikipathways-20220310-gmt-Homo_sapiens.gmt"
+gene_sets <- database_from_gmt(gmt_file, OrgDB = org.Hs.eg.db)
+}
 }
 \author{
-cited from https://github.com/YuLab-SMU/gson/blob/main/R/GMT.R . The further Cache system is written by Zhiming Ye.
+Original GMT parser by Guangchuang Yu (https://github.com/YuLab-SMU/gson).
+  Cache system and enhancements by Zhiming Ye.
 }

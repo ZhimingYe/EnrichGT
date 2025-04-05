@@ -2,7 +2,7 @@
 % Please edit documentation in R/interface.R
 \name{egt_recluster_analysis}
 \alias{egt_recluster_analysis}
-\title{Parse enrichment results and further clustering and visualizing}
+\title{Cluster and re-enrichment enrichment results}
 \usage{
 egt_recluster_analysis(
   x,
@@ -15,52 +15,66 @@ egt_recluster_analysis(
 )
 }
 \arguments{
-\item{x}{an enrichment result from `EnrichGT` or `clusterProfiler`. To perform fusing multi-database enrichment results, please give a `list` object.}
+\item{x}{Enrichment result from `EnrichGT` or `clusterProfiler`. For multi-database results, provide a `list`.}
 
-\item{ClusterNum}{how many cluster will be clustered}
+\item{ClusterNum}{Number of clusters to create (default: 10).}
 
-\item{P.adj}{p.adjust cut-off. To avoid slow visualization, you can make stricter p-cut off.}
+\item{P.adj}{Adjusted p-value cutoff (default: 0.05). Stricter values improve performance.}
 
-\item{force}{ignore all auto-self-checks, which is useful}
+\item{force}{Logical to bypass validation checks (default: FALSE).}
 
-\item{nTop}{keep n top items according to p-adj in each cluster.}
+\item{nTop}{Number of top terms to keep per cluster by p-value (default: 10).}
 
-\item{method}{the agglomeration method to be used. This should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2", "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median" (= WPGMC) or "centroid" (= UPGMC).}
+\item{method}{Hierarchical clustering method (default: "ward.D2"). One of:
+"ward.D", "ward.D2", "single", "complete", "average" (UPGMA), 
+"mcquitty" (WPGMA), "median" (WPGMC), or "centroid" (UPGMC).}
 
-\item{...}{Others options.}
+\item{...}{Additional arguments passed to clustering functions.}
 }
 \value{
-an `EnrichGT_obj` object.
-
-slot `enriched_result` contains a data.frame with enriched results. `gt_object` contains `gt` object.
-
-you can use `obj@gt_object` to get it and use functions from `gt` like `gtsave`.
-
-`gene_modules` is a list containing meta-gene modules of each cluster.
-
-`pathway_clusters` contains pathways names in each cluster.
-
-`clustering_tree` contains the clustering tree object from `hclust()`, you can use other packages like `ggtree` for further visualization and analysis.
-
-`raw_enriched_result` contains raw table without selecting `nTop`.
+An `EnrichGT_obj` containing:
+\describe{
+  \item{enriched_result}{Filtered results data frame}
+  \item{gt_object}{Formatted `gt` table object}
+  \item{gene_modules}{List of gene modules per cluster}
+  \item{pathway_clusters}{Pathway names by cluster} 
+  \item{clustering_tree}{`hclust` object for visualization}
+  \item{raw_enriched_result}{Unfiltered results table}
+}
 }
 \description{
-Cluster enrichment results based on hit genes for ORA (e.g, typical GO enrichment) or core enrichment from GSEA using term frequency analysis. This provides a clearer view of biological relevance by focusing on the genes that matter most.
-
-Gene enrichment analysis can often be misleading due to the redundancy within gene set databases and the limitations of most enrichment tools. Many tools, by default, only display a few top results and fail to filter out redundancy. This can result in both biological misinterpretation and valuable information being overlooked.
-
-For instance, high expression of certain immune genes can cause many immune-related gene sets to appear overrepresented. However, a closer look often reveals that these gene sets are derived from the same group of genes, which might represent only a small fraction. Less than 1/10 of the differentially expressed genes (DEGs). What about the other 9/10?  Do they hold no biological significance?
-
-The main purpose of developing this package is to provide a lightweight and practical solution to the problems mentioned above.
+Performs hierarchical clustering on enrichment results (ORA or GSEA) based on gene-term associations to reduce redundancy and improve biological interpretation. The function helps identify coherent groups of related terms while preserving important but less significant findings.
 }
 \details{
-For an ORA result, c("ID","Description","GeneRatio","pvalue","p.adjust","geneID","Count") should be contained;
+Input requirements by analysis type:
 
- For GSEA, c("ID","Description","NES","pvalue","p.adjust","core_enrichment") should be contain.
+ORA results:
+  Required columns: "ID", "Description", "GeneRatio", "pvalue", 
+  "p.adjust", "geneID", "Count"
 
- For `compareClusterResult`, a `compareClusterResult` object or a data-frame with additional `Cluster` column should be contained, others similar to ORA result.
+GSEA results:  
+  Required columns: "ID", "Description", "NES", "pvalue",
+  "p.adjust", "core_enrichment"
 
- To perform fusing multi-database enrichment results, please give a `list` object.
+compareClusterResult:
+  Either the compareClusterResult object or a data frame with:
+  - All ORA columns listed above
+  - Additional "Cluster" column
+
+Multi-database:
+  Provide as a named list of the above result types
+}
+\examples{
+\dontrun{
+# ORA example
+res <- egt_recluster_analysis(ora_result, ClusterNum=8)
+plot(res@clustering_tree)
+
+# GSEA example 
+gsea_res <- egt_recluster_analysis(gsea_result, method="average")
+gtsave(gsea_res@gt_object, "results.html")
+}
+
 }
 \author{
 Zhiming Ye

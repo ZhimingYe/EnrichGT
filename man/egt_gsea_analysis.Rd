@@ -2,53 +2,78 @@
 % Please edit documentation in R/cp_helpers.R
 \name{egt_gsea_analysis}
 \alias{egt_gsea_analysis}
-\title{Gene Set Enrichment Analysis (GSEA) by EnrichGT}
+\title{Perform Gene Set Enrichment Analysis (GSEA)}
 \usage{
-res <- egt_gsea_analysis(genes = genes_with_weights(genes = DEG$genes, weights = DEG$log2FoldChange),
-database = database_GO_BP())
-
-res <- egt_gsea_analysis(genes = genes_with_weights(genes = PCA_res$genes,weights =PCA_res$PC1_loading),
-database = database_from_gmt("./MsigDB_Hallmark.gmt"))
+egt_gsea_analysis(
+  genes,
+  database,
+  p_val_cut_off = 0.5,
+  min_geneset_size = 10,
+  max_geneset_size = 500,
+  gseaParam = 1
+)
 }
 \arguments{
-\item{genes}{a named numeric vector, for example c(`TP53`=1.2,`KRT15`=1.1,`IL1B`=1.0,`PMP22` = 0.5,`FABP1` = -0.9, `GLUT1` = -2).
+\item{genes}{A named numeric vector of ranked genes where:
+\itemize{
+  \item Names are gene identifiers
+  \item Values are ranking metric (e.g., log2 fold change, PCA loading)
+}
+Must be sorted in descending order (use `genes_with_weights()` to prepare)}
 
-The number is the weight of each gene, can use the logFC form DEG analysis results instead. Also NMF or PCA's loading can also be used.
+\item{database}{Gene set database, either:
+\itemize{
+  \item Built-in database from `database_GO_BP()`, `database_KEGG()` etc.
+  \item Custom data frame with columns: (ID, Pathway_Name, Genes) or (Pathway_Name, Genes)
+  \item GMT file loaded via `database_from_gmt()`
+}}
 
-`EnrichGT` provides a `genes_with_weights(genes,weights)` function to build this numeric vector. Importantly, this vector should be !SORTED! for larger to smaller.}
+\item{p_val_cut_off}{Adjusted p-value cutoff (default 0.5)}
 
-\item{database}{a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run `database_GO_CC()` to get them, see example.
+\item{min_geneset_size}{Minimum genes per set (default 10)}
 
-The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with `database_...`, like `database_GO_BP()` or `database_Reactome()`.
+\item{max_geneset_size}{Maximum genes per set (default 500)}
 
-The default gene in each database EnrichGT provided to input is `GENE SYMBOL` (like TP53, not 1256 or ENSG...), not `ENTREZ ID` or `Ensembl ID`. It will be more convince for new users.
+\item{gseaParam}{GSEA parameter controlling weight of ranking (default 1)}
 
-Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()`, `database_KEGG()` and `database_Reactome()`. See \code{https://zhimingye.github.io/EnrichGT/database.html}.
-
-You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using `database_from_gmt(FILE_PATH)`.
-
-If you only have simple a table, you can also pass a data frame through this arguement. Of note, it should contains at least 2 coloumn (colnames(df) = c("Terms","Genes)), the first is term names and the second are the corresponding genes. If you have term ids, you can add a `ID` column at the first column, and `Terms` becomes the second column and `Genes` the third.}
-
-\item{p_val_cut_off}{adjusted pvalue cutoff on enrichment tests to report}
-
-\item{min_geneset_size}{minimal size of genes annotated for testing}
-
-\item{max_geneset_size}{maximal size of genes annotated for testing}
-
-\item{gseaParam}{other param passing to fgsea}
-
-\item{p_adj_methods}{one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"}
+\item{p_adj_method}{Multiple testing correction method (default "BH" for Benjamini-Hochberg)}
 }
 \value{
-a data frame
+A data frame with columns:
+  \itemize{
+    \item ID: Gene set identifier
+    \item Description: Gene set name
+    \item ES: Enrichment score
+    \item NES: Normalized enrichment score
+    \item pvalue: Raw p-value
+    \item p.adjust: Adjusted p-value
+    \item core_enrichment: Leading edge genes
+  }
 }
 \description{
-A warpper of `fgsea::fgsea()`.
+GSEA analyzes whether predefined gene sets show statistically significant enrichment
+at the top or bottom of a ranked gene list. This implementation uses the fast fgsea
+algorithm from the fgsea package.
+}
+\details{
+Identifies enriched biological pathways in a ranked gene list using the fgsea algorithm.
+}
+\examples{
+\dontrun{
+# Using differential expression results
+ranked_genes <- genes_with_weights(DEG$gene, DEG$log2FC)
+res <- egt_gsea_analysis(ranked_genes, database_GO_BP())
 
-GSEA is a computational method used to determine whether predefined gene sets (e.g., pathways, GO terms) are statistically enriched in a ranked list of genes. Unlike ORA, GSEA considers the entire gene list and focuses on the cumulative distribution of gene ranks to identify coordinated changes.
+# Using PCA loadings
+ranked_genes <- genes_with_weights(rownames(pca$rotation), pca$rotation[,1])
+res <- egt_gsea_analysis(ranked_genes, database_KEGG())
 
-The fgsea (https://github.com/ctlab/fgsea) package is an R tool that implements an accelerated version of GSEA. It uses precomputed statistical methods and efficient algorithms to dramatically speed up enrichment analysis, especially for large datasets.
+# Custom gene sets from GMT file
+ranked_genes <- genes_with_weights(genes, weights)
+res <- egt_gsea_analysis(ranked_genes, database_from_gmt("pathways.gmt"))
+}
+
 }
 \author{
-warpped from fgsea package.
+Based on fgsea package by Alexey Sergushichev et al.
 }
