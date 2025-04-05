@@ -100,7 +100,7 @@ new.egt <- function(x1, x2, x3, x4, x5, x6, x7, x8) {
 #' }
 #'
 #' @export
-`%del%` <- function(x, y) {
+`%-delete->%` <- function(x, y) {
   if (class(x) == "EnrichGT_obj") {
     paramList <- x@param
     paramList[["ClusterNum"]] -> ClusterNum
@@ -116,7 +116,6 @@ new.egt <- function(x1, x2, x3, x4, x5, x6, x7, x8) {
       ClusterNum = ClusterNum,
       P.adj = P.adj,
       force = force,
-      objname = objname,
       nTop = nTop,
       method = method
     )
@@ -143,7 +142,7 @@ summary_use_local <- function(x, name) {
 summary_use_llm <- function(x, name) {
   tryCatch({
     cli::cli_h1(glue::glue("Enrichment Result of {name} (LLM Summary)"))
-    cli::cli_li(x@LLM_Annotation@genes_and_title$resultsTitle[[which(
+    cli::cli_h2(x@LLM_Annotation@genes_and_title$resultsTitle[[which(
       x@LLM_Annotation@genes_and_title$clustersName == name
     )]])
     cli::cli_li(x@LLM_Annotation@pathways$results[[which(
