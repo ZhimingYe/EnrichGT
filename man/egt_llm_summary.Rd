@@ -4,15 +4,17 @@
 \alias{egt_llm_summary}
 \title{Summarize EnrichGT results using LLM}
 \usage{
-egt_llm_summary(x, chat)
+egt_llm_summary(x, chat, lang = "English")
 }
 \arguments{
 \item{x}{An EnrichGT_obj object created by \code{\link{egt_recluster_analysis}}.}
 
 \item{chat}{An LLM chat object created by the \code{ellmer} package.}
+
+\item{lang}{Language pass to LLM. Can be \code{English} or \code{Chinese}.}
 }
 \value{
-Returns the input EnrichGT_obj object with added LLM annotations in 
+Returns the input EnrichGT_obj object with added LLM annotations in
 the \code{LLM_Annotation} slot. The annotations include:
 \itemize{
   \item \code{pathways}: Summaries of pathway clusters
@@ -20,7 +22,7 @@ the \code{LLM_Annotation} slot. The annotations include:
 }
 }
 \description{
-This function uses a Large Language Model (LLM) to generate summaries for 
+This function uses a Large Language Model (LLM) to generate summaries for
 pathway clusters and gene modules in an EnrichGT_obj object.
 }
 \note{
@@ -41,7 +43,7 @@ re_enrichment_results <- egt_llm_summary(re_enrichment_results, chat)
 
 }
 \references{
-For more information about creating chat objects, see the 
+For more information about creating chat objects, see the
 \href{https://ellmer.tidyverse.org/index.html}{ellmer package documentation}.
 }
 \seealso{

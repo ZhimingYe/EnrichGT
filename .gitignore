@@ -12,3 +12,4 @@ dotfiles*
 workflowR_*
 dev/*
 *.enrichgt_cache
+_internal*
