@@ -206,6 +206,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./llm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Large language models integration</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./database.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Select your databases for enrichment or annotation</span></a>
   </div>
@@ -388,7 +394,7 @@ Why multiple results need a <code>data.frame</code>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">weights =</span> DEGexample<span class="sc">$</span>log2FoldChange),</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ success loaded database, time used : 15.7014009952545 sec.</code></pre>
+<pre><code>✔ success loaded database, time used : 16.2828590869904 sec.</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
@@ -434,31 +440,31 @@ Warning
 <pre><code>[1] "data.frame"
           ID                                                   Description
 1 GO:0060078                 regulation of postsynaptic membrane potential
-2 GO:0050907 detection of chemical stimulus involved in sensory perception
-3 GO:0035249                          synaptic transmission, glutamatergic
-4 GO:0007216        G protein-coupled glutamate receptor signaling pathway
-5 GO:0050906          detection of stimulus involved in sensory perception
-6 GO:0007628                                        adult walking behavior
+2 GO:0007216        G protein-coupled glutamate receptor signaling pathway
+3 GO:0050907 detection of chemical stimulus involved in sensory perception
+4 GO:0050906          detection of stimulus involved in sensory perception
+5 GO:0035249                          synaptic transmission, glutamatergic
+6 GO:0051966            regulation of synaptic transmission, glutamatergic
 7 GO:0061982                                  meiosis I cell cycle process
-8 GO:0035235               ionotropic glutamate receptor signaling pathway
+8 GO:0007628                                        adult walking behavior
          ES      NES       pvalue     p.adjust
-1 0.5640120 1.933442 1.039560e-05 0.0003806964
-2 0.7673726 1.929247 1.949196e-04 0.0040085440
-3 0.5603341 1.907218 1.496281e-05 0.0005175100
-4 0.8399130 1.891391 2.370869e-04 0.0046124921
-5 0.5936136 1.884742 4.506867e-05 0.0012770420
-6 0.7170162 1.871998 6.136012e-04 0.0093666962
-7 0.5532139 1.859635 8.080983e-05 0.0020213280
-8 0.7183000 1.859087 6.696808e-04 0.0099227287
+1 0.5640120 1.940093 6.130789e-06 0.0002369021
+2 0.8399130 1.925430 2.383813e-04 0.0045898643
+3 0.7673726 1.920430 2.555795e-04 0.0048542780
+4 0.5936136 1.909406 3.970339e-05 0.0011294645
+5 0.5603341 1.906212 1.066657e-05 0.0003806676
+6 0.5807585 1.876372 9.302572e-05 0.0023478519
+7 0.5532139 1.868648 3.637422e-05 0.0010621251
+8 0.7170162 1.859178 6.892355e-04 0.0099857298
                                                                                                                                                                                                   core_enrichment
 1                                         GRIK3/HCN1/GRM1/GRM5/GRIA4/GRIN2B/NRXN1/GRID2/RIMS2/HTR3A/GRIN2D/CELF4/GRIN1/GABRB1/GRIK2/TBC1D24/MAPK8IP2/GABRD/CUX2/NLGN1/GRIK5/GRIN2A/NETO1/STX1A/GRIN3B/GRID1/GRIK1
-2                                                                                                                                      OR51E1/CST1/OR51E2/AZGP1/TAS1R1/OR7C1/ASIC3/PIGR/PKD2L1/CNGB1/PKD1L3/GNAT2
-3 GRIK3/UNC13C/GRM1/CACNG5/GRM5/GRM8/GRIA4/GRIN2B/NRXN1/GRID2/CACNB4/GRIN2D/GRIN1/GRM4/GRIK2/UNC13A/MAPK8IP2/UCN/DGKI/ABCC8/ATP1A2/NLGN1/GRIK5/GRM3/GRIN2A/SYT1/GRIN3B/GRID1/GRIK1/SLC17A7/GRIN2C/CDH2/NTRK1/CNR1
-4                                                                                                                                                                                  GRIK3/GRM1/GRM5/GRM8/GRM4/GRM3
-5                                                                       OR51E1/CST1/OR51E2/COL11A1/AZGP1/PPEF1/CACNB4/GRIK2/TAS1R1/EYS/OR7C1/REEP6/ASIC3/SEMA5B/PIGR/PKD2L1/CNGB1/NR2F6/SCN11A/NTRK1/PKD1L3/GNAT2
-6                                                                                                                                                                               ZIC1/CNTN2/CACNB4/UCHL1/CEND1/TRH
+2                                                                                                                                                                                  GRIK3/GRM1/GRM5/GRM8/GRM4/GRM3
+3                                                                                                                                      OR51E1/CST1/OR51E2/AZGP1/TAS1R1/OR7C1/ASIC3/PIGR/PKD2L1/CNGB1/PKD1L3/GNAT2
+4                                                                       OR51E1/CST1/OR51E2/COL11A1/AZGP1/PPEF1/CACNB4/GRIK2/TAS1R1/EYS/OR7C1/REEP6/ASIC3/SEMA5B/PIGR/PKD2L1/CNGB1/NR2F6/SCN11A/NTRK1/PKD1L3/GNAT2
+5 GRIK3/UNC13C/GRM1/CACNG5/GRM5/GRM8/GRIA4/GRIN2B/NRXN1/GRID2/CACNB4/GRIN2D/GRIN1/GRM4/GRIK2/UNC13A/MAPK8IP2/UCN/DGKI/ABCC8/ATP1A2/NLGN1/GRIK5/GRM3/GRIN2A/SYT1/GRIN3B/GRID1/GRIK1/SLC17A7/GRIN2C/CDH2/NTRK1/CNR1
+6                                                            GRIK3/GRM1/CACNG5/GRM5/GRM8/GRIN2B/NRXN1/GRIN2D/GRIN1/GRM4/GRIK2/UNC13A/MAPK8IP2/UCN/DGKI/ATP1A2/NLGN1/GRM3/GRIN2A/SYT1/GRIK1/GRIN2C/CDH2/NTRK1/CNR1
 7     SPATA22/KASH5/BRDT/RAD54B/PLK1/SPDYA/CDC20/CDC25C/NDC80/HFM1/PKMYT1/TOP2A/TRIP13/CCNE1/BRIP1/CENPX/RAD51AP1/IHO1/RAD54L/CKS2/AURKA/BRCA2/PTTG1/MOV10L1/M1AP/SHOC1/BRME1/FMN2/RAD51/SIRT7/RAD51C/ESPL1/CCNB2
-8                                                                                                                              GRIK3/GRIA4/GRIN2B/GRID2/GRIN2D/GRIN1/GRIK2/GRIK5/GRIN2A/GRIN3B/GRID1/GRIK1/GRIN2C</code></pre>
+8                                                                                                                                                                               ZIC1/CNTN2/CACNB4/UCHL1/CEND1/TRH</code></pre>
 </div>
 </div>
 <p>And then using <code>egt_plot_gsea()</code> for drawing. The other params should be the <strong>same</strong> as you provided in origin GSEA analysis.</p>
@@ -937,7 +943,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/visualize.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
-<p>Corresponding to EnrichGT Version 0.8.6</p>
+<p>Corresponding to EnrichGT Version 1.0.3</p>
 </div>
   </div>
 </footer>
