@@ -1,8 +1,8 @@
 
-EnrichGT - Finding biological themes
-===================================================================================
 
-**EnrichGT \<-** Fast, light weight enrichment analysis + insightful re-clustering results make all results explainable + Pretty HTML tables, Just in **ONE** package, designed for researchers in wet-labs. Supported databases including GO, KEGG, Reactome, MsigDB ... 
+# EnrichGT <a href="https://zhimingye.github.io/EnrichGT/"><img src="https://zhimingye.github.io/EnrichGT/EnrichGTlogo.png" align="right" height="138" alt="EnrichGT website" /></a>
+
+**EnrichGT \<-** Fast, light weight enrichment analysis + insightful re-clustering results make all results explainable + Pretty HTML tables, Just in **ONE** package, designed for researchers in wet-labs. Supported databases including GO, KEGG, Reactome, MsigDB + AI based (LLM) result annotations and more ... 
 
 ![](https://zhimingye.github.io/EnrichGT/Introduction.jpeg)
 
@@ -15,6 +15,8 @@ Please see the package website for more info: <https://zhimingye.github.io/Enric
 - Re-clustering of enriched results provides clear and actionable insights
 
 - User-friendly HTML output that is easy to read and interpret
+
+- AI based (LLM) result annotations
 
 - Do a series of things just in ONE package
 
@@ -47,11 +49,12 @@ graph LR
 
     subgraph Visualize results
         P1[egt_plot_results]
-        P2[egt_plot_umap]
+        P2[egt_plot_gsea]
     end
 
     subgraph egt_recluster_analysis
         K1[Pretty table]
+        K2[AI Annotation]
         CC[cluster modules]
         MG[gene modules]
     end
@@ -78,11 +81,13 @@ graph LR
     CC --> K1
     MG --> K1
 
+    CC --> K2
+    MG --> K2
+
     CC --> P1
-    CC --> P2
+    C --> P2
 
     MG --> I
-
 
 
 ```
