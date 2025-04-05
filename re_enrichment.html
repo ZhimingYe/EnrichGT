@@ -206,6 +206,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./llm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Large language models integration</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./database.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Select your databases for enrichment or annotation</span></a>
   </div>
@@ -220,7 +226,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#enrichment-of-enriched-results" id="toc-enrichment-of-enriched-results" class="nav-link active" data-scroll-target="#enrichment-of-enriched-results">Enrichment of Enriched Results</a></li>
+  <li><a href="#enrichment-of-enriched-results" id="toc-enrichment-of-enriched-results" class="nav-link active" data-scroll-target="#enrichment-of-enriched-results">Enrichment of Enriched Results</a>
+  <ul class="collapse">
+  <li><a href="#access-re-enriched-data-table" id="toc-access-re-enriched-data-table" class="nav-link" data-scroll-target="#access-re-enriched-data-table">Access re-enriched data table</a></li>
+  <li><a href="#access-re-enriched-html-report" id="toc-access-re-enriched-html-report" class="nav-link" data-scroll-target="#access-re-enriched-html-report">Access re-enriched HTML report</a></li>
+  <li><a href="#glance-details-of-each-module" id="toc-glance-details-of-each-module" class="nav-link" data-scroll-target="#glance-details-of-each-module">Glance details of each module</a></li>
+  </ul></li>
   <li><a href="#infering-tfs-or-pathway-activity-and-more-based-on-meta-gene-modules" id="toc-infering-tfs-or-pathway-activity-and-more-based-on-meta-gene-modules" class="nav-link" data-scroll-target="#infering-tfs-or-pathway-activity-and-more-based-on-meta-gene-modules">Infering TFs or pathway activity and more based on meta-gene modules</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/re_enrichment.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -326,7 +337,7 @@ Why the <code>re-enrichment</code> is necessary?
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(re_enrich,<span class="at">max.level =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Formal class 'EnrichGT_obj' [package "EnrichGT"] with 8 slots
+<pre><code>Formal class 'EnrichGT_obj' [package "EnrichGT"] with 10 slots
   ..@ enriched_result     : tibble [67 × 7] (S3: tbl_df/tbl/data.frame)
   ..@ gt_object           :List of 17
   .. ..- attr(*, "class")= chr [1:2] "gt_tbl" "list"
@@ -335,8 +346,10 @@ Why the <code>re-enrichment</code> is necessary?
   ..@ document_term_matrix:Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
   ..@ clustering_tree     :List of 7
   .. ..- attr(*, "class")= chr "hclust"
-  ..@ raw_enriched_result :'data.frame':    175 obs. of  7 variables:
-  ..@ fused               : logi FALSE</code></pre>
+  ..@ raw_enriched_result :'data.frame':    2979 obs. of  9 variables:
+  ..@ fused               : logi FALSE
+  ..@ param               :List of 6
+  ..@ LLM_Annotation      :Formal class 'egt_llm' [package "EnrichGT"] with 2 slots</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -352,6 +365,8 @@ How to get objects inside the S4 object?
 <p>You can use <code>@</code>, for example, <code>x &lt;- re_enrich@enriched_result</code> returns a result table and <code>x &lt;- re_enrich@gt_object</code> returns a <code>gt</code> object.</p>
 </div>
 </div>
+<section id="access-re-enriched-data-table" class="level2">
+<h2 class="anchored" data-anchor-id="access-re-enriched-data-table">Access re-enriched data table</h2>
 <p>You can simple <code>View(re_enrich@enriched_result)</code> for the first slot.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> re_enrich<span class="sc">@</span>enriched_result <span class="co"># Get the re-enrichment result table</span></span>
@@ -381,7 +396,44 @@ How to get objects inside the S4 object?
 # ℹ 57 more rows</code></pre>
 </div>
 </div>
-<p>But EnrichGT offers <strong>more than</strong> data frames. Please see <a href="./visualize.html">HTML reports (gt table)</a> for further visualization.</p>
+</section>
+<section id="access-re-enriched-html-report" class="level2">
+<h2 class="anchored" data-anchor-id="access-re-enriched-html-report">Access re-enriched HTML report</h2>
+<p>EnrichGT offers <strong>more than</strong> data frames. Please see <a href="./visualize.html">HTML reports (gt table)</a> for further visualization.</p>
+</section>
+<section id="glance-details-of-each-module" class="level2">
+<h2 class="anchored" data-anchor-id="glance-details-of-each-module">Glance details of each module</h2>
+<p>The re-enriched object from EnrichGT supports the <code>$</code> subset operator. You can use <code>RStudio</code> or <code>Positron</code>, type <code>$</code>, and then press the <code>Tab</code> key for auto-completion, as shown in the figure.</p>
+<p>In this example, all results haven’t got any extra annotation. But <code>EnrichGT</code> supports Large language models (LLMs) based enrichment result annotations, you can refer to <a href="./llm.html">large language models integration of EnrichGT</a> page for more details. After performed LLM annotations, this step will display more information and insights about enrichment results.</p>
+<p><img src="images/paste-1.png" class="img-fluid" width="700"></p>
+<p>For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>re_enrich<span class="sc">$</span>Cluster_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Enrichment Result of Cluster_1 (Local Summary) ──────────────────────────────</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>• This cluster contains synaptic transmission, glutamatergic, regulation of
+synaptic transmission, glutamatergic, modulation of chemical synaptic
+transmission, regulation of trans-synaptic signaling, synapse organization ...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>• Candidate genes includes ACHE, ADGRF1, APOE, ATP1A2, BCAN, CA2, CACNG5,
+CAMK2B, CDC20, CDH6, CNTN2, CTNNA2, DGKI, DLGAP1, DNER, DSCAM, ERC2, GABRD,
+GAP43, GFAP, GRIA4, GRID2, GRIK2, GRIK3, GRIN1, GRIN2A, GRIN2B, GRIN2D, GRM1,
+GRM5, GRM8, HCN1, HRAS, HTR3A, IGSF9, IL1RAPL2, INA, KIF1A, LHFPL4, LRFN2,
+MAP1B, MAPK8IP2, NLGN1, NMU, NRCAM, NRXN1, NTRK2, RAC3, RIMS3, SEZ6L2, SHISA9,
+SIX1, SLC6A1, SYNDIG1, TREM2, UNC13A, UNC13C, VGF, WNT5A ...</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "cli-92167-19"</code></pre>
+</div>
+</div>
+<p>For more details, you can can use <code>@</code> to get objects in S4. Like <code>result@gene_modules</code> returns genes in cluster.</p>
+</section>
 </section>
 <section id="infering-tfs-or-pathway-activity-and-more-based-on-meta-gene-modules" class="level1">
 <h1>Infering TFs or pathway activity and more based on meta-gene modules</h1>
@@ -404,22 +456,22 @@ TF infering Example:
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>re_enrich_smaller_clusterNum <span class="ot">&lt;-</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">egt_recluster_analysis</span>(</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  ora_result,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ClusterNum =</span> <span class="dv">6</span>, <span class="co"># reduce the cluster nums. </span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">P.adj =</span> <span class="fl">0.05</span>,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">force =</span> F,</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">nTop =</span> <span class="dv">10</span>,</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"ward.D2"</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>re_enrich_smaller_clusterNum <span class="ot">&lt;-</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">egt_recluster_analysis</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  ora_result,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ClusterNum =</span> <span class="dv">6</span>, <span class="co"># reduce the cluster nums. </span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">P.adj =</span> <span class="fl">0.05</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">force =</span> F,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">nTop =</span> <span class="dv">10</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"ward.D2"</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>✔ re-enrichment done.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>ℹ You can adjust the param of egt_recluster_analysis() for better results. Please refer to the help page. </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>TF_Act <span class="ot">&lt;-</span> <span class="fu">egt_infer_act</span>(re_enrich_smaller_clusterNum,<span class="at">DB =</span> <span class="st">"collectri"</span>, <span class="at">species =</span> <span class="st">"human"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>TF_Act <span class="ot">&lt;-</span> <span class="fu">egt_infer_act</span>(re_enrich_smaller_clusterNum,<span class="at">DB =</span> <span class="st">"collectri"</span>, <span class="at">species =</span> <span class="st">"human"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>! If when doing re-enrichment, you select a high number of clusters, that may cause low gene number in each meta-gene module, and then can't be infered sucessfully. So if result is empty, please increase the number of re-clustering when doing it. </code></pre>
 </div>
@@ -427,24 +479,24 @@ TF infering Example:
 <pre><code>✔ success loaded self-contained database</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ Done ORA in 0.0171589851379395 sec.</code></pre>
+<pre><code>✔ Done ORA in 0.0226178169250488 sec.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ Done ORA in 0.0127809047698975 sec.</code></pre>
+<pre><code>✔ Done ORA in 0.0140619277954102 sec.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ Done ORA in 0.0137960910797119 sec.</code></pre>
+<pre><code>✔ Done ORA in 0.0150759220123291 sec.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ Done ORA in 0.0139439105987549 sec.</code></pre>
+<pre><code>✔ Done ORA in 0.0144729614257812 sec.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ Done ORA in 0.0138928890228271 sec.</code></pre>
+<pre><code>✔ Done ORA in 0.0143868923187256 sec.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ Done ORA in 0.0131402015686035 sec.</code></pre>
+<pre><code>✔ Done ORA in 0.0139889717102051 sec.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(TF_Act<span class="sc">$</span>Cluster_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(TF_Act<span class="sc">$</span>Cluster_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>ℹ Use Default P-adjust cut-off 0.05. You can pass `P.adj=xxx` arugument to filter. </code></pre>
 </div>
@@ -454,7 +506,7 @@ TF infering Example:
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="re_enrichment_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="re_enrichment_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -474,8 +526,8 @@ Wants to interpret the regulator of whole inputted genes?
 <div class="callout-body-container callout-body">
 <p><code>PROGENy</code> and <code>CollecTRI</code> can be used just like other database in ORA or GSEA enrichment, for example, the <code>database_GO_BP()</code>. See [Progeny Database] and [CollecTRI Database] page for detail.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>TFActivity <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_CollecTRI_human</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>TFActivity <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_CollecTRI_human</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="callout callout-style-default callout-important callout-titled">

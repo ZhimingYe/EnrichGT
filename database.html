@@ -401,11 +401,15 @@ How to specify species?
 <p>You can use <code>convert_annotations_genes()</code> to convert gene annotations from any keys to any keys.</p>
 <p>Example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(EnrichGT))</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(readr))</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(org.Hs.eg.db))</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(DEGexample <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"./DEG.csv"</span>))</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">convert_annotations_genes</span>(DEGexample<span class="sc">$</span>...<span class="dv">1</span>[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">from_what=</span><span class="st">"SYMBOL"</span>, <span class="at">to_what=</span><span class="fu">c</span>(<span class="st">"ENTREZID"</span>,<span class="st">"ENSEMBL"</span>,<span class="st">"GENENAME"</span>), <span class="at">OrgDB=</span>org.Hs.eg.db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(EnrichGT))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: replacing previous import 'AnnotationDbi::select' by 'dplyr::select'
+when loading 'EnrichGT'</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(readr))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(org.Hs.eg.db))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(DEGexample <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"./DEG.csv"</span>))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">convert_annotations_genes</span>(DEGexample<span class="sc">$</span>...<span class="dv">1</span>[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">from_what=</span><span class="st">"SYMBOL"</span>, <span class="at">to_what=</span><span class="fu">c</span>(<span class="st">"ENTREZID"</span>,<span class="st">"ENSEMBL"</span>,<span class="st">"GENENAME"</span>), <span class="at">OrgDB=</span>org.Hs.eg.db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>'select()' returned 1:1 mapping between keys and columns</code></pre>
 </div>

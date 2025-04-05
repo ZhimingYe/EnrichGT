@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Zhiming Ye">
 
-<title>EnrichGT: all-in-one enrichment analysis – EnrichGT</title>
+<title>Large language models integration – EnrichGT</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -101,40 +100,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<meta name="mermaid-theme" content="neutral">
-<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -190,7 +156,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">EnrichGT: all-in-one enrichment analysis</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./llm.html">Large language models integration</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -204,7 +170,7 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">EnrichGT: all-in-one enrichment analysis</span></a>
   </div>
 </li>
@@ -240,7 +206,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./llm.html" class="sidebar-item-text sidebar-link">
+  <a href="./llm.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Large language models integration</span></a>
   </div>
 </li>
@@ -260,31 +226,27 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a></li>
-  <li><a href="#install-enrichgt" id="toc-install-enrichgt" class="nav-link" data-scroll-target="#install-enrichgt">Install EnrichGT</a></li>
-  <li><a href="#meet-enrichgt" id="toc-meet-enrichgt" class="nav-link" data-scroll-target="#meet-enrichgt">Meet EnrichGT</a></li>
-  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background">Background</a></li>
+  <li><a href="#how-to-use" id="toc-how-to-use" class="nav-link" data-scroll-target="#how-to-use">How to use</a>
+  <ul class="collapse">
+  <li><a href="#bring-your-llm-to-r" id="toc-bring-your-llm-to-r" class="nav-link" data-scroll-target="#bring-your-llm-to-r">Bring your LLM to R</a></li>
+  <li><a href="#summrize-your-results-using-llm" id="toc-summrize-your-results-using-llm" class="nav-link" data-scroll-target="#summrize-your-results-using-llm">Summrize your results using LLM</a></li>
+  </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/llm.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">EnrichGT: all-in-one enrichment analysis</h1>
+<h1 class="title">Large language models integration</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Zhiming Ye </p>
-          </div>
-  </div>
     
   
     
@@ -295,172 +257,143 @@ window.Quarto = {
 </header>
 
 
-<section id="intro" class="level1">
-<h1>Intro</h1>
-<div class="quarto-figure quarto-figure-right">
-<figure class="figure">
-<p><img src="EnrichGTlogo.png" class="img-fluid quarto-figure quarto-figure-right figure-img" width="150"></p>
-</figure>
-</div>
-<p><img src="Introduction.jpeg" class="img-fluid" width="2000"></p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Highlights
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<table class="caption-top table">
-<colgroup>
-<col style="width: 100%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>EnrichGT means <u>enrich</u>ing previously enriched results (<span class="math inline">\(E^2_{\text{enrich}}\)</span>) into <u>g</u>reat <u>t</u>ables and more …</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Efficient C++-based functions for <strong>rapid enrichment</strong> analysis</td>
-</tr>
-<tr class="even">
-<td><strong>Simple</strong> input format, empowering non-pro users</td>
-</tr>
-<tr class="odd">
-<td>Re-clustering of enriched results provides <strong>clear and actionable insights</strong></td>
-</tr>
-<tr class="even">
-<td>User-friendly <strong>HTML output</strong> that is easy to read and interpret</td>
-</tr>
-<tr class="odd">
-<td><strong>AI (LLM)</strong> based result annotation</td>
-</tr>
-<tr class="even">
-<td>Do a series of things just in <strong>ONE</strong> package</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Aim and Scope
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Please note that the primary goal of <code>EnrichGT</code> is to provide researchers in wet labs, who have been busy all day, with quick and insightful biological interpretations from dry lab data to support their experiments. Therefore, all computational methods employed are relatively straightforward and pragmatic. For example, <code>C++</code> based ORA enrichment function, GSEA only using <code>fgsea</code> output without more analysis, use only vocabulary frequency matrix for re-enrichment instead of term’s similarity, and more… Its purpose is to offer a “quick overview”. After this initial overview, you can use more widely recognized tools to generate statistically rigorous results (not necessary though). However, don’t misunderstand—this does not mean that the statistical processes in <code>EnrichGT</code> are incorrect. I’ve made every effort to ensure their accuracy; they are just less refined. Additionally, the tool has been tested in most typical scenarios, but extreme cases cannot be entirely ruled out.</p>
-<p>This package was developed under the inspiration of <em>clusterProfiler</em> (a wonderful and powerful package! I have learned a lot. Without it I won’t develop <code>EnrichGT</code>.), but none of <code>EnrichGT</code>’s internal functions rely on any <em>clusterProfiler</em> functions. Some database-loading code references <em>clusterProfiler</em>‘s implementation, but it has been extensively modified to provide lightweight experience. In other words, this is not a case of rebranding <em>clusterProfiler</em> under a different name. It’s a lightweight implementation designed to wet-labs. If you need a tool that handles every detail, please use <em>clusterProfiler</em> instead. Please see <a href="./acknowledgement.html">acknowledgment</a> page for citing <em>clusterProfiler</em>.</p>
-</div>
-</div>
-</div>
+<section id="background" class="level1">
+<h1>Background</h1>
+<p>Large language models (LLMs) hold promise for interpreting biological data, yet their effectiveness is constrained when directly handling raw gene input or complex enrichment analysis results.</p>
+<p><strong>Challenges in Direct LLM Interpretation</strong></p>
+<ol type="1">
+<li><strong>Raw Gene Input Limitations:</strong>
+<ul>
+<li>LLMs exhibit suboptimal performance when provided solely with gene symbols or identifiers (e.g., TP53, BRCA1, EGFR).</li>
+<li>Without additional biological metadata, LLMs struggle to establish meaningful biological contexts and infer functional relationships among genes.</li>
+</ul></li>
+<li><strong>Overwhelming Enrichment Results:</strong>
+<ul>
+<li>Directly feeding complete outputs from Gene Ontology (GO) or Kyoto Encyclopedia of Genes and Genomes (KEGG) enrichment analyses into LLMs typically introduces excessive noise.</li>
+<li>Context window limitations result in significant information loss, hindering the accurate interpretation of complex enrichment data.</li>
+<li>Dense, unstructured enrichment tables challenge LLMs’ ability to effectively prioritize and summarize critical biological insights.</li>
+</ul></li>
+</ol>
+<p><strong>Proposed Solution: Cluster-First Approach</strong></p>
+<p>To address these challenges, cluster-first methodology, exemplified by <code>EnrichGT</code>, is recommended. <code>EnrichGT</code> organizes enrichment results into meaningful clusters, thereby simplifying complexity and enhancing interpretability. Recently, <code>EnrichGT</code> has integrated support for LLM-driven interpretation, enabling LLMs to more effectively extract, summarize, and contextualize key biological insights from enrichment data.</p>
 </section>
-<section id="install-enrichgt" class="level1">
-<h1>Install EnrichGT</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pak"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pkg_install</span>(<span class="st">"ZhimingYe/EnrichGT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The <code>AnnotationDbi</code>, <code>fgsea</code>, <code>reactome.db</code> and <code>GO.db</code> were from BioConductor and might be slow to install. If you can’t install, please re-check your web connections or update your R and BioConductor, or use <a href="https://packagemanager.posit.co/">Posit Package Manager</a> to install when using old R.</p>
+<section id="how-to-use" class="level1">
+<h1>How to use</h1>
+<section id="bring-your-llm-to-r" class="level2">
+<h2 class="anchored" data-anchor-id="bring-your-llm-to-r">Bring your LLM to R</h2>
+<p>The LLM function is based on package <code>ellmer</code> (<a href="https://ellmer.tidyverse.org/index.html" class="uri">https://ellmer.tidyverse.org/index.html</a>). It provides a uniform interface for most of LLMs in R.</p>
+<p><code>ellmer</code> supports a wide variety of model providers:</p>
+<ul>
+<li>Anthropic’s Claude: <code>chat_anthropic()</code>.</li>
+<li>AWS Bedrock: <code>chat_aws_bedrock()</code>.</li>
+<li>Azure OpenAI: <code>chat_azure_openai()</code>.</li>
+<li>Databricks: <code>chat_databricks()</code>.</li>
+<li>DeepSeek: <code>chat_deepseek()</code>.</li>
+<li>GitHub model marketplace: <code>chat_github()</code>.</li>
+<li>Google Gemini: <code>chat_google_gemini()</code>.</li>
+<li>Groq: <code>chat_groq()</code>.</li>
+<li>Ollama: <code>chat_ollama()</code>.</li>
+<li>OpenAI: <code>chat_openai()</code>.</li>
+<li>OpenRouter: <code>chat_openrouter()</code>.</li>
+<li>perplexity.ai: <code>chat_perplexity()</code>.</li>
+<li>Snowflake Cortex: <code>chat_snowflake()</code> and <code>chat_cortex_analyst()</code>.</li>
+<li>VLLM: <code>chat_vllm()</code>.</li>
+</ul>
+<p>You can generate a model in R environment like this (Please refer to <code>ellmer</code> website):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ellmer)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>dsAPI <span class="ot">&lt;-</span> <span class="st">"sk-**********"</span> <span class="co"># your API key</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">chat_deepseek</span>(<span class="at">api_key =</span> dsAPI, <span class="at">model =</span> <span class="st">"deepseek-chat"</span>, <span class="at">system_prompt =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Some suggestions:</p>
+<ol type="1">
+<li>You may choose a cost-effective LLM model, as this type of annotation requires multiple calls. Also, make sure that both the LLM and the network are as stable as possible in order to obtain all the results (although <code>EnrichGT</code> has already been set to automatically retry multiple times).</li>
+<li>Non-reflective models or fast-thinking models are generally better. Slow-thinking models (such as <code>DeepSeek-R1</code>) may result in long waiting times.</li>
+<li>It is best to choose an LLM model that is relatively intelligent, has a substantial knowledge base, and exhibits low hallucination rates. In our (albeit limited) experience, although <code>GPT-4o</code> performs worse than <code>DeepSeek-V3-0324</code> in most benchmark tests, it may produce more reliable results in some cases due to the latter’s higher hallucination rate. You are free to choose whichever large model you prefer.</li>
+<li><strong>NO</strong> system prompts. And please adjust your LLM’s tempretures according to your provider carefully.</li>
+</ol>
 </section>
-<section id="meet-enrichgt" class="level1">
-<h1>Meet EnrichGT</h1>
-<p>Please see articles on the left! Especially the <a href="./basic.html">basic workflow</a> introduction.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<section id="summrize-your-results-using-llm" class="level2">
+<h2 class="anchored" data-anchor-id="summrize-your-results-using-llm">Summrize your results using LLM</h2>
+<p>Just execute:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>re_enrichment_results <span class="ot">&lt;-</span> <span class="fu">egt_llm_summary</span>(re_enrichment_results, chat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="images/paste-2.png" class="img-fluid" width="700"></p>
+<p>A typical run in <code>DeepSeek-V3-0324</code> will use ~ 6 mins.</p>
+<p>After complete, you can use <code>$</code> operator to access annotated results. For example, the annotation of <code>Cluster_1</code>:</p>
+<p><img src="images/paste-1.png" class="img-fluid" width="700"></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>llm_annotated_obj<span class="sc">$</span>Cluster_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
 </div>
-<div class="callout-title-container flex-fill">
-Tip
+<div class="cell-output cell-output-stderr">
+<pre><code>── Enrichment Result of Cluster_1 (LLM Summary) ────────────────────────────────</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── "Glutamatergic Synaptic Transmission and Plasticity Network" ──</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>• The pathways listed predominantly converge on glutamatergic synaptic
+transmission and plasticity, highlighting a central role in excitatory
+neurotransmission and synaptic regulation. Key processes include glutamate
+receptor signaling (ionotropic and metabotropic), synaptic vesicle dynamics,
+and trans-synaptic protein interactions (e.g., neurexins and neuroligins),
+which collectively modulate synaptic strength and plasticity. The inclusion of
+NMDA receptor unblocking and activation underscores the importance of
+calcium-dependent plasticity mechanisms, such as long-term potentiation (LTP)
+or depression (LTD), critical for learning and memory.
+
+Biological implications suggest this module regulates cognitive functions and
+neuronal adaptability, with dysregulation linked to neuropsychiatric disorders
+(e.g., autism, schizophrenia). Evidence includes the association of neuroligin
+mutations with autism and NMDA receptor dysfunction with cognitive deficits.
+The prominence of protein-protein interactions (e.g., neurexin-neuroligin)
+further implicates synaptic adhesion in maintaining circuit stability.
+
+A representative name for this module could be "Glutamatergic Synaptic
+Transmission and Plasticity Network," reflecting its focus on excitatory
+signaling and adaptive synaptic remodeling. This nomenclature aligns with the
+pathways' roles in neuronal communication and their broader implications for
+brain function and disease.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>• The gene set predominantly encodes proteins critical for glutamatergic
+synaptic function, plasticity, and neuronal signaling, with particularly
+noteworthy members including GRIN1/2A/2B (NMDA receptor subunits), GRIA4 (AMPA
+receptor), and GRM1/5/8 (metabotropic glutamate receptors) that form the core
+excitatory neurotransmission machinery. Several genes stand out for their
+established neurobiological roles: APOE influences synaptic repair and
+Alzheimer's risk, NRXN1 and NLGN1 mediate trans-synaptic adhesion crucial for
+circuit formation, while NTRK2 (BDNF receptor) and CAMK2B regulate
+activity-dependent plasticity. The presence of calcium-related genes (CACNG5,
+GRID2) and presynaptic regulators (UNC13A/C, RIMS3) suggests additional
+modulation of vesicular release and calcium-dependent processes. Notably,
+multiple genes (GRIN2B, SHISA9, IL1RAPL2) are associated with
+neurodevelopmental disorders, reinforcing the set's relevance to synaptic
+pathology. The inclusion of atypical members like CDC20 (cell cycle) and HRAS
+(growth signaling) may reflect non-canonical neuronal functions or technical
+noise, though WNT5A's role in synaptic patterning is established. The
+collective profile implies these genes operate in coordinated networks
+governing synaptic strength, with particular importance for cognitive functions
+and neurological disease mechanisms, where glutamatergic dysfunction is
+implicated across schizophrenia, autism, and neurodegenerative conditions. The
+most biologically compelling targets appear to be the direct synaptic signaling
+components (ionotropic receptors, adhesion molecules) and plasticity
+regulators, while others may represent secondary modulators or
+context-dependent players in neural circuits.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "cli-92167-14"</code></pre>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>See <a href="pkgfuns.html">package function page</a> for further detail params of functions. (For example, how to use a function)</p>
-<p>You can use <code>? function</code> to get further help when installed.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>?egt_recluster_analysis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<p>In most examples of this document, we use a result table of DEG analysis <code>DEG.csv</code>. The gene symbols of <code>DEG.csv</code> is on the first column without column name. In default <code>read_csv()</code> convert the unamed column name to <code>...1</code>. So <code>DEGtable$...1</code> refers to gene symbols.</p>
+<p>All the results are saved in the <code>result@LLM_Annotation</code> slot.</p>
+
+
 </section>
-<section id="overview" class="level1">
-<h1>Overview</h1>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph LR
-    
-    M[genes]
-    N[genes with weights]
-    
-    subgraph Enrichment Analysis
-        A[egt_enrichment_analysis]
-        B[egt_gsea_analysis]
-    end
-
-    subgraph Pathway Databases
-        D[database_* funcs]
-    end
-
-    subgraph Visualize results
-        P1[egt_plot_results]
-        P2[egt_plot_gsea]
-    end
-
-    subgraph egt_recluster_analysis
-        K1[Pretty table]
-        K2[AI Annotation]
-        CC[cluster modules]
-        MG[gene modules]
-    end
-
-    subgraph Pathway Act. and TF infer 
-        
-        I[egt_infer]
-    end
-    
-    M --&gt; A
-    N --&gt; B
-    
-    D --&gt; A
-    D --&gt; B
-    
-    A --&gt; C[Enriched Result]
-    B --&gt; C
-
-    C --&gt; CC
-    C --&gt; MG
-
-    C --&gt; P1
-
-    CC --&gt; K1
-    MG --&gt; K1
-
-    CC --&gt; K2
-    MG --&gt; K2
-
-    CC --&gt; P1
-    C --&gt; P2
-
-    MG --&gt; I
-
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-<p><sup>The&nbsp;functions&nbsp;from&nbsp;EnrichGT&nbsp;are&nbsp;starting&nbsp;with&nbsp;“egt_”&nbsp;or&nbsp;“database_”.</sup></p>
-
-
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
@@ -889,9 +822,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/llm.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
-<p>Corresponding to EnrichGT Version 1.0.3</p>
+<p>Corresponding to EnrichGT Version 0.8.6</p>
 </div>
   </div>
 </footer>

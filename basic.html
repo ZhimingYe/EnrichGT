@@ -206,6 +206,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./llm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Large language models integration</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./database.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Select your databases for enrichment or annotation</span></a>
   </div>
@@ -222,6 +228,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#ora" id="toc-ora" class="nav-link active" data-scroll-target="#ora">ORA</a></li>
   <li><a href="#re-enrichment" id="toc-re-enrichment" class="nav-link" data-scroll-target="#re-enrichment">Re-enrichment</a></li>
+  <li><a href="#ai-based-annotations" id="toc-ai-based-annotations" class="nav-link" data-scroll-target="#ai-based-annotations">AI-based annotations</a></li>
   <li><a href="#gsea" id="toc-gsea" class="nav-link" data-scroll-target="#gsea">GSEA</a></li>
   <li><a href="#fusing-ora-results" id="toc-fusing-ora-results" class="nav-link" data-scroll-target="#fusing-ora-results">Fusing ORA results</a></li>
   <li><a href="#gene-annotation-converter" id="toc-gene-annotation-converter" class="nav-link" data-scroll-target="#gene-annotation-converter">Gene Annotation Converter</a></li>
@@ -336,70 +343,89 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </dd>
 </dl>
 </section>
-<section id="gsea" class="level1">
-<h1>GSEA</h1>
-<p>If you have a set of genes with known weight like <code>log2FC</code>, or the loading from <code>PCA</code> or <code>NMF</code>…</p>
-<div class="sourceCode" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>GSEAexample <span class="ot">&lt;-</span> <span class="fu">egt_gsea_analysis</span>(</span>
-<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">genes =</span> </span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-3" class="code-annotation-target"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">genes_with_weights</span>(DEGexample2<span class="sc">$</span>...<span class="dv">1</span>,DEGexample2<span class="sc">$</span>log2FoldChange),</span>
-<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">database =</span> </span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-3-5" class="code-annotation-target"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">database_from_gmt</span>(<span class="st">"gmt_file.gmt"</span>)</span>
-<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>            )</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-3-7" class="code-annotation-target"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(GSEAexample)</span>
-<span id="annotated-cell-3-8"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_gsea</span>(GSEAexample<span class="sc">$</span>Description[<span class="dv">1</span>],</span>
-<span id="annotated-cell-3-9"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">genes =</span> <span class="fu">genes_with_weights</span>(<span class="at">genes =</span> DEGexample2<span class="sc">$</span>...<span class="dv">1</span>, </span>
-<span id="annotated-cell-3-10"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">weights =</span> DEGexample2<span class="sc">$</span>log2FoldChange),</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-3-11" class="code-annotation-target"><a href="#annotated-cell-3-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-3-12" class="code-annotation-target"><a href="#annotated-cell-3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_gsea</span>(GSEAexample<span class="sc">$</span>Description[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,],</span>
-<span id="annotated-cell-3-13"><a href="#annotated-cell-3-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">genes =</span> <span class="fu">genes_with_weights</span>(<span class="at">genes =</span> DEGexample2<span class="sc">$</span>...<span class="dv">1</span>, </span>
-<span id="annotated-cell-3-14"><a href="#annotated-cell-3-14" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">weights =</span> DEGexample2<span class="sc">$</span>log2FoldChange),</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-3-15" class="code-annotation-target"><a href="#annotated-cell-3-15" aria-hidden="true" tabindex="-1"></a>              <span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="ai-based-annotations" class="level1">
+<h1>AI-based annotations</h1>
+<p>See more in <a href="./llm.html">large language models integration</a></p>
+<div class="sourceCode" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ellmer)</span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>dsAPI <span class="ot">&lt;-</span> <span class="st">"sk-**********"</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-3" class="code-annotation-target"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">chat_deepseek</span>(<span class="at">api_key =</span> dsAPI, <span class="at">model =</span> <span class="st">"deepseek-chat"</span>, <span class="at">system_prompt =</span> <span class="st">""</span>)</span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>re_enrichment_results <span class="ot">&lt;-</span> <span class="fu">egt_llm_summary</span>(re_enrichment_results, chat)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-3-5" class="code-annotation-target"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>re_enrichment_results<span class="sc">$</span>Cluster_1</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="3" data-code-annotation="1">GSEA is also supported, see <a href="./enrichment_core.html">enrichment details</a>. <code>genes_with_weights()</code> is used to generate weighted genes;</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="3" data-code-annotation="1">In this step we create a DeepSeek interface. We use <code>ellmer</code> for LLM support. For details please refer to <a href="https://ellmer.tidyverse.org/index.html">ellmer tidyverse website</a>. It provides a uniform interface for most of LLMs in R.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="5" data-code-annotation="2">Additional pathway information like GMT file or table is also supported. See <a href="./database.html">Database usage</a>.</span>
+<span data-code-cell="annotated-cell-3" data-code-lines="5" data-code-annotation="2">Display annotation by LLM.</span>
 </dd>
-<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+</dl>
+</section>
+<section id="gsea" class="level1">
+<h1>GSEA</h1>
+<p>If you have a set of genes with known weight like <code>log2FC</code>, or the loading from <code>PCA</code> or <code>NMF</code>…</p>
+<div class="sourceCode" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>GSEAexample <span class="ot">&lt;-</span> <span class="fu">egt_gsea_analysis</span>(</span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">genes =</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">genes_with_weights</span>(DEGexample2<span class="sc">$</span>...<span class="dv">1</span>,DEGexample2<span class="sc">$</span>log2FoldChange),</span>
+<span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">database =</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">database_from_gmt</span>(<span class="st">"gmt_file.gmt"</span>)</span>
+<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>            )</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-4-7" class="code-annotation-target"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(GSEAexample)</span>
+<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_gsea</span>(GSEAexample<span class="sc">$</span>Description[<span class="dv">1</span>],</span>
+<span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">genes =</span> <span class="fu">genes_with_weights</span>(<span class="at">genes =</span> DEGexample2<span class="sc">$</span>...<span class="dv">1</span>, </span>
+<span id="annotated-cell-4-10"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">weights =</span> DEGexample2<span class="sc">$</span>log2FoldChange),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-4-11" class="code-annotation-target"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-4-12" class="code-annotation-target"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_gsea</span>(GSEAexample<span class="sc">$</span>Description[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,],</span>
+<span id="annotated-cell-4-13"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">genes =</span> <span class="fu">genes_with_weights</span>(<span class="at">genes =</span> DEGexample2<span class="sc">$</span>...<span class="dv">1</span>, </span>
+<span id="annotated-cell-4-14"><a href="#annotated-cell-4-14" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">weights =</span> DEGexample2<span class="sc">$</span>log2FoldChange),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-4-15" class="code-annotation-target"><a href="#annotated-cell-4-15" aria-hidden="true" tabindex="-1"></a>              <span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="7" data-code-annotation="3">Showing basic bar plot for results, see more in <a href="./visualize.html">visualization help</a>;</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="3" data-code-annotation="1">GSEA is also supported, see <a href="./enrichment_core.html">enrichment details</a>. <code>genes_with_weights()</code> is used to generate weighted genes;</span>
 </dd>
-<dt data-target-cell="annotated-cell-3" data-target-annotation="4">4</dt>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="11" data-code-annotation="4">Single ranking plot, see more in <a href="./visualize.html">visualization help</a>;</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="2">Additional pathway information like GMT file or table is also supported. See <a href="./database.html">Database usage</a>.</span>
 </dd>
-<dt data-target-cell="annotated-cell-3" data-target-annotation="5">5</dt>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="12" data-code-annotation="5">Please subset it to avoid too many results and the waste of time;</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="7" data-code-annotation="3">Showing basic bar plot for results, see more in <a href="./visualize.html">visualization help</a>;</span>
 </dd>
-<dt data-target-cell="annotated-cell-3" data-target-annotation="6">6</dt>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-3" data-code-lines="15" data-code-annotation="6">Showing table-like result in figure, see more in <a href="./visualize.html">visualization help</a>.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="11" data-code-annotation="4">Single ranking plot, see more in <a href="./visualize.html">visualization help</a>;</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="12" data-code-annotation="5">Please subset it to avoid too many results and the waste of time;</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="15" data-code-annotation="6">Showing table-like result in figure, see more in <a href="./visualize.html">visualization help</a>.</span>
 </dd>
 </dl>
 </section>
 <section id="fusing-ora-results" class="level1">
 <h1>Fusing ORA results</h1>
 <p>This function support the ORA output from both <code>EnrichGT</code> and <code>clusterProfiler</code>. So you can use your favourite tool to achieve this.</p>
-<div class="sourceCode" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fusing results: </span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>ora_result_A <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGs, <span class="at">database =</span> <span class="fu">database_Reactome</span>(<span class="at">OrgDB =</span> org.Hs.eg.db))</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>ora_result_B <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGs, <span class="at">database =</span> <span class="fu">database_kegg</span>(<span class="at">kegg_organism =</span> <span class="st">"hsa"</span>,<span class="at">OrgDB =</span> org.Hs.eg.db))</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>fused_result <span class="ot">&lt;-</span> <span class="fu">egt_recluster_analysis</span>(<span class="fu">list</span>(ora_result_A,ora_result_B))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fusing results: </span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-2" class="code-annotation-target"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>ora_result_A <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGs, <span class="at">database =</span> <span class="fu">database_Reactome</span>(<span class="at">OrgDB =</span> org.Hs.eg.db))</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-5-3" class="code-annotation-target"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>ora_result_B <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGs, <span class="at">database =</span> <span class="fu">database_kegg</span>(<span class="at">kegg_organism =</span> <span class="st">"hsa"</span>,<span class="at">OrgDB =</span> org.Hs.eg.db))</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-5-4" class="code-annotation-target"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>fused_result <span class="ot">&lt;-</span> <span class="fu">egt_recluster_analysis</span>(<span class="fu">list</span>(ora_result_A,ora_result_B))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="2" data-code-annotation="1">ORA result 1 with Reactome;</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="2" data-code-annotation="1">ORA result 1 with Reactome;</span>
 </dd>
-<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="3" data-code-annotation="2">ORA result 2 with KEGG;</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="3" data-code-annotation="2">ORA result 2 with KEGG;</span>
 </dd>
-<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="3">Fuse together.</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="4" data-code-annotation="3">Fuse together.</span>
 </dd>
 </dl>
 <div class="callout callout-style-default callout-important callout-titled">
@@ -429,11 +455,11 @@ Important
 </section>
 <section id="gene-annotation-converter" class="level1">
 <h1>Gene Annotation Converter</h1>
-<div class="sourceCode" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-1" class="code-annotation-target"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>IDs_of_genes <span class="ot">&lt;-</span> <span class="fu">convert_annotations_genes</span>(DEGexample<span class="sc">$</span>...<span class="dv">1</span>[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">from_what=</span><span class="st">"SYMBOL"</span>, <span class="at">to_what=</span><span class="fu">c</span>(<span class="st">"ENTREZID"</span>,<span class="st">"ENSEMBL"</span>,<span class="st">"GENENAME"</span>), <span class="at">OrgDB=</span>org.Hs.eg.db)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a>IDs_of_genes <span class="ot">&lt;-</span> <span class="fu">convert_annotations_genes</span>(DEGexample<span class="sc">$</span>...<span class="dv">1</span>[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">from_what=</span><span class="st">"SYMBOL"</span>, <span class="at">to_what=</span><span class="fu">c</span>(<span class="st">"ENTREZID"</span>,<span class="st">"ENSEMBL"</span>,<span class="st">"GENENAME"</span>), <span class="at">OrgDB=</span>org.Hs.eg.db)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="1" data-code-annotation="1">Just told it from what and to what :)</span>
+<span data-code-cell="annotated-cell-6" data-code-lines="1" data-code-annotation="1">Just told it from what and to what :)</span>
 </dd>
 </dl>
 
