@@ -66,7 +66,7 @@ database_KEGG <- function(
       tryCatch(
         {
           cli::cli_alert_info(glue::glue("downloading {x}..."))
-          y <- read.delim(x, quote = "\t", header = F)
+          y <- retry_function(read.delim, ntry = 3, delay = 3, x, quote = "\t", header = F)
           Sys.sleep(2)
           return(y)
         },
@@ -134,7 +134,7 @@ database_KEGG <- function(
 #'
 #' @rdname KEGGhelp
 database_KEGG_show_organism <- function() {
-  x <- read.delim(
+  x <- retry_function(read.delim, ntry = 3, delay = 3, 
     "https://rest.kegg.jp/list/organism",
     quote = "\t",
     header = F

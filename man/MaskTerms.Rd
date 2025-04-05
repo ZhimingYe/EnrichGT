@@ -28,10 +28,10 @@ filtered results.
 \examples{
 \dontrun{
 # Filter out "ribosome" related terms
-filtered_results <- reenrichment_obj \%del\% "ribosome"
+filtered_results <- reenrichment_obj \%-delete->\% "ribosome"
 
 # Filter data.frame directly
-filtered_df <- df \%del\% "metabolism"
+filtered_df <- df \%-delete->\% "metabolism"
 }
 
 }

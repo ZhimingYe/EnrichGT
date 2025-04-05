@@ -2,20 +2,31 @@
 % Please edit documentation in R/cp_helpers.R
 \name{genes_with_weights}
 \alias{genes_with_weights}
-\title{Return ranked gene list which is use for "GSEA" or other places}
+\title{Create a ranked gene list for GSEA analysis}
 \usage{
 genes_with_weights(genes, weights)
 }
 \arguments{
-\item{genes}{A vector containing genes}
+\item{genes}{Character vector of gene identifiers (e.g., gene symbols or ENTREZ IDs)}
 
-\item{weights}{A vector contain weight of genes, typically like log2FC from DEG analysis}
+\item{weights}{Numeric vector of weights for each gene (typically log2 fold changes)}
 }
 \value{
-A ranked named numeric vector. Names of the numbers is the ENTREZID.
+A named numeric vector sorted in descending order by weight, where:
+  - Names are gene identifiers  
+  - Values are the corresponding weights
 }
 \description{
-Return ranked gene list which is use for "GSEA" or other places
+Takes gene identifiers and corresponding weights (like log2 fold changes) and returns
+a ranked vector suitable for Gene Set Enrichment Analysis (GSEA).
+}
+\examples{
+\dontrun{
+# Example using differential expression results  
+genes <- c("TP53", "BRCA1", "EGFR")
+log2fc <- c(1.5, -2.1, 0.8) 
+ranked_genes <- genes_with_weights(genes, log2fc)
+}
 }
 \author{
 Zhiming Ye

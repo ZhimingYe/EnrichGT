@@ -1,16 +1,29 @@
-#' @title Return ranked gene list which is use for "GSEA" or other places
-#' 
-#' @importFrom parallel mclapply
-#' @importFrom fgsea fgsea
-#' @importFrom utils stack
-#' 
-#' @param genes A vector containing genes
-#' @param weights A vector contain weight of genes, typically like log2FC from DEG analysis
+#' Create a ranked gene list for GSEA analysis
 #'
-#' @return A ranked named numeric vector. Names of the numbers is the ENTREZID.
+#' Takes gene identifiers and corresponding weights (like log2 fold changes) and returns
+#' a ranked vector suitable for Gene Set Enrichment Analysis (GSEA).
+#'
+#' @importFrom parallel mclapply
+#' @importFrom fgsea fgsea  
+#' @importFrom utils stack
+#'
+#' @param genes Character vector of gene identifiers (e.g., gene symbols or ENTREZ IDs)
+#' @param weights Numeric vector of weights for each gene (typically log2 fold changes)
+#'
+#' @return A named numeric vector sorted in descending order by weight, where:
+#'   - Names are gene identifiers  
+#'   - Values are the corresponding weights
+#'
 #' @export
 #' @author Zhiming Ye
 #'
+#' @examples
+#' \dontrun{
+#' # Example using differential expression results  
+#' genes <- c("TP53", "BRCA1", "EGFR")
+#' log2fc <- c(1.5, -2.1, 0.8) 
+#' ranked_genes <- genes_with_weights(genes, log2fc)
+#' }
 genes_with_weights <- function(genes, weights) {
   genes -> Gene
   weights -> Weight
@@ -24,23 +37,40 @@ genes_with_weights <- function(genes, weights) {
 }
 
 
-# gmt file reader is cited from Yu lab's gson package. Author: Guangchuang Yu
-# https://github.com/YuLab-SMU/gson/blob/main/R/GMT.R
-
-# parse gmt form MsigDB file to a data.frame
-#
-#' @title parse GMT files file to a data.frame
-#' @description
-#' Read `.gmt` files. You can download them from https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp
+#' Parse GMT format gene set files
 #'
-#' WikiPathway database also provides pre-built GMT files (https://data.wikipathways.org/current/gmt/). In default they are recorded as ENTREZ IDs, so you need to provide proper species database (e.g. org.Hs.eg.db for human), to database_from_gmt function and EnrichGT will automatically convert ENTREZ IDs to gene symbols for enrichment analysis.
-#' @param gmtfile gmt file path
-#' @param OrgDB Only need when converting genes, human = org.Hs.eg.db, mouse = org.Mm.eg.db, search BioConductor website for further help. Default is NULL.
-#' @param convert_2_symbols Force to convert numeric gene ids (as ENTREZIDs) to gene symbols
+#' Reads gene set files in GMT format (e.g., from MSigDB or WikiPathways) and converts
+#' them to a data frame suitable for enrichment analysis. Can optionally convert ENTREZ IDs
+#' to gene symbols.
+#'
+#' @param gmtfile Path to GMT format file
+#' @param OrgDB Annotation database for ID conversion (e.g., org.Hs.eg.db for human).
+#'   Required if convert_2_symbols=TRUE.
+#' @param convert_2_symbols Logical indicating whether to convert ENTREZ IDs to gene symbols.
+#'   Default is TRUE.
+#'
+#' @return A data frame with columns:
+#'   \itemize{
+#'     \item term: Gene set name
+#'     \item gene: Gene identifiers (symbols or ENTREZ IDs)
+#'   }
+#'   If input has 3 columns, includes an additional ID column.
+#'
 #' @importFrom utils stack
-#' @export
-#' @return data.frame
-#' @author cited from https://github.com/YuLab-SMU/gson/blob/main/R/GMT.R . The further Cache system is written by Zhiming Ye.
+#' @export 
+#' @author Original GMT parser by Guangchuang Yu (https://github.com/YuLab-SMU/gson).
+#'   Cache system and enhancements by Zhiming Ye.
+#'
+#' @examples
+#' \dontrun{
+#' # Read MSigDB hallmark gene sets
+#' gmt_file <- system.file("extdata", "h.all.v7.4.symbols.gmt", package = "EnrichGT")
+#' gene_sets <- database_from_gmt(gmt_file)
+#'
+#' # Read WikiPathways with ENTREZ to symbol conversion  
+#' gmt_file <- "wikipathways-20220310-gmt-Homo_sapiens.gmt"
+#' gene_sets <- database_from_gmt(gmt_file, OrgDB = org.Hs.eg.db)
+#' }
 
 database_from_gmt <- function(gmtfile, OrgDB = NULL, convert_2_symbols = T) {
   x <- UniversalInternalDBFetcher("SelfBuild", NULL, gmtfile)
@@ -95,64 +125,69 @@ database_from_gmt <- function(gmtfile, OrgDB = NULL, convert_2_symbols = T) {
 }
 
 
-#' A C++ accelerated universal enrichment analyzer (Over-Representation Analysis (ORA))
+#' Perform Over-Representation Analysis (ORA)
+#'
+#' Identifies enriched biological pathways or gene sets in a gene list using
+#' high-performance C++ implementation with parallel processing support.
 #'
 #' @description
-#' ORA is a statistical method used to identify biological pathways or gene sets that are significantly enriched in a given list of genes (e.g., differentially expressed genes). The method compares the proportion of genes in the target list that belong to a specific category (e.g., pathways, GO terms) to the expected proportion in the background gene set.
+#' ORA compares the proportion of genes in your target list that belong to specific
+#' categories (pathways, GO terms etc.) against the expected proportion in a background
+#' set. This implementation uses hash tables for efficient gene counting and supports
+#' parallel processing for analyzing multiple gene lists.
 #'
-#' To accelerate the computation in ORA analysis, `EnrichGT` have implemented a function that leverages C++ for high-performance computation. The core algorithm utilizes hash tables for efficient lookup and counting of genes across categories. Also It provides multi-Core parallel calculation by package `parallel`. But this function is fast enough, `parallel` function will be removed in future.
+#' @param genes Input genes, either:
+#'   \itemize{
+#'     \item Character vector of gene IDs (e.g., `c("TP53","BRCA1")`)
+#'     \item Named numeric vector from `genes_with_weights()` (will split by expression direction)
+#'     \item List of gene vectors for multiple comparisons (e.g., by cell type)
+#'   }
+#' @param database Gene set database, either:
+#'   \itemize{
+#'     \item Built-in database from `database_GO_BP()`, `database_KEGG()` etc.
+#'     \item Custom data frame with columns: (ID, Pathway_Name, Genes) or (Pathway_Name, Genes)
+#'     \item GMT file loaded via `database_from_gmt()`
+#'   }
+#' @param p_adj_method Multiple testing correction method (default "BH" for Benjamini-Hochberg)
+#' @param p_val_cut_off Adjusted p-value cutoff (default 0.5)
+#' @param background_genes Custom background genes (default: all genes in database)
+#' @param min_geneset_size Minimum genes per set (default 10)
+#' @param max_geneset_size Maximum genes per set (default 500)
+#' @param multi_cores (Please don't use this since it has several known bugs) Number of cores for parallel processing (default 0 = serial)
 #'
+#' @return A data frame with columns:
+#'   \itemize{
+#'     \item ID: Gene set identifier
+#'     \item Description: Gene set name  
+#'     \item GeneRatio: Enriched genes / input genes
+#'     \item BgRatio: Set genes / background genes
+#'     \item pvalue: Raw p-value
+#'     \item p.adjust: Adjusted p-value
+#'     \item geneID: Enriched genes
+#'     \item Count: Number of enriched genes
+#'   }
+#'   For weighted input, additional columns show up/down regulated genes.
 #'
-#'
-#' @usage res <- egt_enrichment_analysis(genes = DEGtable$Genes,
-#' database = database_GO_BP(org.Hs.eg.db))
-#'
-#' @usage res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
-#' database = database_GO_ALL(org.Hs.eg.db))
-#'
-#' @usage res <- egt_enrichment_analysis(genes = genes_with_weights(geneSymbols, log2FC),
-#' database = database_KEGG(kegg_organism="hsa",OrgDB = org.Hs.eg.db))
-#'
-#' @usage res <- egt_enrichment_analysis(genes = c("TP53","CD169","CD68","CD163",...),
-#' database = database_from_gmt("./MsigDB_Hallmark.gmt"))
-#'
-#' @usage res <- egt_enrichment_analysis(list(Macrophages=c("CD169","CD68","CD163"),
-#' Fibroblast=c("COL1A2","COL1A3"),...),
-#'  database = database_from_gmt("./panglaoDB.gmt"))
-#'
-#' @param genes a vector of gene ids like `c("TP53","CD169","CD68","CD163"...)`.
-#'
-#' If you have genes from multiple source or experiment group, you can also pass a list with gene ids in it. For Example , `list(Macrophages=c("CD169","CD68","CD163"),Fibroblast=c("COL1A2","COL1A3))`.
-#'
-#' The genes should be match in the second param `database`'s `gene` column. For example, if database provides Ensembl IDs, you should input Ensembl IDs. But in default databases provided by `EnrichGT` is gene symbols.
-#'
-#' Of note, since ver 0.8, genes argument supports inputs from genes_with_weights(), EnrichGT will use the whole DEG for ORA, and final split gene candidated into high-expressing and lowly-expressing according to weights.
-#'
-#' @param database a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run `database_GO_CC()` to get them, see example.
-#'
-#' You can run `database_GO_CC()` to see an example.
-#'
-#' The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with `database_...`, like `database_GO_BP()` or `database_Reactome()`.
-#'
-#' The default gene in each database EnrichGT provided to input is `GENE SYMBOL` (like TP53, not 1256 or ENSG...), not `ENTREZ ID` or `Ensembl ID`.
-#'
-#' It will be more convince for new users. Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()`, `database_KEGG()` and `database_Reactome()`. See \code{https://zhimingye.github.io/EnrichGT/database.html}.
-#'
-#' You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using `database_from_gmt(FILE_PATH)`.
-#'
-#' If you only have simple a table, you can also pass a data frame through this arguement. Of note, it should contains at least 2 coloumn (colnames(df) = c("Terms","Genes)), the first is term names and the second are the corresponding genes. If you have term ids, you can add a `ID` column at the first column, and `Terms` becomes the second column and `Genes` the third.
-#'
-#' @param p_adj_methods one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
-#' @param p_val_cut_off adjusted pvalue cutoff on enrichment tests to report
-#' @param background_genes background genes. If missing, the all genes listed in the database
-#' @param min_geneset_size minimal size of genes annotated for testing
-#' @param max_geneset_size maximal size of genes annotated for testing
-#' @param multi_cores multi_cores (Experimental), only used when analysis a list of genes (multi-source or groups). Set to 0 or 1 to disable. May use lots of RAM.
-#'
-#' @returns a data frame with ORA results.
 #' @export
-#'
 #' @author Zhiming Ye
+#'
+#' @examples
+#' \dontrun{
+#' # Basic ORA with GO Biological Processes
+#' genes <- c("TP53", "BRCA1", "EGFR", "CDK2")
+#' res <- egt_enrichment_analysis(genes, database_GO_BP())
+#'
+#' # ORA with DEG results (split by direction)
+#' deg_genes <- genes_with_weights(DEG$gene, DEG$log2FC)
+#' res <- egt_enrichment_analysis(deg_genes, database_KEGG())
+#'
+#' # Multi-group ORA with parallel processing
+#' gene_lists <- list(
+#'   Macrophages = c("CD68", "CD163", "CD169"),
+#'   Fibroblasts = c("COL1A1", "COL1A2", "ACTA2")
+#' )
+#' res <- egt_enrichment_analysis(gene_lists, database_Reactome(), multi_cores=0)
+#' }
 egt_enrichment_analysis <- function(
   genes,
   database,
@@ -246,47 +281,62 @@ egt_enrichment_analysis <- function(
   return(result)
 }
 
-#' Gene Set Enrichment Analysis (GSEA) by EnrichGT
+#' Perform Gene Set Enrichment Analysis (GSEA)
+#'
+#' Identifies enriched biological pathways in a ranked gene list using the fgsea algorithm.
+#'
 #' @description
-#' A warpper of `fgsea::fgsea()`.
+#' GSEA analyzes whether predefined gene sets show statistically significant enrichment
+#' at the top or bottom of a ranked gene list. This implementation uses the fast fgsea
+#' algorithm from the fgsea package.
 #'
-#' GSEA is a computational method used to determine whether predefined gene sets (e.g., pathways, GO terms) are statistically enriched in a ranked list of genes. Unlike ORA, GSEA considers the entire gene list and focuses on the cumulative distribution of gene ranks to identify coordinated changes.
+#' @param genes A named numeric vector of ranked genes where:
+#'   \itemize{
+#'     \item Names are gene identifiers
+#'     \item Values are ranking metric (e.g., log2 fold change, PCA loading)
+#'   }
+#'   Must be sorted in descending order (use `genes_with_weights()` to prepare)
+#' @param database Gene set database, either:
+#'   \itemize{
+#'     \item Built-in database from `database_GO_BP()`, `database_KEGG()` etc.
+#'     \item Custom data frame with columns: (ID, Pathway_Name, Genes) or (Pathway_Name, Genes)
+#'     \item GMT file loaded via `database_from_gmt()`
+#'   }
+#' @param p_adj_method Multiple testing correction method (default "BH" for Benjamini-Hochberg)
+#' @param p_val_cut_off Adjusted p-value cutoff (default 0.5)
+#' @param min_geneset_size Minimum genes per set (default 10)
+#' @param max_geneset_size Maximum genes per set (default 500)
+#' @param gseaParam GSEA parameter controlling weight of ranking (default 1)
 #'
-#' The fgsea (https://github.com/ctlab/fgsea) package is an R tool that implements an accelerated version of GSEA. It uses precomputed statistical methods and efficient algorithms to dramatically speed up enrichment analysis, especially for large datasets.
+#' @return A data frame with columns:
+#'   \itemize{
+#'     \item ID: Gene set identifier
+#'     \item Description: Gene set name
+#'     \item ES: Enrichment score
+#'     \item NES: Normalized enrichment score
+#'     \item pvalue: Raw p-value
+#'     \item p.adjust: Adjusted p-value
+#'     \item core_enrichment: Leading edge genes
+#'   }
 #'
-#' @usage res <- egt_gsea_analysis(genes = genes_with_weights(genes = DEG$genes, weights = DEG$log2FoldChange),
-#' database = database_GO_BP())
-#'
-#' @usage res <- egt_gsea_analysis(genes = genes_with_weights(genes = PCA_res$genes,weights =PCA_res$PC1_loading),
-#' database = database_from_gmt("./MsigDB_Hallmark.gmt"))
-#' @param genes a named numeric vector, for example c(`TP53`=1.2,`KRT15`=1.1,`IL1B`=1.0,`PMP22` = 0.5,`FABP1` = -0.9, `GLUT1` = -2).
-#'
-#' The number is the weight of each gene, can use the logFC form DEG analysis results instead. Also NMF or PCA's loading can also be used.
-#'
-#' `EnrichGT` provides a `genes_with_weights(genes,weights)` function to build this numeric vector. Importantly, this vector should be !SORTED! for larger to smaller.
-#'
-#' @param database a database data frame, can contain 3 columns (ID, Pathway_Name, Genes) or just 2 columns (Pathway_Name, Genes). You can read a data frame and pass it through this or run `database_GO_CC()` to get them, see example.
-#'
-#' The ID column is not necessary. EnrichGT contains several databases, functions about databases are named starts with `database_...`, like `database_GO_BP()` or `database_Reactome()`.
-#'
-#' The default gene in each database EnrichGT provided to input is `GENE SYMBOL` (like TP53, not 1256 or ENSG...), not `ENTREZ ID` or `Ensembl ID`. It will be more convince for new users.
-#'
-#' Avaliable databases includes `database_GO_BP()`, `database_GO_CC()`, `database_GO_MF()`, `database_KEGG()` and `database_Reactome()`. See \code{https://zhimingye.github.io/EnrichGT/database.html}.
-#'
-#' You can add more database by downloading MsigDB (https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp)'s GMT files. It can be load by using `database_from_gmt(FILE_PATH)`.
-#'
-#' If you only have simple a table, you can also pass a data frame through this arguement. Of note, it should contains at least 2 coloumn (colnames(df) = c("Terms","Genes)), the first is term names and the second are the corresponding genes. If you have term ids, you can add a `ID` column at the first column, and `Terms` becomes the second column and `Genes` the third.
-#'
-#' @param p_adj_methods one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
-#' @param p_val_cut_off adjusted pvalue cutoff on enrichment tests to report
-#' @param min_geneset_size minimal size of genes annotated for testing
-#' @param max_geneset_size maximal size of genes annotated for testing
-#' @param gseaParam other param passing to fgsea
-#'
-#' @returns a data frame
 #' @export
-#' @author warpped from fgsea package.
+#' @author Based on fgsea package by Alexey Sergushichev et al.
 #' @importFrom fgsea fgsea
+#'
+#' @examples
+#' \dontrun{
+#' # Using differential expression results
+#' ranked_genes <- genes_with_weights(DEG$gene, DEG$log2FC)
+#' res <- egt_gsea_analysis(ranked_genes, database_GO_BP())
+#'
+#' # Using PCA loadings
+#' ranked_genes <- genes_with_weights(rownames(pca$rotation), pca$rotation[,1])
+#' res <- egt_gsea_analysis(ranked_genes, database_KEGG())
+#'
+#' # Custom gene sets from GMT file
+#' ranked_genes <- genes_with_weights(genes, weights)
+#' res <- egt_gsea_analysis(ranked_genes, database_from_gmt("pathways.gmt"))
+#' }
 #'
 egt_gsea_analysis <- function(
   genes,
@@ -327,7 +377,7 @@ egt_gsea_analysis <- function(
   }
   return(res)
 }
-#' @importFrom fgsea fgsea
+
 egt_gsea_analysis_internal <- function(
   genes,
   database,
@@ -335,7 +385,7 @@ egt_gsea_analysis_internal <- function(
   min_geneset_size = 10,
   max_geneset_size = 500,
   gseaParam = 1,
-  for_figures = F
+  for_figures = FALSE
 ) {
   suppressPackageStartupMessages({
     requireNamespace("fgsea")
