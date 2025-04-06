@@ -35,7 +35,7 @@ egt_recluster_analysis(
 An `EnrichGT_obj` containing:
 \describe{
   \item{enriched_result}{Filtered results data frame}
-  \item{gt_object}{Formatted `gt` table object}
+  \item{tinytable_obj}{Formatted `tinytable` table object}
   \item{gene_modules}{List of gene modules per cluster}
   \item{pathway_clusters}{Pathway names by cluster} 
   \item{clustering_tree}{`hclust` object for visualization}
@@ -72,7 +72,7 @@ plot(res@clustering_tree)
 
 # GSEA example 
 gsea_res <- egt_recluster_analysis(gsea_result, method="average")
-gtsave(gsea_res@gt_object, "results.html")
+gsea_res
 }
 
 }

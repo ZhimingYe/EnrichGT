@@ -6,11 +6,13 @@ setClass(
   )
 )
 
+setOldClass("hclust")
+
 setClass(
   "EnrichGT_obj",
   slots = list(
     enriched_result = "data.frame",
-    gt_object = "gt_tbl",
+    tinytable_obj = "tinytable",
     gene_modules = "list",
     pathway_clusters = "list",
     document_term_matrix = "dgCMatrix",
@@ -24,7 +26,7 @@ setClass(
 
 
 setMethod("show", "EnrichGT_obj", function(object) {
-  print(object@gt_object)
+  print(object@tinytable_obj)
 })
 
 setMethod("names", "EnrichGT_obj", function(x) {
@@ -51,7 +53,7 @@ new.egt <- function(x1, x2, x3, x4, x5, x6, x7, x8) {
     {
       objegt <- new("EnrichGT_obj")
       objegt@enriched_result <- x1
-      objegt@gt_object <- x2
+      objegt@tinytable_obj <- x2
       objegt@gene_modules <- x3
       objegt@pathway_clusters <- x4
       objegt@document_term_matrix <- x5
