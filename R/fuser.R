@@ -4,58 +4,6 @@ setGeneric(
 )
 setMethod(
   "cpres_internal_getter",
-  signature(x = "enrichResult"),
-  function(x, ...) {
-    y <- x@result
-    if (dim(y)[1] == 0) {
-      cli::cli_abort("no enrichment result contains")
-    }
-    if (
-      sum(
-        colnames(y) %in%
-          c(
-            "ID",
-            "Description",
-            "GeneRatio",
-            "pvalue",
-            "p.adjust",
-            "geneID",
-            "Count"
-          )
-      ) !=
-        7
-    ) {
-      cli::cli_abort("At list contains needed columns")
-    }
-    y <- y |>
-      dplyr::select(ID, Description, GeneRatio, pvalue, p.adjust, geneID, Count)
-    return(y)
-  }
-)
-setMethod(
-  "cpres_internal_getter",
-  signature(x = "gseaResult"),
-  function(x, ...) {
-    y <- x@result
-    if (dim(y)[1] == 0) {
-      cli::cli_abort("no enrichment result contains")
-    }
-    if (
-      sum(
-        colnames(y) %in%
-          c("ID", "Description", "NES", "pvalue", "p.adjust", "core_enrichment")
-      ) !=
-        6
-    ) {
-      cli::cli_abort("At list contains needed columns")
-    }
-    y <- y |>
-      dplyr::select(ID, Description, NES, pvalue, p.adjust, core_enrichment)
-    return(y)
-  }
-)
-setMethod(
-  "cpres_internal_getter",
   signature(x = "data.frame"),
   function(x, ...) {
     x -> y

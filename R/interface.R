@@ -35,7 +35,7 @@
 #' @return An `EnrichGT_obj` containing:
 #' \describe{
 #'   \item{enriched_result}{Filtered results data frame}
-#'   \item{gt_object}{Formatted `gt` table object}
+#'   \item{tinytable_obj}{Formatted `tinytable` table object}
 #'   \item{gene_modules}{List of gene modules per cluster}
 #'   \item{pathway_clusters}{Pathway names by cluster} 
 #'   \item{clustering_tree}{`hclust` object for visualization}
@@ -50,7 +50,7 @@
 #' 
 #' # GSEA example 
 #' gsea_res <- egt_recluster_analysis(gsea_result, method="average")
-#' gtsave(gsea_res@gt_object, "results.html")
+#' gsea_res
 #' }
 #' 
 #' @importFrom dplyr group_by arrange slice_head ungroup filter
@@ -67,10 +67,6 @@ egt_recluster_analysis <- function(
   method = "ward.D2",
   ...
 ) {
-  if (!"gt" %in% loadedNamespaces()) {
-    cli::cli_alert_info("Please load gt package: ")
-    cli::cli_code("library(gt)# for extra analysis")
-  }
   objname <- deparse(substitute(x))
   if (objname == ".") {
     objname <- "`Magrittr` pipe conveyed object"
@@ -97,7 +93,6 @@ egt_recluster_analysis <- function(
     "dplyr",
     "fontawesome",
     "glue",
-    "gt",
     "proxy",
     "RColorBrewer",
     "rlang",
@@ -129,7 +124,6 @@ egt_recluster_analysis <- function(
       requireNamespace("tibble")
       requireNamespace("ggplot2")
       requireNamespace("Matrix")
-      requireNamespace("gt")
       requireNamespace("cli")
     })
     cli::cli_h1("EnrichGT")

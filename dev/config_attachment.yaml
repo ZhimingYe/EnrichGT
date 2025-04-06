@@ -7,6 +7,7 @@ extra.suggests: ~
 pkg_ignore:
   - "clusterProfiler"
   - "org.Hs.eg.db"
+  - "gt"
 document: yes
 normalize: yes
 inside_rmd: no
