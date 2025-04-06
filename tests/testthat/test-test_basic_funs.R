@@ -54,7 +54,7 @@ test_that("Recluster analysis works", {
   # 重聚类测试
   re_enrichment_results <- egt_recluster_analysis(ora_result)
   expect_s4_class(re_enrichment_results, "EnrichGT_obj")
-  expect_true("gt_tbl" %in% class(re_enrichment_results@tinytable_obj))
+  expect_true("tinytable" %in% class(re_enrichment_results@tinytable_obj))
 })
 
 

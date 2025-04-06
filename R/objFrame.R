@@ -6,6 +6,8 @@ setClass(
   )
 )
 
+setOldClass("hclust")
+
 setClass(
   "EnrichGT_obj",
   slots = list(
