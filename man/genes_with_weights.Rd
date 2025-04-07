@@ -13,7 +13,7 @@ genes_with_weights(genes, weights)
 }
 \value{
 A named numeric vector sorted in descending order by weight, where:
-  - Names are gene identifiers  
+  - Names are gene identifiers
   - Values are the corresponding weights
 }
 \description{
@@ -22,9 +22,9 @@ a ranked vector suitable for Gene Set Enrichment Analysis (GSEA).
 }
 \examples{
 \dontrun{
-# Example using differential expression results  
+# Example using differential expression results
 genes <- c("TP53", "BRCA1", "EGFR")
-log2fc <- c(1.5, -2.1, 0.8) 
+log2fc <- c(1.5, -2.1, 0.8)
 ranked_genes <- genes_with_weights(genes, log2fc)
 }
 }

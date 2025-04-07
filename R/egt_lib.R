@@ -50,7 +50,7 @@ is_numeric_string <- function(x) {
 }
 
 #' @importFrom text2vec itoken
-#' @importFrom text2vec create_vocabulary  
+#' @importFrom text2vec create_vocabulary
 #' @importFrom text2vec vocab_vectorizer
 #' @importFrom text2vec create_dtm
 #' @importFrom proxy dist
@@ -63,6 +63,11 @@ is_numeric_string <- function(x) {
   # cli::cli_blockquote("Package `text2vec` loading...")
   # suppressPackageStartupMessages(require(text2vec))
   tokens_list <- strsplit(geneID, sep)
+  if (length(unlist(tokens_list)) > 50000) {
+    cli::cli_alert_warning(glue::glue(
+      "You are input a large gene set. Please re-check your DEG or other analysis. There may be some error in previous analysis (e.g. have not filter P-value). And it may very slow..."
+    ))
+  }
   if (
     sum(is_numeric_string(unlist(tokens_list))) >
       length(unlist(tokens_list)) * 0.5

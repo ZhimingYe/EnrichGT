@@ -46,7 +46,7 @@ egt_enrichment_analysis(
 A data frame with columns:
   \itemize{
     \item ID: Gene set identifier
-    \item Description: Gene set name  
+    \item Description: Gene set name
     \item GeneRatio: Enriched genes / input genes
     \item BgRatio: Set genes / background genes
     \item pvalue: Raw p-value

@@ -23,6 +23,8 @@ egt_plot_results(
 
 \item{max_len_descript}{the label format length, default as 40.}
 
+\item{keepAll}{Do filtering to avoid overlap of same genes or not}
+
 \item{...}{Other param}
 
 \item{P.adj}{If pass an origin data.frame from original enriched result, you can specify the P-adjust value cut off. If is null, default is 0.05. When passing `EnrichGT_obj`, this filter is previously done by `egt_recluster_analysis`.}

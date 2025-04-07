@@ -19,7 +19,7 @@ keggModuleList <- function(orgkegg) {
 #' @param kegg_modules If TRUE, returns KEGG module; If FALSE returns KEGG pathways. In default, this is setted to FALSE to get mouse commonly used KEGG pathways.
 #' @param local_cache cache a copy in local working folder. It will be saved as a `.enrichgt_cache` file in working dictionary. The `.enrichgt_cache` is just a `.rds` file, feel free to read it using `readRDS()`.
 #'
-#' @returns
+#' @returns data.frame contains KEGG annotations
 #' @export
 #'
 #' @rdname KEGGhelp
@@ -27,7 +27,21 @@ database_KEGG <- function(
   kegg_organism = "hsa",
   OrgDB = org.Hs.eg.db,
   kegg_modules = F,
-  local_cache = F
+  local_cache = T
+) {
+  df <- database_KEGG_internal(
+    kegg_organism = kegg_organism,
+    OrgDB = OrgDB,
+    kegg_modules = kegg_modules,
+    local_cache = local_cache
+  )
+  return(df)
+}
+database_KEGG_internal <- function(
+  kegg_organism = "hsa",
+  OrgDB = org.Hs.eg.db,
+  kegg_modules = F,
+  local_cache = T
 ) {
   if (!kegg_modules) {
     fn <- paste0("KEGGPathway_", xfun::md5(keggModuleList(kegg_organism)))
@@ -66,7 +80,14 @@ database_KEGG <- function(
       tryCatch(
         {
           cli::cli_alert_info(glue::glue("downloading {x}..."))
-          y <- retry_function(read.delim, ntry = 3, delay = 3, x, quote = "\t", header = F)
+          y <- retry_function(
+            read.delim,
+            ntry = 3,
+            delay = 3,
+            x,
+            quote = "\t",
+            header = F
+          )
           Sys.sleep(2)
           return(y)
         },
@@ -134,7 +155,10 @@ database_KEGG <- function(
 #'
 #' @rdname KEGGhelp
 database_KEGG_show_organism <- function() {
-  x <- retry_function(read.delim, ntry = 3, delay = 3, 
+  x <- retry_function(
+    read.delim,
+    ntry = 3,
+    delay = 3,
     "https://rest.kegg.jp/list/organism",
     quote = "\t",
     header = F

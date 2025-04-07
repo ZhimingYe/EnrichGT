@@ -18,6 +18,9 @@ database_KEGG_show_organism()
 
 \item{local_cache}{cache a copy in local working folder. It will be saved as a `.enrichgt_cache` file in working dictionary. The `.enrichgt_cache` is just a `.rds` file, feel free to read it using `readRDS()`.}
 }
+\value{
+data.frame contains KEGG annotations
+}
 \description{
 KEGG is a commercialized database. So EnrichGT can't pre-cache them locally. You can use this function to fetch KEGG database pathways and modules.
 }

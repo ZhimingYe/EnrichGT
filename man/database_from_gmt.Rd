@@ -34,7 +34,7 @@ to gene symbols.
 gmt_file <- system.file("extdata", "h.all.v7.4.symbols.gmt", package = "EnrichGT")
 gene_sets <- database_from_gmt(gmt_file)
 
-# Read WikiPathways with ENTREZ to symbol conversion  
+# Read WikiPathways with ENTREZ to symbol conversion
 gmt_file <- "wikipathways-20220310-gmt-Homo_sapiens.gmt"
 gene_sets <- database_from_gmt(gmt_file, OrgDB = org.Hs.eg.db)
 }

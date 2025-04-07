@@ -115,7 +115,7 @@ setMethod("doEnrichGT", signature(x = "list"), function(x, ...) {
         Up_Vs_Down
       ) |>
       dplyr::mutate(geneID = gsub("/", ", ", geneID)) |>
-      dplyr::rename(`up/dn` = Up_Vs_Down)
+      dplyr::rename(`up_dn` = Up_Vs_Down)
   } else {
     obj <- obj |>
       dplyr::select(Description, ID, Count, Cluster, PCT, Padj, geneID) |>
@@ -126,7 +126,8 @@ setMethod("doEnrichGT", signature(x = "list"), function(x, ...) {
     dplyr::arrange(Padj) |>
     dplyr::slice_head(n = nTop) |>
     dplyr::ungroup()
-  obj0 <- obj |> gt_tt(ClusterNum = ClusterNum, objname = objname, TYPE = "ORA",...)
+  obj0 <- obj |>
+    gt_tt(ClusterNum = ClusterNum, objname = objname, TYPE = "ORA", ...)
   obj2 <- obj
   obj3 <- obj2 |> genMetaGM(type = "ORA")
   obj3_1 <- obj3[[1]] |> remove_more_updownInfo()
@@ -139,12 +140,14 @@ setMethod("doEnrichGT", signature(x = "list"), function(x, ...) {
     clsObj[[3]],
     clsObj[[2]],
     InnerDF_000,
-    list(ClusterNum = ClusterNum, 
+    list(
+      ClusterNum = ClusterNum,
       P.adj = P.adj,
       force = force,
       objname = "CleanedObj",
       nTop = nTop,
-      method = method)
+      method = method
+    )
   )
   return(objA)
 }
@@ -217,7 +220,8 @@ remove_more_updownInfo <- function(x) {
     dplyr::arrange(Padj) |>
     dplyr::slice_head(n = nTop) |>
     dplyr::ungroup()
-  obj0 <- obj |> gt_tt(ClusterNum = ClusterNum, objname = objname, TYPE = "GSEA", ...)
+  obj0 <- obj |>
+    gt_tt(ClusterNum = ClusterNum, objname = objname, TYPE = "GSEA", ...)
   obj2 <- obj
   obj3 <- obj2 |> genMetaGM(type = "GSEA")
   obj3_1 <- obj3[[1]]
@@ -230,12 +234,14 @@ remove_more_updownInfo <- function(x) {
     clsObj[[3]],
     clsObj[[2]],
     InnerDF_000,
-    list(ClusterNum = ClusterNum, 
+    list(
+      ClusterNum = ClusterNum,
       P.adj = P.adj,
       force = force,
       objname = "CleanedObj",
       nTop = nTop,
-      method = method)
+      method = method
+    )
   )
   return(objA)
 }
