@@ -3,15 +3,14 @@
 #' Takes gene identifiers and corresponding weights (like log2 fold changes) and returns
 #' a ranked vector suitable for Gene Set Enrichment Analysis (GSEA).
 #'
-#' @importFrom parallel mclapply
-#' @importFrom fgsea fgsea  
+#' @importFrom fgsea fgsea
 #' @importFrom utils stack
 #'
 #' @param genes Character vector of gene identifiers (e.g., gene symbols or ENTREZ IDs)
 #' @param weights Numeric vector of weights for each gene (typically log2 fold changes)
 #'
 #' @return A named numeric vector sorted in descending order by weight, where:
-#'   - Names are gene identifiers  
+#'   - Names are gene identifiers
 #'   - Values are the corresponding weights
 #'
 #' @export
@@ -19,9 +18,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' # Example using differential expression results  
+#' # Example using differential expression results
 #' genes <- c("TP53", "BRCA1", "EGFR")
-#' log2fc <- c(1.5, -2.1, 0.8) 
+#' log2fc <- c(1.5, -2.1, 0.8)
 #' ranked_genes <- genes_with_weights(genes, log2fc)
 #' }
 genes_with_weights <- function(genes, weights) {
@@ -57,7 +56,8 @@ genes_with_weights <- function(genes, weights) {
 #'   If input has 3 columns, includes an additional ID column.
 #'
 #' @importFrom utils stack
-#' @export 
+#' @importFrom tibble as_tibble
+#' @export
 #' @author Original GMT parser by Guangchuang Yu (https://github.com/YuLab-SMU/gson).
 #'   Cache system and enhancements by Zhiming Ye.
 #'
@@ -67,7 +67,7 @@ genes_with_weights <- function(genes, weights) {
 #' gmt_file <- system.file("extdata", "h.all.v7.4.symbols.gmt", package = "EnrichGT")
 #' gene_sets <- database_from_gmt(gmt_file)
 #'
-#' # Read WikiPathways with ENTREZ to symbol conversion  
+#' # Read WikiPathways with ENTREZ to symbol conversion
 #' gmt_file <- "wikipathways-20220310-gmt-Homo_sapiens.gmt"
 #' gene_sets <- database_from_gmt(gmt_file, OrgDB = org.Hs.eg.db)
 #' }
@@ -158,7 +158,7 @@ database_from_gmt <- function(gmtfile, OrgDB = NULL, convert_2_symbols = T) {
 #' @return A data frame with columns:
 #'   \itemize{
 #'     \item ID: Gene set identifier
-#'     \item Description: Gene set name  
+#'     \item Description: Gene set name
 #'     \item GeneRatio: Enriched genes / input genes
 #'     \item BgRatio: Set genes / background genes
 #'     \item pvalue: Raw p-value
@@ -229,29 +229,8 @@ egt_enrichment_analysis <- function(
       )
     })
   } else if (is.list(genes) & multi_cores >= 2) {
-    require(parallel)
-    result <- parallel::mclapply(
-      genes,
-      function(x) {
-        tryCatch(
-          {
-            res <- doEnrich_Internal(
-              genes = x,
-              database,
-              p_adj_methods,
-              p_val_cut_off,
-              background_genes,
-              min_geneset_size,
-              max_geneset_size
-            )
-            return(res)
-          },
-          error = function(e) {
-            return(data.frame(ERROR = "error..."))
-          }
-        )
-      },
-      mc.cores = multi_cores
+    cli::cli_alert_warning(
+      "Multi-cores is no longer support. Please set multi_cores to <= 1."
     )
   }
   tryCatch(
@@ -278,6 +257,7 @@ egt_enrichment_analysis <- function(
       cli::cli_abort("No useable result!")
     }
   )
+  result <- tibble::as_tibble(result) # better printing
   return(result)
 }
 
@@ -375,6 +355,7 @@ egt_gsea_analysis <- function(
       return(output)
     })
   }
+  res <- tibble::as_tibble(res) # better printing
   return(res)
 }
 

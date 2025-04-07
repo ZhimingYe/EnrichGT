@@ -111,7 +111,6 @@ cvgs <- function(genes, from_what, to_what, orgDB) {
 #' @returns a data.frame
 #' @export
 #'
-#' @examples
 convert_annotations_genes <- function(genes, from_what, to_what, OrgDB) {
   assign("cvgs", cvgs, envir = db_getter_env)
   x <- db_getter_env$cvgs(genes, from_what, to_what, orgDB = OrgDB) # The case should be noticed

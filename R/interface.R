@@ -9,26 +9,26 @@
 #' @param force Logical to bypass validation checks (default: FALSE).
 #' @param nTop Number of top terms to keep per cluster by p-value (default: 10).
 #' @param method Hierarchical clustering method (default: "ward.D2"). One of:
-#' "ward.D", "ward.D2", "single", "complete", "average" (UPGMA), 
+#' "ward.D", "ward.D2", "single", "complete", "average" (UPGMA),
 #' "mcquitty" (WPGMA), "median" (WPGMC), or "centroid" (UPGMC).
 #' @param ... Additional arguments passed to clustering functions.
 #'
 #' @details
 #' Input requirements by analysis type:
-#' 
+#'
 #' ORA results:
-#'   Required columns: "ID", "Description", "GeneRatio", "pvalue", 
+#'   Required columns: "ID", "Description", "GeneRatio", "pvalue",
 #'   "p.adjust", "geneID", "Count"
-#' 
-#' GSEA results:  
+#'
+#' GSEA results:
 #'   Required columns: "ID", "Description", "NES", "pvalue",
 #'   "p.adjust", "core_enrichment"
-#' 
+#'
 #' compareClusterResult:
 #'   Either the compareClusterResult object or a data frame with:
 #'   - All ORA columns listed above
 #'   - Additional "Cluster" column
-#' 
+#'
 #' Multi-database:
 #'   Provide as a named list of the above result types
 #'
@@ -37,7 +37,7 @@
 #'   \item{enriched_result}{Filtered results data frame}
 #'   \item{tinytable_obj}{Formatted `tinytable` table object}
 #'   \item{gene_modules}{List of gene modules per cluster}
-#'   \item{pathway_clusters}{Pathway names by cluster} 
+#'   \item{pathway_clusters}{Pathway names by cluster}
 #'   \item{clustering_tree}{`hclust` object for visualization}
 #'   \item{raw_enriched_result}{Unfiltered results table}
 #' }
@@ -47,12 +47,12 @@
 #' # ORA example
 #' res <- egt_recluster_analysis(ora_result, ClusterNum=8)
 #' plot(res@clustering_tree)
-#' 
-#' # GSEA example 
+#'
+#' # GSEA example
 #' gsea_res <- egt_recluster_analysis(gsea_result, method="average")
 #' gsea_res
 #' }
-#' 
+#'
 #' @importFrom dplyr group_by arrange slice_head ungroup filter
 #' @importFrom cli cli_alert_info cli_alert_warning cli_abort
 #' @export
@@ -91,11 +91,9 @@ egt_recluster_analysis <- function(
 .onAttach <- function(libname, pkgname) {
   required_packages <- c(
     "dplyr",
-    "fontawesome",
     "glue",
     "proxy",
     "RColorBrewer",
-    "rlang",
     "scales",
     "text2vec",
     "tibble",

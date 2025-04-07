@@ -143,20 +143,24 @@ summary_use_local <- function(x, name) {
 
 
 summary_use_llm <- function(x, name) {
-  tryCatch({
-    cli::cli_h1(glue::glue("Enrichment Result of {name} (LLM Summary)"))
-    cli::cli_h2(x@LLM_Annotation@genes_and_title$resultsTitle[[which(
-      x@LLM_Annotation@genes_and_title$clustersName == name
-    )]])
-    cli::cli_li(x@LLM_Annotation@pathways$results[[which(
-      x@LLM_Annotation@pathways$cluster_names == name
-    )]])
-    cli::cli_li(x@LLM_Annotation@genes_and_title$results[[which(
-      x@LLM_Annotation@genes_and_title$clustersName == name
-    )]])
-  },error = function(e){
-    cli::cli_alert_danger("You already get LLM summary but EnrichGT can't fetch final results. Please recheck your API or network. ")
-    summary_use_local(x, name)
-  })
+  tryCatch(
+    {
+      cli::cli_h1(glue::glue("Enrichment Result of {name} (LLM Summary)"))
+      cli::cli_h2(x@LLM_Annotation@genes_and_title$resultsTitle[[which(
+        x@LLM_Annotation@genes_and_title$clustersName == name
+      )]])
+      cli::cli_li(x@LLM_Annotation@pathways$results[[which(
+        x@LLM_Annotation@pathways$cluster_names == name
+      )]])
+      cli::cli_li(x@LLM_Annotation@genes_and_title$results[[which(
+        x@LLM_Annotation@genes_and_title$clustersName == name
+      )]])
+    },
+    error = function(e) {
+      cli::cli_alert_danger(
+        "You already get LLM summary but EnrichGT can't fetch final results. Please recheck your API or network. "
+      )
+      summary_use_local(x, name)
+    }
+  )
 }
-

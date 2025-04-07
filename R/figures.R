@@ -8,7 +8,7 @@
 #' @param low.col the color for the lowest
 #' @param hi.col the color for the highest
 #' @param max_len_descript the label format length, default as 40.
-#' @keepAll Do filtering to avoid overlap of same genes or not
+#' @param keepAll Do filtering to avoid overlap of same genes or not
 #' @param P.adj If pass an origin data.frame from original enriched result, you can specify the P-adjust value cut off. If is null, default is 0.05. When passing `EnrichGT_obj`, this filter is previously done by `egt_recluster_analysis`.
 #' @param ... Other param
 #'

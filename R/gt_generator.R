@@ -1,4 +1,3 @@
-
 #' @importFrom tinytable tt style_tt group_tt
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom scales col2hcl
@@ -31,10 +30,15 @@ gt_tt <- function(x, ClusterNum, objname, objname2 = NULL, TYPE, ...) {
   # make table tidy
   GROUP <- df$Cluster
   df <- df[, colnames(df) != "Cluster"]
+  if (ncol(df) == 5) {
+    Width <- c(.4, .1, .1, .1, .4)
+  } else {
+    Width <- c(.4, .1, .1, .1, .1, .4) # supports genes_with_weights()
+  } # This judgement only works in ORA, not affects GSEA
   if (TYPE == "ORA") {
     daa <- tinytable::tt(
       df,
-      width = c(.4, .1, .1, .1, .4),
+      width = Width,
       caption = annotationString
     ) |>
       tinytable::style_tt(fontsize = 0.8) |>
