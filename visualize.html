@@ -189,7 +189,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./re_enrichment.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Re-enrich Enriched Results</span></a>
+ <span class="menu-text">Second enrichment of enriched Results</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -226,7 +226,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#html-reports-gt-table" id="toc-html-reports-gt-table" class="nav-link active" data-scroll-target="#html-reports-gt-table">HTML reports (gt table)</a></li>
+  <li><a href="#html-reports-gt-table" id="toc-html-reports-gt-table" class="nav-link active" data-scroll-target="#html-reports-gt-table">HTML reports</a>
+  <ul class="collapse">
+  <li><a href="#inline-or-in-dynamic-documents" id="toc-inline-or-in-dynamic-documents" class="nav-link" data-scroll-target="#inline-or-in-dynamic-documents">Inline or in dynamic documents</a></li>
+  <li><a href="#quarto-full-report" id="toc-quarto-full-report" class="nav-link" data-scroll-target="#quarto-full-report">Quarto full-report</a></li>
+  </ul></li>
   <li><a href="#ploting-functions" id="toc-ploting-functions" class="nav-link" data-scroll-target="#ploting-functions">Ploting functions</a>
   <ul class="collapse">
   <li><a href="#basic-result-plot" id="toc-basic-result-plot" class="nav-link" data-scroll-target="#basic-result-plot">Basic result plot</a></li>
@@ -263,18 +267,764 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <section id="html-reports-gt-table" class="level1">
-<h1>HTML reports (gt table)</h1>
-<p>Because of the messy result table is hardly to read, <code>EnrichGT</code> help you convert it into pretty <code>gt</code> HTML tables. This only supports the re-enriched results.</p>
-<p>You can simple input the object name of re-enriched object or fused object, to show the table.</p>
-<p><img src="enrichGTTable.jpg" class="img-fluid"></p>
-<p>This just shows the second slot inside the <code>EnrichGT_obj</code> object. The second slot - <code>gt_object</code> is a pure object of <code>gt</code> package, you can use any <a href="https://gt.rstudio.com/reference/index.html">function</a> on it, like:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>re_enrichment_results<span class="sc">@</span>gt_object <span class="sc">|&gt;</span> <span class="fu">gt_save</span>(<span class="st">"test.html"</span>) <span class="co"># Save it use basic gt functions. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>For further usage of gt package, please refer to <a href="https://gt.rstudio.com/articles/gt.html" class="uri">https://gt.rstudio.com/articles/gt.html</a>.</p>
+<h1>HTML reports</h1>
+<section id="inline-or-in-dynamic-documents" class="level2">
+<h2 class="anchored" data-anchor-id="inline-or-in-dynamic-documents">Inline or in dynamic documents</h2>
+<p>Because of the messy result table is hardly to read, <code>EnrichGT</code> help you convert it into pretty <code>tinytable</code> HTML tables. This only supports the re-enriched results.</p>
+<p>You can simple print by input the object name of re-enriched object or fused object to R console, to show the table. In IDE like <code>RStudio</code> and <code>Positron</code>, you can view the table in <code>View</code> window. You can also integrate to R-based publish systems like <code>rmarkdown</code>, <code>Quarto</code> or <code>litedown</code>. Like this: The default setting is optimized for HTML reports. For Latex reports, you may refer to the document of <code>tinytable</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>re_enrich</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script>
+
+      function styleCell_xfzgmc7eb9rwv5783525(i, j, css_id) {
+          var table = document.getElementById("tinytable_xfzgmc7eb9rwv5783525");
+          var cell = table.rows[i]?.cells[j];  // Safe navigation to avoid errors
+          if (cell) {
+              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
+              cell.classList.add(css_id);
+          } else {
+              console.warn(`Cell at (${i}, ${j}) not found.`);
+          }
+      }
+      function insertSpanRow_iwz7hj0unv99ns5rayvz(i, colspan, content) {
+        var table = document.getElementById('tinytable_xfzgmc7eb9rwv5783525');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_xfzgmc7eb9rwv5783525(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_xfzgmc7eb9rwv5783525");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+      // tinytable span after
+window.addEventListener('load', function () { insertSpanRow_iwz7hj0unv99ns5rayvz(65, 5, 'Cluster_10') });
+window.addEventListener('load', function () { insertSpanRow_iwz7hj0unv99ns5rayvz(64, 5, 'Cluster_9') });
+window.addEventListener('load', function () { insertSpanRow_iwz7hj0unv99ns5rayvz(59, 5, 'Cluster_8') });
+window.addEventListener('load', function () { insertSpanRow_iwz7hj0unv99ns5rayvz(55, 5, 'Cluster_7') });
+window.addEventListener('load', function () { insertSpanRow_iwz7hj0unv99ns5rayvz(51, 5, 'Cluster_6') });
+window.addEventListener('load', function () { insertSpanRow_iwz7hj0unv99ns5rayvz(41, 5, 'Cluster_5') });
+window.addEventListener('load', function () { insertSpanRow_iwz7hj0unv99ns5rayvz(31, 5, 'Cluster_4') });
+window.addEventListener('load', function () { insertSpanRow_iwz7hj0unv99ns5rayvz(21, 5, 'Cluster_3') });
+window.addEventListener('load', function () { insertSpanRow_iwz7hj0unv99ns5rayvz(11, 5, 'Cluster_2') });
+window.addEventListener('load', function () { insertSpanRow_iwz7hj0unv99ns5rayvz(1, 5, 'Cluster_1') });
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: 77, j: 4 },  ], css_id: 'tinytable_css_ykwa9yrrm8ms9dda1047',}, 
+          { positions: [ { i: 77, j: 3 },  ], css_id: 'tinytable_css_b6c7fyy2j9euqxtluvms',}, 
+          { positions: [ { i: 76, j: 3 },  ], css_id: 'tinytable_css_fql4qe3iw5dgpi2riu7p',}, 
+          { positions: [ { i: 75, j: 3 },  ], css_id: 'tinytable_css_my3vay5r2qro6uwp3num',}, 
+          { positions: [ { i: 73, j: 3 },  ], css_id: 'tinytable_css_kpv8sharmhrxlmlhkoze',}, 
+          { positions: [ { i: 71, j: 3 },  ], css_id: 'tinytable_css_1s8iwbgyj79j8xkw24yi',}, 
+          { positions: [ { i: 70, j: 3 },  ], css_id: 'tinytable_css_tbel3p6gvjtiavn7mq4w',}, 
+          { positions: [ { i: 68, j: 3 },  ], css_id: 'tinytable_css_r6ru9id2posd8n1bpsnp',}, 
+          { positions: [ { i: 65, j: 3 },  ], css_id: 'tinytable_css_17lg1k5m0fufl9tv0r5w',}, 
+          { positions: [ { i: 64, j: 3 },  ], css_id: 'tinytable_css_czelu67efczc0e8f0eml',}, 
+          { positions: [ { i: 62, j: 3 },  ], css_id: 'tinytable_css_u56tskl82rrslx7lsbn4',}, 
+          { positions: [ { i: 60, j: 3 },  ], css_id: 'tinytable_css_waojk22ou0044c4gs89n',}, 
+          { positions: [ { i: 57, j: 3 },  ], css_id: 'tinytable_css_t24neea6a3llqehpmh1b',}, 
+          { positions: [ { i: 52, j: 3 }, { i: 59, j: 3 }, { i: 51, j: 3 },  ], css_id: 'tinytable_css_izw2n8381wafu18284y1',}, 
+          { positions: [ { i: 50, j: 3 },  ], css_id: 'tinytable_css_nj3gi4214zeqb9q5jgkl',}, 
+          { positions: [ { i: 49, j: 3 },  ], css_id: 'tinytable_css_ojpthcvdncl9qsokmkk4',}, 
+          { positions: [ { i: 48, j: 3 },  ], css_id: 'tinytable_css_u72zlj9rdfj9tahyo9k3',}, 
+          { positions: [ { i: 47, j: 3 },  ], css_id: 'tinytable_css_l2g68ofe6ms32my5yz6q',}, 
+          { positions: [ { i: 44, j: 3 }, { i: 43, j: 3 },  ], css_id: 'tinytable_css_srxk8n93i4c5ci9tp2vr',}, 
+          { positions: [ { i: 69, j: 3 }, { i: 55, j: 3 }, { i: 42, j: 3 },  ], css_id: 'tinytable_css_nk2f93xspum4gll2jmq2',}, 
+          { positions: [ { i: 41, j: 3 },  ], css_id: 'tinytable_css_2b717eshpe86ttx9ua99',}, 
+          { positions: [ { i: 40, j: 3 },  ], css_id: 'tinytable_css_a2yzckdxrlryoo38t8rk',}, 
+          { positions: [ { i: 36, j: 3 }, { i: 37, j: 3 }, { i: 46, j: 3 },  ], css_id: 'tinytable_css_w5am7g0mee2apoxid54p',}, 
+          { positions: [ { i: 35, j: 3 },  ], css_id: 'tinytable_css_6mm7pkkzyvlyoaddepby',}, 
+          { positions: [ { i: 33, j: 3 }, { i: 39, j: 3 }, { i: 63, j: 3 }, { i: 54, j: 3 }, { i: 53, j: 3 },  ], css_id: 'tinytable_css_gasuepm691whuf4qh2um',}, 
+          { positions: [ { i: 32, j: 3 },  ], css_id: 'tinytable_css_ca87tpqd7ump812vjekj',}, 
+          { positions: [ { i: 30, j: 3 }, { i: 29, j: 3 }, { i: 31, j: 3 },  ], css_id: 'tinytable_css_w4zvyggml0bzk1nsvidf',}, 
+          { positions: [ { i: 28, j: 3 }, { i: 67, j: 3 }, { i: 58, j: 3 },  ], css_id: 'tinytable_css_anv3u9ne7olb8p651txf',}, 
+          { positions: [ { i: 27, j: 3 }, { i: 38, j: 3 }, { i: 26, j: 3 },  ], css_id: 'tinytable_css_iuhvbk399tzohtcjdzlt',}, 
+          { positions: [ { i: 25, j: 3 },  ], css_id: 'tinytable_css_ibj5hlnl8qgt6f87ei47',}, 
+          { positions: [ { i: 24, j: 3 },  ], css_id: 'tinytable_css_8u7ei0tqx8bgvauuysnd',}, 
+          { positions: [ { i: 11, j: 3 },  ], css_id: 'tinytable_css_u75jcjz042d1254k0hix',}, 
+          { positions: [ { i: 8, j: 3 }, { i: 3, j: 3 }, { i: 9, j: 3 }, { i: 6, j: 3 }, { i: 2, j: 3 }, { i: 21, j: 3 }, { i: 22, j: 3 }, { i: 14, j: 3 }, { i: 19, j: 3 }, { i: 16, j: 3 }, { i: 13, j: 3 }, { i: 5, j: 3 }, { i: 10, j: 3 }, { i: 7, j: 3 }, { i: 17, j: 3 }, { i: 18, j: 3 }, { i: 4, j: 3 }, { i: 20, j: 3 }, { i: 15, j: 3 },  ], css_id: 'tinytable_css_jicte3cx4xeb9dtio15g',}, 
+          { positions: [ { i: 77, j: 2 },  ], css_id: 'tinytable_css_jt6nvsl192tg4fbtlj77',}, 
+          { positions: [ { i: 57, j: 2 },  ], css_id: 'tinytable_css_u83zphlto2jnns7r4jx9',}, 
+          { positions: [ { i: 54, j: 2 }, { i: 53, j: 2 },  ], css_id: 'tinytable_css_41c89uon34jfnkukekft',}, 
+          { positions: [ { i: 67, j: 2 }, { i: 44, j: 2 },  ], css_id: 'tinytable_css_kh2maz04t2eef4zv73yt',}, 
+          { positions: [ { i: 43, j: 2 }, { i: 64, j: 2 }, { i: 71, j: 2 },  ], css_id: 'tinytable_css_d6n9fvgt2wuq8upmq8v2',}, 
+          { positions: [ { i: 38, j: 2 }, { i: 42, j: 2 },  ], css_id: 'tinytable_css_7domqusdi948dxx23ovb',}, 
+          { positions: [ { i: 36, j: 2 },  ], css_id: 'tinytable_css_toer1oohtaol61xsnblj',}, 
+          { positions: [ { i: 46, j: 2 }, { i: 35, j: 2 },  ], css_id: 'tinytable_css_dkznr9le8z0osrsz5ov7',}, 
+          { positions: [ { i: 50, j: 2 }, { i: 33, j: 2 },  ], css_id: 'tinytable_css_xegmj5p15mwww8n961f1',}, 
+          { positions: [ { i: 29, j: 2 },  ], css_id: 'tinytable_css_541bwzxqigsq9ckatqyt',}, 
+          { positions: [ { i: 73, j: 2 }, { i: 76, j: 2 }, { i: 51, j: 2 }, { i: 28, j: 2 },  ], css_id: 'tinytable_css_9txlri1qhhpshgtubjyz',}, 
+          { positions: [ { i: 31, j: 2 }, { i: 62, j: 2 }, { i: 40, j: 2 }, { i: 27, j: 2 },  ], css_id: 'tinytable_css_fbkqsa9abqb1y4ulas3w',}, 
+          { positions: [ { i: 49, j: 2 }, { i: 26, j: 2 }, { i: 63, j: 2 }, { i: 60, j: 2 },  ], css_id: 'tinytable_css_465rtzqawf3vyv1nki5u',}, 
+          { positions: [ { i: 58, j: 2 }, { i: 25, j: 2 }, { i: 55, j: 2 },  ], css_id: 'tinytable_css_xz6zy6td2v6wcpym5njx',}, 
+          { positions: [ { i: 24, j: 2 }, { i: 70, j: 2 },  ], css_id: 'tinytable_css_hek6rz426oyhjmzr5706',}, 
+          { positions: [ { i: 37, j: 2 }, { i: 10, j: 2 }, { i: 30, j: 2 },  ], css_id: 'tinytable_css_gsalntba1w6qofzf5rs5',}, 
+          { positions: [ { i: 65, j: 2 }, { i: 9, j: 2 },  ], css_id: 'tinytable_css_2u10l25g3wlii7xw4glu',}, 
+          { positions: [ { i: 21, j: 2 }, { i: 20, j: 2 }, { i: 22, j: 2 }, { i: 16, j: 2 }, { i: 15, j: 2 }, { i: 13, j: 2 }, { i: 18, j: 2 }, { i: 19, j: 2 }, { i: 52, j: 2 }, { i: 14, j: 2 }, { i: 8, j: 2 },  ], css_id: 'tinytable_css_8thh9yidazuzpcubzqcw',}, 
+          { positions: [ { i: 7, j: 2 }, { i: 75, j: 2 }, { i: 32, j: 2 }, { i: 17, j: 2 }, { i: 48, j: 2 },  ], css_id: 'tinytable_css_33aplcd4ppe4zwlnhww6',}, 
+          { positions: [ { i: 6, j: 2 },  ], css_id: 'tinytable_css_rip1v4o8wgm1caq8mhse',}, 
+          { positions: [ { i: 4, j: 2 }, { i: 5, j: 2 },  ], css_id: 'tinytable_css_ymbkpy5fa62f92d2ogyl',}, 
+          { positions: [ { i: 69, j: 2 }, { i: 39, j: 2 }, { i: 11, j: 2 }, { i: 68, j: 2 }, { i: 3, j: 2 },  ], css_id: 'tinytable_css_3jou4qd6i82woo6seb3z',}, 
+          { positions: [ { i: 47, j: 2 }, { i: 41, j: 2 }, { i: 59, j: 2 }, { i: 2, j: 2 },  ], css_id: 'tinytable_css_iyzjixfidyx7g3dtedy0',}, 
+          { positions: [ { i: 77, j: 1 },  ], css_id: 'tinytable_css_97rgkr3csbihqcicetuw',}, 
+          { positions: [ { i: 57, j: 1 },  ], css_id: 'tinytable_css_wu31236evazslpd36hao',}, 
+          { positions: [ { i: 54, j: 1 }, { i: 53, j: 1 },  ], css_id: 'tinytable_css_e8zmldh69i1zghv2phrp',}, 
+          { positions: [ { i: 44, j: 1 }, { i: 67, j: 1 },  ], css_id: 'tinytable_css_cfi6o85d6j97woct3igy',}, 
+          { positions: [ { i: 71, j: 1 }, { i: 43, j: 1 }, { i: 64, j: 1 },  ], css_id: 'tinytable_css_a90mf7d20soq1i4yofxh',}, 
+          { positions: [ { i: 42, j: 1 }, { i: 38, j: 1 },  ], css_id: 'tinytable_css_v4unf86yi2z3esq05lo3',}, 
+          { positions: [ { i: 36, j: 1 },  ], css_id: 'tinytable_css_ikoki2e9f05tg2evow89',}, 
+          { positions: [ { i: 46, j: 1 }, { i: 35, j: 1 },  ], css_id: 'tinytable_css_9vn3vefyvzfm910uw3vi',}, 
+          { positions: [ { i: 50, j: 1 }, { i: 33, j: 1 },  ], css_id: 'tinytable_css_9j5mhftdqez4qt71pgtn',}, 
+          { positions: [ { i: 29, j: 1 },  ], css_id: 'tinytable_css_av6nkcaenmmx3eafw5gq',}, 
+          { positions: [ { i: 51, j: 1 }, { i: 28, j: 1 }, { i: 76, j: 1 }, { i: 73, j: 1 },  ], css_id: 'tinytable_css_8b3al9dm73uq8zvd6ijm',}, 
+          { positions: [ { i: 27, j: 1 }, { i: 40, j: 1 }, { i: 62, j: 1 }, { i: 31, j: 1 },  ], css_id: 'tinytable_css_bxpt6tl68fvkpxu06cv6',}, 
+          { positions: [ { i: 49, j: 1 }, { i: 60, j: 1 }, { i: 63, j: 1 }, { i: 26, j: 1 },  ], css_id: 'tinytable_css_pf6zb1qfhv66a81eemts',}, 
+          { positions: [ { i: 25, j: 1 }, { i: 55, j: 1 }, { i: 58, j: 1 },  ], css_id: 'tinytable_css_puoh1j5rr95f6zhmr9nr',}, 
+          { positions: [ { i: 70, j: 1 }, { i: 24, j: 1 },  ], css_id: 'tinytable_css_ngkiv4y6y0n7cxdqfqy2',}, 
+          { positions: [ { i: 37, j: 1 }, { i: 30, j: 1 }, { i: 10, j: 1 },  ], css_id: 'tinytable_css_85rps3471kflbhcxq0p0',}, 
+          { positions: [ { i: 9, j: 1 }, { i: 65, j: 1 },  ], css_id: 'tinytable_css_kinndkeoywyddggtjdau',}, 
+          { positions: [ { i: 15, j: 1 }, { i: 14, j: 1 }, { i: 19, j: 1 }, { i: 52, j: 1 }, { i: 13, j: 1 }, { i: 16, j: 1 }, { i: 20, j: 1 }, { i: 8, j: 1 }, { i: 21, j: 1 }, { i: 18, j: 1 }, { i: 22, j: 1 },  ], css_id: 'tinytable_css_s721h72nb17pnraf9fkw',}, 
+          { positions: [ { i: 17, j: 1 }, { i: 48, j: 1 }, { i: 7, j: 1 }, { i: 32, j: 1 }, { i: 75, j: 1 },  ], css_id: 'tinytable_css_zaoxa3s5z42li1bhdure',}, 
+          { positions: [ { i: 6, j: 1 },  ], css_id: 'tinytable_css_sbpqzq0guag7rkn6mwt0',}, 
+          { positions: [ { i: 4, j: 1 }, { i: 5, j: 1 },  ], css_id: 'tinytable_css_zu291v32n4o8r5sb8ytr',}, 
+          { positions: [ { i: 3, j: 1 }, { i: 68, j: 1 }, { i: 69, j: 1 }, { i: 11, j: 1 }, { i: 39, j: 1 },  ], css_id: 'tinytable_css_65p7wgj7f5arf5kn9an5',}, 
+          { positions: [ { i: 59, j: 1 }, { i: 41, j: 1 }, { i: 47, j: 1 }, { i: 2, j: 1 },  ], css_id: 'tinytable_css_ifh9ajntfckam6s51imc',}, 
+          { positions: [ { i: 56, j: 1 }, { i: 34, j: 3 }, { i: 72, j: 2 }, { i: 45, j: 2 }, { i: 72, j: 1 }, { i: 61, j: 1 }, { i: 1, j: 1 }, { i: 23, j: 3 }, { i: 12, j: 3 }, { i: 12, j: 1 }, { i: 45, j: 1 }, { i: 56, j: 3 }, { i: 61, j: 3 }, { i: 23, j: 2 }, { i: 56, j: 2 }, { i: 66, j: 1 }, { i: 74, j: 2 }, { i: 66, j: 2 }, { i: 34, j: 1 }, { i: 61, j: 2 }, { i: 23, j: 1 }, { i: 74, j: 3 }, { i: 1, j: 2 }, { i: 12, j: 2 }, { i: 34, j: 2 }, { i: 1, j: 3 }, { i: 74, j: 1 }, { i: 72, j: 3 }, { i: 66, j: 3 }, { i: 45, j: 3 },  ], css_id: 'tinytable_css_d8ws44ipai7cde22w9to',}, 
+          { positions: [ { i: 0, j: 1 }, { i: 0, j: 3 }, { i: 0, j: 2 },  ], css_id: 'tinytable_css_kaut07wyqq2kbd0kio0g',}, 
+          { positions: [ { i: 77, j: 0 },  ], css_id: 'tinytable_css_b2opl51yinmbn8l40scs',}, 
+          { positions: [ { i: 29, j: 0 }, { i: 46, j: 0 }, { i: 44, j: 0 }, { i: 50, j: 0 }, { i: 52, j: 0 }, { i: 28, j: 0 }, { i: 54, j: 0 }, { i: 55, j: 0 }, { i: 43, j: 0 }, { i: 27, j: 0 }, { i: 58, j: 0 }, { i: 59, j: 0 }, { i: 47, j: 0 }, { i: 57, j: 0 }, { i: 49, j: 0 }, { i: 63, j: 0 }, { i: 51, j: 0 }, { i: 65, j: 0 }, { i: 26, j: 0 }, { i: 67, j: 0 }, { i: 68, j: 0 }, { i: 69, j: 0 }, { i: 30, j: 0 }, { i: 31, j: 0 }, { i: 32, j: 0 }, { i: 60, j: 0 }, { i: 48, j: 0 }, { i: 62, j: 0 }, { i: 36, j: 0 }, { i: 37, j: 0 }, { i: 38, j: 0 }, { i: 39, j: 0 }, { i: 40, j: 0 }, { i: 41, j: 0 }, { i: 42, j: 0 }, { i: 2, j: 0 }, { i: 3, j: 0 }, { i: 4, j: 0 }, { i: 5, j: 0 }, { i: 6, j: 0 }, { i: 7, j: 0 }, { i: 8, j: 0 }, { i: 9, j: 0 }, { i: 10, j: 0 }, { i: 11, j: 0 }, { i: 53, j: 0 }, { i: 13, j: 0 }, { i: 14, j: 0 }, { i: 15, j: 0 }, { i: 16, j: 0 }, { i: 17, j: 0 }, { i: 18, j: 0 }, { i: 19, j: 0 }, { i: 20, j: 0 }, { i: 21, j: 0 }, { i: 22, j: 0 }, { i: 64, j: 0 }, { i: 24, j: 0 }, { i: 25, j: 0 }, { i: 70, j: 0 }, { i: 71, j: 0 }, { i: 33, j: 0 }, { i: 73, j: 0 }, { i: 35, j: 0 }, { i: 75, j: 0 }, { i: 76, j: 0 },  ], css_id: 'tinytable_css_p2m33loh87p4dwrn09k9',}, 
+          { positions: [ { i: 1, j: 0 }, { i: 53, j: 4 }, { i: 54, j: 4 }, { i: 56, j: 4 }, { i: 57, j: 4 }, { i: 58, j: 4 }, { i: 59, j: 4 }, { i: 60, j: 4 }, { i: 61, j: 4 }, { i: 62, j: 4 }, { i: 12, j: 0 }, { i: 64, j: 4 }, { i: 65, j: 4 }, { i: 66, j: 4 }, { i: 67, j: 4 }, { i: 55, j: 4 }, { i: 69, j: 4 }, { i: 70, j: 4 }, { i: 71, j: 4 }, { i: 72, j: 4 }, { i: 73, j: 4 }, { i: 23, j: 0 }, { i: 75, j: 4 }, { i: 76, j: 4 }, { i: 66, j: 0 }, { i: 37, j: 4 }, { i: 38, j: 4 }, { i: 39, j: 4 }, { i: 68, j: 4 }, { i: 1, j: 4 }, { i: 72, j: 0 }, { i: 3, j: 4 }, { i: 34, j: 0 }, { i: 5, j: 4 }, { i: 6, j: 4 }, { i: 7, j: 4 }, { i: 8, j: 4 }, { i: 9, j: 4 }, { i: 10, j: 4 }, { i: 11, j: 4 }, { i: 12, j: 4 }, { i: 13, j: 4 }, { i: 14, j: 4 }, { i: 45, j: 0 }, { i: 16, j: 4 }, { i: 17, j: 4 }, { i: 18, j: 4 }, { i: 19, j: 4 }, { i: 20, j: 4 }, { i: 21, j: 4 }, { i: 22, j: 4 }, { i: 23, j: 4 }, { i: 24, j: 4 }, { i: 25, j: 4 }, { i: 56, j: 0 }, { i: 27, j: 4 }, { i: 28, j: 4 }, { i: 29, j: 4 }, { i: 30, j: 4 }, { i: 61, j: 0 }, { i: 32, j: 4 }, { i: 33, j: 4 }, { i: 34, j: 4 }, { i: 35, j: 4 }, { i: 36, j: 4 }, { i: 50, j: 4 }, { i: 51, j: 4 }, { i: 52, j: 4 }, { i: 40, j: 4 }, { i: 41, j: 4 }, { i: 42, j: 4 }, { i: 43, j: 4 }, { i: 74, j: 0 }, { i: 45, j: 4 }, { i: 46, j: 4 }, { i: 47, j: 4 }, { i: 48, j: 4 }, { i: 49, j: 4 }, { i: 63, j: 4 }, { i: 15, j: 4 }, { i: 26, j: 4 }, { i: 31, j: 4 }, { i: 4, j: 4 }, { i: 2, j: 4 }, { i: 44, j: 4 }, { i: 74, j: 4 },  ], css_id: 'tinytable_css_414lu4hkxkgf6b3hzvpo',}, 
+          { positions: [ { i: 0, j: 0 }, { i: 0, j: 4 },  ], css_id: 'tinytable_css_o3k7cc6tvbfh1ehv8b3h',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  styleCell_xfzgmc7eb9rwv5783525(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <style>
+      /* tinytable css entries after */
+      .table td.tinytable_css_ykwa9yrrm8ms9dda1047, .table th.tinytable_css_ykwa9yrrm8ms9dda1047 { font-size: 0.8em; border-bottom: solid #d3d8dc 0.1em; width: 36.3636363636364%; }
+      .table td.tinytable_css_b6c7fyy2j9euqxtluvms, .table th.tinytable_css_b6c7fyy2j9euqxtluvms { font-size: 0.8em; background-color: #3288BD; border-bottom: solid #d3d8dc 0.1em; width: 9.09090909090909%; }
+      .table td.tinytable_css_fql4qe3iw5dgpi2riu7p, .table th.tinytable_css_fql4qe3iw5dgpi2riu7p { font-size: 0.8em; background-color: #69C3A5; width: 9.09090909090909%; }
+      .table td.tinytable_css_my3vay5r2qro6uwp3num, .table th.tinytable_css_my3vay5r2qro6uwp3num { font-size: 0.8em; background-color: #FED884; width: 9.09090909090909%; }
+      .table td.tinytable_css_kpv8sharmhrxlmlhkoze, .table th.tinytable_css_kpv8sharmhrxlmlhkoze { font-size: 0.8em; background-color: #FDAA5F; width: 9.09090909090909%; }
+      .table td.tinytable_css_1s8iwbgyj79j8xkw24yi, .table th.tinytable_css_1s8iwbgyj79j8xkw24yi { font-size: 0.8em; background-color: #5DB3AC; width: 9.09090909090909%; }
+      .table td.tinytable_css_tbel3p6gvjtiavn7mq4w, .table th.tinytable_css_tbel3p6gvjtiavn7mq4w { font-size: 0.8em; background-color: #D4ED9C; width: 9.09090909090909%; }
+      .table td.tinytable_css_r6ru9id2posd8n1bpsnp, .table th.tinytable_css_r6ru9id2posd8n1bpsnp { font-size: 0.8em; background-color: #FBE38D; width: 9.09090909090909%; }
+      .table td.tinytable_css_17lg1k5m0fufl9tv0r5w, .table th.tinytable_css_17lg1k5m0fufl9tv0r5w { font-size: 0.8em; background-color: #3288BD; width: 9.09090909090909%; }
+      .table td.tinytable_css_czelu67efczc0e8f0eml, .table th.tinytable_css_czelu67efczc0e8f0eml { font-size: 0.8em; background-color: #FED07D; width: 9.09090909090909%; }
+      .table td.tinytable_css_u56tskl82rrslx7lsbn4, .table th.tinytable_css_u56tskl82rrslx7lsbn4 { font-size: 0.8em; background-color: #E5574A; width: 9.09090909090909%; }
+      .table td.tinytable_css_waojk22ou0044c4gs89n, .table th.tinytable_css_waojk22ou0044c4gs89n { font-size: 0.8em; background-color: #E5F498; width: 9.09090909090909%; }
+      .table td.tinytable_css_t24neea6a3llqehpmh1b, .table th.tinytable_css_t24neea6a3llqehpmh1b { font-size: 0.8em; background-color: #E3554A; width: 9.09090909090909%; }
+      .table td.tinytable_css_izw2n8381wafu18284y1, .table th.tinytable_css_izw2n8381wafu18284y1 { font-size: 0.8em; background-color: #F98E51; width: 9.09090909090909%; }
+      .table td.tinytable_css_nj3gi4214zeqb9q5jgkl, .table th.tinytable_css_nj3gi4214zeqb9q5jgkl { font-size: 0.8em; background-color: #F57446; width: 9.09090909090909%; }
+      .table td.tinytable_css_ojpthcvdncl9qsokmkk4, .table th.tinytable_css_ojpthcvdncl9qsokmkk4 { font-size: 0.8em; background-color: #F36C43; width: 9.09090909090909%; }
+      .table td.tinytable_css_u72zlj9rdfj9tahyo9k3, .table th.tinytable_css_u72zlj9rdfj9tahyo9k3 { font-size: 0.8em; background-color: #E65849; width: 9.09090909090909%; }
+      .table td.tinytable_css_l2g68ofe6ms32my5yz6q, .table th.tinytable_css_l2g68ofe6ms32my5yz6q { font-size: 0.8em; background-color: #E4564A; width: 9.09090909090909%; }
+      .table td.tinytable_css_srxk8n93i4c5ci9tp2vr, .table th.tinytable_css_srxk8n93i4c5ci9tp2vr { font-size: 0.8em; background-color: #A7DBA4; width: 9.09090909090909%; }
+      .table td.tinytable_css_nk2f93xspum4gll2jmq2, .table th.tinytable_css_nk2f93xspum4gll2jmq2 { font-size: 0.8em; background-color: #F8E68F; width: 9.09090909090909%; }
+      .table td.tinytable_css_2b717eshpe86ttx9ua99, .table th.tinytable_css_2b717eshpe86ttx9ua99 { font-size: 0.8em; background-color: #FEBA6B; width: 9.09090909090909%; }
+      .table td.tinytable_css_a2yzckdxrlryoo38t8rk, .table th.tinytable_css_a2yzckdxrlryoo38t8rk { font-size: 0.8em; background-color: #FDB265; width: 9.09090909090909%; }
+      .table td.tinytable_css_w5am7g0mee2apoxid54p, .table th.tinytable_css_w5am7g0mee2apoxid54p { font-size: 0.8em; background-color: #DF4E4C; width: 9.09090909090909%; }
+      .table td.tinytable_css_6mm7pkkzyvlyoaddepby, .table th.tinytable_css_6mm7pkkzyvlyoaddepby { font-size: 0.8em; background-color: #D8434E; width: 9.09090909090909%; }
+      .table td.tinytable_css_gasuepm691whuf4qh2um, .table th.tinytable_css_gasuepm691whuf4qh2um { font-size: 0.8em; background-color: #FB9756; width: 9.09090909090909%; }
+      .table td.tinytable_css_ca87tpqd7ump812vjekj, .table th.tinytable_css_ca87tpqd7ump812vjekj { font-size: 0.8em; background-color: #F77E4A; width: 9.09090909090909%; }
+      .table td.tinytable_css_w4zvyggml0bzk1nsvidf, .table th.tinytable_css_w4zvyggml0bzk1nsvidf { font-size: 0.8em; background-color: #F67848; width: 9.09090909090909%; }
+      .table td.tinytable_css_anv3u9ne7olb8p651txf, .table th.tinytable_css_anv3u9ne7olb8p651txf { font-size: 0.8em; background-color: #F57245; width: 9.09090909090909%; }
+      .table td.tinytable_css_iuhvbk399tzohtcjdzlt, .table th.tinytable_css_iuhvbk399tzohtcjdzlt { font-size: 0.8em; background-color: #EE6446; width: 9.09090909090909%; }
+      .table td.tinytable_css_ibj5hlnl8qgt6f87ei47, .table th.tinytable_css_ibj5hlnl8qgt6f87ei47 { font-size: 0.8em; background-color: #E2524B; width: 9.09090909090909%; }
+      .table td.tinytable_css_8u7ei0tqx8bgvauuysnd, .table th.tinytable_css_8u7ei0tqx8bgvauuysnd { font-size: 0.8em; background-color: #D6404F; width: 9.09090909090909%; }
+      .table td.tinytable_css_u75jcjz042d1254k0hix, .table th.tinytable_css_u75jcjz042d1254k0hix { font-size: 0.8em; background-color: #D53F4F; width: 9.09090909090909%; }
+      .table td.tinytable_css_jicte3cx4xeb9dtio15g, .table th.tinytable_css_jicte3cx4xeb9dtio15g { font-size: 0.8em; background-color: #D53E4F; width: 9.09090909090909%; }
+      .table td.tinytable_css_jt6nvsl192tg4fbtlj77, .table th.tinytable_css_jt6nvsl192tg4fbtlj77 { font-size: 0.8em; background-color: #328EBA; border-bottom: solid #d3d8dc 0.1em; width: 9.09090909090909%; }
+      .table td.tinytable_css_u83zphlto2jnns7r4jx9, .table th.tinytable_css_u83zphlto2jnns7r4jx9 { font-size: 0.8em; background-color: #7CAFD3; width: 9.09090909090909%; }
+      .table td.tinytable_css_41c89uon34jfnkukekft, .table th.tinytable_css_41c89uon34jfnkukekft { font-size: 0.8em; background-color: #328EBA; width: 9.09090909090909%; }
+      .table td.tinytable_css_kh2maz04t2eef4zv73yt, .table th.tinytable_css_kh2maz04t2eef4zv73yt { font-size: 0.8em; background-color: #047D81; width: 9.09090909090909%; }
+      .table td.tinytable_css_d6n9fvgt2wuq8upmq8v2, .table th.tinytable_css_d6n9fvgt2wuq8upmq8v2 { font-size: 0.8em; background-color: #3B92C1; width: 9.09090909090909%; }
+      .table td.tinytable_css_7domqusdi948dxx23ovb, .table th.tinytable_css_7domqusdi948dxx23ovb { font-size: 0.8em; background-color: #94B7D7; width: 9.09090909090909%; }
+      .table td.tinytable_css_toer1oohtaol61xsnblj, .table th.tinytable_css_toer1oohtaol61xsnblj { font-size: 0.8em; background-color: #BDC8E1; width: 9.09090909090909%; }
+      .table td.tinytable_css_dkznr9le8z0osrsz5ov7, .table th.tinytable_css_dkznr9le8z0osrsz5ov7 { font-size: 0.8em; background-color: #4F9BC7; width: 9.09090909090909%; }
+      .table td.tinytable_css_xegmj5p15mwww8n961f1, .table th.tinytable_css_xegmj5p15mwww8n961f1 { font-size: 0.8em; background-color: #A4BCDB; width: 9.09090909090909%; }
+      .table td.tinytable_css_541bwzxqigsq9ckatqyt, .table th.tinytable_css_541bwzxqigsq9ckatqyt { font-size: 0.8em; background-color: #06828C; width: 9.09090909090909%; }
+      .table td.tinytable_css_9txlri1qhhpshgtubjyz, .table th.tinytable_css_9txlri1qhhpshgtubjyz { font-size: 0.8em; background-color: #016450; width: 9.09090909090909%; }
+      .table td.tinytable_css_fbkqsa9abqb1y4ulas3w, .table th.tinytable_css_fbkqsa9abqb1y4ulas3w { font-size: 0.8em; background-color: #288AAB; width: 9.09090909090909%; }
+      .table td.tinytable_css_465rtzqawf3vyv1nki5u, .table th.tinytable_css_465rtzqawf3vyv1nki5u { font-size: 0.8em; background-color: #056F65; width: 9.09090909090909%; }
+      .table td.tinytable_css_xz6zy6td2v6wcpym5njx, .table th.tinytable_css_xz6zy6td2v6wcpym5njx { font-size: 0.8em; background-color: #03695B; width: 9.09090909090909%; }
+      .table td.tinytable_css_hek6rz426oyhjmzr5706, .table th.tinytable_css_hek6rz426oyhjmzr5706 { font-size: 0.8em; background-color: #58A0CA; width: 9.09090909090909%; }
+      .table td.tinytable_css_gsalntba1w6qofzf5rs5, .table th.tinytable_css_gsalntba1w6qofzf5rs5 { font-size: 0.8em; background-color: #70ABD0; width: 9.09090909090909%; }
+      .table td.tinytable_css_2u10l25g3wlii7xw4glu, .table th.tinytable_css_2u10l25g3wlii7xw4glu { font-size: 0.8em; background-color: #057776; width: 9.09090909090909%; }
+      .table td.tinytable_css_8thh9yidazuzpcubzqcw, .table th.tinytable_css_8thh9yidazuzpcubzqcw { font-size: 0.8em; background-color: #168596; width: 9.09090909090909%; }
+      .table td.tinytable_css_33aplcd4ppe4zwlnhww6, .table th.tinytable_css_33aplcd4ppe4zwlnhww6 { font-size: 0.8em; background-color: #2087A0; width: 9.09090909090909%; }
+      .table td.tinytable_css_rip1v4o8wgm1caq8mhse, .table th.tinytable_css_rip1v4o8wgm1caq8mhse { font-size: 0.8em; background-color: #F4EBF5; width: 9.09090909090909%; }
+      .table td.tinytable_css_ymbkpy5fa62f92d2ogyl, .table th.tinytable_css_ymbkpy5fa62f92d2ogyl { font-size: 0.8em; background-color: #FFF7FB; width: 9.09090909090909%; }
+      .table td.tinytable_css_3jou4qd6i82woo6seb3z, .table th.tinytable_css_3jou4qd6i82woo6seb3z { font-size: 0.8em; background-color: #4597C4; width: 9.09090909090909%; }
+      .table td.tinytable_css_iyzjixfidyx7g3dtedy0, .table th.tinytable_css_iyzjixfidyx7g3dtedy0 { font-size: 0.8em; background-color: #64A7CE; width: 9.09090909090909%; }
+      .table td.tinytable_css_97rgkr3csbihqcicetuw, .table th.tinytable_css_97rgkr3csbihqcicetuw { font-size: 0.8em; background-color: #B0DC7C; border-bottom: solid #d3d8dc 0.1em; width: 9.09090909090909%; }
+      .table td.tinytable_css_wu31236evazslpd36hao, .table th.tinytable_css_wu31236evazslpd36hao { font-size: 0.8em; background-color: #EDEFD9; width: 9.09090909090909%; }
+      .table td.tinytable_css_e8zmldh69i1zghv2phrp, .table th.tinytable_css_e8zmldh69i1zghv2phrp { font-size: 0.8em; background-color: #B0DC7C; width: 9.09090909090909%; }
+      .table td.tinytable_css_cfi6o85d6j97woct3igy, .table th.tinytable_css_cfi6o85d6j97woct3igy { font-size: 0.8em; background-color: #76B43B; width: 9.09090909090909%; }
+      .table td.tinytable_css_a90mf7d20soq1i4yofxh, .table th.tinytable_css_a90mf7d20soq1i4yofxh { font-size: 0.8em; background-color: #BBE28A; width: 9.09090909090909%; }
+      .table td.tinytable_css_v4unf86yi2z3esq05lo3, .table th.tinytable_css_v4unf86yi2z3esq05lo3 { font-size: 0.8em; background-color: #F7E6E6; width: 9.09090909090909%; }
+      .table td.tinytable_css_ikoki2e9f05tg2evow89, .table th.tinytable_css_ikoki2e9f05tg2evow89 { font-size: 0.8em; background-color: #F7CAE4; width: 9.09090909090909%; }
+      .table td.tinytable_css_9vn3vefyvzfm910uw3vi, .table th.tinytable_css_9vn3vefyvzfm910uw3vi { font-size: 0.8em; background-color: #CEEAA9; width: 9.09090909090909%; }
+      .table td.tinytable_css_9j5mhftdqez4qt71pgtn, .table th.tinytable_css_9j5mhftdqez4qt71pgtn { font-size: 0.8em; background-color: #FBE2EC; width: 9.09090909090909%; }
+      .table td.tinytable_css_av6nkcaenmmx3eafw5gq, .table th.tinytable_css_av6nkcaenmmx3eafw5gq { font-size: 0.8em; background-color: #81BD43; width: 9.09090909090909%; }
+      .table td.tinytable_css_8b3al9dm73uq8zvd6ijm, .table th.tinytable_css_8b3al9dm73uq8zvd6ijm { font-size: 0.8em; background-color: #4D9221; width: 9.09090909090909%; }
+      .table td.tinytable_css_bxpt6tl68fvkpxu06cv6, .table th.tinytable_css_bxpt6tl68fvkpxu06cv6 { font-size: 0.8em; background-color: #A4D46E; width: 9.09090909090909%; }
+      .table td.tinytable_css_pf6zb1qfhv66a81eemts, .table th.tinytable_css_pf6zb1qfhv66a81eemts { font-size: 0.8em; background-color: #62A32E; width: 9.09090909090909%; }
+      .table td.tinytable_css_puoh1j5rr95f6zhmr9nr, .table th.tinytable_css_puoh1j5rr95f6zhmr9nr { font-size: 0.8em; background-color: #579B28; width: 9.09090909090909%; }
+      .table td.tinytable_css_ngkiv4y6y0n7cxdqfqy2, .table th.tinytable_css_ngkiv4y6y0n7cxdqfqy2 { font-size: 0.8em; background-color: #D8EFB8; width: 9.09090909090909%; }
+      .table td.tinytable_css_85rps3471kflbhcxq0p0, .table th.tinytable_css_85rps3471kflbhcxq0p0 { font-size: 0.8em; background-color: #E8F3D3; width: 9.09090909090909%; }
+      .table td.tinytable_css_kinndkeoywyddggtjdau, .table th.tinytable_css_kinndkeoywyddggtjdau { font-size: 0.8em; background-color: #6CAC35; width: 9.09090909090909%; }
+      .table td.tinytable_css_s721h72nb17pnraf9fkw, .table th.tinytable_css_s721h72nb17pnraf9fkw { font-size: 0.8em; background-color: #8DC552; width: 9.09090909090909%; }
+      .table td.tinytable_css_zaoxa3s5z42li1bhdure, .table th.tinytable_css_zaoxa3s5z42li1bhdure { font-size: 0.8em; background-color: #98CC60; width: 9.09090909090909%; }
+      .table td.tinytable_css_sbpqzq0guag7rkn6mwt0, .table th.tinytable_css_sbpqzq0guag7rkn6mwt0 { font-size: 0.8em; background-color: #D55A9B; width: 9.09090909090909%; }
+      .table td.tinytable_css_zu291v32n4o8r5sb8ytr, .table th.tinytable_css_zu291v32n4o8r5sb8ytr { font-size: 0.8em; background-color: #C51B7D; width: 9.09090909090909%; }
+      .table td.tinytable_css_65p7wgj7f5arf5kn9an5, .table th.tinytable_css_65p7wgj7f5arf5kn9an5 { font-size: 0.8em; background-color: #C5E69A; width: 9.09090909090909%; }
+      .table td.tinytable_css_ifh9ajntfckam6s51imc, .table th.tinytable_css_ifh9ajntfckam6s51imc { font-size: 0.8em; background-color: #E1F3C7; width: 9.09090909090909%; }
+      .table td.tinytable_css_d8ws44ipai7cde22w9to, .table th.tinytable_css_d8ws44ipai7cde22w9to { font-size: 0.8em; background-color: white; width: 9.09090909090909%; }
+      .table td.tinytable_css_kaut07wyqq2kbd0kio0g, .table th.tinytable_css_kaut07wyqq2kbd0kio0g { font-size: 0.8em; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; width: 9.09090909090909%; }
+      .table td.tinytable_css_b2opl51yinmbn8l40scs, .table th.tinytable_css_b2opl51yinmbn8l40scs { font-size: 0.8em; padding-left: 1em; border-bottom: solid #d3d8dc 0.1em; width: 36.3636363636364%; }
+      .table td.tinytable_css_p2m33loh87p4dwrn09k9, .table th.tinytable_css_p2m33loh87p4dwrn09k9 { font-size: 0.8em; padding-left: 1em; width: 36.3636363636364%; }
+      .table td.tinytable_css_414lu4hkxkgf6b3hzvpo, .table th.tinytable_css_414lu4hkxkgf6b3hzvpo { font-size: 0.8em; width: 36.3636363636364%; }
+      .table td.tinytable_css_o3k7cc6tvbfh1ehv8b3h, .table th.tinytable_css_o3k7cc6tvbfh1ehv8b3h { font-size: 0.8em; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; width: 36.3636363636364%; }
+    </style>
+    <div class="container">
+      <table class="table table-borderless" id="tinytable_xfzgmc7eb9rwv5783525" style="table-layout: fixed; width: 100% !important; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        <thead>
+        </thead><caption>Parse form: ora_result;    Split into 10 Clusters. Generated by github@zhimingye/EnrichGT. Time: 2025-04-07 22:48:31.201264</caption>
+              <tbody><tr>
+                <th scope="col">Description</th>
+                <th scope="col">Count</th>
+                <th scope="col">PCT</th>
+                <th scope="col">Padj</th>
+                <th scope="col">geneID</th>
+              </tr>
+        
+        
+        </tbody><tbody>
+                <tr>
+                  <td>GO:0035249 | synaptic transmission, glutamatergic</td>
+                  <td>19</td>
+                  <td>4.2</td>
+                  <td>8.1e-08</td>
+                  <td>ATP1A2, GRIA4, GRID2, GRIK2, GRIK3, GRIN1, GRIN2A, GRIN2B, GRIN2D, GRM1, GRM5, GRM8, DGKI, NRXN1, NLGN1, UNC13A, MAPK8IP2, CACNG5, UNC13C</td>
+                </tr>
+                <tr>
+                  <td>GO:0051966 | regulation of synaptic transmission, glutamatergic</td>
+                  <td>16</td>
+                  <td>3.5</td>
+                  <td>8.1e-08</td>
+                  <td>ATP1A2, GRIK2, GRIK3, GRIN1, GRIN2A, GRIN2B, GRIN2D, GRM1, GRM5, GRM8, DGKI, NRXN1, NLGN1, UNC13A, MAPK8IP2, CACNG5</td>
+                </tr>
+                <tr>
+                  <td>GO:0050804 | modulation of chemical synaptic transmission</td>
+                  <td>39</td>
+                  <td>8.5</td>
+                  <td>8.1e-08</td>
+                  <td>ACHE, APOE, ATP1A2, CA2, CAMK2B, CDC20, GFAP, GRIA4, GRID2, GRIK2, GRIK3, GRIN1, GRIN2A, GRIN2B, GRIN2D, GRM1, GRM5, GRM8, HRAS, MAP1B, NTRK2, SLC6A1, CNTN2, VGF, WNT5A, INA, DGKI, DLGAP1, NRXN1, RIMS3, NMU, NLGN1, UNC13A, MAPK8IP2, ERC2, CACNG5, LRFN2, UNC13C, SHISA9</td>
+                </tr>
+                <tr>
+                  <td>GO:0099177 | regulation of trans-synaptic signaling</td>
+                  <td>39</td>
+                  <td>8.5</td>
+                  <td>8.1e-08</td>
+                  <td>ACHE, APOE, ATP1A2, CA2, CAMK2B, CDC20, GFAP, GRIA4, GRID2, GRIK2, GRIK3, GRIN1, GRIN2A, GRIN2B, GRIN2D, GRM1, GRM5, GRM8, HRAS, MAP1B, NTRK2, SLC6A1, CNTN2, VGF, WNT5A, INA, DGKI, DLGAP1, NRXN1, RIMS3, NMU, NLGN1, UNC13A, MAPK8IP2, ERC2, CACNG5, LRFN2, UNC13C, SHISA9</td>
+                </tr>
+                <tr>
+                  <td>GO:0050808 | synapse organization</td>
+                  <td>36</td>
+                  <td>7.9</td>
+                  <td>2.1e-06</td>
+                  <td>ACHE, APOE, KIF1A, CAMK2B, CDC20, CDH6, CTNNA2, DSCAM, GAP43, GRID2, GRIN2B, GRM5, MAP1B, NRCAM, NTRK2, RAC3, SIX1, SLC6A1, CNTN2, WNT5A, INA, NRXN1, NLGN1, UNC13A, ERC2, IL1RAPL2, SEZ6L2, TREM2, LRFN2, IGSF9, BCAN, SYNDIG1, DNER, ADGRF1, LHFPL4, UNC13C</td>
+                </tr>
+                <tr>
+                  <td>GO:0048168 | regulation of neuronal synaptic plasticity</td>
+                  <td>12</td>
+                  <td>2.6</td>
+                  <td>4.2e-06</td>
+                  <td>APOE, CAMK2B, GRIK2, GRIN1, GRIN2A, GRIN2B, GRIN2D, GRM5, HRAS, CNTN2, VGF, SHISA9</td>
+                </tr>
+                <tr>
+                  <td>GO:0007215 | glutamate receptor signaling pathway</td>
+                  <td>11</td>
+                  <td>2.4</td>
+                  <td>5.2e-06</td>
+                  <td>GRIA4, GRID2, GRIK2, GRIK3, GRIN1, GRIN2A, GRIN2B, GRIN2D, GRM1, GRM5, GRM8</td>
+                </tr>
+                <tr>
+                  <td>GO:0035235 | ionotropic glutamate receptor signaling pathway</td>
+                  <td>8</td>
+                  <td>1.8</td>
+                  <td>1.1e-05</td>
+                  <td>GRIA4, GRID2, GRIK2, GRIK3, GRIN1, GRIN2A, GRIN2B, GRIN2D</td>
+                </tr>
+                <tr>
+                  <td>GO:0048167 | regulation of synaptic plasticity</td>
+                  <td>20</td>
+                  <td>4.4</td>
+                  <td>4.5e-05</td>
+                  <td>APOE, CAMK2B, CDC20, GFAP, GRID2, GRIK2, GRIN1, GRIN2A, GRIN2B, GRIN2D, GRM5, HRAS, MAP1B, NTRK2, CNTN2, VGF, RIMS3, ERC2, UNC13C, SHISA9</td>
+                </tr>
+                <tr>
+                  <td>GO:0060078 | regulation of postsynaptic membrane potential</td>
+                  <td>16</td>
+                  <td>3.5</td>
+                  <td>8.5e-05</td>
+                  <td>GABRD, GRIA4, GRID2, GRIK2, GRIK3, GRIN1, GRIN2A, GRIN2B, GRIN2D, GRM1, GRM5, HTR3A, NRXN1, NLGN1, MAPK8IP2, HCN1</td>
+                </tr>
+                <tr>
+                  <td>GO:0007094 | mitotic spindle assembly checkpoint signaling</td>
+                  <td>11</td>
+                  <td>2.4</td>
+                  <td>4.2e-06</td>
+                  <td>BIRC5, BUB1, CCNB1, CDC20, CENPF, PLK1, NDC80, ZWINT, CDCA8, NUF2, SPC24</td>
+                </tr>
+                <tr>
+                  <td>GO:0071174 | mitotic spindle checkpoint signaling</td>
+                  <td>11</td>
+                  <td>2.4</td>
+                  <td>4.2e-06</td>
+                  <td>BIRC5, BUB1, CCNB1, CDC20, CENPF, PLK1, NDC80, ZWINT, CDCA8, NUF2, SPC24</td>
+                </tr>
+                <tr>
+                  <td>GO:0071173 | spindle assembly checkpoint signaling</td>
+                  <td>11</td>
+                  <td>2.4</td>
+                  <td>4.2e-06</td>
+                  <td>BIRC5, BUB1, CCNB1, CDC20, CENPF, PLK1, NDC80, ZWINT, CDCA8, NUF2, SPC24</td>
+                </tr>
+                <tr>
+                  <td>GO:0031577 | spindle checkpoint signaling</td>
+                  <td>11</td>
+                  <td>2.4</td>
+                  <td>4.2e-06</td>
+                  <td>BIRC5, BUB1, CCNB1, CDC20, CENPF, PLK1, NDC80, ZWINT, CDCA8, NUF2, SPC24</td>
+                </tr>
+                <tr>
+                  <td>GO:0010965 | regulation of mitotic sister chromatid separation</td>
+                  <td>12</td>
+                  <td>2.6</td>
+                  <td>4.2e-06</td>
+                  <td>BIRC5, BUB1, CCNB1, CDC20, CENPF, PLK1, NDC80, UBE2C, ZWINT, CDCA8, NUF2, SPC24</td>
+                </tr>
+                <tr>
+                  <td>GO:0045841 | negative regulation of mitotic metaphase/anaphase transition</td>
+                  <td>11</td>
+                  <td>2.4</td>
+                  <td>4.2e-06</td>
+                  <td>BIRC5, BUB1, CCNB1, CDC20, CENPF, PLK1, NDC80, ZWINT, CDCA8, NUF2, SPC24</td>
+                </tr>
+                <tr>
+                  <td>GO:0033048 | negative regulation of mitotic sister chromatid segregation</td>
+                  <td>11</td>
+                  <td>2.4</td>
+                  <td>4.2e-06</td>
+                  <td>BIRC5, BUB1, CCNB1, CDC20, CENPF, PLK1, NDC80, ZWINT, CDCA8, NUF2, SPC24</td>
+                </tr>
+                <tr>
+                  <td>GO:2000816 | negative regulation of mitotic sister chromatid separation</td>
+                  <td>11</td>
+                  <td>2.4</td>
+                  <td>4.2e-06</td>
+                  <td>BIRC5, BUB1, CCNB1, CDC20, CENPF, PLK1, NDC80, ZWINT, CDCA8, NUF2, SPC24</td>
+                </tr>
+                <tr>
+                  <td>GO:0033046 | negative regulation of sister chromatid segregation</td>
+                  <td>11</td>
+                  <td>2.4</td>
+                  <td>4.2e-06</td>
+                  <td>BIRC5, BUB1, CCNB1, CDC20, CENPF, PLK1, NDC80, ZWINT, CDCA8, NUF2, SPC24</td>
+                </tr>
+                <tr>
+                  <td>GO:0051985 | negative regulation of chromosome segregation</td>
+                  <td>11</td>
+                  <td>2.4</td>
+                  <td>5.2e-06</td>
+                  <td>BIRC5, BUB1, CCNB1, CDC20, CENPF, PLK1, NDC80, ZWINT, CDCA8, NUF2, SPC24</td>
+                </tr>
+                <tr>
+                  <td>GO:0007626 | locomotory behavior</td>
+                  <td>18</td>
+                  <td>3.9</td>
+                  <td>2.5e-04</td>
+                  <td>ALK, APOE, ATP1A2, DPP4, DSCAM, GAD1, GPR37, GRIN2D, GRM1, GRM5, SLC6A3, CNTN2, UCHL1, ZIC1, RASD2, ANKH, PPP1R1B, CIART</td>
+                </tr>
+                <tr>
+                  <td>GO:0001964 | startle response</td>
+                  <td>6</td>
+                  <td>1.3</td>
+                  <td>2.7e-03</td>
+                  <td>CTNNA2, GRID2, GRIN2A, GRIN2D, SLC6A3, CNTNAP2</td>
+                </tr>
+                <tr>
+                  <td>GO:0008038 | neuron recognition</td>
+                  <td>7</td>
+                  <td>1.5</td>
+                  <td>5.4e-03</td>
+                  <td>DSCAM, GAP43, NRCAM, OPCML, CNTN2, CNTNAP2, IGSF9</td>
+                </tr>
+                <tr>
+                  <td>GO:0008037 | cell recognition</td>
+                  <td>13</td>
+                  <td>2.8</td>
+                  <td>5.4e-03</td>
+                  <td>C4BPB, DSCAM, FOLR2, GAP43, NRCAM, OPCML, CNTN2, ZAN, CNTNAP2, TREM2, IGSF9, MEGF10, ATP8B3</td>
+                </tr>
+                <tr>
+                  <td>GO:0015669 | gas transport</td>
+                  <td>5</td>
+                  <td>1.1</td>
+                  <td>7.2e-03</td>
+                  <td>CA2, HBA1, HBA2, HBB, MB</td>
+                </tr>
+                <tr>
+                  <td>GO:0042542 | response to hydrogen peroxide</td>
+                  <td>10</td>
+                  <td>2.2</td>
+                  <td>7.8e-03</td>
+                  <td>COL1A1, CRYAB, NQO1, GPX1, HBA1, HBA2, HBB, HMOX1, SDC1, TRPM2</td>
+                </tr>
+                <tr>
+                  <td>GO:0021700 | developmental maturation</td>
+                  <td>20</td>
+                  <td>4.4</td>
+                  <td>7.8e-03</td>
+                  <td>AKR1B1, CAMK2B, CDC20, MAP1B, NKX6-1, NRCAM, RAC3, RYR1, CNTN2, WNT5A, NRXN1, NLGN1, UNC13A, CNTNAP2, SEZ6L2, TFCP2L1, SOX8, BCAN, TDRD5, UNC13C</td>
+                </tr>
+                <tr>
+                  <td>GO:0050905 | neuromuscular process</td>
+                  <td>13</td>
+                  <td>2.8</td>
+                  <td>7.8e-03</td>
+                  <td>CTNNA2, FOXS1, GRID2, GRIN2A, GRIN2D, RAC3, SLC6A3, TNNT1, UCHL1, NRXN1, CNTNAP2, STRA6, STAC2</td>
+                </tr>
+                <tr>
+                  <td>GO:0014074 | response to purine-containing compound</td>
+                  <td>12</td>
+                  <td>2.6</td>
+                  <td>8.4e-03</td>
+                  <td>HCN2, COL1A1, ENPP1, RYR1, SDC1, SLC5A5, SLC6A1, SLC6A3, SRD5A1, TRPM2, VGF, HCN1</td>
+                </tr>
+                <tr>
+                  <td>GO:0007409 | axonogenesis</td>
+                  <td>24</td>
+                  <td>5.3</td>
+                  <td>1.1e-02</td>
+                  <td>APLP1, APOE, CTNNA2, DLX5, DSCAM, FOXD1, GAP43, KIF5C, MAG, MAP1B, NKX6-1, NRCAM, NTRK2, RAC3, CNTN2, UCHL1, WNT5A, NRXN1, FSTL4, SEMA5B, DPYSL5, IGSF9, KIAA1755, EPHA10</td>
+                </tr>
+                <tr>
+                  <td>GO:0045664 | regulation of neuron differentiation</td>
+                  <td>17</td>
+                  <td>3.7</td>
+                  <td>6.7e-04</td>
+                  <td>JAG1, ALK, MAG, MAP1B, NKX6-1, NRCAM, RAC3, SFRP2, SIX1, CNTN2, TP73, ZNF536, NLGN1, HEY2, SOX8, ASPM, WDR62</td>
+                </tr>
+                <tr>
+                  <td>GO:0051960 | regulation of nervous system development</td>
+                  <td>27</td>
+                  <td>5.9</td>
+                  <td>2.2e-03</td>
+                  <td>ACAN, CAMK2B, HAPLN1, DSCAM, GFAP, GRID2, GRM5, MAG, MAP1B, NKX6-1, NTRK2, TP73, WNT5A, NRXN1, NLGN1, FSTL4, HEY2, DAAM2, SOX8, TREM2, SEMA5B, DPYSL5, BCAN, SYNDIG1, IL34, ASPM, WDR62</td>
+                </tr>
+                <tr>
+                  <td>GO:0051962 | positive regulation of nervous system development</td>
+                  <td>20</td>
+                  <td>4.4</td>
+                  <td>2.2e-03</td>
+                  <td>ACAN, CAMK2B, HAPLN1, DSCAM, GFAP, GRID2, GRM5, MAG, MAP1B, NKX6-1, NTRK2, TP73, NRXN1, NLGN1, SOX8, BCAN, SYNDIG1, IL34, ASPM, WDR62</td>
+                </tr>
+                <tr>
+                  <td>GO:0050767 | regulation of neurogenesis</td>
+                  <td>23</td>
+                  <td>5.0</td>
+                  <td>5.3e-03</td>
+                  <td>ACAN, CAMK2B, HAPLN1, DSCAM, GFAP, GRM5, MAG, MAP1B, NKX6-1, NTRK2, TP73, WNT5A, FSTL4, HEY2, DAAM2, SOX8, TREM2, SEMA5B, DPYSL5, BCAN, IL34, ASPM, WDR62</td>
+                </tr>
+                <tr>
+                  <td>GO:0050769 | positive regulation of neurogenesis</td>
+                  <td>16</td>
+                  <td>3.5</td>
+                  <td>1.1e-02</td>
+                  <td>ACAN, CAMK2B, HAPLN1, DSCAM, GFAP, GRM5, MAG, MAP1B, NKX6-1, NTRK2, TP73, SOX8, BCAN, IL34, ASPM, WDR62</td>
+                </tr>
+                <tr>
+                  <td>GO:0001764 | neuron migration</td>
+                  <td>13</td>
+                  <td>2.8</td>
+                  <td>1.4e-02</td>
+                  <td>CAMK2B, CTNNA2, EMX2, MAP1B, NKX6-1, NRCAM, NTRK2, SPOCK1, CNTN2, TWIST1, DNER, ASPM, WDR62</td>
+                </tr>
+                <tr>
+                  <td>GO:0048638 | regulation of developmental growth</td>
+                  <td>19</td>
+                  <td>4.2</td>
+                  <td>1.5e-02</td>
+                  <td>APOE, DSCAM, FOXC2, FOXS1, KCNK2, MAG, MAP1B, NKX6-1, NRCAM, SIX1, SLC6A3, TP73, WNT5A, AGR2, UNC13A, FSTL4, HEY2, SEMA5B, GPAM</td>
+                </tr>
+                <tr>
+                  <td>GO:0010975 | regulation of neuron projection development</td>
+                  <td>23</td>
+                  <td>5.0</td>
+                  <td>2.2e-02</td>
+                  <td>ALK, APOE, KIF1A, CAMK2B, CTNNA2, DSCAM, GFAP, GRID2, MAG, MAP1B, NRCAM, NTRK2, SDC2, SFRP2, SPOCK1, CNTN2, WNT5A, NLGN1, FSTL4, SEMA5B, DPYSL5, CAMK1D, TRPV4</td>
+                </tr>
+                <tr>
+                  <td>GO:0010001 | glial cell differentiation</td>
+                  <td>15</td>
+                  <td>3.3</td>
+                  <td>3.4e-02</td>
+                  <td>ACAN, HAPLN1, GAP43, GFAP, MAG, NKX6-1, NTRK2, CNTN2, TP73, DAAM2, SOX8, TREM2, BCAN, DNER, IL34</td>
+                </tr>
+                <tr>
+                  <td>GO:0061387 | regulation of extent of cell growth</td>
+                  <td>9</td>
+                  <td>2.0</td>
+                  <td>3.4e-02</td>
+                  <td>APOE, DSCAM, MAG, MAP1B, NKX6-1, NRCAM, WNT5A, FSTL4, SEMA5B</td>
+                </tr>
+                <tr>
+                  <td>GO:0043583 | ear development</td>
+                  <td>17</td>
+                  <td>3.7</td>
+                  <td>2.2e-03</td>
+                  <td>JAG1, COL11A1, GSDME, DLX5, KCNK2, MSX1, SIX1, TFAP2A, TWIST1, WNT5A, ZIC1, TBX18, SIX2, HEY2, STRA6, CTHRC1, MYO3B</td>
+                </tr>
+                <tr>
+                  <td>GO:0090596 | sensory organ morphogenesis</td>
+                  <td>19</td>
+                  <td>4.2</td>
+                  <td>3.3e-03</td>
+                  <td>JAG1, COL11A1, DLX5, DSCAM, MSX1, NTRK2, SIX1, TFAP2A, TWIST1, WNT5A, ZIC1, TBX18, SIX2, FJX1, SOX8, STRA6, CTHRC1, MYO3B, HCN1</td>
+                </tr>
+                <tr>
+                  <td>GO:0042471 | ear morphogenesis</td>
+                  <td>12</td>
+                  <td>2.6</td>
+                  <td>3.6e-03</td>
+                  <td>COL11A1, DLX5, MSX1, SIX1, TFAP2A, TWIST1, WNT5A, ZIC1, TBX18, SIX2, CTHRC1, MYO3B</td>
+                </tr>
+                <tr>
+                  <td>GO:0090102 | cochlea development</td>
+                  <td>7</td>
+                  <td>1.5</td>
+                  <td>6.5e-03</td>
+                  <td>KCNK2, SIX1, WNT5A, TBX18, HEY2, CTHRC1, MYO3B</td>
+                </tr>
+                <tr>
+                  <td>GO:0060537 | muscle tissue development</td>
+                  <td>24</td>
+                  <td>5.3</td>
+                  <td>7.4e-03</td>
+                  <td>CENPF, COL11A1, EYA2, FOXC2, GPX1, KCNK2, MSX1, RYR1, SIX1, TP73, TWIST1, WNT5A, BARX2, TBX18, HEY2, SOX8, NOX4, STRA6, MEGF10, MYO18B, MYLK2, DNER, ALPK2, SGCZ</td>
+                </tr>
+                <tr>
+                  <td>GO:0090103 | cochlea morphogenesis</td>
+                  <td>5</td>
+                  <td>1.1</td>
+                  <td>1.0e-02</td>
+                  <td>SIX1, WNT5A, TBX18, CTHRC1, MYO3B</td>
+                </tr>
+                <tr>
+                  <td>GO:2000027 | regulation of animal organ morphogenesis</td>
+                  <td>11</td>
+                  <td>2.4</td>
+                  <td>1.0e-02</td>
+                  <td>AGT, CELSR3, MSX1, SFRP2, SIX1, WNT5A, SIX2, SOX8, WNT4, SAPCD2, CTHRC1</td>
+                </tr>
+                <tr>
+                  <td>GO:0048839 | inner ear development</td>
+                  <td>14</td>
+                  <td>3.1</td>
+                  <td>1.1e-02</td>
+                  <td>JAG1, COL11A1, GSDME, DLX5, KCNK2, MSX1, SIX1, TFAP2A, WNT5A, ZIC1, TBX18, HEY2, CTHRC1, MYO3B</td>
+                </tr>
+                <tr>
+                  <td>GO:0055001 | muscle cell development</td>
+                  <td>14</td>
+                  <td>3.1</td>
+                  <td>1.1e-02</td>
+                  <td>GPX1, RYR1, SDC1, SIX1, TNNT1, UCHL1, TBX18, HEY2, MEGF10, MYO18B, DNER, ALPK2, WFIKKN1, SGCZ</td>
+                </tr>
+                <tr>
+                  <td>GO:0048701 | embryonic cranial skeleton morphogenesis</td>
+                  <td>6</td>
+                  <td>1.3</td>
+                  <td>2.2e-02</td>
+                  <td>FOXC2, SIX1, TBX15, TFAP2A, TWIST1, SIX2</td>
+                </tr>
+                <tr>
+                  <td>GO:0072001 | renal system development</td>
+                  <td>21</td>
+                  <td>4.6</td>
+                  <td>3.1e-03</td>
+                  <td>JAG1, AGT, AKR1B1, CENPF, EMX2, ENPEP, FOXD1, FOXC2, MMP17, SDC1, SIX1, TFAP2A, TP73, WNT5A, TBX18, GCNT3, SIX2, SOX8, WNT4, STRA6, CD24</td>
+                </tr>
+                <tr>
+                  <td>GO:0090183 | regulation of kidney development</td>
+                  <td>6</td>
+                  <td>1.3</td>
+                  <td>7.2e-03</td>
+                  <td>AGT, FOXD1, SIX1, SIX2, SOX8, WNT4</td>
+                </tr>
+                <tr>
+                  <td>GO:0001822 | kidney development</td>
+                  <td>19</td>
+                  <td>4.2</td>
+                  <td>1.0e-02</td>
+                  <td>JAG1, AGT, AKR1B1, CENPF, ENPEP, FOXD1, FOXC2, MMP17, SDC1, SIX1, TFAP2A, TP73, WNT5A, GCNT3, SIX2, SOX8, WNT4, STRA6, CD24</td>
+                </tr>
+                <tr>
+                  <td>GO:1905330 | regulation of morphogenesis of an epithelium</td>
+                  <td>7</td>
+                  <td>1.5</td>
+                  <td>2.7e-02</td>
+                  <td>AGT, SIX1, WNT5A, SIX2, SOX8, WNT4, RNF207</td>
+                </tr>
+                <tr>
+                  <td>GO:0050921 | positive regulation of chemotaxis</td>
+                  <td>13</td>
+                  <td>2.8</td>
+                  <td>3.4e-03</td>
+                  <td>C3AR1, DSCAM, HSPB1, PGF, THBS4, WNT5A, SCG2, TREM2, CAMK1D, S100A14, TRPV4, SMOC2, IL34</td>
+                </tr>
+                <tr>
+                  <td>GO:0071622 | regulation of granulocyte chemotaxis</td>
+                  <td>7</td>
+                  <td>1.5</td>
+                  <td>1.1e-02</td>
+                  <td>C3AR1, DPP4, THBS4, CAMK1D, S100A14, TRPV4, IL34</td>
+                </tr>
+                <tr>
+                  <td>GO:0050920 | regulation of chemotaxis</td>
+                  <td>15</td>
+                  <td>3.3</td>
+                  <td>1.8e-02</td>
+                  <td>C3AR1, DPP4, DSCAM, HSPB1, PGF, THBS4, WNT5A, SCG2, TREM2, SEMA5B, CAMK1D, S100A14, TRPV4, SMOC2, IL34</td>
+                </tr>
+                <tr>
+                  <td>GO:0002690 | positive regulation of leukocyte chemotaxis</td>
+                  <td>8</td>
+                  <td>1.8</td>
+                  <td>4.7e-02</td>
+                  <td>C3AR1, PGF, THBS4, WNT5A, CAMK1D, S100A14, TRPV4, IL34</td>
+                </tr>
+                <tr>
+                  <td>GO:0003151 | outflow tract morphogenesis</td>
+                  <td>9</td>
+                  <td>2.0</td>
+                  <td>7.2e-03</td>
+                  <td>JAG1, FOXC2, RYR1, SFRP2, SIX1, TWIST1, WNT5A, DHRS3, HEY2</td>
+                </tr>
+                <tr>
+                  <td>GO:0048762 | mesenchymal cell differentiation</td>
+                  <td>16</td>
+                  <td>3.5</td>
+                  <td>2.1e-02</td>
+                  <td>JAG1, AGT, COL1A1, FOXC2, LOXL2, MSX1, SFRP2, SIX1, TWIST1, WNT5A, SIX2, HEY2, SOX8, WNT4, SEMA5B, ZNF703</td>
+                </tr>
+                <tr>
+                  <td>GO:0014706 | striated muscle tissue development</td>
+                  <td>16</td>
+                  <td>3.5</td>
+                  <td>2.2e-02</td>
+                  <td>CENPF, COL11A1, EYA2, FOXC2, KCNK2, MSX1, TP73, TWIST1, WNT5A, TBX18, HEY2, NOX4, MYO18B, MYLK2, ALPK2, SGCZ</td>
+                </tr>
+                <tr>
+                  <td>GO:0060485 | mesenchyme development</td>
+                  <td>18</td>
+                  <td>3.9</td>
+                  <td>2.9e-02</td>
+                  <td>JAG1, AGT, AMH, COL1A1, FOXD1, FOXC2, LOXL2, MSX1, SFRP2, SIX1, TWIST1, WNT5A, SIX2, HEY2, SOX8, WNT4, SEMA5B, ZNF703</td>
+                </tr>
+                <tr>
+                  <td>GO:0003007 | heart morphogenesis</td>
+                  <td>15</td>
+                  <td>3.3</td>
+                  <td>4.2e-02</td>
+                  <td>JAG1, COL11A1, FOXC2, MSX1, RYR1, SFRP2, SIX1, TWIST1, WNT5A, DHRS3, HEY2, MYLK2, ALPK2, RBM20, RNF207</td>
+                </tr>
+                <tr>
+                  <td>GO:0061311 | cell surface receptor signaling pathway involved in heart development</td>
+                  <td>5</td>
+                  <td>1.1</td>
+                  <td>1.3e-02</td>
+                  <td>JAG1, MSX1, WNT5A, HEY2, ALPK2</td>
+                </tr>
+                <tr>
+                  <td>GO:0120254 | olefinic compound metabolic process</td>
+                  <td>12</td>
+                  <td>2.6</td>
+                  <td>1.9e-02</td>
+                  <td>ABCA4, AKR1B1, ALOX15B, AKR1C1, AKR1C2, GPX1, GRIN1, SRD5A1, PLA2G4C, RDH16, DHRS3, WNT4</td>
+                </tr>
+                <tr>
+                  <td>GO:0008207 | C21-steroid hormone metabolic process</td>
+                  <td>5</td>
+                  <td>1.1</td>
+                  <td>4.0e-02</td>
+                  <td>AKR1B1, AKR1C1, AKR1C2, SRD5A1, WNT4</td>
+                </tr>
+                <tr>
+                  <td>GO:0042445 | hormone metabolic process</td>
+                  <td>14</td>
+                  <td>3.1</td>
+                  <td>4.7e-02</td>
+                  <td>AKR1B1, AKR1C1, AKR1C2, DIO2, DPP4, ENPEP, FOXE1, PCSK2, SLC5A5, SRD5A1, RDH16, DHRS3, PCSK1N, WNT4</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+<p>This just shows the second slot inside the <code>EnrichGT_obj</code> object. The second slot - <code>tinytable_obj</code> is a pure object of <code>tinytable</code> package, you can use any <a href="https://vincentarelbundock.github.io/tinytable/vignettes/tinytable.html">function</a> on it.</p>
+<p>For further usage of <code>tinytable</code> package, please refer to <a href="https://vincentarelbundock.github.io/tinytable/vignettes/tinytable.html" class="uri">https://vincentarelbundock.github.io/tinytable/vignettes/tinytable.html</a>.</p>
 <p>See re-enrichment example for further demo.</p>
+</section>
+<section id="quarto-full-report" class="level2">
+<h2 class="anchored" data-anchor-id="quarto-full-report">Quarto full-report</h2>
+<p>Function <code>egt_generate_quarto_report()</code> can help you convert re-enrichment object to an all-in-one Quarto document containing all enrichment results. You can use <code>RStudio</code> or <code>Positron</code> to knit them (preview) into HTML document.</p>
+<p><img src="images/paste-3.png" class="img-fluid"></p>
+</section>
 </section>
 <section id="ploting-functions" class="level1">
 <h1>Ploting functions</h1>
-<p>HTML <code>gt</code> table satisfied most of things, but for others. Though we don’t want this package become complex (i.e., you can simple draw your figure using ggplot2 for enriched tables by yourself.) But we still provide limited figure ploting functions.</p>
+<p>HTML <code>tinytable</code> table satisfied most of things, but for others. Though we don’t want this package become complex (i.e., you can simple draw your figure using ggplot2 for enriched tables by yourself.) But we still provide limited figure ploting functions.</p>
 <section id="basic-result-plot" class="level2">
 <h2 class="anchored" data-anchor-id="basic-result-plot">Basic result plot</h2>
 <p>The Dot Plot provide basic viewing of results. So it supports both simple enrichment result <code>data.frame</code> and re-enriched <code>egt_object</code>.</p>
@@ -300,7 +1050,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="visualize_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="visualize_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -319,7 +1069,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="visualize_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="visualize_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -332,7 +1082,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="visualize_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="visualize_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -357,7 +1107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Why multiple results need a <code>data.frame</code>
+Why multiple results plotting function needs a <code>data.frame</code>
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -394,12 +1144,12 @@ Why multiple results need a <code>data.frame</code>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">weights =</span> DEGexample<span class="sc">$</span>log2FoldChange),</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ success loaded database, time used : 16.2828590869904 sec.</code></pre>
+<pre><code>✔ success loaded database, time used : 17.9029018878937 sec.</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="visualize_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="visualize_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -437,34 +1187,18 @@ Warning
 </dl>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "data.frame"
-          ID                                                   Description
-1 GO:0060078                 regulation of postsynaptic membrane potential
-2 GO:0007216        G protein-coupled glutamate receptor signaling pathway
-3 GO:0050907 detection of chemical stimulus involved in sensory perception
-4 GO:0050906          detection of stimulus involved in sensory perception
-5 GO:0035249                          synaptic transmission, glutamatergic
-6 GO:0051966            regulation of synaptic transmission, glutamatergic
-7 GO:0061982                                  meiosis I cell cycle process
-8 GO:0007628                                        adult walking behavior
-         ES      NES       pvalue     p.adjust
-1 0.5640120 1.940093 6.130789e-06 0.0002369021
-2 0.8399130 1.925430 2.383813e-04 0.0045898643
-3 0.7673726 1.920430 2.555795e-04 0.0048542780
-4 0.5936136 1.909406 3.970339e-05 0.0011294645
-5 0.5603341 1.906212 1.066657e-05 0.0003806676
-6 0.5807585 1.876372 9.302572e-05 0.0023478519
-7 0.5532139 1.868648 3.637422e-05 0.0010621251
-8 0.7170162 1.859178 6.892355e-04 0.0099857298
-                                                                                                                                                                                                  core_enrichment
-1                                         GRIK3/HCN1/GRM1/GRM5/GRIA4/GRIN2B/NRXN1/GRID2/RIMS2/HTR3A/GRIN2D/CELF4/GRIN1/GABRB1/GRIK2/TBC1D24/MAPK8IP2/GABRD/CUX2/NLGN1/GRIK5/GRIN2A/NETO1/STX1A/GRIN3B/GRID1/GRIK1
-2                                                                                                                                                                                  GRIK3/GRM1/GRM5/GRM8/GRM4/GRM3
-3                                                                                                                                      OR51E1/CST1/OR51E2/AZGP1/TAS1R1/OR7C1/ASIC3/PIGR/PKD2L1/CNGB1/PKD1L3/GNAT2
-4                                                                       OR51E1/CST1/OR51E2/COL11A1/AZGP1/PPEF1/CACNB4/GRIK2/TAS1R1/EYS/OR7C1/REEP6/ASIC3/SEMA5B/PIGR/PKD2L1/CNGB1/NR2F6/SCN11A/NTRK1/PKD1L3/GNAT2
-5 GRIK3/UNC13C/GRM1/CACNG5/GRM5/GRM8/GRIA4/GRIN2B/NRXN1/GRID2/CACNB4/GRIN2D/GRIN1/GRM4/GRIK2/UNC13A/MAPK8IP2/UCN/DGKI/ABCC8/ATP1A2/NLGN1/GRIK5/GRM3/GRIN2A/SYT1/GRIN3B/GRID1/GRIK1/SLC17A7/GRIN2C/CDH2/NTRK1/CNR1
-6                                                            GRIK3/GRM1/CACNG5/GRM5/GRM8/GRIN2B/NRXN1/GRIN2D/GRIN1/GRM4/GRIK2/UNC13A/MAPK8IP2/UCN/DGKI/ATP1A2/NLGN1/GRM3/GRIN2A/SYT1/GRIK1/GRIN2C/CDH2/NTRK1/CNR1
-7     SPATA22/KASH5/BRDT/RAD54B/PLK1/SPDYA/CDC20/CDC25C/NDC80/HFM1/PKMYT1/TOP2A/TRIP13/CCNE1/BRIP1/CENPX/RAD51AP1/IHO1/RAD54L/CKS2/AURKA/BRCA2/PTTG1/MOV10L1/M1AP/SHOC1/BRME1/FMN2/RAD51/SIRT7/RAD51C/ESPL1/CCNB2
-8                                                                                                                                                                               ZIC1/CNTN2/CACNB4/UCHL1/CEND1/TRH</code></pre>
+<pre><code>[1] "tbl_df"     "tbl"        "data.frame"
+# A tibble: 8 × 7
+  ID         Description               ES   NES  pvalue p.adjust core_enrichment
+  &lt;chr&gt;      &lt;chr&gt;                  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;          
+1 GO:0060078 regulation of postsyn… 0.564  1.94 4.60e-6 0.000188 GRIK3/HCN1/GRM…
+2 GO:0007216 G protein-coupled glu… 0.840  1.92 1.31e-4 0.00295  GRIK3/GRM1/GRM…
+3 GO:0050907 detection of chemical… 0.767  1.92 1.55e-4 0.00342  OR51E1/CST1/OR…
+4 GO:0035249 synaptic transmission… 0.560  1.92 1.87e-5 0.000621 GRIK3/UNC13C/G…
+5 GO:0050906 detection of stimulus… 0.594  1.90 4.98e-5 0.00136  OR51E1/CST1/OR…
+6 GO:0061982 meiosis I cell cycle … 0.553  1.87 1.09e-4 0.00259  SPATA22/KASH5/…
+7 GO:0051966 regulation of synapti… 0.581  1.87 7.66e-5 0.00191  GRIK3/GRM1/CAC…
+8 GO:0031577 spindle checkpoint si… 0.627  1.86 5.57e-4 0.00905  SPC24/BIRC5/PL…</code></pre>
 </div>
 </div>
 <p>And then using <code>egt_plot_gsea()</code> for drawing. The other params should be the <strong>same</strong> as you provided in origin GSEA analysis.</p>
@@ -479,7 +1213,7 @@ Warning
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="visualize_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="visualize_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
