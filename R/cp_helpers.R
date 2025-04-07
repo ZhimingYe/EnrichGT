@@ -238,14 +238,16 @@ egt_enrichment_analysis <- function(
       if (is.data.frame(result)) {
         result <- result |>
           dplyr::filter(pvalue < p_val_cut_off) |>
-          dplyr::arrange(pvalue)
+          dplyr::arrange(pvalue) |>
+          tibble::as_tibble()
       } else if (is.list(result)) {
         result <- lapply(result, function(x) {
           if (is.data.frame(x)) {
             if (ncol(x) > 3 & nrow(x) > 3) {
               z <- x |>
                 dplyr::filter(pvalue < p_val_cut_off) |>
-                dplyr::arrange(pvalue)
+                dplyr::arrange(pvalue) |>
+                tibble::as_tibble()
               return(z)
             }
           }
@@ -257,7 +259,6 @@ egt_enrichment_analysis <- function(
       cli::cli_abort("No useable result!")
     }
   )
-  result <- tibble::as_tibble(result) # better printing
   return(result)
 }
 

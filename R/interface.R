@@ -129,3 +129,72 @@ egt_recluster_analysis <- function(
     cli::cli_alert("by Zhiming Ye")
   }
 }
+
+
+#' Export Quarto Report
+#'
+#' @param re_enrichment_results The `EnrichGT_obj`, AI summarized result is more recommanded.
+#' @param output_path Path of the output qmd file (e.g., `test.qmd`)
+#'
+#' @returns A quarto document
+#' @export
+#'
+egt_generate_quarto_report <- function(
+  re_enrichment_results,
+  output_path = paste0(getwd(), "Report.qmd")
+) {
+  if (!class(re_enrichment_results) == "EnrichGT_obj") {
+    cli::cli_abort(
+      "Please provide `EnrichGT_obj`. You should perform re-clustering"
+    )
+  }
+  rds_path <- file.path(
+    dirname(output_path),
+    paste0(output_path, "dependency.rds")
+  )
+  saveRDS(re_enrichment_results, file = rds_path)
+  cluster_names <- names(re_enrichment_results)
+  qmd_content <- c(
+    '---',
+    'title: "Re-enrich Enriched Results"',
+    'toc: true',
+    'self-contain: true',
+    '---',
+    '',
+    '# Enrichment Summary',
+    '',
+    '```{r}',
+    '#| echo: false',
+    '#| message: false',
+    '#| warning: false',
+    'library(EnrichGT)',
+    paste0('re_enrichment_results <- readRDS("', basename(rds_path), '")'),
+    '```',
+    ''
+  )
+  for (cluster in cluster_names) {
+    qmd_content <- c(
+      qmd_content,
+      paste0('## ', cluster),
+      '',
+      '```{r, comment = ""}',
+      '#| echo: false',
+      paste0('re_enrichment_results$', cluster),
+      '```',
+      '',
+      ''
+    )
+  }
+  qmd_content <- c(
+    qmd_content,
+    '# Enrichment Full results',
+    '',
+    '```{r, comment = ""}',
+    '#| echo: false',
+    're_enrichment_results@tinytable_obj',
+    '```'
+  )
+  writeLines(qmd_content, con = output_path)
+  cli::cli_alert_success(paste("Report generated at:", output_path))
+  cli::cli_alert_success(paste("RDS file saved at:", rds_path))
+}

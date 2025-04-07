@@ -24,9 +24,12 @@ setClass(
   )
 )
 
-
 setMethod("show", "EnrichGT_obj", function(object) {
-  print(object@tinytable_obj)
+  if (isTRUE(getOption("knitr.in.progress"))) {
+    object@tinytable_obj |> tinytable:::knit_print.tinytable("html")
+  } else {
+    object@tinytable_obj |> tinytable:::print.tinytable("html")
+  }
 })
 
 setMethod("names", "EnrichGT_obj", function(x) {

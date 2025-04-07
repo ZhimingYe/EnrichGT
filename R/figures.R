@@ -244,7 +244,7 @@ ORA2dp <- function(
   )
   if (
     showIDs &
-      (sum(TempPlotingEnv$df0$ID == TempPlotingEnv$df0$Description) >= 5)
+      (sum(TempPlotingEnv$df0$ID == TempPlotingEnv$df0$Description) <= 5)
   ) {
     TempPlotingEnv$df0$ID <- substr(TempPlotingEnv$df0$ID, 1, 15)
     TempPlotingEnv$df0$Description <- paste0(
