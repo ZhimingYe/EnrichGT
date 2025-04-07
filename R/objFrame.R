@@ -40,6 +40,13 @@ setMethod("names", "EnrichGT_obj", function(x) {
 })
 
 setMethod("$", "EnrichGT_obj", function(x, name) {
+  if (nchar(name) <= 5 & !(as.character(name) |> is_numeric_string())) {
+    first_char <- substr(name, 1, 1)
+    name <- gsub(first_char, "Cluster_", name)
+  }
+  if (as.character(name) |> is_numeric_string()) {
+    name <- as.character(paste0("Cluster_", name))
+  }
   if ((x@LLM_Annotation@pathways |> length()) < 2) {
     summary_use_local(x, name)
   } else {
@@ -131,14 +138,24 @@ new.egt <- function(x1, x2, x3, x4, x5, x6, x7, x8) {
   }
 }
 
+#' @importFrom cli cli_ul cli_end
 summary_use_local <- function(x, name) {
   resTable <- x@enriched_result |> dplyr::filter(Cluster == name)
   maxPrint <- ifelse(nrow(resTable) > 5, 5, nrow(resTable))
   DescriptPrint <- paste(resTable$Description[1:maxPrint], collapse = ", ")
+  if (length(resTable$Description) == 0) {
+    cli::cli_abort(
+      "Please check your input. For example, you can use `Object$C1`, `Object$c1` or  `Object$Cluster_1` to reach the cluster 1\'s result summary"
+    )
+  }
   CandidateGenes <- paste(x@gene_modules[[name]], collapse = ", ")
   cli::cli_h1(glue::glue("Enrichment Result of {name} (Local Summary)"))
+  ul <- cli::cli_ul()
   cli::cli_li(glue::glue("This cluster contains {DescriptPrint} ..."))
-  cli::cli_li(glue::glue("Candidate genes includes {CandidateGenes} ..."))
+  cli::cli_li(glue::glue(
+    "Candidate genes includes {CandidateGenes} (We will print all genes. Please stroll to top to read)"
+  ))
+  cli::cli_end(ul)
 }
 
 
@@ -149,12 +166,14 @@ summary_use_llm <- function(x, name) {
       cli::cli_h2(x@LLM_Annotation@genes_and_title$resultsTitle[[which(
         x@LLM_Annotation@genes_and_title$clustersName == name
       )]])
+      ul <- cli::cli_ul()
       cli::cli_li(x@LLM_Annotation@pathways$results[[which(
         x@LLM_Annotation@pathways$cluster_names == name
       )]])
       cli::cli_li(x@LLM_Annotation@genes_and_title$results[[which(
         x@LLM_Annotation@genes_and_title$clustersName == name
       )]])
+      cli::cli_end(ul)
     },
     error = function(e) {
       cli::cli_alert_danger(
@@ -163,4 +182,8 @@ summary_use_llm <- function(x, name) {
       summary_use_local(x, name)
     }
   )
+}
+
+is_numeric_string <- function(x) {
+  grepl("^[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?$", x)
 }

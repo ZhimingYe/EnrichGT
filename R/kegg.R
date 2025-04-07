@@ -27,7 +27,21 @@ database_KEGG <- function(
   kegg_organism = "hsa",
   OrgDB = org.Hs.eg.db,
   kegg_modules = F,
-  local_cache = F
+  local_cache = T
+) {
+  df <- database_KEGG_internal(
+    kegg_organism = kegg_organism,
+    OrgDB = OrgDB,
+    kegg_modules = kegg_modules,
+    local_cache = local_cache
+  )
+  return(df)
+}
+database_KEGG_internal <- function(
+  kegg_organism = "hsa",
+  OrgDB = org.Hs.eg.db,
+  kegg_modules = F,
+  local_cache = T
 ) {
   if (!kegg_modules) {
     fn <- paste0("KEGGPathway_", xfun::md5(keggModuleList(kegg_organism)))

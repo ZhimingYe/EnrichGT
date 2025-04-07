@@ -121,7 +121,7 @@ egt_plot_results <- function(
         max_len_descript = max_len_descript,
         ...
       )
-    } else if (sum(colnames(x) %in% c("Up_Vs_Down", "up/dn")) == 0) {
+    } else if (sum(colnames(x) %in% c("Up_Vs_Down", "up_dn")) == 0) {
       InnerDF <- x |>
         dplyr::filter(p.adjust < (plotingTemp$PadjVal)) |>
         dplyr::select(ID, Description, GeneRatio, `p.adjust`, geneID, Count) # Need Fix
@@ -149,8 +149,8 @@ egt_plot_results <- function(
         ...
       )
     } else {
-      if (sum(colnames(x) == "up/dn") > 0) {
-        x <- x |> dplyr::rename(Up_Vs_Down = `up/dn`)
+      if (sum(colnames(x) == "up_dn") > 0) {
+        x <- x |> dplyr::rename(Up_Vs_Down = `up_dn`)
       }
       InnerDF <- x |>
         dplyr::filter(p.adjust < (plotingTemp$PadjVal)) |>
@@ -227,8 +227,8 @@ ORA2dp <- function(
       ) {
         cli::cli_abort("ERROR! ")
       } else {
-        if (sum(colnames(x@enriched_result) == "up/dn") > 0) {
-          kk <- x@enriched_result |> dplyr::rename(Up_Vs_Down = `up/dn`)
+        if (sum(colnames(x@enriched_result) == "up_dn") > 0) {
+          kk <- x@enriched_result |> dplyr::rename(Up_Vs_Down = `up_dn`)
         } else {
           kk <- x@enriched_result
         }

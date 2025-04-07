@@ -115,7 +115,7 @@ setMethod("doEnrichGT", signature(x = "list"), function(x, ...) {
         Up_Vs_Down
       ) |>
       dplyr::mutate(geneID = gsub("/", ", ", geneID)) |>
-      dplyr::rename(`up/dn` = Up_Vs_Down)
+      dplyr::rename(`up_dn` = Up_Vs_Down)
   } else {
     obj <- obj |>
       dplyr::select(Description, ID, Count, Cluster, PCT, Padj, geneID) |>
