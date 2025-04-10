@@ -1,0 +1,102 @@
+---
+title: "Re-enrich Enriched Results"
+toc: true
+self-contain: true
+---
+
+# Enrichment Summary
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(EnrichGT)
+re_enrichment_results <- readRDS("re_enrichReport.qmddependency.rds")
+```
+
+## Cluster_1
+
+```{r, comment = ""}
+#| echo: false
+re_enrichment_results$Cluster_1
+```
+
+
+## Cluster_10
+
+```{r, comment = ""}
+#| echo: false
+re_enrichment_results$Cluster_10
+```
+
+
+## Cluster_2
+
+```{r, comment = ""}
+#| echo: false
+re_enrichment_results$Cluster_2
+```
+
+
+## Cluster_3
+
+```{r, comment = ""}
+#| echo: false
+re_enrichment_results$Cluster_3
+```
+
+
+## Cluster_4
+
+```{r, comment = ""}
+#| echo: false
+re_enrichment_results$Cluster_4
+```
+
+
+## Cluster_5
+
+```{r, comment = ""}
+#| echo: false
+re_enrichment_results$Cluster_5
+```
+
+
+## Cluster_6
+
+```{r, comment = ""}
+#| echo: false
+re_enrichment_results$Cluster_6
+```
+
+
+## Cluster_7
+
+```{r, comment = ""}
+#| echo: false
+re_enrichment_results$Cluster_7
+```
+
+
+## Cluster_8
+
+```{r, comment = ""}
+#| echo: false
+re_enrichment_results$Cluster_8
+```
+
+
+## Cluster_9
+
+```{r, comment = ""}
+#| echo: false
+re_enrichment_results$Cluster_9
+```
+
+
+# Enrichment Full results
+
+```{r, comment = ""}
+#| echo: false
+re_enrichment_results@tinytable_obj
+```
