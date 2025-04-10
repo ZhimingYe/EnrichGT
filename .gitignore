@@ -14,3 +14,4 @@ dev/*
 *.enrichgt_cache
 _internal*
 /.quarto/
+*.qmd
