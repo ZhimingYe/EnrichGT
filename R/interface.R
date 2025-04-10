@@ -89,45 +89,16 @@ egt_recluster_analysis <- function(
 }
 
 .onAttach <- function(libname, pkgname) {
-  required_packages <- c(
-    "dplyr",
-    "glue",
-    "proxy",
-    "RColorBrewer",
-    "scales",
-    "text2vec",
-    "tibble",
-    "forcats",
-    "ggplot2",
-    "Matrix",
-    "xfun"
-  )
-  missing_packages <- required_packages[
-    !(required_packages %in% installed.packages()[, "Package"])
-  ]
-
-  if (length(missing_packages) > 0) {
-    package_message <- paste(
-      "The following packages are not installed but are required: ",
-      paste(missing_packages, collapse = ", ")
-    )
-    package_message <- paste(
-      package_message,
-      "\nPlease install them using install.packages() or BiocManager::install() for Bioconductor packages."
-    )
-    packageStartupMessage(package_message)
-  } else {
-    suppressPackageStartupMessages({
-      requireNamespace("dplyr")
-      requireNamespace("tibble")
-      requireNamespace("ggplot2")
-      requireNamespace("Matrix")
-      requireNamespace("cli")
-    })
-    cli::cli_h1("EnrichGT")
-    cli::cli_alert_info("See help on https://zhimingye.github.io/EnrichGT/")
-    cli::cli_alert("by Zhiming Ye")
-  }
+  suppressPackageStartupMessages({
+    requireNamespace("dplyr")
+    requireNamespace("tibble")
+    requireNamespace("ggplot2")
+    requireNamespace("Matrix")
+    requireNamespace("cli")
+  })
+  cli::cli_h1("EnrichGT")
+  cli::cli_alert_info("See help on https://zhimingye.github.io/EnrichGT/")
+  cli::cli_alert("by Zhiming Ye")
 }
 
 

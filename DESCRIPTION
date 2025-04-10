@@ -1,7 +1,7 @@
 Type: Package
 Package: EnrichGT
 Title: EnrichGT - all in one enrichment analysis solution
-Version: 1.1.4
+Version: 1.1.41
 Author: Zhiming Ye
 Maintainer: Zhiming Ye <garnetcrow@hotmail.com>
 Description: Do biological enrichment analysis and parsing and clustering
@@ -12,7 +12,6 @@ Depends:
     R (>= 2.10)
 Imports: 
     AnnotationDbi,
-    BiocManager,
     cli,
     dplyr,
     ellmer,
@@ -38,6 +37,7 @@ Imports:
     utils,
     xfun
 Suggests: 
+    BiocManager,
     devtools,
     readr,
     testthat (>= 3.0.0),

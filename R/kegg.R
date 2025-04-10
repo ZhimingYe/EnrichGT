@@ -117,7 +117,7 @@ database_KEGG_internal <- function(
 
     assign(fn, finalDF, envir = db_getter_env)
   }
-  if (!local_cache) {
+  if (!local_cache | (local_cache & !have_read)) {
     finalDF$Ncbigenes <- gsub("ncbi-geneid:", "", finalDF$Ncbigenes)
     cvtDF <- convert_annotations_genes(
       finalDF$Ncbigenes,
