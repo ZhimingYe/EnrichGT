@@ -54,7 +54,7 @@ test_that("Recluster analysis works", {
   # 重聚类测试
   re_enrichment_results <- egt_recluster_analysis(ora_result)
   expect_s4_class(re_enrichment_results, "EnrichGT_obj")
-  expect_true("tinytable" %in% class(re_enrichment_results@tinytable_obj))
+  expect_true("gt_tbl" %in% class(re_enrichment_results@gt_object))
 })
 
 
@@ -86,7 +86,7 @@ test_that("Fusing analysis works", {
   re_enrichment_results2 <- egt_compare_groups(ora_result3,ora_result2)
   re_enrichment_results2
   expect_s4_class(re_enrichment_results, "EnrichGT_obj")
-  expect_true("tinytable" %in% class(re_enrichment_results@tinytable_obj))
+  expect_true("gt_tbl" %in% class(re_enrichment_results@gt_object))
   expect_s4_class(re_enrichment_results2[[1]], "EnrichGT_obj")
 })
 

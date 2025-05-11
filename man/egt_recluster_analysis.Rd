@@ -35,7 +35,7 @@ egt_recluster_analysis(
 An `EnrichGT_obj` containing:
 \describe{
   \item{enriched_result}{Filtered results data frame}
-  \item{tinytable_obj}{Formatted `tinytable` table object}
+  \item{tinytable_obj}{Formatted `gt_tbl` table object}
   \item{gene_modules}{List of gene modules per cluster}
   \item{pathway_clusters}{Pathway names by cluster}
   \item{clustering_tree}{`hclust` object for visualization}

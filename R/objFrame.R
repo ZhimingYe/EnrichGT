@@ -12,7 +12,7 @@ setClass(
   "EnrichGT_obj",
   slots = list(
     enriched_result = "data.frame",
-    tinytable_obj = "tinytable",
+    gt_object = "gt_tbl",
     gene_modules = "list",
     pathway_clusters = "list",
     document_term_matrix = "dgCMatrix",
@@ -25,11 +25,7 @@ setClass(
 )
 
 setMethod("show", "EnrichGT_obj", function(object) {
-  if (isTRUE(getOption("knitr.in.progress"))) {
-    object@tinytable_obj |> tinytable:::knit_print.tinytable("html")
-  } else {
-    object@tinytable_obj |> tinytable:::print.tinytable("html")
-  }
+  print(object@gt_object)
 })
 
 setMethod("names", "EnrichGT_obj", function(x) {
@@ -63,7 +59,7 @@ new.egt <- function(x1, x2, x3, x4, x5, x6, x7, x8) {
     {
       objegt <- new("EnrichGT_obj")
       objegt@enriched_result <- x1
-      objegt@tinytable_obj <- x2
+      objegt@gt_object <- x2
       objegt@gene_modules <- x3
       objegt@pathway_clusters <- x4
       objegt@document_term_matrix <- x5

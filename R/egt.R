@@ -1,4 +1,27 @@
 setGeneric("doEnrichGT", function(x, ...) standardGeneric("doEnrichGT"))
+setMethod("doEnrichGT", signature(x = "enrichResult"), function(x, ...) {
+  if (sum(grepl("^GO", names(x@geneSets))) > 5) {
+    nsimp()
+  }
+  y <- .genGT(x = x@result, ...)
+  return(y)
+})
+setMethod(
+  "doEnrichGT",
+  signature(x = "compareClusterResult"),
+  function(x, ...) {
+    x <- x@compareClusterResult
+    y <- .cprres(x, ...)
+    if (sum(grepl("^GO", names(y$ID))) > 5) {
+      nsimp()
+    }
+    return(y)
+  }
+)
+setMethod("doEnrichGT", signature(x = "gseaResult"), function(x, ...) {
+  y <- .genGSEAGT(x = x@result, ...)
+  return(y)
+})
 setMethod("doEnrichGT", signature(x = "data.frame"), function(x, ...) {
   if ("NES" %in% colnames(x)) {
     y <- .genGSEAGT(x, ...)
@@ -115,7 +138,7 @@ setMethod("doEnrichGT", signature(x = "list"), function(x, ...) {
         Up_Vs_Down
       ) |>
       dplyr::mutate(geneID = gsub("/", ", ", geneID)) |>
-      dplyr::rename(`up_dn` = Up_Vs_Down)
+      dplyr::rename(`up/dn` = Up_Vs_Down)
   } else {
     obj <- obj |>
       dplyr::select(Description, ID, Count, Cluster, PCT, Padj, geneID) |>
@@ -126,8 +149,7 @@ setMethod("doEnrichGT", signature(x = "list"), function(x, ...) {
     dplyr::arrange(Padj) |>
     dplyr::slice_head(n = nTop) |>
     dplyr::ungroup()
-  obj0 <- obj |>
-    gt_tt(ClusterNum = ClusterNum, objname = objname, TYPE = "ORA", ...)
+  obj0 <- obj |> gt_ora(ClusterNum = ClusterNum, objname = objname, ...)
   obj2 <- obj
   obj3 <- obj2 |> genMetaGM(type = "ORA")
   obj3_1 <- obj3[[1]] |> remove_more_updownInfo()
@@ -140,14 +162,12 @@ setMethod("doEnrichGT", signature(x = "list"), function(x, ...) {
     clsObj[[3]],
     clsObj[[2]],
     InnerDF_000,
-    list(
-      ClusterNum = ClusterNum,
+    list(ClusterNum = ClusterNum, 
       P.adj = P.adj,
       force = force,
       objname = "CleanedObj",
       nTop = nTop,
-      method = method
-    )
+      method = method)
   )
   return(objA)
 }
@@ -203,7 +223,7 @@ remove_more_updownInfo <- function(x) {
   .checkNrows(InnerDF, force = force)
   obj <- InnerDF |>
     dplyr::mutate(absNES = abs(NES)) |>
-    dplyr::mutate(Reg = ifelse(NES > 0, "UpReg", "DownReg")) |>
+    dplyr::mutate(Reg = ifelse(NES > 0, "red", "forestgreen")) |>
     dplyr::mutate(Padj = signif(p.adjust, 2), absNES = signif(absNES, 4)) |>
     dplyr::select(
       Description,
@@ -220,9 +240,8 @@ remove_more_updownInfo <- function(x) {
     dplyr::arrange(Padj) |>
     dplyr::slice_head(n = nTop) |>
     dplyr::ungroup()
-  obj0 <- obj |>
-    gt_tt(ClusterNum = ClusterNum, objname = objname, TYPE = "GSEA", ...)
-  obj2 <- obj
+  obj0 <- obj |> gt_gsea(ClusterNum = ClusterNum, objname = objname, ...)
+  obj2 <- obj |> dplyr::mutate(Reg = ifelse(Reg == "red", "UpReg", "DownReg"))
   obj3 <- obj2 |> genMetaGM(type = "GSEA")
   obj3_1 <- obj3[[1]]
   obj3_2 <- obj3[[2]]
@@ -234,14 +253,12 @@ remove_more_updownInfo <- function(x) {
     clsObj[[3]],
     clsObj[[2]],
     InnerDF_000,
-    list(
-      ClusterNum = ClusterNum,
+    list(ClusterNum = ClusterNum, 
       P.adj = P.adj,
       force = force,
       objname = "CleanedObj",
       nTop = nTop,
-      method = method
-    )
+      method = method)
   )
   return(objA)
 }

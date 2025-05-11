@@ -1,7 +1,7 @@
 Type: Package
 Package: EnrichGT
 Title: EnrichGT - all in one enrichment analysis solution
-Version: 1.1.41
+Version: 1.2.0
 Author: Zhiming Ye
 Maintainer: Zhiming Ye <garnetcrow@hotmail.com>
 Description: Do biological enrichment analysis and parsing and clustering
@@ -16,11 +16,13 @@ Imports:
     dplyr,
     ellmer,
     fgsea,
+    fontawesome,
     forcats,
     ggplot2,
     glue,
     GO.db,
     grDevices,
+    gt,
     Matrix,
     methods,
     proxy,
@@ -28,20 +30,18 @@ Imports:
     RColorBrewer,
     Rcpp,
     reactome.db,
+    rlang,
     scales,
     stats,
     stringr,
     text2vec,
     tibble,
-    tinytable,
     utils,
     xfun
 Suggests: 
     BiocManager,
-    devtools,
     readr,
-    testthat (>= 3.0.0),
-    tidyverse
+    testthat (>= 3.0.0)
 LinkingTo: 
     Rcpp
 Config/testthat/edition: 3
