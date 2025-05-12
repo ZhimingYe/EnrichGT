@@ -356,7 +356,9 @@ egt_gsea_analysis <- function(
       return(output)
     })
   }
-  res <- tibble::as_tibble(res) # better printing
+  if(is.data.frame(res)){
+    res <- tibble::as_tibble(res) # better printing
+  }
   return(res)
 }
 
