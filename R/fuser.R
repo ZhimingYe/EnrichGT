@@ -6,65 +6,76 @@ setMethod(
   "cpres_internal_getter",
   signature(x = "data.frame"),
   function(x, ...) {
-    x -> y
-    if (sum(colnames(x) == "NES") == 0) {
-      if (
-        sum(
-          colnames(y) %in%
-            c(
-              "ID",
-              "Description",
-              "GeneRatio",
-              "pvalue",
-              "p.adjust",
-              "geneID",
-              "Count"
-            )
-        ) !=
-          7
-      ) {
-        cli::cli_abort("At list contains needed columns")
-      }
-      if (dim(y)[1] == 0) {
-        cli::cli_abort("no enrichment result contains")
-      }
-      y <- y |>
-        dplyr::select(
-          ID,
-          Description,
-          GeneRatio,
-          pvalue,
-          p.adjust,
-          geneID,
-          Count
-        )
-      return(y)
-    } else {
-      if (
-        sum(
-          colnames(y) %in%
-            c(
-              "ID",
-              "Description",
-              "NES",
-              "pvalue",
-              "p.adjust",
-              "core_enrichment"
-            )
-        ) !=
-          6
-      ) {
-        cli::cli_abort("At list contains needed columns")
-      }
-      if (dim(y)[1] == 0) {
-        cli::cli_abort("no enrichment result contains")
-      }
-      y <- y |>
-        dplyr::select(ID, Description, NES, pvalue, p.adjust, core_enrichment)
-      return(y)
-    }
+    cpres_internal_getter_do(y = x, ...)
   }
 )
+setMethod(
+  "cpres_internal_getter",
+  signature(x = "EnrichGT_obj"),
+  function(x, ...) {
+    cpres_internal_getter_do(y = x@raw_enriched_result, ...)
+  }
+)
+
+
+cpres_internal_getter_do <- function(y, ...){
+  if (sum(colnames(y) == "NES") == 0) {
+    if (
+      sum(
+        colnames(y) %in%
+          c(
+            "ID",
+            "Description",
+            "GeneRatio",
+            "pvalue",
+            "p.adjust",
+            "geneID",
+            "Count"
+          )
+      ) !=
+        7
+    ) {
+      cli::cli_abort("At list contains needed columns")
+    }
+    if (dim(y)[1] == 0) {
+      cli::cli_abort("no enrichment result contains")
+    }
+    y <- y |>
+      dplyr::select(
+        ID,
+        Description,
+        GeneRatio,
+        pvalue,
+        p.adjust,
+        geneID,
+        Count
+      )
+    return(y)
+  } else {
+    if (
+      sum(
+        colnames(y) %in%
+          c(
+            "ID",
+            "Description",
+            "NES",
+            "pvalue",
+            "p.adjust",
+            "core_enrichment"
+          )
+      ) !=
+        6
+    ) {
+      cli::cli_abort("At list contains needed columns")
+    }
+    if (dim(y)[1] == 0) {
+      cli::cli_abort("no enrichment result contains")
+    }
+    y <- y |>
+      dplyr::select(ID, Description, NES, pvalue, p.adjust, core_enrichment)
+    return(y)
+  }
+}
 
 #' 2-Group Comparison of enrichment results and further clustering and visualizing
 #'
