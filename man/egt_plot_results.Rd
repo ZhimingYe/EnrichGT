@@ -10,6 +10,7 @@ egt_plot_results(
   showIDs = F,
   max_len_descript = 40,
   keepAll = F,
+  maskNoise = 5,
   ...,
   P.adj = NULL
 )
@@ -25,9 +26,11 @@ egt_plot_results(
 
 \item{keepAll}{Do filtering to avoid overlap of same genes or not}
 
+\item{maskNoise}{(Only works with re-enriched object) Cut-off value to mask rare population in cluster tree. Less than its value in a specifc child tree will be ignore (because it may hit only by coincidence). Set maskNoise = 0 to ignore this.}
+
 \item{...}{Other param}
 
-\item{P.adj}{If pass an origin data.frame from original enriched result, you can specify the P-adjust value cut off. If is null, default is 0.05. When passing `EnrichGT_obj`, this filter is previously done by `egt_recluster_analysis`.}
+\item{P.adj}{(Only works with origin data.frame) If pass an origin data.frame from original enriched result, you can specify the P-adjust value cut off. If is null, default is 0.05. When passing `EnrichGT_obj`, this filter is previously done by `egt_recluster_analysis`.}
 
 \item{low.col}{the color for the lowest}
 

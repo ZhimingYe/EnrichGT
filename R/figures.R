@@ -9,7 +9,8 @@
 #' @param hi.col the color for the highest
 #' @param max_len_descript the label format length, default as 40.
 #' @param keepAll Do filtering to avoid overlap of same genes or not
-#' @param P.adj If pass an origin data.frame from original enriched result, you can specify the P-adjust value cut off. If is null, default is 0.05. When passing `EnrichGT_obj`, this filter is previously done by `egt_recluster_analysis`.
+#' @param maskNoise (Only works with re-enriched object) Cut-off value to mask rare population in cluster tree. Less than its value in a specifc child tree will be ignore (because it may hit only by coincidence). Set maskNoise = 0 to ignore this.
+#' @param P.adj (Only works with origin data.frame) If pass an origin data.frame from original enriched result, you can specify the P-adjust value cut off. If is null, default is 0.05. When passing `EnrichGT_obj`, this filter is previously done by `egt_recluster_analysis`.
 #' @param ... Other param
 #'
 #' @returns a ggplot2 object
@@ -43,6 +44,7 @@ egt_plot_results <- function(
   showIDs = F,
   max_len_descript = 40,
   keepAll = F,
+  maskNoise = 5,
   ...,
   P.adj = NULL
 ) {
@@ -58,6 +60,18 @@ egt_plot_results <- function(
         "Found a fused EnrichGT_obj, you can set showIDs=T to show the source database the pathways from. "
       )
     }
+    tryCatch(
+      {
+        if (maskNoise > 0) {
+          ttt0 <- table(x@enriched_result$Cluster)
+          x@enriched_result <- x@enriched_result |>
+            dplyr::filter(Cluster %in% names(ttt0)[ttt0 > maskNoise])
+        }
+      },
+      error = function(e)
+        cli::cli_abort("Not an EnrichGT_obj. or `maskNoise` param is too big")
+    )
+
     if (sum(colnames(x@enriched_result) == "absNES") == 0) {
       figure0 <- ORA2dp(
         x,
