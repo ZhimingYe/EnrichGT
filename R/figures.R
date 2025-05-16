@@ -44,7 +44,7 @@ egt_plot_results <- function(
   showIDs = F,
   max_len_descript = 40,
   keepAll = F,
-  maskNoise = 5,
+  maskNoise = 3,
   ...,
   P.adj = NULL
 ) {
@@ -62,6 +62,9 @@ egt_plot_results <- function(
     }
     tryCatch(
       {
+        if(maskNoise > ntop){
+          stop("`maskNoise` should not be greater than `ntop`")
+        }
         if (maskNoise > 0) {
           ttt0 <- table(x@enriched_result$Cluster)
           x@enriched_result <- x@enriched_result |>
