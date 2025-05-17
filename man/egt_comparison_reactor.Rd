@@ -2,106 +2,94 @@
 % Please edit documentation in R/multicpr.R
 \name{egt_comparison_reactor}
 \alias{egt_comparison_reactor}
-\title{EnrichGT Comparison Reactor}
+\title{Framework for comparing and analyzing enrichment results
+across multiple groups}
 \usage{
 egt_comparison_reactor(Type = NULL)
 }
-\arguments{
-\item{method}{Character(1). Enrichment analysis type to compare. Must be one of:
-\describe{
-  \item{"ORA"}{Over-Representation Analysis}
-  \item{"GSEA"}{Gene Set Enrichment Analysis}
-}}
-}
-\value{
-An R6 object of class \code{egt_comparison_reactor} with the following public methods and active bindings:
-
-## Public Methods
-\describe{
-  \item{\code{append_enriched_result(result, name)}}{
-    Add an enrichment result data frame to the reactor.  
-    \itemize{
-      \item \code{result}: a \code{data.frame} or \code{tibble} of enrichment results (must contain at least columns \code{term}, \code{p.adjust}, and any score/statistic).
-      \item \code{name}: character scalar; group identifier under which to store this result.
-    }
-  }
-
-  \item{\code{prefilter_by_p_adj(threshold)}}{
-    Filter all stored enrichment tables so that only rows with \code{p.adjust} < \code{threshold} remain.
-    \itemize{
-      \item \code{threshold}: numeric scalar between 0 and 1.
-    }
-  }
-
-  \item{\code{make_plans(groups = NULL)}}{
-    Compute a term-by-group distance matrix and perform hierarchical clustering with complete linkage.  
-    \itemize{
-      \item \code{groups}: character vector of group names to include; if \code{NULL}, all appended groups are used.
-    }
-    The resulting dendrogram and cut assignments are stored in the active binding \code{plans}.
-  }
-
-  \item{\code{find_relationship(k)}}{
-    Cut the dendrogram produced by \code{make_plans} into \code{k} clusters and return a named integer vector of cluster memberships.  
-    \itemize{
-      \item \code{k}: integer; number of clusters to cut into.
-    }
-  }
-}
-
-## Active Bindings
-\describe{
-  \item{\code{plans}}{A list containing:
-    \itemize{
-      \item \code{dists}: pairwise distance matrix
-      \item \code{hclust}: the hierarchical clustering object
-      \item \code{groups}: names of groups included
-    }
-  }
-
-  \item{\code{clusters}}{An integer table of current cluster sizes, updated each time \code{find_relationship()} is called.}
-}
-}
 \description{
-Create and manage an EnrichGT comparison reactor object for comparing multiple enrichment results
+Framework for comparing and analyzing enrichment results
+across multiple groups
 }
-\details{
-This function constructs an R6-based “comparison reactor” that allows you to:
-1. Append one or more enrichment results (ORA or GSEA) as named groups  
-2. Pre-filter all groups by adjusted p-value  
-3. Generate clustering “plans” over selected groups  
-4. Find relationships among enrichment terms via k-means of the distance matrix
+\section{Methods}{
 
-
-The comparison reactor is useful when you have multiple sets of enrichment results (e.g., from different conditions or cell types) and wish to:
-- Compare enriched terms across those sets  
-- Visually inspect term clustering  
-- Extract consistent modules of related terms  
-
-Under the hood, it converts each term set into a binary presence/absence matrix across groups, computes Euclidean distances, and uses complete linkage clustering.
+\describe{
+  
+  \item{\code{append_enriched_result(result, group_name)}}{
+    Add enrichment results to the reactor.
+     -  result Data.frame of enrichment results (must contain p-value/adjusted p-value columns)
+     -  group_name Character string naming the group for these results
+  }
+  
+  \item{\code{prefilter_by_p_adj(padj_cutoff)}}{
+    Filter enrichment results by adjusted p-value cutoff.
+     -  padj_cutoff Numeric cutoff for adjusted p-values (default 0.05)
+  }
+  
+  \item{\code{prefilter_by_NES(NES_cutoff)}}{
+    (For GSEA only) Filter results by normalized enrichment score cutoff.
+     -  NES_cutoff Numeric cutoff for absolute NES values (default 1)
+  }
+  
+  \item{\code{make_plans(group, use_value = "p")}}{
+    Create comparison plans between specified groups.
+     -  group Character vector of group names to compare
+     -  use_value Which value to use for comparison ("p" for p-value or "padj" for adjusted p-value)
+  }
+  
+  \item{\code{find_relationship(Num = 3, dist_method = "euclidean", hclust_method = "ward.D2")}}{
+    Identify relationships between enriched terms across groups.
+     -  Num Number of top terms to consider from each group
+     -  dist_method Distance method for clustering (default "euclidean")
+     -  hclust_method Hierarchical clustering method (default "ward.D2")
+  }
+  
+  \item{\code{fetch_biological_theme()}}{
+    Generate wordcloud visualization of biological themes.
+     - return List containing ggplot2 wordcloud objects
+  }
+  
+  \item{\code{split_by_cluster()}}{
+    Split results by identified clusters for further analysis.
+  }
+  
+  \item{\code{do_recluster(ClusterNum = 10, ...)}}{
+    Perform sub-clustering within existing clusters.
+     -  ClusterNum Number of sub-clusters to generate
+     -  ... Additional parameters passed to clustering functions
+  }
+  
+  \item{\code{get_recluster_result()}}{
+    Retrieve sub-clustering results.
+     - return List containing reclustering results
+  }
+  
+  \item{\code{fetch_relationship()}}{
+    Retrieve relationship data between terms.
+     - return Data.frame containing term relationships and cluster assignments
+  }
 }
+}
+
 \examples{
 \dontrun{
-# Initialize reactor for ORA results
-kk <- egt_comparison_reactor("ORA")
+# ORA example
+reactor <- egt_comparison_reactor("ORA")
+reactor$append_enriched_result(ora_result1, "group_1_go")
+reactor$append_enriched_result(ora_result3, "group_3_go")
+reactor$prefilter_by_p_adj(0.05)
+reactor$make_plans(group = c("group_1_go","group_3_go"), use_value = "p")
+reactor$find_relationship(Num = 3)
+wordcloudFigure <- reactor$fetch_biological_theme()
+wordcloudFigure[[1]]
+reactor$split_by_cluster()
+reactor$do_recluster(ClusterNum = 10)
+cls_res <- reactor$get_recluster_result()
+relation_df <- reactor$fetch_relationship()
 
-# Append three ORA tables
-kk$append_enriched_result(ora_result1, "group_1_go")
-kk$append_enriched_result(ora_result2, "group_2_go")
-kk$append_enriched_result(ora_result3, "group_3_go")
-
-# Keep only terms with adj. p < 0.05
-kk$prefilter_by_p_adj(0.05)
-
-# Compute clustering plans over all groups
-kk$make_plans()
-
-# Or only over group 1 and 3
-kk$make_plans(c("group_1_go", "group_3_go"))
-
-# Cut into 6 clusters and inspect sizes
-membership <- kk$find_relationship(6)
-print(table(membership))
+# GSEA example
+gsea_reactor <- egt_comparison_reactor("GSEA")
+gsea_reactor$prefilter_by_NES(1.5)
 }
 
 }

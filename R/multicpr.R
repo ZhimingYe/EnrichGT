@@ -1,100 +1,92 @@
-#' EnrichGT Comparison Reactor
+
 #'
-#' Create and manage an EnrichGT comparison reactor object for comparing multiple enrichment results
+#' Framework for comparing and analyzing enrichment results
+#' across multiple groups
 #'
-#' This function constructs an R6-based “comparison reactor” that allows you to:
-#' 1. Append one or more enrichment results (ORA or GSEA) as named groups  
-#' 2. Pre-filter all groups by adjusted p-value  
-#' 3. Generate clustering “plans” over selected groups  
-#' 4. Find relationships among enrichment terms via k-means of the distance matrix  
-#'
-#' @param method Character(1). Enrichment analysis type to compare. Must be one of:
-#'   \describe{
-#'     \item{"ORA"}{Over-Representation Analysis}
-#'     \item{"GSEA"}{Gene Set Enrichment Analysis}
-#'   }
-#'
-#' @return An R6 object of class \code{egt_comparison_reactor} with the following public methods and active bindings:
-#' @return 
-#' ## Public Methods
+#' @section Methods:
 #' \describe{
-#'   \item{\code{append_enriched_result(result, name)}}{
-#'     Add an enrichment result data frame to the reactor.  
-#'     \itemize{
-#'       \item \code{result}: a \code{data.frame} or \code{tibble} of enrichment results (must contain at least columns \code{term}, \code{p.adjust}, and any score/statistic).
-#'       \item \code{name}: character scalar; group identifier under which to store this result.
-#'     }
+#'   
+#'   \item{\code{append_enriched_result(result, group_name)}}{
+#'     Add enrichment results to the reactor.
+#'      -  result Data.frame of enrichment results (must contain p-value/adjusted p-value columns)
+#'      -  group_name Character string naming the group for these results
 #'   }
-#'
-#'   \item{\code{prefilter_by_p_adj(threshold)}}{
-#'     Filter all stored enrichment tables so that only rows with \code{p.adjust} < \code{threshold} remain.
-#'     \itemize{
-#'       \item \code{threshold}: numeric scalar between 0 and 1.
-#'     }
+#'   
+#'   \item{\code{prefilter_by_p_adj(padj_cutoff)}}{
+#'     Filter enrichment results by adjusted p-value cutoff.
+#'      -  padj_cutoff Numeric cutoff for adjusted p-values (default 0.05)
 #'   }
-#'
-#'   \item{\code{make_plans(groups = NULL)}}{
-#'     Compute a term-by-group distance matrix and perform hierarchical clustering with complete linkage.  
-#'     \itemize{
-#'       \item \code{groups}: character vector of group names to include; if \code{NULL}, all appended groups are used.
-#'     }
-#'     The resulting dendrogram and cut assignments are stored in the active binding \code{plans}.
+#'   
+#'   \item{\code{prefilter_by_NES(NES_cutoff)}}{
+#'     (For GSEA only) Filter results by normalized enrichment score cutoff.
+#'      -  NES_cutoff Numeric cutoff for absolute NES values (default 1)
 #'   }
-#'
-#'   \item{\code{find_relationship(k)}}{
-#'     Cut the dendrogram produced by \code{make_plans} into \code{k} clusters and return a named integer vector of cluster memberships.  
-#'     \itemize{
-#'       \item \code{k}: integer; number of clusters to cut into.
-#'     }
+#'   
+#'   \item{\code{make_plans(group, use_value = "p")}}{
+#'     Create comparison plans between specified groups.
+#'      -  group Character vector of group names to compare
+#'      -  use_value Which value to use for comparison ("p" for p-value or "padj" for adjusted p-value)
+#'   }
+#'   
+#'   \item{\code{find_relationship(Num = 3, dist_method = "euclidean", hclust_method = "ward.D2")}}{
+#'     Identify relationships between enriched terms across groups.
+#'      -  Num Number of top terms to consider from each group
+#'      -  dist_method Distance method for clustering (default "euclidean")
+#'      -  hclust_method Hierarchical clustering method (default "ward.D2")
+#'   }
+#'   
+#'   \item{\code{fetch_biological_theme()}}{
+#'     Generate wordcloud visualization of biological themes.
+#'      - return List containing ggplot2 wordcloud objects
+#'   }
+#'   
+#'   \item{\code{split_by_cluster()}}{
+#'     Split results by identified clusters for further analysis.
+#'   }
+#'   
+#'   \item{\code{do_recluster(ClusterNum = 10, ...)}}{
+#'     Perform sub-clustering within existing clusters.
+#'      -  ClusterNum Number of sub-clusters to generate
+#'      -  ... Additional parameters passed to clustering functions
+#'   }
+#'   
+#'   \item{\code{get_recluster_result()}}{
+#'     Retrieve sub-clustering results.
+#'      - return List containing reclustering results
+#'   }
+#'   
+#'   \item{\code{fetch_relationship()}}{
+#'     Retrieve relationship data between terms.
+#'      - return Data.frame containing term relationships and cluster assignments
 #'   }
 #' }
 #'
-#' ## Active Bindings
-#' \describe{
-#'   \item{\code{plans}}{A list containing:
-#'     \itemize{
-#'       \item \code{dists}: pairwise distance matrix
-#'       \item \code{hclust}: the hierarchical clustering object
-#'       \item \code{groups}: names of groups included
-#'     }
-#'   }
-#'
-#'   \item{\code{clusters}}{An integer table of current cluster sizes, updated each time \code{find_relationship()} is called.}
-#' }
-#'
-#' @details
-#' The comparison reactor is useful when you have multiple sets of enrichment results (e.g., from different conditions or cell types) and wish to:
-#' - Compare enriched terms across those sets  
-#' - Visually inspect term clustering  
-#' - Extract consistent modules of related terms  
-#'
-#' Under the hood, it converts each term set into a binary presence/absence matrix across groups, computes Euclidean distances, and uses complete linkage clustering.  
-#'
+#' @importFrom R6 R6Class
 #' @examples
 #' \dontrun{
-#' # Initialize reactor for ORA results
-#' kk <- egt_comparison_reactor("ORA")
-#'
-#' # Append three ORA tables
-#' kk$append_enriched_result(ora_result1, "group_1_go")
-#' kk$append_enriched_result(ora_result2, "group_2_go")
-#' kk$append_enriched_result(ora_result3, "group_3_go")
-#'
-#' # Keep only terms with adj. p < 0.05
-#' kk$prefilter_by_p_adj(0.05)
-#'
-#' # Compute clustering plans over all groups
-#' kk$make_plans()
-#'
-#' # Or only over group 1 and 3
-#' kk$make_plans(c("group_1_go", "group_3_go"))
-#'
-#' # Cut into 6 clusters and inspect sizes
-#' membership <- kk$find_relationship(6)
-#' print(table(membership))
+#' # ORA example
+#' reactor <- egt_comparison_reactor("ORA")
+#' reactor$append_enriched_result(ora_result1, "group_1_go")
+#' reactor$append_enriched_result(ora_result3, "group_3_go")
+#' reactor$prefilter_by_p_adj(0.05)
+#' reactor$make_plans(group = c("group_1_go","group_3_go"), use_value = "p")
+#' reactor$find_relationship(Num = 3)
+#' wordcloudFigure <- reactor$fetch_biological_theme()
+#' wordcloudFigure[[1]]
+#' reactor$split_by_cluster()
+#' reactor$do_recluster(ClusterNum = 10)
+#' cls_res <- reactor$get_recluster_result()
+#' relation_df <- reactor$fetch_relationship()
+#' 
+#' # GSEA example
+#' gsea_reactor <- egt_comparison_reactor("GSEA")
+#' gsea_reactor$prefilter_by_NES(1.5)
 #' }
-#'
+#' 
+#' @importFrom R6 R6Class
+#' @importFrom cowplot plot_grid
 #' @export
+
 egt_comparison_reactor <- function(Type = NULL) {
   error00 <- function() {
     cli::cli_alert_danger(
@@ -119,8 +111,6 @@ egt_comparison_reactor <- function(Type = NULL) {
   kk
 }
 
-
-#' @importFrom R6 R6Class
 comparison_reactor_base <- R6::R6Class(
   "comparison_reactor_base",
   public = list(
@@ -186,7 +176,7 @@ comparison_reactor_base <- R6::R6Class(
     find_relationship = function(
       Num,
       dist_method = "euclidean",
-      hclust_method = "complete",
+      hclust_method = "ward.D2",
       ...
     ) {
       # Get data from agg_df
@@ -213,6 +203,7 @@ comparison_reactor_base <- R6::R6Class(
         "Clustering with {dist_method} distance and {hclust_method} linkage, cut into {Num} clusters"
       ))
       print(table(clusters))
+
       base_pheatmap(
         mat,
         cluster_rows = hc,
@@ -220,7 +211,7 @@ comparison_reactor_base <- R6::R6Class(
         show_rownames = F,
         ...
       )
-
+      .egt_mcp_helper_best_cluster(clusters)
       invisible(self)
     },
     fetch_relationship = function() {
@@ -242,15 +233,105 @@ comparison_reactor_base <- R6::R6Class(
         all.x = TRUE
       )
       result_df <- tibble::as_tibble(result_df)
+
       return(result_df)
     },
-    do_recluster = function(...) {
-      # todo
-      NULL
+    fetch_biological_theme = function(...) {
+      df_export <- self$fetch_relationship()
+      keep_CLS <- .egt_mcp_helper_best_cluster(df_export$Cluster)
+
+      df_export2 <- df_export |> dplyr::filter(Cluster %in% keep_CLS)
+      df_export2_list <- split(df_export2$CPRID, df_export2$Cluster)
+      lapply(df_export2_list, function(x) {
+        if (length(x) <= 3) {
+          cli::cli_abort("Too small population. You can view data directly")
+        }
+      })
+      figlist <- lapply(df_export2_list, wordcloud_generator2)
+      figlist2 <- lapply(figlist, function(x) ggplotGrob(x))
+      figout <- cowplot::plot_grid(
+        plotlist = figlist2,
+        ncol = 1,
+        align = "h"
+      )
+      print(figout)
+      invisible(figlist)
     },
-    fetch_recluster_results = function() {
-      # todo
-      NULL
+    split_by_cluster = function(...) {
+      df_export <- self$fetch_relationship()
+      keep_CLS <- .egt_mcp_helper_best_cluster(df_export$Cluster)
+      df_export <- df_export |> dplyr::filter(Cluster %in% keep_CLS)
+      aalist <- private$raw_enriched_result
+      finalList <- list()
+      for (i in names(table(df_export$Cluster))) {
+        sub_cls_df <- df_export |> dplyr::filter(Cluster %in% i)
+        if (nrow(sub_cls_df) <= 3) {
+          next
+        }
+        for (j in names(aalist)) {
+          bb0 <- aalist[[j]] |> dplyr::filter(CPRID %in% sub_cls_df$CPRID)
+          if (nrow(bb0) <= 5) {
+            next
+          }
+          cc0 <- private$group_name
+          j1 <- cc0[cc0$Index == j, "Group", drop = T]
+          finalList[[glue::glue("Data#{j1}|Cluster#{i}")]] <- bb0
+        }
+      }
+      private$final_result <- finalList
+      invisible(self)
+    },
+    get_splited_list = function() {
+      if (length(private$result) < 0) {
+        cli::cli_abort(
+          "Please run previous analysis. This should run after `split_by_cluster()` already executed. "
+        )
+      }
+      private$final_result
+    },
+    do_recluster = function(
+      ClusterNum = 10,
+      P.adj = 0.05,
+      force = F,
+      nTop = 10,
+      method = "ward.D2",
+      ...
+    ) {
+      if (length(private$final_result) < 0) {
+        cli::cli_abort(
+          "Please run previous analysis. This should run after `split_by_cluster()` already executed. "
+        )
+      }
+      resList <- private$final_result
+      resList2 <- lapply(
+        resList,
+        function(x)
+          tryCatch(
+            {
+              egt_recluster_analysis(
+                x = x,
+                ClusterNum = ClusterNum,
+                P.adj = P.adj,
+                force = force,
+                nTop = nTop,
+                method = method,
+                ...
+              )
+            },
+            error = function(e) list()
+          )
+      )
+      names(resList2) <- names(resList)
+      private$recluster_result <- resList2
+      invisible(self)
+    },
+    get_recluster_result = function() {
+      if (length(private$recluster_result) < 0) {
+        cli::cli_abort(
+          "Please run previous analysis. This should run after `do_recluster()` already executed. "
+        )
+      }
+      private$recluster_result
     },
     print = function(...) {
       self$summarize()
@@ -265,6 +346,8 @@ comparison_reactor_base <- R6::R6Class(
     summary_stats = data.frame(),
     type = "Unknown",
     dendrogram = list(),
+    final_result = list(),
+    recluster_result = list(),
     check_appended_data = function() {
       if (sum(private$group_name$Group != "Initial") < 2) {
         cli::cli_abort(
@@ -325,7 +408,8 @@ comparison_reactor_ora <- R6::R6Class(
       super$initialize()
       private$type <- "ORA"
     },
-    make_plans = function(x = "auto", use_value = "p") {
+    make_plans = function(group = "auto", use_value = "p") {
+      group -> x
       private$make_plans_internal(x = x, use_value = use_value)
       invisible(self)
     }
@@ -341,7 +425,8 @@ comparison_reactor_gsea <- R6::R6Class(
       super$initialize()
       private$type <- "GSEA"
     },
-    make_plans = function(x = "auto", use_value = "NES") {
+    make_plans = function(group = "auto", use_value = "NES") {
+      group -> x
       private$make_plans_internal(x = x, use_value = use_value)
       invisible(self)
     },
@@ -379,6 +464,19 @@ comparison_reactor_gsea <- R6::R6Class(
   use_what0
 }
 
+.egt_mcp_helper_best_cluster <- function(clusters) {
+  cluster_count <- table(clusters)
+  keep_CLS <- names(cluster_count)[cluster_count >= 5]
+  cli::cli_alert_success(glue::glue(
+    "Suggest include: {paste(keep_CLS,collapse = ',')}"
+  ))
+  excluded_CLS <- names(cluster_count)[cluster_count < 5]
+  cli::cli_alert_danger(glue::glue(
+    "Suggest exclude: {paste(excluded_CLS,collapse = ',')}"
+  ))
+  invisible(keep_CLS)
+}
+
 
 base_pheatmap <- function(
   mat,
@@ -387,7 +485,7 @@ base_pheatmap <- function(
   cutree_rows = NULL,
   show_rownames = TRUE,
   show_colnames = TRUE,
-  color = RColorBrewer::brewer.pal(11, "RdYlBu"),
+  color = RColorBrewer::brewer.pal(11, "Spectral"),
   legend = TRUE,
   legend_pos = "topright",
   ...
@@ -399,13 +497,16 @@ base_pheatmap <- function(
   }
   if (!is.null(cutree_rows) && inherits(cluster_rows, "hclust")) {
     row_groups <- stats::cutree(cluster_rows, k = cutree_rows)
-    side_colors <- grDevices::rainbow(cutree_rows)[row_groups]
+    side_colors <- cocol(cutree_rows, 3)[row_groups]
   } else {
     side_colors <- NULL
   }
   labRow <- if (show_rownames) rownames(mat) else NA
   labCol <- if (show_colnames) colnames(mat) else NA
-  cols <- grDevices::colorRampPalette(color)(100)
+  cols <- grDevices::colorRampPalette(color)(100) |> rev()
+  colsA <- cols[1]
+  colsB <- cols[length(cols)]
+  # cols <- c(rep(colsA, 1), cols, rep(colsB, 1)) |> rev()
   brks <- seq(from = min(mat), to = max(mat), length.out = length(cols) + 1)
   stats::heatmap(
     mat,
@@ -416,17 +517,17 @@ base_pheatmap <- function(
     col = cols,
     breaks = brks,
     RowSideColors = side_colors,
-    scale  = "none",
-    margins = c(5, 5), 
-  cexRow  = 0.6,
-  cexCol  = 0.8 ,
+    scale = "none",
+    margins = c(5, 5),
+    cexRow = 0.6,
+    cexCol = 0.8,
     ...
   )
   if (legend && !is.null(cutree_rows) && inherits(cluster_rows, "hclust")) {
-    legend(
+    graphics::legend(
       legend_pos,
       legend = paste0("Cluster ", seq_len(cutree_rows)),
-      fill = rainbow(cutree_rows),
+      fill = cocol(cutree_rows, 3),
       border = NA,
       bty = "n",
       xpd = T,
@@ -435,3 +536,66 @@ base_pheatmap <- function(
   }
 }
 
+
+#' @importFrom ggplot2 ggplot theme_minimal element_rect scale_color_gradient
+#' @importFrom ggwordcloud geom_text_wordcloud_area
+wordcloud_generator2 <- function(
+  sentences,
+  max_words = 100,
+  remove_stop = TRUE,
+  stopwords = NULL,
+  min_freq = 1,
+  bg_color = "white",
+  ...
+) {
+  txt <- tolower(paste(sentences, collapse = " "))
+  txt <- gsub("[[:punct:]]|[[:digit:]]", " ", txt)
+  words <- unlist(strsplit(txt, "\\s+"))
+  if (remove_stop) {
+    if (is.null(stopwords)) {
+      stopwords <- c(
+        stp_wds(),
+        "system",
+        "positive",
+        "negative",
+        "cell",
+        "pathway",
+        "regulation",
+        "type",
+        "c",
+        "p",
+        "pp",
+        "k",
+        "ier",
+        "l"
+      )
+    }
+    words <- words[!words %in% stopwords]
+  }
+  words <- words[nzchar(words)]
+  freq <- sort(table(words), decreasing = TRUE)
+  freq <- freq[freq >= min_freq]
+  if (length(freq) > max_words) freq <- head(freq, max_words)
+  df <- data.frame(word = names(freq), freq = as.numeric(freq))
+
+  ggplot(df, aes(label = word, size = freq, colour = freq)) +
+    ggwordcloud::geom_text_wordcloud_area(
+      rm_outside = TRUE,
+      shape = "circle",
+      eccentricity = 0.6
+    ) +
+    scale_size_area(max_size = 12) +
+    scale_color_gradient(low = "steelblue", high = "darkred") +
+    theme_minimal() +
+    theme(
+      panel.background = element_rect(fill = bg_color, colour = NA),
+      legend.position = "none",
+      ...
+    )
+}
+
+
+stp_wds <- function() {
+  data(stopWords_list, package = "EnrichGT", envir = db_getter_env)
+  db_getter_env$stopWords_list
+}
