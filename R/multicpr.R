@@ -55,8 +55,8 @@ comparison_reactor_base <- R6::R6Class(
       aa <- rbind(aa, new_info)
 
       private$raw_enriched_result -> bb
-      tdf <- cpres_internal_getter(x) |>
-        .egt_mcp_helper_wash_p_val(type = "default")
+      tdf <- cpres_internal_getter(x)
+      tdf <- .egt_mcp_helper_wash_p_val(tdf, type = "default")
       if (nrow(tdf) < 10) {
         cli::cli_abort("Invalid input. ")
       }
@@ -65,6 +65,8 @@ comparison_reactor_base <- R6::R6Class(
 
       private$group_name <- aa
       private$raw_enriched_result <- bb
+
+      cli::cli_alert_success(glue::glue("Appended data into group {group}."))
       invisible(self)
     },
     summarize = function() {
@@ -198,7 +200,7 @@ comparison_reactor_base <- R6::R6Class(
           cli::cli_abort(glue::glue(
             "Please check the input, can't find column: {use_what0}"
           ))
-        d1 <- list0[[q]] |> dplyr::select(CPRID, !!sym(use_what0))
+        d1 <- list0[[q]] |> dplyr::select(CPRID, !!dplyr::sym(use_what0))
         colnames(d1)[2] <- paste0(q, "|", use_what0)
         d1
       })
@@ -262,7 +264,7 @@ comparison_reactor_gsea <- R6::R6Class(
 
 .egt_mcp_helper_wash_p_val <- function(x, type) {
   if (type == "default") {
-    x |>
+    x <- x |>
       dplyr::filter(!duplicated(Description)) |>
       dplyr::mutate(p_Adj = -log10(p.adjust))
   }
@@ -327,25 +329,3 @@ base_pheatmap <- function(
   }
 }
 
-
-# # 创建测试数据
-# set.seed(123)
-# mat <- matrix(rnorm(100), 10000, 5)
-# rownames(mat) <- paste0("Gene", 1:10000)
-# colnames(mat) <- paste0("Sample", 1:5)
-
-# # 绘制热图
-# base_pheatmap(mat, cluster_rows = TRUE, cutree_rows = 3)
-
-# kkk <- comparison_reactor_ora$new()
-# kk <- egt_comparison_reactor("ORA")
-# kk$append_enriched_result(ora_result1, "group_1_go")
-# kk$append_enriched_result(ora_result3, "group_2_go")
-# kk$append_enriched_result(ora_result3, "group_3_go")
-# kk$prefilter_by_p_adj(0.05)
-# kk$make_plans()
-# kk$make_plans(c("group_1_go","group_3_go"))
-# kk$find_relationship(3)
-# kk$fetch_relationship()
-
-# a20 <- a2
