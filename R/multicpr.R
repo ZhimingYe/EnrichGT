@@ -1,5 +1,102 @@
+#' EnrichGT Comparison Reactor
+#'
+#' Create and manage an EnrichGT comparison reactor object for comparing multiple enrichment results
+#'
+#' This function constructs an R6-based “comparison reactor” that allows you to:
+#' 1. Append one or more enrichment results (ORA or GSEA) as named groups  
+#' 2. Pre-filter all groups by adjusted p-value  
+#' 3. Generate clustering “plans” over selected groups  
+#' 4. Find relationships among enrichment terms via k-means of the distance matrix  
+#'
+#' @param method Character(1). Enrichment analysis type to compare. Must be one of:
+#'   \describe{
+#'     \item{"ORA"}{Over-Representation Analysis}
+#'     \item{"GSEA"}{Gene Set Enrichment Analysis}
+#'   }
+#'
+#' @return An R6 object of class \code{egt_comparison_reactor} with the following public methods and active bindings:
+#' @return 
+#' ## Public Methods
+#' \describe{
+#'   \item{\code{append_enriched_result(result, name)}}{
+#'     Add an enrichment result data frame to the reactor.  
+#'     \itemize{
+#'       \item \code{result}: a \code{data.frame} or \code{tibble} of enrichment results (must contain at least columns \code{term}, \code{p.adjust}, and any score/statistic).
+#'       \item \code{name}: character scalar; group identifier under which to store this result.
+#'     }
+#'   }
+#'
+#'   \item{\code{prefilter_by_p_adj(threshold)}}{
+#'     Filter all stored enrichment tables so that only rows with \code{p.adjust} < \code{threshold} remain.
+#'     \itemize{
+#'       \item \code{threshold}: numeric scalar between 0 and 1.
+#'     }
+#'   }
+#'
+#'   \item{\code{make_plans(groups = NULL)}}{
+#'     Compute a term-by-group distance matrix and perform hierarchical clustering with complete linkage.  
+#'     \itemize{
+#'       \item \code{groups}: character vector of group names to include; if \code{NULL}, all appended groups are used.
+#'     }
+#'     The resulting dendrogram and cut assignments are stored in the active binding \code{plans}.
+#'   }
+#'
+#'   \item{\code{find_relationship(k)}}{
+#'     Cut the dendrogram produced by \code{make_plans} into \code{k} clusters and return a named integer vector of cluster memberships.  
+#'     \itemize{
+#'       \item \code{k}: integer; number of clusters to cut into.
+#'     }
+#'   }
+#' }
+#'
+#' ## Active Bindings
+#' \describe{
+#'   \item{\code{plans}}{A list containing:
+#'     \itemize{
+#'       \item \code{dists}: pairwise distance matrix
+#'       \item \code{hclust}: the hierarchical clustering object
+#'       \item \code{groups}: names of groups included
+#'     }
+#'   }
+#'
+#'   \item{\code{clusters}}{An integer table of current cluster sizes, updated each time \code{find_relationship()} is called.}
+#' }
+#'
+#' @details
+#' The comparison reactor is useful when you have multiple sets of enrichment results (e.g., from different conditions or cell types) and wish to:
+#' - Compare enriched terms across those sets  
+#' - Visually inspect term clustering  
+#' - Extract consistent modules of related terms  
+#'
+#' Under the hood, it converts each term set into a binary presence/absence matrix across groups, computes Euclidean distances, and uses complete linkage clustering.  
+#'
+#' @examples
+#' \dontrun{
+#' # Initialize reactor for ORA results
+#' kk <- egt_comparison_reactor("ORA")
+#'
+#' # Append three ORA tables
+#' kk$append_enriched_result(ora_result1, "group_1_go")
+#' kk$append_enriched_result(ora_result2, "group_2_go")
+#' kk$append_enriched_result(ora_result3, "group_3_go")
+#'
+#' # Keep only terms with adj. p < 0.05
+#' kk$prefilter_by_p_adj(0.05)
+#'
+#' # Compute clustering plans over all groups
+#' kk$make_plans()
+#'
+#' # Or only over group 1 and 3
+#' kk$make_plans(c("group_1_go", "group_3_go"))
+#'
+#' # Cut into 6 clusters and inspect sizes
+#' membership <- kk$find_relationship(6)
+#' print(table(membership))
+#' }
+#'
+#' @export
 egt_comparison_reactor <- function(Type = NULL) {
-  error00 <- function(){
+  error00 <- function() {
     cli::cli_alert_danger(
       "When create a comparison analysis object, please pinpoint the type of this reactor: "
     )
@@ -11,9 +108,9 @@ egt_comparison_reactor <- function(Type = NULL) {
   if (is.null(Type) | sum(Type %in% c("ORA", "ora", "GSEA", "gsea")) != 1) {
     error00()
   } else {
-    if (Type == "ORA" | Type == "ora"){
+    if (Type == "ORA" | Type == "ora") {
       kk <- comparison_reactor_ora$new()
-    } else if(Type == "GSEA" | Type == "gsea"){
+    } else if (Type == "GSEA" | Type == "gsea") {
       kk <- comparison_reactor_gsea$new()
     } else {
       error00()
@@ -285,46 +382,55 @@ comparison_reactor_gsea <- R6::R6Class(
 
 base_pheatmap <- function(
   mat,
-  cluster_rows    = NULL, 
-  cluster_cols    = FALSE,
-  cutree_rows     = NULL, 
-  show_rownames   = TRUE,
-  show_colnames   = TRUE,
-  color           = heat.colors(100),
-  legend          = TRUE,
-  legend_pos      = "topright",
+  cluster_rows = NULL,
+  cluster_cols = FALSE,
+  cutree_rows = NULL,
+  show_rownames = TRUE,
+  show_colnames = TRUE,
+  color = RColorBrewer::brewer.pal(11, "RdYlBu"),
+  legend = TRUE,
+  legend_pos = "topright",
   ...
-){
+) {
   if (!is.null(cluster_rows) && inherits(cluster_rows, "hclust")) {
     rdend <- stats::as.dendrogram(cluster_rows)
   } else {
     rdend <- NA
   }
   if (!is.null(cutree_rows) && inherits(cluster_rows, "hclust")) {
-    row_groups  <- stats::cutree(cluster_rows, k = cutree_rows)
+    row_groups <- stats::cutree(cluster_rows, k = cutree_rows)
     side_colors <- grDevices::rainbow(cutree_rows)[row_groups]
   } else {
     side_colors <- NULL
   }
   labRow <- if (show_rownames) rownames(mat) else NA
   labCol <- if (show_colnames) colnames(mat) else NA
+  cols <- grDevices::colorRampPalette(color)(100)
+  brks <- seq(from = min(mat), to = max(mat), length.out = length(cols) + 1)
   stats::heatmap(
     mat,
-    Rowv          = rdend,
-    Colv          = if (cluster_cols) NULL else NA,
-    labRow        = labRow,
-    labCol        = labCol,
-    col           = color,
+    Rowv = rdend,
+    Colv = if (cluster_cols) NULL else NA,
+    labRow = labRow,
+    labCol = labCol,
+    col = cols,
+    breaks = brks,
     RowSideColors = side_colors,
+    scale  = "none",
+    margins = c(5, 5), 
+  cexRow  = 0.6,
+  cexCol  = 0.8 ,
     ...
   )
   if (legend && !is.null(cutree_rows) && inherits(cluster_rows, "hclust")) {
     legend(
       legend_pos,
       legend = paste0("Cluster ", seq_len(cutree_rows)),
-      fill   = rainbow(cutree_rows),
+      fill = rainbow(cutree_rows),
       border = NA,
-      bty    = "n"
+      bty = "n",
+      xpd = T,
+      cex = 0.5
     )
   }
 }

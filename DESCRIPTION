@@ -27,6 +27,7 @@ Imports:
     methods,
     proxy,
     qvalue,
+    R6,
     RColorBrewer,
     Rcpp,
     reactome.db,

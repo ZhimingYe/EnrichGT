@@ -10,7 +10,7 @@ egt_plot_results(
   showIDs = F,
   max_len_descript = 40,
   keepAll = F,
-  maskNoise = 5,
+  maskNoise = 3,
   ...,
   P.adj = NULL
 )
