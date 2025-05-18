@@ -61,7 +61,6 @@
 #'   }
 #' }
 #'
-#' @importFrom R6 R6Class
 #' @examples
 #' \dontrun{
 #' # ORA example
@@ -83,8 +82,9 @@
 #' gsea_reactor$prefilter_by_NES(1.5)
 #' }
 #' 
-#' @importFrom R6 R6Class
+#' 
 #' @importFrom cowplot plot_grid
+#' @importFrom R6 R6Class
 #' @export
 
 egt_comparison_reactor <- function(Type = NULL) {
@@ -567,7 +567,17 @@ wordcloud_generator2 <- function(
         "pp",
         "k",
         "ier",
-        "l"
+        "l",
+        "t",
+        "s",
+        "g",
+        "ii",
+        "via",
+        "cell",
+        "b",
+        "nf",
+        "cd",
+        "like"
       )
     }
     words <- words[!words %in% stopwords]
