@@ -111,14 +111,8 @@ test_that("GSEA analysis works", {
 })
 
 
-MultiDEGExample = list(
-  liver = degliver,
-  kidney = degkidney,
-  muscle = degmuscle,
-  pancreas = degpancreas,
-  spleen = degspleen
-)
 
+data("MultiDEGExample", package = "EnrichGT")
 ora_result_g1 <- egt_enrichment_analysis(
   genes = MultiDEGExample$liver |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1), 
   database = database_GO_BP(OrgDB = org.Hs.eg.db)
