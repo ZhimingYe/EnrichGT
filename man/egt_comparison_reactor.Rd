@@ -11,66 +11,10 @@ egt_comparison_reactor(Type = NULL)
 Framework for comparing and analyzing enrichment results
 across multiple groups
 }
-\section{Methods}{
-
-\describe{
-  
-  \item{\code{append_enriched_result(result, group_name)}}{
-    Add enrichment results to the reactor.
-     -  result Data.frame of enrichment results (must contain p-value/adjusted p-value columns)
-     -  group_name Character string naming the group for these results
-  }
-  
-  \item{\code{prefilter_by_p_adj(padj_cutoff)}}{
-    Filter enrichment results by adjusted p-value cutoff.
-     -  padj_cutoff Numeric cutoff for adjusted p-values (default 0.05)
-  }
-  
-  \item{\code{prefilter_by_NES(NES_cutoff)}}{
-    (For GSEA only) Filter results by normalized enrichment score cutoff.
-     -  NES_cutoff Numeric cutoff for absolute NES values (default 1)
-  }
-  
-  \item{\code{make_plans(group, use_value = "p")}}{
-    Create comparison plans between specified groups.
-     -  group Character vector of group names to compare
-     -  use_value Which value to use for comparison ("p" for p-value or "padj" for adjusted p-value)
-  }
-  
-  \item{\code{find_relationship(Num = 3, dist_method = "euclidean", hclust_method = "ward.D2")}}{
-    Identify relationships between enriched terms across groups.
-     -  Num Number of top terms to consider from each group
-     -  dist_method Distance method for clustering (default "euclidean")
-     -  hclust_method Hierarchical clustering method (default "ward.D2")
-  }
-  
-  \item{\code{fetch_biological_theme()}}{
-    Generate wordcloud visualization of biological themes.
-     - return List containing ggplot2 wordcloud objects
-  }
-  
-  \item{\code{split_by_cluster()}}{
-    Split results by identified clusters for further analysis.
-  }
-  
-  \item{\code{do_recluster(ClusterNum = 10, ...)}}{
-    Perform sub-clustering within existing clusters.
-     -  ClusterNum Number of sub-clusters to generate
-     -  ... Additional parameters passed to clustering functions
-  }
-  
-  \item{\code{get_recluster_result()}}{
-    Retrieve sub-clustering results.
-     - return List containing reclustering results
-  }
-  
-  \item{\code{fetch_relationship()}}{
-    Retrieve relationship data between terms.
-     - return Data.frame containing term relationships and cluster assignments
-  }
+\details{
+Type should be one of "ORA" or "GSEA". 
+For functions inside reactor, please see below 'See also' (in the bottom of this doc)
 }
-}
-
 \examples{
 \dontrun{
 # ORA example
@@ -87,9 +31,15 @@ reactor$do_recluster(ClusterNum = 10)
 cls_res <- reactor$get_recluster_result()
 relation_df <- reactor$fetch_relationship()
 
-# GSEA example
+# GSEA can do more with: 
 gsea_reactor <- egt_comparison_reactor("GSEA")
 gsea_reactor$prefilter_by_NES(1.5)
 }
 
+
+}
+\seealso{
+\code{\link{comparison_reactor_base}} for the base class documentation
+\code{\link{comparison_reactor_ora}} for ORA-specific functionality
+\code{\link{comparison_reactor_gsea}} for GSEA-specific functionality
 }

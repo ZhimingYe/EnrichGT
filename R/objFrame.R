@@ -5,7 +5,7 @@ setClass(
     genes_and_title = "list"
   )
 )
-
+setOldClass("gt_tbl")
 setOldClass("hclust")
 
 setClass(

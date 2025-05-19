@@ -2,65 +2,11 @@
 #'
 #' Framework for comparing and analyzing enrichment results
 #' across multiple groups
-#'
-#' @section Methods:
-#' \describe{
-#'   
-#'   \item{\code{append_enriched_result(result, group_name)}}{
-#'     Add enrichment results to the reactor.
-#'      -  result Data.frame of enrichment results (must contain p-value/adjusted p-value columns)
-#'      -  group_name Character string naming the group for these results
-#'   }
-#'   
-#'   \item{\code{prefilter_by_p_adj(padj_cutoff)}}{
-#'     Filter enrichment results by adjusted p-value cutoff.
-#'      -  padj_cutoff Numeric cutoff for adjusted p-values (default 0.05)
-#'   }
-#'   
-#'   \item{\code{prefilter_by_NES(NES_cutoff)}}{
-#'     (For GSEA only) Filter results by normalized enrichment score cutoff.
-#'      -  NES_cutoff Numeric cutoff for absolute NES values (default 1)
-#'   }
-#'   
-#'   \item{\code{make_plans(group, use_value = "p")}}{
-#'     Create comparison plans between specified groups.
-#'      -  group Character vector of group names to compare
-#'      -  use_value Which value to use for comparison ("p" for p-value or "padj" for adjusted p-value)
-#'   }
-#'   
-#'   \item{\code{find_relationship(Num = 3, dist_method = "euclidean", hclust_method = "ward.D2")}}{
-#'     Identify relationships between enriched terms across groups.
-#'      -  Num Number of top terms to consider from each group
-#'      -  dist_method Distance method for clustering (default "euclidean")
-#'      -  hclust_method Hierarchical clustering method (default "ward.D2")
-#'   }
-#'   
-#'   \item{\code{fetch_biological_theme()}}{
-#'     Generate wordcloud visualization of biological themes.
-#'      - return List containing ggplot2 wordcloud objects
-#'   }
-#'   
-#'   \item{\code{split_by_cluster()}}{
-#'     Split results by identified clusters for further analysis.
-#'   }
-#'   
-#'   \item{\code{do_recluster(ClusterNum = 10, ...)}}{
-#'     Perform sub-clustering within existing clusters.
-#'      -  ClusterNum Number of sub-clusters to generate
-#'      -  ... Additional parameters passed to clustering functions
-#'   }
-#'   
-#'   \item{\code{get_recluster_result()}}{
-#'     Retrieve sub-clustering results.
-#'      - return List containing reclustering results
-#'   }
-#'   
-#'   \item{\code{fetch_relationship()}}{
-#'     Retrieve relationship data between terms.
-#'      - return Data.frame containing term relationships and cluster assignments
-#'   }
-#' }
-#'
+#' 
+#' @details
+#' Type should be one of "ORA" or "GSEA". 
+#' For functions inside reactor, please see below 'See also' (in the bottom of this doc)
+#' 
 #' @examples
 #' \dontrun{
 #' # ORA example
@@ -77,12 +23,16 @@
 #' cls_res <- reactor$get_recluster_result()
 #' relation_df <- reactor$fetch_relationship()
 #' 
-#' # GSEA example
+#' # GSEA can do more with: 
 #' gsea_reactor <- egt_comparison_reactor("GSEA")
 #' gsea_reactor$prefilter_by_NES(1.5)
 #' }
 #' 
 #' 
+#' @seealso 
+#' \code{\link{comparison_reactor_base}} for the base class documentation
+#' \code{\link{comparison_reactor_ora}} for ORA-specific functionality
+#' \code{\link{comparison_reactor_gsea}} for GSEA-specific functionality
 #' @importFrom cowplot plot_grid
 #' @importFrom R6 R6Class
 #' @export
@@ -111,9 +61,27 @@ egt_comparison_reactor <- function(Type = NULL) {
   kk
 }
 
+#' Comparison Reactor Base
+#' 
+#' @description
+#' Typically created via \code{\link{egt_comparison_reactor}()}
+#' A framework for comparing and analyzing enrichment results across multiple groups.
+#' This is the base class that provides core functionality for both ORA and GSEA analysis.
+#'
+#' @details
+#' The comparison reactor allows:
+#' - Appending multiple enrichment results from different groups
+#' - Filtering results by p-value or NES score
+#' - Comparing results between groups
+#' - Identifying relationships between enriched terms
+#' - Visualizing biological themes
+#' - Sub-clustering results for deeper analysis
 comparison_reactor_base <- R6::R6Class(
   "comparison_reactor_base",
   public = list(
+    #' @description
+    #' Create a new comparison reactor base object
+    #' @param Type The analysis type ("ORA" or "GSEA")
     initialize = function(Type = NULL) {
       cli::cli_h1("EnrichGT comparison reactor")
       private$group_name <- tibble::tibble(
@@ -122,6 +90,16 @@ comparison_reactor_base <- R6::R6Class(
         Included = F
       )
     },
+    #' @description
+    #' Add enrichment results to the reactor
+    #' @param x Data.frame of enrichment results (must contain p-value/adjusted p-value columns)
+    #' @param group Character string naming the group for these results
+    #' @return The reactor object (invisible) for method chaining
+    #' @examples
+    #' \dontrun{
+    #' reactor <- egt_comparison_reactor("ORA")
+    #' reactor$append_enriched_result(ora_result1, "group1")
+    #' }
     append_enriched_result = function(x, group) {
       if (length(group) > 1) {
         cli::cli_abort("Please only include one group per time")
@@ -172,6 +150,8 @@ comparison_reactor_base <- R6::R6Class(
       cli::cli_alert_success(glue::glue("Appended data into group {group}."))
       invisible(self)
     },
+    #' @description 
+    #' Print summary of groups in reactor
     summarize = function() {
       tbl0 <- private$group_name
       tbl0 <- tbl0 |> dplyr::filter(Group != "Initial")
@@ -180,6 +160,14 @@ comparison_reactor_base <- R6::R6Class(
         "Will make comparasion of multiple {private$type} results. "
       ))
     },
+    #' @description
+    #' Filter enrichment results by adjusted p-value cutoff
+    #' @param x Numeric cutoff for adjusted p-values (default 0.05)
+    #' @return The reactor object (invisible) for method chaining
+    #' @examples
+    #' \dontrun{
+    #' reactor$prefilter_by_p_adj(0.01) # Use stricter cutoff
+    #' }
     prefilter_by_p_adj = function(x = 0.05) {
       private$check_appended_data()
       private$raw_enriched_result -> list0
@@ -189,6 +177,17 @@ comparison_reactor_base <- R6::R6Class(
       cli::cli_alert_success(glue::glue("Filter according to p adjust < {x}"))
       invisible(self)
     },
+    #' @description
+    #' Identify relationships between enriched terms across groups
+    #' @param Num Number of top terms to consider from each group
+    #' @param dist_method Distance method for clustering (default "euclidean")
+    #' @param hclust_method Hierarchical clustering method (default "ward.D2")
+    #' @param ... Additional parameters passed to heatmap function
+    #' @return The reactor object (invisible) for method chaining
+    #' @examples
+    #' \dontrun{
+    #' reactor$find_relationship(Num = 5, dist_method = "manhattan")
+    #' }
     find_relationship = function(
       Num,
       dist_method = "euclidean",
@@ -230,6 +229,14 @@ comparison_reactor_base <- R6::R6Class(
       .egt_mcp_helper_best_cluster(clusters)
       invisible(self)
     },
+    #' @description
+    #' Retrieve relationship data between terms
+    #' @return Data.frame containing term relationships and cluster assignments
+    #' @examples
+    #' \dontrun{
+    #' relation_df <- reactor$fetch_relationship()
+    #' head(relation_df)
+    #' }
     fetch_relationship = function() {
       if (is.null(private$cluster_results)) {
         cli::cli_abort("Please run find_relationship() first")
@@ -252,6 +259,15 @@ comparison_reactor_base <- R6::R6Class(
 
       return(result_df)
     },
+    #' @description
+    #' Generate wordcloud visualization of biological themes
+    #' @param ... Additional parameters passed to wordcloud generator
+    #' @return List containing ggplot2 wordcloud objects
+    #' @examples
+    #' \dontrun{
+    #' wordclouds <- reactor$fetch_biological_theme()
+    #' wordclouds[[1]] # View first wordcloud
+    #' }
     fetch_biological_theme = function(...) {
       df_export <- self$fetch_relationship()
       keep_CLS <- .egt_mcp_helper_best_cluster(df_export$Cluster)
@@ -273,6 +289,10 @@ comparison_reactor_base <- R6::R6Class(
       print(figout)
       invisible(figlist)
     },
+    #' @description
+    #' Split results by identified clusters for further analysis
+    #' @param ... Additional parameters
+    #' @return The reactor object (invisible) for method chaining
     split_by_cluster = function(...) {
       df_export <- self$fetch_relationship()
       keep_CLS <- .egt_mcp_helper_best_cluster(df_export$Cluster)
@@ -297,6 +317,9 @@ comparison_reactor_base <- R6::R6Class(
       private$final_result <- finalList
       invisible(self)
     },
+    #' @description
+    #' Get list of results split by cluster
+    #' @return List of data frames split by cluster
     get_splited_list = function() {
       if (length(private$result) < 0) {
         cli::cli_abort(
@@ -305,6 +328,19 @@ comparison_reactor_base <- R6::R6Class(
       }
       private$final_result
     },
+    #' @description
+    #' Perform sub-clustering within existing clusters
+    #' @param ClusterNum Number of sub-clusters to generate
+    #' @param P.adj Adjusted p-value cutoff (default 0.05)
+    #' @param force Whether to force reclustering (default FALSE)
+    #' @param nTop Number of top terms to consider (default 10)
+    #' @param method Clustering method (default "ward.D2")
+    #' @param ... Additional parameters passed to clustering functions
+    #' @return The reactor object (invisible) for method chaining
+    #' @examples
+    #' \dontrun{
+    #' reactor$do_recluster(ClusterNum = 5, method = "complete")
+    #' }
     do_recluster = function(
       ClusterNum = 10,
       P.adj = 0.05,
@@ -341,6 +377,14 @@ comparison_reactor_base <- R6::R6Class(
       private$recluster_result <- resList2
       invisible(self)
     },
+    #' @description
+    #' Retrieve sub-clustering results
+    #' @return List containing reclustering results
+    #' @examples
+    #' \dontrun{
+    #' recluster_results <- reactor$get_recluster_result()
+    #' names(recluster_results)
+    #' }
     get_recluster_result = function() {
       if (length(private$recluster_result) < 0) {
         cli::cli_abort(
@@ -417,14 +461,37 @@ comparison_reactor_base <- R6::R6Class(
   )
 )
 
+#' ORA Comparison Reactor
+#' 
+#' @description
+#' Typically created via \code{\link{egt_comparison_reactor}("ORA")}
+#' 
+#' @seealso \code{\link{comparison_reactor_base}} for inherited methods
+#' A specialized reactor for comparing Over-Representation Analysis (ORA) results.
+#' Inherits from comparison_reactor_base and provides ORA-specific functionality.
+#'
+#' @details
+#' This reactor is optimized for comparing ORA results across multiple groups,
+#' with methods tailored for p-value based comparisons.
 comparison_reactor_ora <- R6::R6Class(
   "comparison_reactor_ora",
   inherit = comparison_reactor_base,
   public = list(
+    #' @description
+    #' Create a new ORA comparison reactor
     initialize = function() {
       super$initialize()
       private$type <- "ORA"
     },
+    #' @description
+    #' Create comparison plans between specified ORA groups
+    #' @param group Character vector of group names to compare or "auto" for all groups
+    #' @param use_value Which value to use for comparison ("p" for p-value or "padj" for adjusted p-value)
+    #' @return The reactor object (invisible) for method chaining
+    #' @examples
+    #' \dontrun{
+    #' ora_reactor$make_plans(group = c("group1", "group2"), use_value = "padj")
+    #' }
     make_plans = function(group = "auto", use_value = "p") {
       group -> x
       private$make_plans_internal(x = x, use_value = use_value)
@@ -434,19 +501,50 @@ comparison_reactor_ora <- R6::R6Class(
   private = list()
 )
 
+#' GSEA Comparison Reactor
+#' 
+#' @description
+#' Typically created via \code{\link{egt_comparison_reactor}("GSEA")}
+#' 
+#' @seealso \code{\link{comparison_reactor_base}} for inherited methods
+#' A specialized reactor for comparing Gene Set Enrichment Analysis (GSEA) results.
+#' Inherits from comparison_reactor_base and provides GSEA-specific functionality.
+#'
+#' @details
+#' This reactor is optimized for comparing GSEA results across multiple groups,
+#' with methods tailored for NES (Normalized Enrichment Score) based comparisons.
 comparison_reactor_gsea <- R6::R6Class(
   "comparison_reactor_gsea",
   inherit = comparison_reactor_base,
   public = list(
+    #' @description
+    #' Create a new GSEA comparison reactor
     initialize = function() {
       super$initialize()
       private$type <- "GSEA"
     },
+    #' @description
+    #' Create comparison plans between specified GSEA groups
+    #' @param group Character vector of group names to compare or "auto" for all groups
+    #' @param use_value Which value to use for comparison ("NES" for normalized enrichment score)
+    #' @return The reactor object (invisible) for method chaining
+    #' @examples
+    #' \dontrun{
+    #' gsea_reactor$make_plans(group = c("group1", "group2"))
+    #' }
     make_plans = function(group = "auto", use_value = "NES") {
       group -> x
       private$make_plans_internal(x = x, use_value = use_value)
       invisible(self)
     },
+    #' @description
+    #' Filter GSEA results by normalized enrichment score cutoff
+    #' @param x Numeric cutoff for absolute NES values (default 1)
+    #' @return The reactor object (invisible) for method chaining
+    #' @examples
+    #' \dontrun{
+    #' gsea_reactor$prefilter_by_NES(1.5) # Filter for stronger effects
+    #' }
     prefilter_by_NES = function(x = 1) {
       private$check_appended_data()
       if (private$type != "GSEA") cli::cli_abort("Not GSEA! ")
