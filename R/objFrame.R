@@ -25,8 +25,17 @@ setClass(
 )
 
 setMethod("show", "EnrichGT_obj", function(object) {
-  print(object@gt_object)
+  if (isTRUE(getOption('knitr.in.progress'))) {
+    cli::cli_alert_warning(
+      "Please use `object@gt_object` to get the table when inside knitr(Quarto) environment, instead of simply calling this object. "
+    )
+    cli::cli_alert_success("`object@gt_object` is correct.")
+    cli::cli_alert_danger("`object` only is wrong. ")
+  } else {
+    print(object@gt_object)
+  }
 })
+
 
 setMethod("names", "EnrichGT_obj", function(x) {
   if (!is.data.frame(x@enriched_result)) return

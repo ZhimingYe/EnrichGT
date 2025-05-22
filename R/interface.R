@@ -35,7 +35,7 @@
 #' @return An `EnrichGT_obj` containing:
 #' \describe{
 #'   \item{enriched_result}{Filtered results data frame}
-#'   \item{tinytable_obj}{Formatted `gt_tbl` table object}
+#'   \item{gt_object}{Formatted `gt_tbl` table object}
 #'   \item{gene_modules}{List of gene modules per cluster}
 #'   \item{pathway_clusters}{Pathway names by cluster}
 #'   \item{clustering_tree}{`hclust` object for visualization}
@@ -112,7 +112,7 @@ egt_recluster_analysis <- function(
 #'
 egt_generate_quarto_report <- function(
   re_enrichment_results,
-  output_path = paste0(getwd(), "Report.qmd")
+  output_path = "Report.qmd"
 ) {
   if (!class(re_enrichment_results) == "EnrichGT_obj") {
     cli::cli_abort(
@@ -162,7 +162,7 @@ egt_generate_quarto_report <- function(
     '',
     '```{r, comment = ""}',
     '#| echo: false',
-    're_enrichment_results@tinytable_obj',
+    're_enrichment_results@gt_object',
     '```'
   )
   writeLines(qmd_content, con = output_path)
