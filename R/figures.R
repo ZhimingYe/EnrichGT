@@ -62,7 +62,7 @@ egt_plot_results <- function(
     }
     tryCatch(
       {
-        if(maskNoise > ntop){
+        if (maskNoise > ntop) {
           stop("`maskNoise` should not be greater than `ntop`")
         }
         if (maskNoise > 0) {
@@ -216,7 +216,18 @@ shorten_labels_words <- function(label, max_length = 40) {
       return(l)
     }
     cutoff <- max(which(cumulative_length <= max_length))
-    paste(paste(words[1:cutoff], collapse = " "), "...")
+    returnRes <- paste(paste(words[1:cutoff], collapse = " "), "...")
+    returnRes0 <- tapply(returnRes, returnRes, function(x) {
+      if (length(x) == 1) {
+        return(x)
+      } else {
+        x <- paste0(x, "(", 1:length(x), ")")
+        return(x)
+      }
+    })
+    returnRes0 <- unlist(returnRes0)
+    names(returnRes0) <- NULL
+    return(returnRes0)
   })
 }
 
