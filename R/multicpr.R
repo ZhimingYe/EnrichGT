@@ -456,6 +456,7 @@ comparison_reactor_base <- R6::R6Class(
       )
       a2[is.na(a2)] <- 0 # may have bugs
       private$agg_df <- a2
+      cli::cli_alert_info("Successed. \nIf the result is strange, please remember do prefiltering by `reactor$prefilter_by...()`")
       # invisible(self)
     }
   )
