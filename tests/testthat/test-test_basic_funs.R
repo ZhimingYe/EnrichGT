@@ -135,7 +135,18 @@ ora_result_g5 <- egt_enrichment_analysis(
 )
 
 
-
+ora_result_gsea1 <- egt_gsea_analysis(
+  genes = genes_with_weights(MultiDEGExample$liver$...1, MultiDEGExample$liver$logFC), 
+  database = database_GO_BP(OrgDB = org.Hs.eg.db)
+)
+ora_result_gsea2 <- egt_gsea_analysis(
+  genes = genes_with_weights(MultiDEGExample$kidney$...1, MultiDEGExample$kidney$logFC), 
+  database = database_GO_BP(OrgDB = org.Hs.eg.db)
+)
+ora_result_gsea3 <- egt_gsea_analysis(
+  genes = genes_with_weights(MultiDEGExample$muscle$...1, MultiDEGExample$muscle$logFC), 
+  database = database_GO_BP(OrgDB = org.Hs.eg.db)
+)
 
 ora_result_r1 <- egt_enrichment_analysis(
   genes = MultiDEGExample$liver |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1), 
@@ -158,6 +169,11 @@ ora_result_r5 <- egt_enrichment_analysis(
   database = database_Reactome(OrgDB = org.Hs.eg.db)
 )
 
+ora_fuse1 <- egt_recluster_analysis(list(ora_result_g1, ora_result_r1))
+ora_fuse2 <- egt_recluster_analysis(list(ora_result_g2, ora_result_r2))
+ora_fuse3 <- egt_recluster_analysis(list(ora_result_g3, ora_result_r3))
+ora_fuse4 <- egt_recluster_analysis(list(ora_result_g4, ora_result_r4))
+
 
 test_that("ORA not fused comparing", {
   reactor1 <- egt_comparison_reactor("ora")
@@ -167,6 +183,7 @@ test_that("ORA not fused comparing", {
   reactor1$append_enriched_result(ora_result_g4, "pancreas_GO")
   reactor1$append_enriched_result(ora_result_g5, "spleen_GO")
   expect_error(reactor1$append_enriched_result(ora_result_g1, "liver_GO"))
+  reactor1$prefilter_by_p_adj(0.05)
   reactor1$make_plans()
   expect_equal((reactor1$.__enclos_env__$private$agg_df |> ncol()), 6)
   reactor1$make_plans(c("liver_GO","kidney_GO","spleen_GO"))
@@ -184,4 +201,58 @@ test_that("ORA not fused comparing", {
   
 })
 
+
+
+
+test_that("ORA have fused comparing", {
+  reactor1 <- egt_comparison_reactor("ora")
+  reactor1$append_enriched_result(ora_result_g1, "liver_F")
+  reactor1$append_enriched_result(ora_result_g2, "kidney_F")
+  reactor1$append_enriched_result(ora_result_g3, "muscle_F")
+  expect_error(reactor1$append_enriched_result(ora_result_g1, "liver_F"))
+  reactor1$make_plans()
+  expect_equal((reactor1$.__enclos_env__$private$agg_df |> ncol()), 4)
+  reactor1$prefilter_by_p_adj(0.05)
+  reactor1$make_plans(c("liver_F","kidney_F","muscle_F"))
+  expect_equal((reactor1$.__enclos_env__$private$agg_df |> ncol()), 4)
+  reactor1$make_plans()
+  reactor1$find_relationship(5)
+  expect_equal((reactor1$fetch_relationship()$Cluster |> table() |> names() |> length()), 5)
+  figlist0 <- reactor1$fetch_biological_theme()
+  expect_s3_class(figlist0[[1]], "gg")
+  reactor1$split_by_cluster()
+  expect_equal(length(names(reactor1$get_splited_list())), 3*5)
+  reactor1$do_recluster()
+  res <- reactor1$get_recluster_result()
+  expect_s4_class(res[[1]], "EnrichGT_obj")
+  
+})
+
+
+
+test_that("GSEA comparing", {
+  reactor1 <- egt_comparison_reactor("gsea")
+  reactor1$append_enriched_result(ora_result_gsea1, "liver_F")
+  reactor1$append_enriched_result(ora_result_gsea2, "kidney_F")
+  reactor1$append_enriched_result(ora_result_gsea3, "muscle_F")
+  expect_error(reactor1$append_enriched_result(ora_result_g1, "liver_F"))
+  reactor1$make_plans()
+  expect_equal((reactor1$.__enclos_env__$private$agg_df |> ncol()), 4)
+  reactor1$prefilter_by_p_adj(0.05)
+  reactor1$prefilter_by_NES(1)
+  reactor1$make_plans(c("liver_F","kidney_F","muscle_F"))
+  expect_equal((reactor1$.__enclos_env__$private$agg_df |> ncol()), 4)
+  reactor1$make_plans()
+  reactor1$find_relationship(5)
+  expect_equal((reactor1$fetch_relationship()$Cluster |> table() |> names() |> length()), 5)
+  figlist0 <- reactor1$fetch_biological_theme()
+  expect_s3_class(figlist0[[1]], "gg")
+  reactor1$split_by_cluster()
+  # expect_equal(length(names(reactor1$get_splited_list())), 3*5)
+  # Because have no overlap, skip this check
+  reactor1$do_recluster()
+  res <- reactor1$get_recluster_result()
+  expect_s4_class(res[[1]], "EnrichGT_obj")
+  
+})
 
