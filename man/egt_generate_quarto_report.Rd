@@ -4,10 +4,7 @@
 \alias{egt_generate_quarto_report}
 \title{Export Quarto Report}
 \usage{
-egt_generate_quarto_report(
-  re_enrichment_results,
-  output_path = paste0(getwd(), "Report.qmd")
-)
+egt_generate_quarto_report(re_enrichment_results, output_path = "Report.qmd")
 }
 \arguments{
 \item{re_enrichment_results}{The `EnrichGT_obj`, AI summarized result is more recommanded.}

@@ -48,6 +48,15 @@ setMethod("names", "EnrichGT_obj", function(x) {
 })
 
 setMethod("$", "EnrichGT_obj", function(x, name) {
+  name <- getCLSNAME(name)
+  if ((x@LLM_Annotation@pathways |> length()) < 2) {
+    summary_use_local(x, name)
+  } else {
+    summary_use_llm(x, name)
+  }
+})
+
+getCLSNAME <- function(name){
   if (nchar(name) <= 5 & !(as.character(name) |> is_numeric_string())) {
     first_char <- substr(name, 1, 1)
     name <- gsub(first_char, "Cluster_", name)
@@ -55,12 +64,8 @@ setMethod("$", "EnrichGT_obj", function(x, name) {
   if (as.character(name) |> is_numeric_string()) {
     name <- as.character(paste0("Cluster_", name))
   }
-  if ((x@LLM_Annotation@pathways |> length()) < 2) {
-    summary_use_local(x, name)
-  } else {
-    summary_use_llm(x, name)
-  }
-})
+  name
+}
 
 new.egt <- function(x1, x2, x3, x4, x5, x6, x7, x8) {
   flag0 <- F
