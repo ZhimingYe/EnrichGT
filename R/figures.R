@@ -209,26 +209,26 @@ egt_plot_results <- function(
 }
 
 shorten_labels_words <- function(label, max_length = 40) {
-  sapply(label, function(l) {
+  returnRes <- sapply(label, function(l) {
     words <- unlist(strsplit(l, " "))
     cumulative_length <- cumsum(nchar(words) + 1)
     if (max(cumulative_length) <= max_length) {
       return(l)
     }
     cutoff <- max(which(cumulative_length <= max_length))
-    returnRes <- paste(paste(words[1:cutoff], collapse = " "), "...")
-    returnRes0 <- tapply(returnRes, returnRes, function(x) {
-      if (length(x) == 1) {
-        return(x)
-      } else {
-        x <- paste0(x, "(", 1:length(x), ")")
-        return(x)
-      }
-    })
-    returnRes0 <- unlist(returnRes0)
-    names(returnRes0) <- NULL
-    return(returnRes0)
+    paste(paste(words[1:cutoff], collapse = " "), "...")
   })
+  returnRes0 <- tapply(returnRes, returnRes, function(x) {
+    if (length(x) == 1) {
+      return(x)
+    } else {
+      x <- paste0(x, "(", 1:length(x), ")")
+      return(x)
+    }
+  })
+  returnRes0 <- unlist(returnRes0)
+  names(returnRes0) <- NULL
+  return(returnRes0)
 }
 
 

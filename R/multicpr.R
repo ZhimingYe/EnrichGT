@@ -128,17 +128,17 @@ comparison_reactor_base <- R6::R6Class(
       tdf$CPRID <- tdf$Description
       
       private$latest_added_item_names -> latestTerm
-      if(length(latestTerm) > 0){
+      if(length(latestTerm) == 1 & latestTerm[1] == "FirstItem"){
+        private$latest_added_item_names <- tdf$CPRID
+      } else {
         overlapNum <- sum(tdf$CPRID %in% latestTerm) 
         latestTotal <- length(latestTerm)
         pctOverlap <- round(((overlapNum/latestTotal) * 100), 2)
-        cli::cli_alert_info(glue::glue("Overlap rate of new added data and the latest data:{pctOverlap}. Please ensure there are overlaps among appended data. "))
+        cli::cli_alert_info(glue::glue("Overlap rate of new added data and the latest data:{pctOverlap}%.\n Please ensure there are overlaps among appended data. "))
         if(pctOverlap < 25){
           cli::cli_alert_danger("Less than 25% overlap terms. Please ensure you are using same source and same param in these series of data")
         }
-        private$latest_added_item_names <- latestTerm
-      } else {
-        private$latest_added_item_names <- latestTerm
+        private$latest_added_item_names <- tdf$CPRID
       }
       
 
@@ -408,7 +408,7 @@ comparison_reactor_base <- R6::R6Class(
     dendrogram = list(),
     final_result = list(),
     recluster_result = list(),
-    latest_added_item_names = c(),
+    latest_added_item_names = "FirstItem",
     check_appended_data = function() {
       if (sum(private$group_name$Group != "Initial") < 2) {
         cli::cli_abort(
@@ -692,7 +692,10 @@ wordcloud_generator2 <- function(
         "b",
         "nf",
         "cd",
-        "like"
+        "like",
+        "n",
+        "er",
+        "de"
       )
     }
     words <- words[!words %in% stopwords]
