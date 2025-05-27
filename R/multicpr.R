@@ -218,7 +218,17 @@ comparison_reactor_base <- R6::R6Class(
         "Clustering with {dist_method} distance and {hclust_method} linkage, cut into {Num} clusters"
       ))
       print(table(clusters))
-
+      tbl0 <- private$group_name
+      tbl0 <- tbl0 |> dplyr::filter(Group != "Initial")
+      for(i in 1:length(colnames(mat))){
+        for(j in tbl0$Index){
+          if(grepl(j, colnames(mat)[i])){
+            NAME0 <- tbl0$Group[which(tbl0$Index == j)]
+            colnames(mat)[i] <- gsub(j, NAME0, colnames(mat)[i])
+            break
+          }
+        }
+      }
       base_pheatmap(
         mat,
         cluster_rows = hc,
