@@ -83,6 +83,8 @@ test_that("Visualization functions work", {
   re_enrichment_results <- egt_recluster_analysis(ora_result)
   plt2 <- egt_plot_results(re_enrichment_results)
   expect_s3_class(plt2, "gg")
+  plt3 <- egt_fetch_biological_theme(re_enrichment_results, 3)
+  expect_s3_class(plt3, "gg")
 })
 
 test_that("GSEA analysis works", {
