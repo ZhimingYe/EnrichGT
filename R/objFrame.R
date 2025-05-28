@@ -13,6 +13,7 @@ setClass(
   slots = list(
     enriched_result = "data.frame",
     gt_object = "gt_tbl",
+    gt_object_noHTML = "gt_tbl",
     gene_modules = "list",
     pathway_clusters = "list",
     document_term_matrix = "dgCMatrix",
@@ -67,7 +68,7 @@ getCLSNAME <- function(name){
   name
 }
 
-new.egt <- function(x1, x2, x3, x4, x5, x6, x7, x8) {
+new.egt <- function(x1, x2, x3, x4, x5, x6, x7, x8, x9) {
   flag0 <- F
   tryCatch(
     {
@@ -81,6 +82,7 @@ new.egt <- function(x1, x2, x3, x4, x5, x6, x7, x8) {
       objegt@raw_enriched_result <- x7
       objegt@param <- x8
       objegt@fused <- F
+      objegt@gt_object_noHTML <- x9
       flag0 <- T
     },
     error = function(e) {

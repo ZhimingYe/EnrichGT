@@ -106,30 +106,27 @@ egt_recluster_analysis <- function(
 #'
 #' @param re_enrichment_results The `EnrichGT_obj`, AI summarized result is more recommanded.
 #' @param output_path Path of the output qmd file (e.g., `test.qmd`)
+#' @param type export pdf or html. In default output is HTML format.
 #'
 #' @returns A quarto document
 #' @export
 #'
 egt_generate_quarto_report <- function(
   re_enrichment_results,
-  output_path = "Report.qmd"
+  output_path = "Report.qmd",
+  type = "html"
 ) {
-  if (!class(re_enrichment_results) == "EnrichGT_obj") {
-    cli::cli_abort(
-      "Please provide `EnrichGT_obj`. You should perform re-clustering"
-    )
-  }
   rds_path <- file.path(
     dirname(output_path),
     paste0(output_path, "dependency.rds")
   )
-  saveRDS(re_enrichment_results, file = rds_path)
-  cluster_names <- names(re_enrichment_results)
-  qmd_content <- c(
+  HTMLtitle <- c(
     '---',
     'title: "Re-enrich Enriched Results"',
-    'toc: true',
-    'self-contain: true',
+    'format:',
+    '  html:',
+    '    toc: true',
+    '    self-contain: true',
     '---',
     '',
     '# Enrichment Summary',
@@ -143,6 +140,57 @@ egt_generate_quarto_report <- function(
     '```',
     ''
   )
+  PDFtitle <- c(
+    '---',
+    'title: "Re-enrich Enriched Results"',
+    'format:',
+    '  pdf:',
+    '    toc: true',
+    '    number-sections: true',
+    '---',
+    '',
+    '# Enrichment Summary',
+    '',
+    '```{r}',
+    '#| echo: false',
+    '#| message: false',
+    '#| warning: false',
+    'library(EnrichGT)',
+    paste0('re_enrichment_results <- readRDS("', basename(rds_path), '")'),
+    '```',
+    ''
+  )
+  HTMLGTrmd <- c(
+    '# Enrichment Full results',
+    '',
+    '```{r, comment = ""}',
+    '#| echo: false',
+    're_enrichment_results@gt_object',
+    '```'
+  )
+  PDFGTrmd <- c(
+    '# Enrichment Full results',
+    '',
+    '```{r, comment = ""}',
+    '#| echo: false',
+    're_enrichment_results@gt_object_noHTML',
+    '```'
+  )
+
+  if (!class(re_enrichment_results) == "EnrichGT_obj") {
+    cli::cli_abort(
+      "Please provide `EnrichGT_obj`. You should perform re-clustering"
+    )
+  }
+  
+  saveRDS(re_enrichment_results, file = rds_path)
+  cluster_names <- names(re_enrichment_results)
+  if (type == "pdf") {
+    qmd_content <- PDFtitle
+  } else {
+    qmd_content <- HTMLtitle
+  }
+  qmd_content <- qmd_content
   for (cluster in cluster_names) {
     qmd_content <- c(
       qmd_content,
@@ -156,15 +204,18 @@ egt_generate_quarto_report <- function(
       ''
     )
   }
-  qmd_content <- c(
-    qmd_content,
-    '# Enrichment Full results',
-    '',
-    '```{r, comment = ""}',
-    '#| echo: false',
-    're_enrichment_results@gt_object',
-    '```'
-  )
+  if (type == "pdf") {
+    qmd_content <- c(
+      qmd_content,
+      PDFGTrmd
+    )
+  } else {
+    qmd_content <- c(
+      qmd_content,
+      HTMLGTrmd
+    )
+  }
+
   writeLines(qmd_content, con = output_path)
   cli::cli_alert_success(paste("Report generated at:", output_path))
   cli::cli_alert_success(paste("RDS file saved at:", rds_path))

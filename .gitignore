@@ -15,3 +15,8 @@ dev/*
 _internal*
 /.quarto/
 *.qmd
+*.tex
+*.toc
+*.aux
+*.log
+test000*

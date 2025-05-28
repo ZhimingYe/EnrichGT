@@ -150,6 +150,7 @@ setMethod("doEnrichGT", signature(x = "list"), function(x, ...) {
     dplyr::slice_head(n = nTop) |>
     dplyr::ungroup()
   obj0 <- obj |> gt_ora(ClusterNum = ClusterNum, objname = objname, ...)
+  obj0RAW <- obj |> gt_ora_raw(ClusterNum = ClusterNum, objname = objname, ...)
   obj2 <- obj
   obj3 <- obj2 |> genMetaGM(type = "ORA")
   obj3_1 <- obj3[[1]] |> remove_more_updownInfo()
@@ -167,7 +168,8 @@ setMethod("doEnrichGT", signature(x = "list"), function(x, ...) {
       force = force,
       objname = "CleanedObj",
       nTop = nTop,
-      method = method)
+      method = method),
+    obj0RAW
   )
   return(objA)
 }
@@ -241,6 +243,7 @@ remove_more_updownInfo <- function(x) {
     dplyr::slice_head(n = nTop) |>
     dplyr::ungroup()
   obj0 <- obj |> gt_gsea(ClusterNum = ClusterNum, objname = objname, ...)
+  obj0RAW <- obj |> gt_gsea_raw(ClusterNum = ClusterNum, objname = objname, ...)
   obj2 <- obj |> dplyr::mutate(Reg = ifelse(Reg == "red", "UpReg", "DownReg"))
   obj3 <- obj2 |> genMetaGM(type = "GSEA")
   obj3_1 <- obj3[[1]]
@@ -258,7 +261,8 @@ remove_more_updownInfo <- function(x) {
       force = force,
       objname = "CleanedObj",
       nTop = nTop,
-      method = method)
+      method = method),
+    obj0RAW
   )
   return(objA)
 }

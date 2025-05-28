@@ -1,4 +1,3 @@
-
 #' Generate Biological Theme Wordcloud from Enrichment Results
 #'
 #' Creates a wordcloud visualization from enrichment results, either from a data.frame
@@ -11,17 +10,25 @@
 #' @return ggwordcloud object
 #' @author Zhiming Ye
 #' @export
-egt_fetch_biological_theme <- function(x, cluster = NULL, skip_filtering = F, ...){
-  if(is.data.frame(x)){
-    if(!skip_filtering){
+egt_fetch_biological_theme <- function(
+  x,
+  cluster = NULL,
+  skip_filtering = F,
+  ...
+) {
+  if (is.data.frame(x)) {
+    if (!skip_filtering) {
       x <- x |> dplyr::filter(p.adjust < 0.05)
     }
     wordcloud_generator2(x$Description, ...)
-  } else if(class(x) == "EnrichGT_obj") {
-    if(is.null(cluster)){
+  } else if (class(x) == "EnrichGT_obj") {
+    if (is.null(cluster)) {
       cli::cli_abort("Please provide cluster name or number")
     }
     name <- getCLSNAME(cluster)
-    wordcloud_generator2(sapply(strsplit(reenrich@pathway_clusters[[name]],"[|]"), function(x)x[2]))
+    wordcloud_generator2(sapply(
+      strsplit(x@pathway_clusters[[name]], "[|]"),
+      function(q) q[2]
+    ))
   } else NULL
 }
