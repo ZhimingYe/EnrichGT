@@ -124,7 +124,8 @@ gt_gsea_raw <- function(x, ClusterNum, objname, objname2 = NULL, ...) {
     ) |> gt::cols_width(
       Description ~ "120pt",
       ID ~ "40pt",
-      geneID ~ "40pt")
+      Reg ~ "20pt",
+      Padj ~ "20pt")
   return(y)
 }
 
