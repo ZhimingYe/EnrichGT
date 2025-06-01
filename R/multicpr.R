@@ -2,11 +2,11 @@
 #'
 #' Framework for comparing and analyzing enrichment results
 #' across multiple groups
-#' 
+#'
 #' @details
-#' Type should be one of "ORA" or "GSEA". 
+#' Type should be one of "ORA" or "GSEA".
 #' For functions inside reactor, please see below 'See also' (in the bottom of this doc)
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' # ORA example
@@ -22,14 +22,14 @@
 #' reactor$do_recluster(ClusterNum = 10)
 #' cls_res <- reactor$get_recluster_result()
 #' relation_df <- reactor$fetch_relationship()
-#' 
-#' # GSEA can do more with: 
+#'
+#' # GSEA can do more with:
 #' gsea_reactor <- egt_comparison_reactor("GSEA")
 #' gsea_reactor$prefilter_by_NES(1.5)
 #' }
-#' 
-#' 
-#' @seealso 
+#'
+#'
+#' @seealso
 #' \code{\link{comparison_reactor_base}} for the base class documentation
 #' \code{\link{comparison_reactor_ora}} for ORA-specific functionality
 #' \code{\link{comparison_reactor_gsea}} for GSEA-specific functionality
@@ -63,7 +63,7 @@ egt_comparison_reactor <- function(Type = NULL) {
 }
 
 #' Comparison Reactor Base
-#' 
+#'
 #' @description
 #' Typically created via \code{\link{egt_comparison_reactor}()}
 #' A framework for comparing and analyzing enrichment results across multiple groups.
@@ -127,12 +127,12 @@ comparison_reactor_base <- R6::R6Class(
         cli::cli_abort("Invalid input. ")
       }
       tdf$CPRID <- tdf$Description
-      
+
       private$latest_added_item_names -> latestTerm
       if(length(latestTerm) == 1 & latestTerm[1] == "FirstItem"){
         private$latest_added_item_names <- tdf$CPRID
       } else {
-        overlapNum <- sum(tdf$CPRID %in% latestTerm) 
+        overlapNum <- sum(tdf$CPRID %in% latestTerm)
         latestTotal <- length(latestTerm)
         pctOverlap <- round(((overlapNum/latestTotal) * 100), 2)
         cli::cli_alert_info(glue::glue("Overlap rate of new added data and the latest data:{pctOverlap}%.\n Please ensure there are overlaps among appended data. "))
@@ -141,7 +141,7 @@ comparison_reactor_base <- R6::R6Class(
         }
         private$latest_added_item_names <- tdf$CPRID
       }
-      
+
 
       bb[[new_info$Index[1]]] <- tdf
 
@@ -151,7 +151,7 @@ comparison_reactor_base <- R6::R6Class(
       cli::cli_alert_success(glue::glue("Appended data into group {group}."))
       invisible(self)
     },
-    #' @description 
+    #' @description
     #' Print summary of groups in reactor
     summarize = function() {
       tbl0 <- private$group_name
@@ -291,13 +291,7 @@ comparison_reactor_base <- R6::R6Class(
         }
       })
       figlist <- lapply(df_export2_list, wordcloud_generator2)
-      figlist2 <- lapply(figlist, function(x) ggplotGrob(x))
-      figout <- cowplot::plot_grid(
-        plotlist = figlist2,
-        ncol = 1,
-        align = "h"
-      )
-      print(figout)
+      cli::cli_alert_info("Will return a figure list.\nPlease assign to any value use `figlist <- reactor$fetch_biological_theme()`, and draw individual by printing them inside this list. ")
       invisible(figlist)
     },
     #' @description
@@ -322,7 +316,7 @@ comparison_reactor_base <- R6::R6Class(
           }
           cc0 <- private$group_name
           j1 <- cc0[cc0$Index == j, "Group", drop = T]
-          finalList[[glue::glue("Data#{j1}|Cluster#{i}")]] <- bb0
+          finalList[[glue::glue("Data:{j1},Cluster:{i}")]] <- bb0
         }
       }
       private$final_result <- finalList
@@ -474,10 +468,10 @@ comparison_reactor_base <- R6::R6Class(
 )
 
 #' ORA Comparison Reactor
-#' 
+#'
 #' @description
 #' Typically created via \code{\link{egt_comparison_reactor}("ORA")}
-#' 
+#'
 #' @seealso \code{\link{comparison_reactor_base}} for inherited methods
 #' A specialized reactor for comparing Over-Representation Analysis (ORA) results.
 #' Inherits from comparison_reactor_base and provides ORA-specific functionality.
@@ -514,10 +508,10 @@ comparison_reactor_ora <- R6::R6Class(
 )
 
 #' GSEA Comparison Reactor
-#' 
+#'
 #' @description
 #' Typically created via \code{\link{egt_comparison_reactor}("GSEA")}
-#' 
+#'
 #' @seealso \code{\link{comparison_reactor_base}} for inherited methods
 #' A specialized reactor for comparing Gene Set Enrichment Analysis (GSEA) results.
 #' Inherits from comparison_reactor_base and provides GSEA-specific functionality.

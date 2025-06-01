@@ -12,7 +12,7 @@ Framework for comparing and analyzing enrichment results
 across multiple groups
 }
 \details{
-Type should be one of "ORA" or "GSEA". 
+Type should be one of "ORA" or "GSEA".
 For functions inside reactor, please see below 'See also' (in the bottom of this doc)
 }
 \examples{
@@ -31,7 +31,7 @@ reactor$do_recluster(ClusterNum = 10)
 cls_res <- reactor$get_recluster_result()
 relation_df <- reactor$fetch_relationship()
 
-# GSEA can do more with: 
+# GSEA can do more with:
 gsea_reactor <- egt_comparison_reactor("GSEA")
 gsea_reactor$prefilter_by_NES(1.5)
 }
