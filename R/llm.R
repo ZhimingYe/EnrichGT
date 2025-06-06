@@ -30,7 +30,7 @@ check_is_ellmer_obj <- function(x) {
 
 chatter <- function(x, Prompt) {
   if (check_is_ellmer_obj(x)) {
-    res <- retry_function(x$chat, ntry = 3, delay = 3, Prompt, echo = "none")
+    res <- retry_function(x$chat, ntry = 5, delay = 3, Prompt, echo = "none")
   } else {
     wrong_llm()
   }

@@ -190,13 +190,17 @@ comparison_reactor_base <- R6::R6Class(
     #' reactor$find_relationship(Num = 5, dist_method = "manhattan")
     #' }
     find_relationship = function(
-      Num,
+      Num = NULL,
       dist_method = "euclidean",
       hclust_method = "ward.D2",
       ...
     ) {
+
       # Get data from agg_df
       mat <- as.matrix(private$agg_df[, -1]) # Remove CPRID column
+      if(is.null(Num)){
+        Num <- 3 * ncol(mat) + 1
+      }
       rownames(mat) <- private$agg_df$CPRID
       mat[is.na(mat)] <- 0 # Replace NA with 0
 

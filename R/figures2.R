@@ -32,3 +32,11 @@ egt_fetch_biological_theme <- function(
     ))
   } else NULL
 }
+
+
+
+
+#
+# egt_fetch_termwise_relationship <- function(x, database, according_to = "Description"){
+#   if(!is.data.frame())
+# }

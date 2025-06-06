@@ -374,32 +374,12 @@ egt_gsea_analysis_internal <- function(
   suppressPackageStartupMessages({
     requireNamespace("fgsea")
   })
-  tryCatch(
-    {
-      if (ncol(database) != 2 & ncol(database) != 3) {
-        message_wrong_db()
-        cli::cli_abort("Not valid database")
-      }
-    },
-    error = function(e) {
-      message_wrong_db()
-      cli::cli_abort("Not valid database")
-    }
-  )
-  if (ncol(database) == 3) {
-    colnames(database) <- c("ID", "term", "gene")
-    db0 <- database[, c(1, 2)]
-    database <- database[, c(2, 3)]
-  } else {
-    colnames(database)[1] <- "term"
-    db0 <- data.frame(ID = database$term, term = database$term)
-  }
-  db0 <- db0 |>
-    dplyr::mutate(CheckDup = paste0(ID, term)) |>
-    dplyr::filter(!duplicated(CheckDup)) |>
-    dplyr::select(-CheckDup) |>
-    dplyr::rename(pathway = term) # Because of output is pathway
-  colnames(database) <- c("term", "gene")
+
+
+  dblist <- prepare_database(database, "pathway")
+  dblist$db0 -> db0
+  dblist$database -> database
+
   database2 <- split(database$gene, database$term)
   t1 <- Sys.time()
   if (for_figures) {

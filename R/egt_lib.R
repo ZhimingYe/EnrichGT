@@ -62,7 +62,12 @@ is_numeric_string <- function(x) {
   })
   # cli::cli_blockquote("Package `text2vec` loading...")
   # suppressPackageStartupMessages(require(text2vec))
-  tokens_list <- strsplit(geneID, sep)
+  tokens_list <- base::strsplit(geneID, sep)
+  genclusterscore(tokens_list, ID, k, method)
+}
+
+
+genclusterscore <- function(tokens_list, ID, k, method){
   if (length(unlist(tokens_list)) > 50000) {
     cli::cli_alert_warning(glue::glue(
       "You are input a large gene set. Please re-check your DEG or other analysis. There may be some error in previous analysis (e.g. have not filter P-value). And it may very slow..."
@@ -70,7 +75,7 @@ is_numeric_string <- function(x) {
   }
   if (
     sum(is_numeric_string(unlist(tokens_list))) >
-      length(unlist(tokens_list)) * 0.5
+    length(unlist(tokens_list)) * 0.5
   ) {
     message_egt("Please run setReadable first!")
   }
@@ -93,7 +98,6 @@ is_numeric_string <- function(x) {
   clusters$Cluster <- paste0("Cluster_", clusters$Cluster)
   return(list(`clusters` = clusters, `hc` = hc, `dtm` = dtm))
 }
-
 
 .genClusterNum <- function(x, ClusterNum, force) {
   if (!force) {
@@ -185,3 +189,32 @@ nsimp <- function() {
 s_ <- function(x, sep, n) {
   sapply(strsplit(x, sep), function(q) q[n])
 }
+
+
+
+prepare_database <- function(database, db0_name = "TERMs") {
+  if (!(ncol(database) %in% c(2, 3))) {
+    message_wrong_db()
+    cli::cli_abort("Not valid database")
+  }
+
+  if (ncol(database) == 3) {
+    colnames(database) <- c("ID", "term", "gene")
+    db0 <- database[c("ID", "term")]
+    database <- database[c("term", "gene")]
+  } else {
+    colnames(database)[1] <- "term"
+    db0 <- data.frame(ID = database$term, term = database$term)
+  }
+
+  db0 <- db0 |>
+    dplyr::mutate(CheckDup = paste0(ID, term)) |>
+    dplyr::filter(!duplicated(CheckDup)) |>
+    dplyr::select(-CheckDup) |>
+    dplyr::rename_with(~ db0_name, "term")
+
+  colnames(database) <- c("term", "gene")
+
+  list(db0 = db0, database = database)
+}
+

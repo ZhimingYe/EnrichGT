@@ -30,32 +30,9 @@ doEnrich_Internal <- function(
     has_direction <- T
   }
 
-  tryCatch(
-    {
-      if (ncol(database) != 2 & ncol(database) != 3) {
-        message_wrong_db()
-        cli::cli_abort("Not valid database")
-      }
-    },
-    error = function(e) {
-      message_wrong_db()
-      cli::cli_abort("Not valid database")
-    }
-  )
-  if (ncol(database) == 3) {
-    colnames(database) <- c("ID", "term", "gene")
-    db0 <- database[, c(1, 2)]
-    database <- database[, c(2, 3)]
-  } else {
-    colnames(database)[1] <- "term"
-    db0 <- data.frame(ID = database$term, term = database$term)
-  }
-  db0 <- db0 |>
-    dplyr::mutate(CheckDup = paste0(ID, term)) |>
-    dplyr::filter(!duplicated(CheckDup)) |>
-    dplyr::select(-CheckDup) |>
-    dplyr::rename(TERMs = term)
-  colnames(database) <- c("term", "gene")
+  dblist <- prepare_database(database, "TERMs")
+  dblist$db0 -> db0
+  dblist$database -> database
 
   termCount <- table(database$term) |> as.data.frame()
   colnames(termCount)[1] <- "TERMs"
