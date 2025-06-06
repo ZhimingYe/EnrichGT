@@ -194,7 +194,7 @@ reactor$prefilter_by_p_adj(0.01) # Use stricter cutoff
 Identify relationships between enriched terms across groups
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{comparison_reactor_base$find_relationship(
-  Num,
+  Num = NULL,
   dist_method = "euclidean",
   hclust_method = "ward.D2",
   ...
