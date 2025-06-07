@@ -154,69 +154,104 @@ database_GO <- function(OrgDB, ONTOLOGY, ...) {
   return(goAnno)
 }
 
-
-# Function fetching Reactome is cited from https://github.com/YuLab-SMU/ReactomePA/blob/devel/R/gseAnalyzer.R
-# with several modifies
-# (c) Guangchuang Yu @ SMU ReactomePA
 database_RA <- function(OrgDB, ...) {
-  t1 <- Sys.time()
-  loadNamespace("dplyr")
-  loadNamespace("tibble")
-  loadNamespace("AnnotationDbi")
-  loadNamespace("reactome.db")
-  eg <- AnnotationDbi::keys(OrgDB, keytype = c("ENTREZID"))
-  eg2 <- AnnotationDbi::select(
+  start_time <- Sys.time()
+
+  for (pkg in c("AnnotationDbi", "reactome.db")) {
+    loadNamespace(pkg)
+  }
+
+  entrez_keys <- AnnotationDbi::keys(OrgDB, keytype = "ENTREZID")
+
+  gene_mapping <- AnnotationDbi::select(
     OrgDB,
-    keys = eg,
+    keys = entrez_keys,
     keytype = "ENTREZID",
     columns = c("ENTREZID", "SYMBOL")
   )
-  EXTID2PATHID <- as.list(reactome.db::reactomeEXTID2PATHID)
-  EXTID2PATHID <- EXTID2PATHID[names(EXTID2PATHID) %in% eg]
-  PATHID2EXTID <- as.list(reactome.db::reactomePATHID2EXTID) ## also contains reactions
-  PATHID2NAME <- as.list(reactome.db::reactomePATHID2NAME)
-  PI <- names(PATHID2NAME)
-  ## > PATHID2NAME[['68877']]
-  ## [1] "Homo sapiens: Mitotic Prometaphase" "Homo sapiens: Mitotic Prometaphase"
-  PATHID2NAME <- lapply(PATHID2NAME, function(x) x[1])
-  names(PATHID2NAME) <- PI
-  PATHID2EXTID <- PATHID2EXTID[names(PATHID2EXTID) %in% names(PATHID2NAME)]
-  PATHID2EXTID <- PATHID2EXTID[
-    names(PATHID2EXTID) %in% unique(unlist(EXTID2PATHID))
-  ]
-  PATHID2NAME <- PATHID2NAME[names(PATHID2NAME) %in% names(PATHID2EXTID)]
-  PATHID2NAME <- unlist(PATHID2NAME)
-  PATHID2NAME <- gsub("^\\w+\\s\\w+:\\s+", "", PATHID2NAME) # remove leading spaces
-  df <- data.frame(
-    List_Name = rep(names(PATHID2EXTID), sapply(PATHID2EXTID, length)),
-    Element = unlist(PATHID2EXTID)
+
+  extid_to_path <- as.list(reactome.db::reactomeEXTID2PATHID)
+  path_to_extid <- as.list(reactome.db::reactomePATHID2EXTID)
+  path_to_name <- as.list(reactome.db::reactomePATHID2NAME)
+
+  relevant_extids <- intersect(names(extid_to_path), entrez_keys)
+  extid_to_path <- extid_to_path[relevant_extids]
+
+  path_names_clean <- vapply(path_to_name, function(x) {
+    name <- x[1L]
+    sub("^[A-Za-z]+\\s+[A-Za-z]+:\\s*", "", name)
+  }, character(1L))
+  pathway_ids <- unique(unlist(extid_to_path, use.names = FALSE))
+
+  valid_paths <- intersect(pathway_ids, names(path_to_extid))
+  valid_paths <- intersect(valid_paths, names(path_names_clean))
+
+  path_to_extid_filtered <- path_to_extid[valid_paths]
+  path_names_filtered <- path_names_clean[valid_paths]
+
+  pathway_lengths <- lengths(path_to_extid_filtered)
+  total_rows <- sum(pathway_lengths)
+
+  result_ids <- rep(names(path_to_extid_filtered), pathway_lengths)
+  result_entrez <- unlist(path_to_extid_filtered, use.names = FALSE)
+
+  result_df <- data.frame(
+    ID = result_ids,
+    ENTREZID = result_entrez,
+    stringsAsFactors = FALSE
   )
-  df <- df[df$Element %in% eg2$ENTREZID, ]
-  PATHID2NAME <- as.data.frame(PATHID2NAME) |>
-    tibble::rownames_to_column(var = "ID")
-  colnames(df) <- c("ID", "ENTREZID")
-  df <- df |> dplyr::left_join(PATHID2NAME, by = "ID")
-  df <- df |> dplyr::left_join(eg2, by = "ENTREZID")
-  df <- df[, c(1, 3, 4)]
-  t2 <- Sys.time()
-  cli::cli_alert_success(paste0(
-    "success loaded database, time used : ",
-    (t2 - t1),
-    " sec."
-  ))
-  return(df)
+  result_df <- result_df[result_df$ENTREZID %in% gene_mapping$ENTREZID, ]
+  pathway_df <- data.frame(
+    ID = names(path_names_filtered),
+    PATHID2NAME = unname(path_names_filtered),
+    stringsAsFactors = FALSE
+  )
+
+  result_df <- merge(result_df, pathway_df, by = "ID", all.x = TRUE)
+  result_df <- merge(result_df, gene_mapping, by = "ENTREZID", all.x = TRUE)
+  final_result <- result_df[, c("ID", "PN", "SYMBOL")]
+
+  end_time <- Sys.time()
+  time_diff <- round(as.numeric(end_time - start_time), 3)
+
+  if (requireNamespace("cli", quietly = TRUE)) {
+    cli::cli_alert_success(paste0(
+      "success loaded database, time used : ",
+      time_diff, " sec."
+    ))
+  } else {
+    message(paste0("Success: database loaded in ", time_diff, " seconds"))
+  }
+
+  return(final_result)
 }
 
-
 getGMT <- function(OrgDB, ONTOLOGY) {
-  x <- OrgDB
-  res <- strsplit(x, "\t")
-  names(res) <- vapply(res, function(y) y[1], character(1))
-  res <- lapply(res, "[", -c(1:2))
-  ont2gene <- stack(res)
-  ont2gene <- ont2gene[, c("ind", "values")]
-  colnames(ont2gene) <- c("term", "gene")
-  return(ont2gene)
+  parsed_data <- strsplit(OrgDB, "\t", fixed = TRUE)
+  term_names <- character(length(parsed_data))
+  for (i in seq_along(parsed_data)) {
+    term_names[i] <- parsed_data[[i]][1L]
+  }
+  names(parsed_data) <- term_names
+
+  gene_lists <- vector("list", length(parsed_data))
+  names(gene_lists) <- term_names
+  for (i in seq_along(parsed_data)) {
+    current_row <- parsed_data[[i]]
+    if (length(current_row) > 2L) {
+      gene_lists[[i]] <- current_row[3L:length(current_row)]
+    } else {
+      gene_lists[[i]] <- character(0)
+    }
+  }
+  term_lengths <- lengths(gene_lists)
+  total_rows <- sum(term_lengths)
+  # Pre-allocate result vectors
+  data.frame(
+    term = rep(names(gene_lists), term_lengths),
+    gene = unlist(gene_lists, use.names = FALSE),
+    stringsAsFactors = FALSE
+  )
 }
 
 
