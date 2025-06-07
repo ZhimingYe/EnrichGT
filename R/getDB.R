@@ -203,7 +203,7 @@ database_RA <- function(OrgDB, ...) {
   result_df <- result_df[result_df$ENTREZID %in% gene_mapping$ENTREZID, ]
   pathway_df <- data.frame(
     ID = names(path_names_filtered),
-    PATHID2NAME = unname(path_names_filtered),
+    PN = unname(path_names_filtered),
     stringsAsFactors = FALSE
   )
 

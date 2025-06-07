@@ -209,28 +209,18 @@ egt_plot_results <- function(
 }
 
 shorten_labels_words <- function(label, max_length = 40) {
-  returnRes <- sapply(label, function(l) {
-    words <- unlist(strsplit(l, " "))
-    cumulative_length <- cumsum(nchar(words) + 1)
-    if (max(cumulative_length) <= max_length) {
-      return(l)
-    }
-    cutoff <- max(which(cumulative_length <= max_length))
-    paste(paste(words[1:cutoff], collapse = " "), "...")
-  })
-  returnRes0 <- tapply(returnRes, returnRes, function(x) {
-    if (length(x) == 1) {
-      return(x)
-    } else {
-      x <- paste0(x, "(", 1:length(x), ")")
-      return(x)
-    }
-  })
-  returnRes0 <- unlist(returnRes0)
-  names(returnRes0) <- NULL
-  return(returnRes0)
+  shorten_one <- function(l) {
+    words <- base::strsplit(l, " ")[[1]]
+    cum   <- base::cumsum(nchar(words) + 1)
+    if (max(cum) <= max_length) return(l)
+    cut <- max(which(cum <= max_length))
+    paste(paste(words[1:cut], collapse = " "), "...")
+  }
+  out <- vapply(label, shorten_one, character(1))
+  idx <- stats::ave(seq_along(out), out, FUN = seq_along)
+  out[idx > 1] <- paste0(out[idx > 1], "(", idx[idx > 1], ")")
+  out
 }
-
 
 ORA2dp <- function(
   x,
