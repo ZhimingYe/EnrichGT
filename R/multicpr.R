@@ -33,7 +33,6 @@
 #' \code{\link{comparison_reactor_base}} for the base class documentation
 #' \code{\link{comparison_reactor_ora}} for ORA-specific functionality
 #' \code{\link{comparison_reactor_gsea}} for GSEA-specific functionality
-#' @importFrom cowplot plot_grid
 #' @importFrom ggplot2 ggplotGrob
 #' @importFrom R6 R6Class
 #' @export
