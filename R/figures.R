@@ -275,9 +275,9 @@ ORA2dp <- function(
   tryCatch(
     {
       df <- TempPlotingEnv$df0 |>
-        group_by(Cluster) |>
-        slice_min(order_by = Padj, n = ntop, with_ties = FALSE) |>
-        ungroup()
+        dplyr::group_by(Cluster) |>
+        dplyr::slice_min(order_by = Padj, n = ntop, with_ties = FALSE) |>
+        dplyr::ungroup()
     },
     error = function(e) {
       cli::cli_alert_warning("Subset ERROR! ")
@@ -363,9 +363,9 @@ GSEA2dp <- function(
   tryCatch(
     {
       df <- TempPlotingEnv$df0 |>
-        group_by(Cluster) |>
-        slice_max(order_by = absNES, n = ntop, with_ties = FALSE) |>
-        ungroup()
+        dplyr::group_by(Cluster) |>
+        dplyr::slice_max(order_by = absNES, n = ntop, with_ties = FALSE) |>
+        dplyr::ungroup()
     },
     error = function(e) {
       cli::cli_alert_warning("Subset ERROR! ")
