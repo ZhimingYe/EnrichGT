@@ -121,7 +121,7 @@ summarize_genes <- function(x, y, chat, prompt_type = "English") {
     "Chinese" = promptList$getGeneSummary_Chinese,
     cli::cli_abort("Invalid prompt_type, must be 'English' or 'Chinese'")
   )
-  prompt3 <- switch(
+  prompt_ <- switch(
     prompt_type,
     "English" = promptList$getTitle_English,
     "Chinese" = promptList$getTitle_Chinese,
@@ -140,7 +140,7 @@ summarize_genes <- function(x, y, chat, prompt_type = "English") {
     prompt3 <- gsub(
       "<PRERES>",
       y[[which(clustersName == i)]],
-      prompt3
+      prompt_
     )
     need2summarize[index0] <- prompt2
     names(need2summarize[index0]) <- i
