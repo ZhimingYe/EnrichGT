@@ -30,20 +30,24 @@ egt_fetch_biological_theme <- function(
       strsplit(x@pathway_clusters[[name]], "[|]"),
       function(q) q[2]
     ))
-  } else NULL
+  } else {
+    NULL
+  }
 }
 
 
 #' Fetch and visualize termwise relationships in enrichment analysis results
 #'
 #' This function analyzes the relationships between enriched terms and creates a
-#' hierarchical clustering visualization.
+#' hierarchical clustering visualization. Please avoiding querying too large dataset.
 #'
 #' @param x A character vector of terms to analyze
-#' @param database A data frame containing the database information
+#' @param database Query database. For example, `database_GO_BP(org.Hs.eg.db)`. If you are quering fused result, you can input a list like `list(database_GO_BP(org.Hs.eg.db), database_Reactome(org.Hs.eg.db))`.
 #' @param according_to Character string specifying which column to use for filtering, default is "Description"
 #' @param ClusterNum Integer specifying the number of clusters, default is 4
 #' @param method Character string specifying the hierarchical clustering method, default is "ward.D2"
+#' @param force Avoid checking the length of x. Large query will cause long calculation time and poor results.
+#' @param maxLength Warp length max than what terms
 #'
 #' @return A list containing:
 #'   \item{Figure}{A ggplot2 object showing the hierarchical clustering}
@@ -60,7 +64,7 @@ egt_fetch_biological_theme <- function(
 #' # Example usage:
 #' result <- egt_fetch_termwise_relationship(
 #'   x = c("pathway1", "pathway2"),
-#'   database = my_pathway_db,
+#'   database = pathway_db,
 #'   according_to = "Description"
 #' )
 #' result$Figure
@@ -73,16 +77,43 @@ egt_fetch_termwise_relationship <- function(
   database,
   according_to = "Description",
   ClusterNum = 4,
-  method = "ward.D2"
+  method = "ward.D2",
+  force = F,
+  maxLength = 40
 ) {
+  if (length(x) > 100 & (!force)) {
+    cli::cli_abort(
+      "Please avoiding querying too large dataset. If you still want to, please set `force = T`. "
+    )
+  }
   if (according_to == "Description") {
     according_to <- "pathway"
+    if (sum(grepl("[|]", x)) > 2) {
+      x <- sapply(strsplit(x, "[|]"), function(x) x[2])
+    }
   }
-  stopifnot(is.data.frame(database))
-  res <- prepare_database(database, db0_name = "pathway")
-  ddd0 <- res$db0 |> dplyr::filter(!!sym(according_to) %in% x)
+
+  if (!is.data.frame(database)) {
+    if (is.list(database)) {
+      tmplist <- lapply(database, function(x) {
+        prepare_database(x, db0_name = "pathway")
+      })
+      tmplistdb0 <- lapply(tmplist, function(x) x$db0)
+      tmplistdatabase <- lapply(tmplist, function(x) x$database)
+      res <- list()
+      res$db0 <- Reduce(rbind, tmplistdb0)
+      res$database <- Reduce(rbind, tmplistdatabase)
+    } else {
+      cli::cli_abort("Please re-check your input.")
+    }
+  } else {
+    res <- prepare_database(database, db0_name = "pathway")
+  }
+
+  ddd0 <- res$db0 |> dplyr::filter(!!dplyr::sym(according_to) %in% x)
   ddd <- res$database |> dplyr::filter(term %in% ddd0$pathway)
   terms2 <- split(ddd$gene, ddd$term)
+  terms2 <- lapply(terms2, unique)
   kkk <- genclusterscore(terms2, names(terms2), ClusterNum, method)
   hc <- kkk$hc
   dd <- ggdendro::dendro_data(hc, type = "rectangle")
@@ -91,7 +122,7 @@ egt_fetch_termwise_relationship <- function(
   cdf <- kkk$clusters
   colnames(cdf) <- c("label", "cluster")
   lab_df <- lab_df |> dplyr::left_join(cdf)
-  lab_df$label <- stringr::str_wrap(lab_df$label, 40)
+  lab_df$label <- stringr::str_wrap(lab_df$label, maxLength)
   p <- ggplot2::ggplot() +
     ggplot2::geom_segment(
       data = seg_df,

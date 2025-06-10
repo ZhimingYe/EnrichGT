@@ -631,6 +631,11 @@ base_pheatmap <- function(
   colsA <- cols[1]
   colsB <- cols[length(cols)]
   # cols <- c(rep(colsA, 1), cols, rep(colsB, 1)) |> rev()
+  q5mat <- quantile(mat, probs = c(0.01, 0.99))[1]
+  q95mat <- quantile(mat, probs = c(0.01, 0.99))[2]
+  mat <- as.matrix(mat)
+  mat[mat <= q5mat] <- q5mat
+  mat[mat >= q95mat] <- q95mat
   brks <- seq(from = min(mat), to = max(mat), length.out = length(cols) + 1)
   stats::heatmap(
     mat,

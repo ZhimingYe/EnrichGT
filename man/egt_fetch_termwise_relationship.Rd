@@ -9,19 +9,22 @@ egt_fetch_termwise_relationship(
   database,
   according_to = "Description",
   ClusterNum = 4,
-  method = "ward.D2"
+  method = "ward.D2",
+  force = F
 )
 }
 \arguments{
 \item{x}{A character vector of terms to analyze}
 
-\item{database}{A data frame containing the database information}
+\item{database}{Query database. For example, `database_GO_BP(org.Hs.eg.db)`. If you are quering fused result, you can input a list like `list(database_GO_BP(org.Hs.eg.db), database_Reactome(org.Hs.eg.db))`.}
 
 \item{according_to}{Character string specifying which column to use for filtering, default is "Description"}
 
 \item{ClusterNum}{Integer specifying the number of clusters, default is 4}
 
 \item{method}{Character string specifying the hierarchical clustering method, default is "ward.D2"}
+
+\item{force}{Avoid checking the length of x. Large query will cause long calculation time and poor results.}
 }
 \value{
 A list containing:
@@ -31,14 +34,14 @@ A list containing:
 }
 \description{
 This function analyzes the relationships between enriched terms and creates a
-hierarchical clustering visualization.
+hierarchical clustering visualization. Please avoiding querying too large dataset.
 }
 \examples{
 \dontrun{
 # Example usage:
 result <- egt_fetch_termwise_relationship(
   x = c("pathway1", "pathway2"),
-  database = my_pathway_db,
+  database = pathway_db,
   according_to = "Description"
 )
 result$Figure
