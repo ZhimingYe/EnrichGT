@@ -118,7 +118,7 @@ egt_web_interface <- function(port = NULL, host = "127.0.0.1", launch.browser = 
           fluidRow(
             box(
               title = "Over-Representation Analysis (ORA)", status = "primary", solidHeader = TRUE,
-              width = 4, height = "600px",
+              width = 4, height = "800px",
 
               h4("Input Parameters"),
 
@@ -177,7 +177,7 @@ egt_web_interface <- function(port = NULL, host = "127.0.0.1", launch.browser = 
           fluidRow(
             box(
               title = "Gene Set Enrichment Analysis (GSEA)", status = "primary", solidHeader = TRUE,
-              width = 4, height = "600px",
+              width = 4, height = "850px",
 
               h4("Input Parameters"),
 
@@ -237,7 +237,7 @@ egt_web_interface <- function(port = NULL, host = "127.0.0.1", launch.browser = 
           fluidRow(
             box(
               title = "Recluster Analysis", status = "primary", solidHeader = TRUE,
-              width = 4, height = "600px",
+              width = 4, height = "700px",
 
               h4("Input Parameters"),
 
@@ -286,8 +286,8 @@ egt_web_interface <- function(port = NULL, host = "127.0.0.1", launch.browser = 
                          )
                 ),
                 tabPanel("LLM Summary",
-                         div(style = "height: 500px; overflow: auto;",
-                             verbatimTextOutput("recluster_llm_summary")
+                         div(style = "height: 500px; overflow: auto; padding: 15px; background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px;",
+                             htmlOutput("recluster_llm_summary")
                          )
                 )
               )
@@ -546,12 +546,13 @@ egt_web_interface <- function(port = NULL, host = "127.0.0.1", launch.browser = 
         )
 
         values$recluster_result <- result
-        
+
         # Generate LLM summary if requested and LLM is available
         if (!is.null(LLM) && isTRUE(input$recluster_llm_summary)) {
           tryCatch({
             showNotification("Generating LLM summary...", type = "default", duration = 3)
-            llm_summary <- egt_llm_summary(result, LLM = LLM)
+            showNotification("LLM summary is processing, it would be very slow...", type = "default", duration = 15)
+            llm_summary <- egt_llm_summary(result, chat = LLM)
             values$llm_summary <- llm_summary
             showNotification("Recluster analysis completed with LLM summary!", type = "message")
           }, error = function(e) {
@@ -675,56 +676,75 @@ egt_web_interface <- function(port = NULL, host = "127.0.0.1", launch.browser = 
     })
 
     # LLM Summary Output
-     output$recluster_llm_summary <- renderText({
+     output$recluster_llm_summary <- renderUI({
        if (is.null(values$llm_summary)) {
-         return("No LLM summary available. Check 'Generate LLM Summary' option and ensure LLM object is provided.")
+         return(div(style = "color: #6c757d; font-style: italic; text-align: center; margin-top: 20px;", 
+                    "No LLM summary available. Check 'Generate LLM Summary' option and ensure LLM object is provided."))
        }
 
        if (is.character(values$llm_summary)) {
-         return(values$llm_summary)
+         return(div(style = "color: #dc3545; margin: 15px;", values$llm_summary))
        }
 
        # If it's an EnrichGT object with LLM annotation, format the summary
        if (inherits(values$llm_summary, "EnrichGT_obj") && !is.null(values$llm_summary@LLM_Annotation)) {
          cluster_names <- values$llm_summary@LLM_Annotation@pathways$cluster_names
          if (length(cluster_names) == 0) {
-           return("No clusters found for LLM summary.")
+           return(div(style = "color: #6c757d; font-style: italic; text-align: center; margin-top: 20px;", 
+                      "No clusters found for LLM summary."))
          }
 
-         # Format summary for display
-         summary_text <- ""
+         # Create HTML content
+         html_content <- div()
+         
          for (i in seq_along(cluster_names)) {
            cluster_name <- cluster_names[i]
-
+           cluster_div <- div(style = "margin-bottom: 25px; padding: 15px; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);")
+           
            # Get cluster title
            title_idx <- which(values$llm_summary@LLM_Annotation@genes_and_title$clustersName == cluster_name)
            if (length(title_idx) > 0) {
              title <- values$llm_summary@LLM_Annotation@genes_and_title$resultsTitle[[title_idx]]
-             summary_text <- paste0(summary_text, "\n=== ", cluster_name, " ===", "\n")
-             summary_text <- paste0(summary_text, "Title: ", title, "\n\n")
+             cluster_div <- tagAppendChild(cluster_div, 
+               h4(style = "color: #495057; margin-bottom: 15px; border-bottom: 2px solid #007bff; padding-bottom: 8px;", 
+                  HTML(paste0(cluster_name, " - ", title))))
+           } else {
+             cluster_div <- tagAppendChild(cluster_div, 
+               h4(style = "color: #495057; margin-bottom: 15px; border-bottom: 2px solid #007bff; padding-bottom: 8px;", 
+                  cluster_name))
            }
-
+           
            # Get pathway summary
            pathway_idx <- which(values$llm_summary@LLM_Annotation@pathways$cluster_names == cluster_name)
            if (length(pathway_idx) > 0) {
              pathway_summary <- values$llm_summary@LLM_Annotation@pathways$results[[pathway_idx]]
-             summary_text <- paste0(summary_text, "Pathway Summary:\n", pathway_summary, "\n\n")
+             cluster_div <- tagAppendChild(cluster_div,
+               div(style = "margin-bottom: 15px;",
+                 h5(style = "color: #28a745; margin-bottom: 8px;", "Pathway Summary:"),
+                 div(style = "color: #495057; line-height: 1.6; white-space: pre-wrap; font-family: inherit;", 
+                     HTML(gsub("\n", "<br>", pathway_summary)))
+               ))
            }
 
            # Get gene summary
            gene_idx <- which(values$llm_summary@LLM_Annotation@genes_and_title$clustersName == cluster_name)
            if (length(gene_idx) > 0) {
              gene_summary <- values$llm_summary@LLM_Annotation@genes_and_title$results[[gene_idx]]
-             summary_text <- paste0(summary_text, "Gene Analysis:\n", gene_summary, "\n\n")
+             cluster_div <- tagAppendChild(cluster_div,
+               div(style = "margin-bottom: 10px;",
+                 h5(style = "color: #17a2b8; margin-bottom: 8px;", "Gene Analysis:"),
+                 div(style = "color: #495057; line-height: 1.6; white-space: pre-wrap; font-family: inherit;", 
+                     HTML(gsub("\n", "<br>", gene_summary)))
+               ))
            }
-
-           summary_text <- paste0(summary_text, "\n", paste(rep("-", 80), collapse = ""), "\n")
+           
+           html_content <- tagAppendChild(html_content, cluster_div)
          }
-
-         return(summary_text)
+         
+         return(html_content)
        }
 
-       return("Unable to format LLM summary.")
+       return(div(style = "color: #dc3545; margin: 15px;", "Unable to format LLM summary."))
      })
 
 

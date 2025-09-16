@@ -4,60 +4,68 @@
 \alias{egt_web_interface}
 \title{Launch EnrichGT Web Interface}
 \usage{
-egt_web_interface(host = "127.0.0.1", port = NULL, launch.browser = TRUE)
+egt_web_interface(
+  port = NULL,
+  host = "127.0.0.1",
+  launch.browser = TRUE,
+  LLM = NULL
+)
 }
 \arguments{
-\item{host}{IP address that the application should listen on. Default is \code{"127.0.0.1"} (localhost).}
+\item{port}{Port number for the application. If NULL (default), a random available port will be used.}
 
-\item{port}{Port number for the application. If \code{NULL} (default), a random available port will be used.}
+\item{host}{IP address that the application should listen on. Default is "127.0.0.1" (localhost).}
 
-\item{launch.browser}{Logical. If \code{TRUE} (default), the web browser will be launched automatically.}
+\item{launch.browser}{Logical. If TRUE (default), the web browser will be launched automatically.}
+
+\item{LLM}{An optional LLM chat object created by the \code{ellmer} package.
+If provided, enables LLM-powered summarization of recluster analysis results.
+If NULL (default), LLM features are disabled.}
+}
+\value{
+Starts a Shiny application
 }
 \description{
-Launch an interactive Shiny web application that provides a user-friendly interface 
+Launch an interactive Shiny web application that provides a user-friendly interface
 for performing enrichment analysis using EnrichGT package functions.
 }
 \details{
 The web interface includes three main analysis modules:
 
-\strong{Enrichment Analysis (ORA):}
-\itemize{
-  \item Input: Gene list (one gene per line or comma-separated)
-  \item Analysis: Over-representation analysis using \code{egt_enrichment_analysis}
-  \item Output: Interactive plot and downloadable table
-}
+**Enrichment Analysis (ORA):**
+- Input: Gene list (one gene per line or comma-separated)
+- Analysis: Over-representation analysis using \code{egt_enrichment_analysis}
+- Output: Interactive plot and downloadable table
 
-\strong{GSEA Analysis:}
-\itemize{
-  \item Input: Ranked gene list with weights (tab-separated: gene\ttab\tweight)
-  \item Analysis: Gene Set Enrichment Analysis using \code{egt_gsea_analysis}
-  \item Output: Interactive plot and downloadable table
-}
+**GSEA Analysis:**
+- Input: Ranked gene list with weights (tab-separated: gene\ttab\tweight)
+- Analysis: Gene Set Enrichment Analysis using \code{egt_gsea_analysis}
+- Output: Interactive plot and downloadable table
 
-\strong{Recluster Analysis:}
-\itemize{
-  \item Input: Results from ORA or GSEA analysis (upload CSV file)
-  \item Analysis: Hierarchical clustering of enrichment results using \code{egt_recluster_analysis}
-  \item Output: Interactive gt table with clustered results
-}
+**Recluster Analysis:**
+- Input: Results from ORA or GSEA analysis
+- Analysis: Hierarchical clustering of enrichment results using \code{egt_recluster_analysis}
+- Output: Interactive gt table with clustered results and optional LLM summary
 
-\strong{Available Databases:}
-\itemize{
-  \item GO Biological Process (GO_BP)
-  \item GO Cellular Component (GO_CC)
-  \item GO Molecular Function (GO_MF)
-  \item KEGG Pathways
-  \item Reactome Pathways
-}
+**Available Databases:**
+- GO Biological Process (GO_BP)
+- GO Cellular Component (GO_CC)
+- GO Molecular Function (GO_MF)
+- KEGG Pathways
+- Reactome Pathways
 
-Each analysis module allows users to adjust parameters such as p-value cutoffs, 
-geneset size limits, and visualization options. Results can be downloaded as 
-CSV files or high-resolution images.
+Each analysis module allows users to adjust parameters such as p-value cutoffs,
+geneset size limits, and visualization options.
 }
 \examples{
 \dontrun{
 # Launch the web interface with default settings
 egt_web_interface()
+
+# Launch with LLM support
+library(ellmer)
+chat <- chat_deepseek(api_key = "your_api_key", model = "deepseek-chat")
+egt_web_interface(LLM = chat)
 
 # Launch on a specific port
 egt_web_interface(port = 3838)
@@ -65,10 +73,11 @@ egt_web_interface(port = 3838)
 # Launch without opening browser automatically
 egt_web_interface(launch.browser = FALSE)
 }
+
 }
 \seealso{
-\code{\link{egt_enrichment_analysis}}, \code{\link{egt_gsea_analysis}}, 
-\code{\link{egt_recluster_analysis}}, \code{\link{egt_plot_results}}
+\code{\link{egt_enrichment_analysis}}, \code{\link{egt_gsea_analysis}},
+\code{\link{egt_recluster_analysis}}, \code{\link{egt_plot_results}}, \code{\link{egt_llm_summary}}
 }
 \author{
 Zhiming Ye

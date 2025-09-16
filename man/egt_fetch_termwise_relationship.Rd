@@ -10,7 +10,8 @@ egt_fetch_termwise_relationship(
   according_to = "Description",
   ClusterNum = 4,
   method = "ward.D2",
-  force = F
+  force = F,
+  maxLength = 40
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ egt_fetch_termwise_relationship(
 \item{method}{Character string specifying the hierarchical clustering method, default is "ward.D2"}
 
 \item{force}{Avoid checking the length of x. Large query will cause long calculation time and poor results.}
+
+\item{maxLength}{Warp length max than what terms}
 }
 \value{
 A list containing:

@@ -4,7 +4,7 @@
 \alias{egt_llm_summary}
 \title{Summarize EnrichGT results using LLM}
 \usage{
-egt_llm_summary(x, chat, lang = "English")
+egt_llm_summary(x, chat, lang = "English", model_name = NULL)
 }
 \arguments{
 \item{x}{An EnrichGT_obj object created by \code{\link{egt_recluster_analysis}}.}

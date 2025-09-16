@@ -8,3 +8,4 @@ _internal*
 re_enrichment_results.rds
 .rds
 egrep_files
+^dev$
