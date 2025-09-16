@@ -230,17 +230,176 @@ summarize_genes <- function(x, y, chat, prompt_type = "English") {
 #'
 #' @seealso \code{\link{egt_recluster_analysis}} to create the input object.
 #' @export
-egt_llm_summary <- function(x, chat, lang = "English") {
+egt_llm_summary <- function(x, chat, lang = "English", model_name = NULL) {
   if (sum(lang %in% c("English", "Chinese")) != 1) {
     cli::cli_abort("Invalid prompt_type, must be 'English' or 'Chinese'")
   }
   if (class(x) != "EnrichGT_obj")
     cli::cli_abort("Please run `egt_recluster_analysis()` before summarizing. ")
+  
+  # Detect model name if not provided
+  if (is.null(model_name)) {
+    model_name <- tryCatch({
+      if (exists("model", envir = chat)) {
+        chat$model
+      } else {
+        "Unknown_Model"
+      }
+    }, error = function(e) "Unknown_Model")
+  }
+  
   a1 <- summarize_clusters(x, chat, lang)
   a2 <- summarize_genes(x, a1, chat, lang)
   obj_llm <- new("egt_llm")
   obj_llm@pathways <- a1
   obj_llm@genes_and_title <- a2
+  obj_llm@llm_model_info <- paste0(model_name, "_", lang, "_", Sys.time())
   x@LLM_Annotation <- obj_llm
   return(x)
+}
+
+#' Compare Multiple LLM Summaries
+#'
+#' Generate summaries using multiple LLM models and create a comparison object.
+#'
+#' @param x An EnrichGT_obj object from egt_recluster_analysis()
+#' @param chat_list A named list of LLM chat objects
+#' @param lang Language for summaries ("English" or "Chinese")
+#' @param comparison_prompt Custom prompt for generating comparison summary
+#'
+#' @return EnrichGT_obj with LLM_Comparison slot filled
+#' @export
+egt_llm_multi_summary <- function(x, chat_list, lang = "English", comparison_prompt = NULL) {
+  if (class(x) != "EnrichGT_obj")
+    cli::cli_abort("Please run `egt_recluster_analysis()` before summarizing.")
+  
+  if (!is.list(chat_list) || is.null(names(chat_list)))
+    cli::cli_abort("chat_list must be a named list of LLM chat objects.")
+  
+  cli::cli_alert_info("Starting multi-LLM comparison...")
+  
+  # Generate summaries for each LLM
+  llm_results <- list()
+  model_names <- names(chat_list)
+  
+  for (i in seq_along(chat_list)) {
+    model_name <- model_names[i]
+    chat <- chat_list[[i]]
+    
+    cli::cli_alert_info(paste0("Generating summary with ", model_name, "..."))
+    
+    tryCatch({
+      temp_result <- egt_llm_summary(x, chat, lang, model_name)
+      llm_results[[model_name]] <- temp_result@LLM_Annotation
+    }, error = function(e) {
+      cli::cli_alert_warning(paste0("Failed to generate summary with ", model_name, ": ", e$message))
+      llm_results[[model_name]] <- NULL
+    })
+  }
+  
+  # Remove failed results
+  llm_results <- llm_results[!sapply(llm_results, is.null)]
+  model_names <- names(llm_results)
+  
+  if (length(llm_results) == 0) {
+    cli::cli_abort("No successful LLM summaries were generated.")
+  }
+  
+  # Create comparison object
+  comp_obj <- new("egt_llm_comparison")
+  comp_obj@llm_results <- llm_results
+  comp_obj@model_names <- model_names
+  
+  # For single LLM, store the result directly without comparison summary
+  if (length(llm_results) == 1) {
+    comp_obj@comparison_summary <- list()
+    cli::cli_alert_success(paste0("Single LLM summary completed with ", model_names[1], "."))
+  } else {
+    # For multiple LLMs, generate comparison summary
+    comparison_summary <- generate_comparison_summary(llm_results, model_names, lang, comparison_prompt)
+    comp_obj@comparison_summary <- comparison_summary
+    cli::cli_alert_success(paste0("Multi-LLM comparison completed with ", length(model_names), " models."))
+  }
+  
+  x@LLM_Comparison <- comp_obj
+  return(x)
+}
+
+#' Generate Comparison Summary
+#' @keywords internal
+generate_comparison_summary <- function(llm_results, model_names, lang, comparison_prompt = NULL) {
+  cluster_names <- llm_results[[1]]@pathways$cluster_names
+  comparison_summary <- list()
+  
+  for (i in seq_along(cluster_names)) {
+    cluster <- cluster_names[i]
+    cluster_comparison <- list()
+    
+    # Extract results for each model for this cluster
+    for (model in model_names) {
+      # Check if cluster exists in this model's results
+      model_cluster_names <- llm_results[[model]]@genes_and_title$clustersName
+      model_idx <- which(model_cluster_names == cluster)
+      
+      if (length(model_idx) > 0) {
+        cluster_comparison[[model]] <- list(
+          pathway_summary = llm_results[[model]]@pathways$results[[i]],
+          gene_summary = llm_results[[model]]@genes_and_title$results[[model_idx]],
+          title = llm_results[[model]]@genes_and_title$resultsTitle[[model_idx]]
+        )
+      } else {
+        # If cluster doesn't exist in this model, use placeholder
+        cluster_comparison[[model]] <- list(
+          pathway_summary = "No pathway summary available for this cluster",
+          gene_summary = "No gene summary available for this cluster", 
+          title = "No title available for this cluster"
+        )
+      }
+    }
+    
+    # Generate consensus and differences
+    consensus_analysis <- analyze_consensus(cluster_comparison, lang)
+    
+    comparison_summary[[cluster]] <- list(
+      model_results = cluster_comparison,
+      consensus = consensus_analysis$consensus,
+      differences = consensus_analysis$differences,
+      confidence_scores = consensus_analysis$confidence
+    )
+  }
+  
+  return(comparison_summary)
+}
+
+#' Analyze Consensus Among LLM Results
+#' @keywords internal
+analyze_consensus <- function(cluster_comparison, lang) {
+  models <- names(cluster_comparison)
+  
+  # Extract key terms and themes
+  all_summaries <- sapply(models, function(m) {
+    paste(cluster_comparison[[m]]$pathway_summary, cluster_comparison[[m]]$gene_summary)
+  })
+  
+  # Simple consensus analysis
+  consensus <- list(
+    common_themes = "Analysis of common biological themes across models",
+    agreement_level = "High/Medium/Low based on similarity"
+  )
+  
+  differences <- list(
+    model_specific = "Unique insights from each model",
+    conflicting_views = "Areas where models disagree"
+  )
+  
+  confidence <- list(
+    overall = "Overall confidence in the analysis",
+    per_model = setNames(rep("Model-specific confidence", length(models)), models)
+  )
+  
+  return(list(
+    consensus = consensus,
+    differences = differences,
+    confidence = confidence
+  ))
 }

@@ -2,7 +2,17 @@ setClass(
   "egt_llm",
   slots = list(
     pathways = "list",
-    genes_and_title = "list"
+    genes_and_title = "list",
+    llm_model_info = "character"
+  )
+)
+
+setClass(
+  "egt_llm_comparison",
+  slots = list(
+    llm_results = "list",
+    model_names = "character",
+    comparison_summary = "list"
   )
 )
 setOldClass("gt_tbl")
@@ -21,7 +31,8 @@ setClass(
     raw_enriched_result = "data.frame",
     fused = "logical",
     param = "list",
-    LLM_Annotation = "egt_llm"
+    LLM_Annotation = "egt_llm",
+    LLM_Comparison = "egt_llm_comparison"
   )
 )
 
@@ -50,10 +61,17 @@ setMethod("names", "EnrichGT_obj", function(x) {
 
 setMethod("$", "EnrichGT_obj", function(x, name) {
   name <- getCLSNAME(name)
-  if ((x@LLM_Annotation@pathways |> length()) < 2) {
-    summary_use_local(x, name)
-  } else {
+  
+  # Check for multi-LLM comparison results first
+  if (length(x@LLM_Comparison@llm_results) >= 2) {
+    summary_use_llm_comparison(x, name)
+  } else if (length(x@LLM_Comparison@llm_results) == 1) {
+    # Single LLM comparison result - display it directly
+    summary_use_single_llm_comparison(x, name)
+  } else if ((x@LLM_Annotation@pathways |> length()) >= 2) {
     summary_use_llm(x, name)
+  } else {
+    summary_use_local(x, name)
   }
 })
 
@@ -201,4 +219,122 @@ summary_use_llm <- function(x, name) {
 
 is_numeric_string <- function(x) {
   grepl("^[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?$", x)
+}
+
+#' Display Multi-LLM Comparison Summary
+#' @keywords internal
+summary_use_llm_comparison <- function(x, name) {
+  tryCatch({
+    if (length(x@LLM_Comparison@llm_results) == 0) {
+      cli::cli_alert_warning("No LLM comparison results available. Use egt_llm_multi_summary() first.")
+      return(summary_use_local(x, name))
+    }
+    
+    cli::cli_h1(glue::glue("Multi-LLM Comparison Result of {name}"))
+    
+    # Get comparison data for this cluster
+    comparison_data <- x@LLM_Comparison@comparison_summary[[name]]
+    model_names <- x@LLM_Comparison@model_names
+    
+    if (is.null(comparison_data)) {
+      cli::cli_alert_warning(paste0("No comparison data found for cluster ", name))
+      return(summary_use_local(x, name))
+    }
+    
+    # Display results from each model
+    cli::cli_h2("Individual Model Results")
+    for (model in model_names) {
+      if (!is.null(comparison_data$model_results[[model]])) {
+        cli::cli_h3(glue::glue("Model: {model}"))
+        ul1 <- cli::cli_ul()
+        cli::cli_li(glue::glue("Title: {comparison_data$model_results[[model]]$title}"))
+        cli::cli_li(glue::glue("Pathway Analysis: {comparison_data$model_results[[model]]$pathway_summary}"))
+        cli::cli_li(glue::glue("Gene Analysis: {comparison_data$model_results[[model]]$gene_summary}"))
+        cli::cli_end(ul1)
+      }
+    }
+    
+    # Display consensus analysis
+    cli::cli_h2("Consensus Analysis")
+    ul2 <- cli::cli_ul()
+    cli::cli_li(glue::glue("Common Themes: {comparison_data$consensus$common_themes}"))
+    cli::cli_li(glue::glue("Agreement Level: {comparison_data$consensus$agreement_level}"))
+    cli::cli_end(ul2)
+    
+    # Display differences
+    cli::cli_h2("Model Differences")
+    ul3 <- cli::cli_ul()
+    cli::cli_li(glue::glue("Model-specific Insights: {comparison_data$differences$model_specific}"))
+    cli::cli_li(glue::glue("Conflicting Views: {comparison_data$differences$conflicting_views}"))
+    cli::cli_end(ul3)
+    
+    # Display confidence scores
+    cli::cli_h2("Confidence Assessment")
+    ul4 <- cli::cli_ul()
+    cli::cli_li(glue::glue("Overall Confidence: {comparison_data$confidence_scores$overall}"))
+    for (model in model_names) {
+      if (!is.null(comparison_data$confidence_scores$per_model[[model]])) {
+        cli::cli_li(glue::glue("{model} Confidence: {comparison_data$confidence_scores$per_model[[model]]}"))
+      }
+    }
+    cli::cli_end(ul4)
+    
+  }, error = function(e) {
+    cli::cli_alert_danger("Error displaying LLM comparison results. Falling back to local summary.")
+    summary_use_local(x, name)
+  })
+}
+
+#' Display Single LLM Comparison Summary
+#' @keywords internal
+summary_use_single_llm_comparison <- function(x, name) {
+  tryCatch({
+    if (length(x@LLM_Comparison@llm_results) == 0) {
+      cli::cli_alert_warning("No LLM comparison results available.")
+      return(summary_use_local(x, name))
+    }
+    
+    # Get the single model name and results
+    model_name <- x@LLM_Comparison@model_names[1]
+    llm_result <- x@LLM_Comparison@llm_results[[1]]
+    
+    cli::cli_h1(glue::glue("Enrichment Result of {name} (LLM Summary - {model_name})"))
+    
+    # Find the cluster index
+    cluster_idx <- which(llm_result@pathways$cluster_names == name)
+    
+    if (length(cluster_idx) == 0) {
+      cli::cli_alert_warning(paste0("No LLM summary found for cluster ", name))
+      return(summary_use_local(x, name))
+    }
+    
+    # Display title
+    title <- llm_result@genes_and_title$resultsTitle[[cluster_idx]]
+    cli::cli_h2(title)
+    
+    # Display pathway analysis
+    pathway_summary <- llm_result@pathways$results[[cluster_idx]]
+    cli::cli_h3("Pathway Analysis")
+    ul1 <- cli::cli_ul()
+    cli::cli_li(pathway_summary)
+    cli::cli_end(ul1)
+    
+    # Display gene analysis
+    gene_summary <- llm_result@genes_and_title$results[[cluster_idx]]
+    cli::cli_h3("Gene Analysis")
+    ul2 <- cli::cli_ul()
+    cli::cli_li(gene_summary)
+    cli::cli_end(ul2)
+    
+    # Display model information
+    cli::cli_h3("Model Information")
+    ul3 <- cli::cli_ul()
+    cli::cli_li(glue::glue("Model: {model_name}"))
+    cli::cli_li(glue::glue("Analysis Time: {llm_result@llm_model_info}"))
+    cli::cli_end(ul3)
+    
+  }, error = function(e) {
+    cli::cli_alert_danger("Error displaying single LLM comparison results. Falling back to local summary.")
+    summary_use_local(x, name)
+  })
 }
