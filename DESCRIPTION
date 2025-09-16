@@ -1,9 +1,11 @@
 Type: Package
 Package: EnrichGT
 Title: EnrichGT - all in one enrichment analysis solution
-Version: 1.5.4
-Author: Zhiming Ye
-Maintainer: Zhiming Ye <garnetcrow@hotmail.com>
+Version: 1.6.0
+Authors@R: c(
+    person("Zhiming", "Ye", email = "garnetcrow@hotmail.com", role = c("aut", "cre")),
+    person("Runchen", "Wang", email = "runchen_wang@163.com", role = "cph")
+  )
 Description: Do biological enrichment analysis and parsing and clustering
     enrichment result to insightful results in just ONE package
 License: GPL-V3
