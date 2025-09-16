@@ -96,9 +96,7 @@ egt_recluster_analysis <- function(
     requireNamespace("Matrix")
     requireNamespace("cli")
   })
-  cli::cli_h1("EnrichGT")
-  cli::cli_alert_info("See help on https://zhimingye.github.io/EnrichGT/")
-  cli::cli_alert("by Zhiming Ye")
+  message("EnrichGT, See help on https://zhimingye.github.io/EnrichGT/")
 }
 
 
@@ -182,7 +180,7 @@ egt_generate_quarto_report <- function(
       "Please provide `EnrichGT_obj`. You should perform re-clustering"
     )
   }
-  
+
   saveRDS(re_enrichment_results, file = rds_path)
   cluster_names <- names(re_enrichment_results)
   if (type == "pdf") {
@@ -198,7 +196,9 @@ egt_generate_quarto_report <- function(
       '',
       '```{r, comment = ""}',
       '#| echo: false',
-      paste0('re_enrichment_results$', cluster),
+      '#| output: asis',
+      paste0("a <- EnrichGT:::egt_summary(re_enrichment_results, '", cluster, "')"),
+      'a',
       '```',
       '',
       ''
