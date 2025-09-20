@@ -134,5 +134,14 @@ doEnrich_Internal <- function(
   t2 <- Sys.time()
   timeLast <- t2 - t1
   cli::cli_alert_success(paste0("Done ORA in ", timeLast, " sec."))
+  attr(res, "Package") <- "EnrichGT"
+  attr(res, "Input") <- genes
+  attr(res, "Database") <- database
+  attr(res, "Other_Params") <- list(p_val_cut_off,
+                                    background_genes,
+                                    min_geneset_size,
+                                    max_geneset_size,
+                                    p_adj_methods)
+  attr(res, "Time") <- Sys.time()
   return(res)
 }

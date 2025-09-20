@@ -641,6 +641,8 @@ egt_web_interface_internal <- function(
           }
 
           # Get database
+          showNotification("Preparing database and database cache. Would take few seconds for the first time to prepare the cache...", type = "message", duration = 3)
+          showNotification("If cache is hitted, this database will be completed ~ 0.5 seconds...", type = "message", duration = 3)
           database <- get_database(input$ora_database, input$ora_species)
 
           # Run analysis

@@ -194,7 +194,7 @@ new.egt <- function(x1, x2, x3, x4, x5, x6, x7, x8, x9) {
 #' @rdname MaskTerms
 #' @export
 `%-delete->%` <- function(x, y) {
-  if (class(x) == "EnrichGT_obj") {
+  if (class(x)[1] == "EnrichGT_obj") {
     paramList <- x@param
     paramList[["ClusterNum"]] -> ClusterNum
     paramList[["P.adj"]] -> P.adj

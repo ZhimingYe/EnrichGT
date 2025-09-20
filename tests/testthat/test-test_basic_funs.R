@@ -21,7 +21,7 @@ test_that("Enrichment analysis functions work", {
   DEGexample_UpReg <- DEGexample |> dplyr::filter(pvalue < 0.05, log2FoldChange > 0.7)
   DEGs <- DEGexample_UpReg$...1
   ora_result <- egt_enrichment_analysis(
-    genes = DEGs, 
+    genes = DEGs,
     database = database_GO_BP(OrgDB = org.Hs.eg.db)
   )
   expect_gt(nrow(ora_result), 2)
@@ -34,7 +34,7 @@ test_that("Recluster analysis works", {
   DEGexample_UpReg <- DEGexample |> dplyr::filter(pvalue < 0.05, log2FoldChange > 0.7)
   DEGs <- DEGexample_UpReg$...1
   ora_result <- egt_enrichment_analysis(
-    genes = DEGs, 
+    genes = DEGs,
     database = database_GO_BP(OrgDB = org.Hs.eg.db)
   )
   re_enrichment_results <- egt_recluster_analysis(ora_result)
@@ -49,15 +49,15 @@ test_that("Fusing analysis works", {
   DEGexample_DownReg <- DEGexample |> dplyr::filter(pvalue < 0.05, log2FoldChange < (-0.7))
   DEGs <- DEGexample_UpReg$...1
   ora_result1 <- egt_enrichment_analysis(
-    genes = DEGs, 
+    genes = DEGs,
     database = database_GO_BP(OrgDB = org.Hs.eg.db)
   )
   ora_result2 <- egt_enrichment_analysis(
-    genes = DEGs, 
+    genes = DEGs,
     database = database_Reactome(OrgDB = org.Hs.eg.db)
   )
   ora_result3 <- egt_enrichment_analysis(
-    genes = DEGexample_DownReg$...1, 
+    genes = DEGexample_DownReg$...1,
     database = database_Reactome(OrgDB = org.Hs.eg.db)
   )
   re_enrichment_results <- egt_recluster_analysis(list(ora_result1,ora_result2))
@@ -75,7 +75,7 @@ test_that("Visualization functions work", {
   DEGexample_UpReg <- DEGexample |> dplyr::filter(pvalue < 0.05, log2FoldChange > 0.7)
   DEGs <- DEGexample_UpReg$...1
   ora_result <- egt_enrichment_analysis(
-    genes = DEGs, 
+    genes = DEGs,
     database = database_GO_BP(OrgDB = org.Hs.eg.db)
   )
   plt1 <- egt_plot_results(ora_result, showIDs = TRUE, ntop = 20)
@@ -116,58 +116,58 @@ test_that("GSEA analysis works", {
 
 data("MultiDEGExample", package = "EnrichGT")
 ora_result_g1 <- egt_enrichment_analysis(
-  genes = MultiDEGExample$liver |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1), 
+  genes = MultiDEGExample$liver |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1),
   database = database_GO_BP(OrgDB = org.Hs.eg.db)
 )
 ora_result_g2 <- egt_enrichment_analysis(
-  genes = MultiDEGExample$kidney |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1), 
+  genes = MultiDEGExample$kidney |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1),
   database = database_GO_BP(OrgDB = org.Hs.eg.db)
 )
 ora_result_g3 <- egt_enrichment_analysis(
-  genes = MultiDEGExample$muscle |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1), 
+  genes = MultiDEGExample$muscle |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1),
   database = database_GO_BP(OrgDB = org.Hs.eg.db)
 )
 ora_result_g4 <- egt_enrichment_analysis(
-  genes = MultiDEGExample$pancreas |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1), 
+  genes = MultiDEGExample$pancreas |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1),
   database = database_GO_BP(OrgDB = org.Hs.eg.db)
 )
 ora_result_g5 <- egt_enrichment_analysis(
-  genes = MultiDEGExample$spleen |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1), 
+  genes = MultiDEGExample$spleen |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1),
   database = database_GO_BP(OrgDB = org.Hs.eg.db)
 )
 
 
 ora_result_gsea1 <- egt_gsea_analysis(
-  genes = genes_with_weights(MultiDEGExample$liver$...1, MultiDEGExample$liver$logFC), 
+  genes = genes_with_weights(MultiDEGExample$liver$...1, MultiDEGExample$liver$logFC),
   database = database_GO_BP(OrgDB = org.Hs.eg.db)
 )
 ora_result_gsea2 <- egt_gsea_analysis(
-  genes = genes_with_weights(MultiDEGExample$kidney$...1, MultiDEGExample$kidney$logFC), 
+  genes = genes_with_weights(MultiDEGExample$kidney$...1, MultiDEGExample$kidney$logFC),
   database = database_GO_BP(OrgDB = org.Hs.eg.db)
 )
 ora_result_gsea3 <- egt_gsea_analysis(
-  genes = genes_with_weights(MultiDEGExample$muscle$...1, MultiDEGExample$muscle$logFC), 
+  genes = genes_with_weights(MultiDEGExample$muscle$...1, MultiDEGExample$muscle$logFC),
   database = database_GO_BP(OrgDB = org.Hs.eg.db)
 )
 
 ora_result_r1 <- egt_enrichment_analysis(
-  genes = MultiDEGExample$liver |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1), 
+  genes = MultiDEGExample$liver |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1),
   database = database_Reactome(OrgDB = org.Hs.eg.db)
 )
 ora_result_r2 <- egt_enrichment_analysis(
-  genes = MultiDEGExample$kidney |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1), 
+  genes = MultiDEGExample$kidney |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1),
   database = database_Reactome(OrgDB = org.Hs.eg.db)
 )
 ora_result_r3 <- egt_enrichment_analysis(
-  genes = MultiDEGExample$muscle |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1), 
+  genes = MultiDEGExample$muscle |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1),
   database = database_Reactome(OrgDB = org.Hs.eg.db)
 )
 ora_result_r4 <- egt_enrichment_analysis(
-  genes = MultiDEGExample$pancreas |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1), 
+  genes = MultiDEGExample$pancreas |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1),
   database = database_Reactome(OrgDB = org.Hs.eg.db)
 )
 ora_result_r5 <- egt_enrichment_analysis(
-  genes = MultiDEGExample$spleen |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1), 
+  genes = MultiDEGExample$spleen |> dplyr::filter(P.Value < 0.05, logFC > 0.5) |> dplyr::pull(...1),
   database = database_Reactome(OrgDB = org.Hs.eg.db)
 )
 
@@ -176,6 +176,11 @@ ora_fuse2 <- egt_recluster_analysis(list(ora_result_g2, ora_result_r2))
 ora_fuse3 <- egt_recluster_analysis(list(ora_result_g3, ora_result_r3))
 ora_fuse4 <- egt_recluster_analysis(list(ora_result_g4, ora_result_r4))
 
+test_that("Delete Function works", {
+  ora_result_g1A <- ora_result_g1 %-delete->% "test"
+  ora_result_g1A <- ora_fuse3 %-delete->% "test"
+  expect_s4_class(ora_result_g1A, "EnrichGT_obj")
+})
 
 test_that("ORA not fused comparing", {
   reactor1 <- egt_comparison_reactor("ora")
@@ -200,7 +205,7 @@ test_that("ORA not fused comparing", {
   reactor1$do_recluster()
   res <- reactor1$get_recluster_result()
   expect_s4_class(res[[1]], "EnrichGT_obj")
-  
+
 })
 
 
@@ -227,7 +232,7 @@ test_that("ORA have fused comparing", {
   reactor1$do_recluster()
   res <- reactor1$get_recluster_result()
   expect_s4_class(res[[1]], "EnrichGT_obj")
-  
+
 })
 
 
@@ -255,6 +260,6 @@ test_that("GSEA comparing", {
   reactor1$do_recluster()
   res <- reactor1$get_recluster_result()
   expect_s4_class(res[[1]], "EnrichGT_obj")
-  
+
 })
 

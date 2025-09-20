@@ -1,7 +1,7 @@
 Type: Package
 Package: EnrichGT
 Title: EnrichGT - all in one enrichment analysis solution
-Version: 2.0.1
+Version: 2.0.5
 Authors@R: c(
     person("Zhiming", "Ye", , "garnetcrow@hotmail.com", role = c("aut", "cre")),
     person("Runchen", "Wang", , "runchen_wang@163.com", role = "cph")
@@ -11,7 +11,7 @@ Description: Do biological enrichment analysis and parsing and clustering
 License: GPL-V3
 URL: https://zhimingye.github.io/EnrichGT/
 Depends: 
-    R (>= 2.10)
+    R (>= 4.1.0)
 Imports: 
     AnnotationDbi,
     cli,

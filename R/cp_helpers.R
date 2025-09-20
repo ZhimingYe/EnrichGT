@@ -422,6 +422,14 @@ egt_gsea_analysis_internal <- function(
       cli::cli_abort("No useable result!")
     }
   )
+  attr(fgseaRes2, "Package") <- "EnrichGT"
+  attr(fgseaRes2, "Input") <- genes
+  attr(fgseaRes2, "Database") <- database
+  attr(fgseaRes2, "Other_Params") <- list(p_val_cut_off,
+                                    min_geneset_size,
+                                    max_geneset_size,
+                                    gseaParam)
+  attr(fgseaRes2, "Time") <- Sys.time()
   return(fgseaRes2)
 }
 
