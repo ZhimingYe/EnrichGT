@@ -1,16 +1,13 @@
 
 
-# EnrichGT <a href="https://zhimingye.github.io/EnrichGT/"><img src="https://zhimingye.github.io/EnrichGT/EnrichGTlogo.png" align="right" height="138" alt="EnrichGT website" /></a>
+# EnrichGT 
 
 **EnrichGT \<-** Fast, light weight enrichment analysis + insightful re-clustering results make all results explainable + Pretty HTML tables, Just in **ONE** package, designed for researchers in wet-labs. Supported databases including GO, KEGG, Reactome, MsigDB + AI based (LLM) result annotations and more ... 
 
-![](https://zhimingye.github.io/EnrichGT/Introduction.jpeg)
 
 Please see the package website for more info: <https://zhimingye.github.io/EnrichGT/>
 
-- Efficient C++-based functions for rapid enrichment analysis
-
-- Simple input format, empowering non-pro users
+- Efficient functions for rapid enrichment analysis
 
 - Re-clustering of enriched results provides clear and actionable insights
 

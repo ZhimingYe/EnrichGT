@@ -154,7 +154,7 @@ comparison_reactor_base <- R6::R6Class(
     #' Print summary of groups in reactor
     summarize = function() {
       tbl0 <- private$group_name
-      tbl0 <- tbl0 |> dplyr::filter(Group != "Initial")
+      tbl0 <- tbl0 |> dplyr::filter(Group != "Initial") |> dplyr::select(-Included)
       print(tbl0)
       cli::cli_alert_info(glue::glue(
         "Will make comparasion of multiple {private$type} results. "

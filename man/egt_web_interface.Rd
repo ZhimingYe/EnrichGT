@@ -6,21 +6,21 @@
 \usage{
 egt_web_interface(
   port = NULL,
+  LLM = NULL,
   host = "127.0.0.1",
-  launch.browser = TRUE,
-  LLM = NULL
+  launch.browser = TRUE
 )
 }
 \arguments{
 \item{port}{Port number for the application. If NULL (default), a random available port will be used.}
 
-\item{host}{IP address that the application should listen on. Default is "127.0.0.1" (localhost).}
-
-\item{launch.browser}{Logical. If TRUE (default), the web browser will be launched automatically.}
-
 \item{LLM}{An optional LLM chat object created by the \code{ellmer} package.
 If provided, enables LLM-powered summarization of recluster analysis results.
 If NULL (default), LLM features are disabled.}
+
+\item{host}{IP address that the application should listen on. Default is "127.0.0.1" (localhost).}
+
+\item{launch.browser}{Logical. If TRUE (default), the web browser will be launched automatically.}
 }
 \value{
 Starts a Shiny application
@@ -30,32 +30,7 @@ Launch an interactive Shiny web application that provides a user-friendly interf
 for performing enrichment analysis using EnrichGT package functions.
 }
 \details{
-The web interface includes three main analysis modules:
-
-**Enrichment Analysis (ORA):**
-- Input: Gene list (one gene per line or comma-separated)
-- Analysis: Over-representation analysis using \code{egt_enrichment_analysis}
-- Output: Interactive plot and downloadable table
-
-**GSEA Analysis:**
-- Input: Ranked gene list with weights (tab-separated: gene\ttab\tweight)
-- Analysis: Gene Set Enrichment Analysis using \code{egt_gsea_analysis}
-- Output: Interactive plot and downloadable table
-
-**Recluster Analysis:**
-- Input: Results from ORA or GSEA analysis
-- Analysis: Hierarchical clustering of enrichment results using \code{egt_recluster_analysis}
-- Output: Interactive gt table with clustered results and optional LLM summary
-
-**Available Databases:**
-- GO Biological Process (GO_BP)
-- GO Cellular Component (GO_CC)
-- GO Molecular Function (GO_MF)
-- KEGG Pathways
-- Reactome Pathways
-
-Each analysis module allows users to adjust parameters such as p-value cutoffs,
-geneset size limits, and visualization options.
+The web interface includes major analysis modules in EnrichGT.
 }
 \examples{
 \dontrun{

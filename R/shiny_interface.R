@@ -12,32 +12,7 @@
 #'
 #'
 #' @details
-#' The web interface includes three main analysis modules:
-#'
-#' **Enrichment Analysis (ORA):**
-#' - Input: Gene list (one gene per line or comma-separated)
-#' - Analysis: Over-representation analysis using \code{egt_enrichment_analysis}
-#' - Output: Interactive plot and downloadable table
-#'
-#' **GSEA Analysis:**
-#' - Input: Ranked gene list with weights (tab-separated: gene\ttab\tweight)
-#' - Analysis: Gene Set Enrichment Analysis using \code{egt_gsea_analysis}
-#' - Output: Interactive plot and downloadable table
-#'
-#' **Recluster Analysis:**
-#' - Input: Results from ORA or GSEA analysis
-#' - Analysis: Hierarchical clustering of enrichment results using \code{egt_recluster_analysis}
-#' - Output: Interactive gt table with clustered results and optional LLM summary
-#'
-#' **Available Databases:**
-#' - GO Biological Process (GO_BP)
-#' - GO Cellular Component (GO_CC)
-#' - GO Molecular Function (GO_MF)
-#' - KEGG Pathways
-#' - Reactome Pathways
-#'
-#' Each analysis module allows users to adjust parameters such as p-value cutoffs,
-#' geneset size limits, and visualization options.
+#' The web interface includes major analysis modules in EnrichGT.
 #'
 #' @return Starts a Shiny application
 #'

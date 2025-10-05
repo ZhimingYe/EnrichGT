@@ -48,6 +48,12 @@ wrong_llm <- function() {
   )
 }
 
+
+llm_warning <- function(){
+  cli::cli_alert_warning("EnrichGT's LLM function is sophisticated hypothesis generation system rather than an authoritative biological knowledge source.
+                         LLM-generated interpretations should be subject to expert review and literature validation, as is standard practice in computational biology workflows.")
+}
+
 summarize_clusters <- function(x, chat, prompt_type = "English") {
   promptList <- readRDS(system.file(
     "extdata",
@@ -236,7 +242,7 @@ egt_llm_summary <- function(x, chat, lang = "English", model_name = NULL) {
   }
   if (class(x) != "EnrichGT_obj")
     cli::cli_abort("Please run `egt_recluster_analysis()` before summarizing. ")
-
+  llm_warning()
   # Detect model name if not provided
   if (is.null(model_name)) {
     model_name <- tryCatch({
@@ -275,7 +281,7 @@ egt_llm_multi_summary <- function(x, chat_list, lang = "English", comparison_pro
 
   if (!is.list(chat_list) || is.null(names(chat_list)))
     cli::cli_abort("chat_list must be a named list of LLM chat objects.")
-
+  llm_warning()
   cli::cli_alert_info("Starting multi-LLM comparison...")
 
   # Generate summaries for each LLM
