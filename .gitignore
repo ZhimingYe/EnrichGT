@@ -20,3 +20,4 @@ _internal*
 *.aux
 *.log
 test000*
+benchmark

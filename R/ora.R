@@ -21,6 +21,7 @@ doEnrich_Internal <- function(
   min_geneset_size,
   max_geneset_size
 ) {
+  genes <- unique(genes)
   has_direction <- F
   if (!is.null(names(genes))) {
     genes2 <- genes
