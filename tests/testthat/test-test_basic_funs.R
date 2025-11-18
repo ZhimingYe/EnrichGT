@@ -108,7 +108,8 @@ test_that("GSEA analysis works", {
     database = database_Reactome(OrgDB = org.Hs.eg.db)
   )
   expect_s3_class(ll2, "gg")
-  re_enrichment_results_gsea <- egt_recluster_analysis(GSEAexample)
+  saveRDS(GSEAexample, file = "GSEAexample.rds")
+  re_enrichment_results_gsea <- egt_recluster_analysis(GSEAexample, force = T)
   expect_s4_class(re_enrichment_results_gsea, "EnrichGT_obj")
 })
 
