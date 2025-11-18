@@ -4,7 +4,13 @@
 \alias{egt_llm_multi_summary}
 \title{Compare Multiple LLM Summaries}
 \usage{
-egt_llm_multi_summary(x, chat_list, lang = "English", comparison_prompt = NULL)
+egt_llm_multi_summary(
+  x,
+  chat_list,
+  lang = "English",
+  background_knowledges = NULL,
+  comparison_prompt = NULL
+)
 }
 \arguments{
 \item{x}{An EnrichGT_obj object from egt_recluster_analysis()}
@@ -12,6 +18,8 @@ egt_llm_multi_summary(x, chat_list, lang = "English", comparison_prompt = NULL)
 \item{chat_list}{A named list of LLM chat objects}
 
 \item{lang}{Language for summaries ("English" or "Chinese")}
+
+\item{background_knowledges}{Additional Reference (e.g, Papers or guide) for LLM for reference}
 
 \item{comparison_prompt}{Custom prompt for generating comparison summary}
 }

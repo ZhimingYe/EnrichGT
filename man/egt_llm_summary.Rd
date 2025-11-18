@@ -4,7 +4,13 @@
 \alias{egt_llm_summary}
 \title{Summarize EnrichGT results using LLM}
 \usage{
-egt_llm_summary(x, chat, lang = "English", model_name = NULL)
+egt_llm_summary(
+  x,
+  chat,
+  lang = "English",
+  model_name = NULL,
+  background_knowledges = NULL
+)
 }
 \arguments{
 \item{x}{An EnrichGT_obj object created by \code{\link{egt_recluster_analysis}}.}
@@ -12,6 +18,8 @@ egt_llm_summary(x, chat, lang = "English", model_name = NULL)
 \item{chat}{An LLM chat object created by the \code{ellmer} package.}
 
 \item{lang}{Language pass to LLM. Can be \code{English} or \code{Chinese}.}
+
+\item{background_knowledges}{Additional Reference (e.g, Papers or guide) for LLM for reference.}
 }
 \value{
 Returns the input EnrichGT_obj object with added LLM annotations in

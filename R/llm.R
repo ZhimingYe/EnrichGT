@@ -291,7 +291,7 @@ egt_llm_summary <- function(x, chat, lang = "English", model_name = NULL, backgr
 #'
 #' @return EnrichGT_obj with LLM_Comparison slot filled
 #' @export
-egt_llm_multi_summary <- function(x, chat_list, lang = "English",background_knowledges = NULL, comparison_prompt = NULL, ) {
+egt_llm_multi_summary <- function(x, chat_list, lang = "English",background_knowledges = NULL, comparison_prompt = NULL) {
   if (class(x) != "EnrichGT_obj")
     cli::cli_abort("Please run `egt_recluster_analysis()` before summarizing.")
 
