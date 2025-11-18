@@ -54,12 +54,25 @@ llm_warning <- function(){
                          LLM-generated interpretations should be subject to expert review and literature validation, as is standard practice in computational biology workflows.")
 }
 
-summarize_clusters <- function(x, chat, prompt_type = "English") {
+`%inject%` <- function(promptList, bg){
+  if(!is.null(bg)){
+    if(length(bg) == 1 | identical((!is.character(bg)), F)){
+      promptList <- lapply(promptList, function(x) paste0("You are a professional biologist. These below are biological background you can refer: \n[Ref Start]\n", bg, "\n[Ref END]\n\n===\n"))
+    }
+    else {
+      cli::cli_abort("Please check your background input. A single char is required. You can use `paste` to paste every paragraph together. ")
+    }
+  }
+  promptList
+}
+
+summarize_clusters <- function(x, chat, prompt_type = "English", bg = NULL) {
   promptList <- readRDS(system.file(
     "extdata",
     "egtllm.data",
     package = "EnrichGT"
   ))
+  promptList <- promptList %inject% bg
   if (!inherits(x, "EnrichGT_obj")) {
     cli::cli_abort("Input must be an EnrichGT_obj object")
   }
@@ -98,12 +111,13 @@ summarize_clusters <- function(x, chat, prompt_type = "English") {
 }
 
 
-summarize_genes <- function(x, y, chat, prompt_type = "English") {
+summarize_genes <- function(x, y, chat, prompt_type = "English", bg = NULL) {
   promptList <- readRDS(system.file(
     "extdata",
     "egtllm.data",
     package = "EnrichGT"
   ))
+  promptList <- promptList %inject% bg
   clustersName <- y[["cluster_names"]]
   y <- y[["results"]]
   have_exclude <- F
@@ -206,6 +220,7 @@ summarize_genes <- function(x, y, chat, prompt_type = "English") {
 #' @param x An EnrichGT_obj object created by \code{\link{egt_recluster_analysis}}.
 #' @param chat An LLM chat object created by the \code{ellmer} package.
 #' @param lang Language pass to LLM. Can be \code{English} or \code{Chinese}.
+#' @param background_knowledges Additional Reference (e.g, Papers or guide) for LLM for reference.
 #'
 #' @return Returns the input EnrichGT_obj object with added LLM annotations in
 #' the \code{LLM_Annotation} slot. The annotations include:
@@ -236,7 +251,7 @@ summarize_genes <- function(x, y, chat, prompt_type = "English") {
 #'
 #' @seealso \code{\link{egt_recluster_analysis}} to create the input object.
 #' @export
-egt_llm_summary <- function(x, chat, lang = "English", model_name = NULL) {
+egt_llm_summary <- function(x, chat, lang = "English", model_name = NULL, background_knowledges = NULL) {
   if (sum(lang %in% c("English", "Chinese")) != 1) {
     cli::cli_abort("Invalid prompt_type, must be 'English' or 'Chinese'")
   }
@@ -254,8 +269,8 @@ egt_llm_summary <- function(x, chat, lang = "English", model_name = NULL) {
     }, error = function(e) "Unknown_Model")
   }
 
-  a1 <- summarize_clusters(x, chat, lang)
-  a2 <- summarize_genes(x, a1, chat, lang)
+  a1 <- summarize_clusters(x, chat, lang, bg = background_knowledges)
+  a2 <- summarize_genes(x, a1, chat, lang, bg = background_knowledges)
   obj_llm <- new("egt_llm")
   obj_llm@pathways <- a1
   obj_llm@genes_and_title <- a2
@@ -271,11 +286,12 @@ egt_llm_summary <- function(x, chat, lang = "English", model_name = NULL) {
 #' @param x An EnrichGT_obj object from egt_recluster_analysis()
 #' @param chat_list A named list of LLM chat objects
 #' @param lang Language for summaries ("English" or "Chinese")
+#' @param background_knowledges Additional Reference (e.g, Papers or guide) for LLM for reference
 #' @param comparison_prompt Custom prompt for generating comparison summary
 #'
 #' @return EnrichGT_obj with LLM_Comparison slot filled
 #' @export
-egt_llm_multi_summary <- function(x, chat_list, lang = "English", comparison_prompt = NULL) {
+egt_llm_multi_summary <- function(x, chat_list, lang = "English",background_knowledges = NULL, comparison_prompt = NULL, ) {
   if (class(x) != "EnrichGT_obj")
     cli::cli_abort("Please run `egt_recluster_analysis()` before summarizing.")
 
@@ -295,7 +311,7 @@ egt_llm_multi_summary <- function(x, chat_list, lang = "English", comparison_pro
     cli::cli_alert_info(paste0("Generating summary with ", model_name, "..."))
 
     tryCatch({
-      temp_result <- egt_llm_summary(x, chat, lang, model_name)
+      temp_result <- egt_llm_summary(x, chat, lang, model_name, background_knowledges = background_knowledges)
       llm_results[[model_name]] <- temp_result@LLM_Annotation
     }, error = function(e) {
       cli::cli_alert_warning(paste0("Failed to generate summary with ", model_name, ": ", e$message))
