@@ -41,8 +41,8 @@
 #' @export
 #'
 egt_web_interface <- function(
-  port = NULL,
   LLM = NULL,
+  port = NULL,
   host = "127.0.0.1",
   launch.browser = TRUE
 ) {
@@ -344,7 +344,7 @@ egt_web_interface_internal <- function(
               status = "primary",
               solidHeader = TRUE,
               width = 4,
-              height = "700px",
+              height = "800px",
 
               h4("Input Parameters"),
 
@@ -404,6 +404,14 @@ egt_web_interface_internal <- function(
                   ),
                   helpText(
                     "Note: LLM summarization may take additional time to complete."
+                  ),
+                  textAreaInput(
+                    "recluster_background_knowledge",
+                    "Background Knowledge (Optional):",
+                    value = "",
+                    placeholder = "Provide external reference text (e.g., literature excerpts) to help LLM generate more accurate summaries...",
+                    rows = 4,
+                    width = "100%"
                   )
                 )
               },
@@ -808,7 +816,18 @@ egt_web_interface_internal <- function(
                   type = "default",
                   duration = 15
                 )
-                llm_summary <- egt_llm_summary(result, chat = LLM)
+                # Get background knowledge if provided
+                bg_knowledge <- NULL
+                if (!is.null(input$recluster_background_knowledge) &&
+                    nzchar(trimws(input$recluster_background_knowledge))) {
+                  bg_knowledge <- input$recluster_background_knowledge
+                }
+
+                llm_summary <- egt_llm_summary(
+                  result,
+                  chat = LLM,
+                  background_knowledges = bg_knowledge
+                )
                 values$llm_summary <- llm_summary
                 showNotification(
                   "Recluster analysis completed with LLM summary!",

@@ -220,7 +220,7 @@ summarize_genes <- function(x, y, chat, prompt_type = "English", bg = NULL) {
 #' @param x An EnrichGT_obj object created by \code{\link{egt_recluster_analysis}}.
 #' @param chat An LLM chat object created by the \code{ellmer} package.
 #' @param lang Language pass to LLM. Can be \code{English} or \code{Chinese}.
-#' @param background_knowledges Additional Reference (e.g, Papers or guide) for LLM for reference.
+#' @param background_knowledges Additional Reference (e.g, Papers or guide) for LLM for reference. A Single Character String should be provided.
 #'
 #' @return Returns the input EnrichGT_obj object with added LLM annotations in
 #' the \code{LLM_Annotation} slot. The annotations include:
