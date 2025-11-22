@@ -69,9 +69,9 @@ is_numeric_string <- function(x) {
 
 
 genclusterscore <- function(tokens_list, ID, k, method) {
-  if (length(unlist(tokens_list)) > 50000) {
-    cli::cli_alert_warning(glue::glue(
-      "You are input a large gene set. Please re-check your DEG or other analysis. There may be some error in previous analysis (e.g. have not filter P-value). And it may very slow..."
+  if (length(unlist(tokens_list)) > 61290) {
+    cli::cli_alert_info(glue::glue(
+      "Start re-cluster, please wait...\n If all analysis can't complete within 30s, there may be some error in previous analysis (e.g. have not filter P-value / padj < 0.05). "
     ))
   }
   if (
@@ -134,7 +134,7 @@ genclusterscore <- function(tokens_list, ID, k, method) {
   }
   if (nrow(x) > 750) {
     message_egt(
-      "Too many rows! It might be slow...\nWorking, but please consider increase P.adj ..."
+      "Please wait ..."
     )
   }
 }
