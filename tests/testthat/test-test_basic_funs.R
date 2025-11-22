@@ -122,7 +122,7 @@ test_that("GSEA analysis works", {
   expect_s3_class(ll2, "gg")
   print(GSEAexample)
   saveRDS(GSEAexample, file = "GSEAexample.rds")
-  re_enrichment_results_gsea <- egt_recluster_analysis(GSEAexample, force = T)
+  re_enrichment_results_gsea <- egt_recluster_analysis(GSEAexample, force = F)
   expect_s4_class(re_enrichment_results_gsea, "EnrichGT_obj")
 })
 

@@ -19,7 +19,7 @@ egt_llm_summary(
 
 \item{lang}{Language pass to LLM. Can be \code{English} or \code{Chinese}.}
 
-\item{background_knowledges}{Additional Reference (e.g, Papers or guide) for LLM for reference.}
+\item{background_knowledges}{Additional Reference (e.g, Papers or guide) for LLM for reference. A Single Character String should be provided.}
 }
 \value{
 Returns the input EnrichGT_obj object with added LLM annotations in

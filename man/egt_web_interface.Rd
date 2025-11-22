@@ -5,18 +5,18 @@
 \title{Launch EnrichGT Web Interface}
 \usage{
 egt_web_interface(
-  port = NULL,
   LLM = NULL,
+  port = NULL,
   host = "127.0.0.1",
   launch.browser = TRUE
 )
 }
 \arguments{
-\item{port}{Port number for the application. If NULL (default), a random available port will be used.}
-
 \item{LLM}{An optional LLM chat object created by the \code{ellmer} package.
 If provided, enables LLM-powered summarization of recluster analysis results.
 If NULL (default), LLM features are disabled.}
+
+\item{port}{Port number for the application. If NULL (default), a random available port will be used.}
 
 \item{host}{IP address that the application should listen on. Default is "127.0.0.1" (localhost).}
 
