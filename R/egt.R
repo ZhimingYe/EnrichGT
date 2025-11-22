@@ -144,6 +144,11 @@ setMethod("doEnrichGT", signature(x = "list"), function(x, ...) {
       dplyr::select(Description, ID, Count, Cluster, PCT, Padj, geneID) |>
       dplyr::mutate(geneID = gsub("/", ", ", geneID))
   }
+  objXX <- obj |>
+    dplyr::group_by(Cluster) |>
+    dplyr::arrange(Padj) |>
+    dplyr::slice_head(n = 100) |>
+    dplyr::ungroup()
   obj <- obj |>
     dplyr::group_by(Cluster) |>
     dplyr::arrange(Padj) |>
@@ -152,7 +157,8 @@ setMethod("doEnrichGT", signature(x = "list"), function(x, ...) {
   obj0 <- obj |> gt_ora(ClusterNum = ClusterNum, objname = objname, ...)
   obj0RAW <- obj |> gt_ora_raw(ClusterNum = ClusterNum, objname = objname, ...)
   obj2 <- obj
-  obj3 <- obj2 |> genMetaGM(type = "ORA")
+  obj2XX <- objXX
+  obj3 <- obj2XX |> genMetaGM(type = "ORA")
   obj3_1 <- obj3[[1]] |> remove_more_updownInfo()
   obj3_2 <- obj3[[2]]
   objA <- new.egt(
@@ -239,15 +245,22 @@ remove_more_updownInfo <- function(x) {
       core_enrichment
     ) |>
     dplyr::mutate(core_enrichment = gsub("/", ", ", core_enrichment)) #|> need fix colors
+  objXX <- obj |>
+    dplyr::group_by(Cluster) |>
+    dplyr::arrange(Padj) |>
+    dplyr::slice_head(n = 100) |>
+    dplyr::ungroup()
   obj <- obj |>
     dplyr::group_by(Cluster) |>
     dplyr::arrange(Padj) |>
     dplyr::slice_head(n = nTop) |>
     dplyr::ungroup()
+
   obj0 <- obj |> gt_gsea(ClusterNum = ClusterNum, objname = objname, ...)
   obj0RAW <- obj |> gt_gsea_raw(ClusterNum = ClusterNum, objname = objname, ...)
   obj2 <- obj |> dplyr::mutate(Reg = ifelse(Reg == "red", "UpReg", "DownReg"))
-  obj3 <- obj2 |> genMetaGM(type = "GSEA")
+  obj2XX <- objXX |> dplyr::mutate(Reg = ifelse(Reg == "red", "UpReg", "DownReg"))
+  obj3 <- obj2XX |> genMetaGM(type = "GSEA")
   obj3_1 <- obj3[[1]]
   obj3_2 <- obj3[[2]]
   objA <- new.egt(

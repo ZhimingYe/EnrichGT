@@ -22,7 +22,7 @@ egt_infer_act <- function(x, DB = "collectri", species = "human") {
     cli::cli_abort("NOT an enrichGT object. ")
   })
   cli::cli_alert_warning(
-    "If when doing re-enrichment, you select a high number of clusters, that may cause low gene number in each meta-gene module, and then can't be infered sucessfully. So if result is empty, please increase the number of re-clustering when doing it. "
+    "If when doing re-enrichment, you select a high number of clusters, that may cause low gene number in each meta-gene module, and then can't be infered sucessfully. So if result is empty, please increase the cut off of pvalue.  "
   )
   InferedCpres <- egt_enrichment_analysis(
     genelist,

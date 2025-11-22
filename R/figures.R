@@ -111,7 +111,9 @@ egt_plot_results <- function(
     )
     if (sum(colnames(x) == "NES") != 0) {
       InnerDF <- x |>
-        dplyr::filter(p.adjust < (plotingTemp$PadjVal)) |>
+        dplyr::filter(p.adjust < (plotingTemp$PadjVal))
+      if(nrow(InnerDF) < 2) cli::cli_abort("Can't find result for figure under specific cut-off. ")
+      InnerDF <- InnerDF |>
         dplyr::select(ID, Description, NES, `p.adjust`, core_enrichment) # Need Fix
       obj <- InnerDF |>
         dplyr::mutate(absNES = abs(NES)) |>
@@ -141,7 +143,9 @@ egt_plot_results <- function(
       )
     } else if (sum(colnames(x) %in% c("Up_Vs_Down", "up_dn")) == 0) {
       InnerDF <- x |>
-        dplyr::filter(p.adjust < (plotingTemp$PadjVal)) |>
+        dplyr::filter(p.adjust < (plotingTemp$PadjVal))
+      if(nrow(InnerDF) < 2) cli::cli_abort("Can't find result for figure under specific cut-off. ")
+      InnerDF <- InnerDF |>
         dplyr::select(ID, Description, GeneRatio, `p.adjust`, geneID, Count) # Need Fix
       obj <- InnerDF |>
         dplyr::mutate(
@@ -171,7 +175,9 @@ egt_plot_results <- function(
         x <- x |> dplyr::rename(Up_Vs_Down = `up_dn`)
       }
       InnerDF <- x |>
-        dplyr::filter(p.adjust < (plotingTemp$PadjVal)) |>
+        dplyr::filter(p.adjust < (plotingTemp$PadjVal))
+      if(nrow(InnerDF) < 2) cli::cli_abort("Can't find result for figure under specific cut-off. ")
+      InnerDF <- InnerDF  |>
         dplyr::select(
           ID,
           Description,
