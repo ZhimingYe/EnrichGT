@@ -69,6 +69,7 @@ test_that("Fusing analysis works", {
     ora_result1,
     ora_result2
   ))
+  saveRDS(re_enrichment_results, file = "re_enrichment_results.rds")
   re_enrichment_results
   re_enrichment_results2 <- egt_compare_groups(ora_result3, ora_result2)
   re_enrichment_results2
@@ -98,7 +99,8 @@ test_that("Visualization functions work", {
 
 test_that("GSEA analysis works", {
   data("DEGexample", package = "EnrichGT")
-  DEGexample2 <- DEGexample |> dplyr::filter(pvalue < 0.05)
+  # DEGexample2 <- DEGexample |> dplyr::filter(pvalue < 0.05)
+  DEGexample2 <- DEGexample
   genes_with_weights <- genes_with_weights(
     DEGexample2$...1,
     DEGexample2$log2FoldChange
@@ -122,8 +124,10 @@ test_that("GSEA analysis works", {
   expect_s3_class(ll2, "gg")
   print(GSEAexample)
   saveRDS(GSEAexample, file = "GSEAexample.rds")
-  re_enrichment_results_gsea <- egt_recluster_analysis(GSEAexample, force = F)
+  saveRDS(database_Reactome(OrgDB = org.Hs.eg.db), file = "REA_GSEAexample.rds")
+  re_enrichment_results_gsea <- egt_recluster_analysis(GSEAexample, P.adj = 0.5, force = F)
   expect_s4_class(re_enrichment_results_gsea, "EnrichGT_obj")
+  expect_s4_class(1, "EnrichGT_obj")
 })
 
 
