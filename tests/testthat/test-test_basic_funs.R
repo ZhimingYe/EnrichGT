@@ -127,7 +127,6 @@ test_that("GSEA analysis works", {
   saveRDS(database_Reactome(OrgDB = org.Hs.eg.db), file = "REA_GSEAexample.rds")
   re_enrichment_results_gsea <- egt_recluster_analysis(GSEAexample, P.adj = 0.5, force = F)
   expect_s4_class(re_enrichment_results_gsea, "EnrichGT_obj")
-  expect_s4_class(1, "EnrichGT_obj")
 })
 
 
@@ -229,6 +228,7 @@ test_that("Delete Function works", {
 })
 
 test_that("ORA not fused comparing", {
+  saveRDS(list(ora_result_g1,ora_result_g2,ora_result_g3,ora_result_g4,ora_result_g5), file = "cprreactorFile.rds")
   reactor1 <- egt_comparison_reactor("ora")
   reactor1$append_enriched_result(ora_result_g1, "liver_GO")
   reactor1$append_enriched_result(ora_result_g2, "kidney_GO")

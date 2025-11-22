@@ -21,3 +21,4 @@ _internal*
 *.log
 test000*
 benchmark
+mrgQuarto*
