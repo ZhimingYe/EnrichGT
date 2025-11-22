@@ -33,10 +33,11 @@ genMetaGM <- function(x, type) {
     {
       y <- lapply(
         x,
-        function(x2)
+        function(x2) {
           try({
             .genGT(x2, ...)
           })
+        }
       )
     },
     error = function(e) {
@@ -67,7 +68,7 @@ is_numeric_string <- function(x) {
 }
 
 
-genclusterscore <- function(tokens_list, ID, k, method){
+genclusterscore <- function(tokens_list, ID, k, method) {
   if (length(unlist(tokens_list)) > 50000) {
     cli::cli_alert_warning(glue::glue(
       "You are input a large gene set. Please re-check your DEG or other analysis. There may be some error in previous analysis (e.g. have not filter P-value). And it may very slow..."
@@ -75,7 +76,7 @@ genclusterscore <- function(tokens_list, ID, k, method){
   }
   if (
     sum(is_numeric_string(unlist(tokens_list))) >
-    length(unlist(tokens_list)) * 0.5
+      length(unlist(tokens_list)) * 0.5
   ) {
     message_egt("Please run setReadable first!")
   }
@@ -122,8 +123,7 @@ genclusterscore <- function(tokens_list, ID, k, method){
       )
       ClusterNum <- dim(x)[1] / 11
     }
-  } else {
-  }
+  } else {}
   return(ClusterNum)
 }
 .checkNrows <- function(x, force) {
@@ -184,12 +184,10 @@ message_egt <- function(x, Type = 0) {
   }
 }
 
-nsimp <- function() {
-}
+nsimp <- function() {}
 s_ <- function(x, sep, n) {
   sapply(strsplit(x, sep), function(q) q[n])
 }
-
 
 
 prepare_database <- function(database, db0_name = "TERMs") {
@@ -211,10 +209,9 @@ prepare_database <- function(database, db0_name = "TERMs") {
     dplyr::mutate(CheckDup = paste0(ID, term)) |>
     dplyr::filter(!duplicated(CheckDup)) |>
     dplyr::select(-CheckDup) |>
-    dplyr::rename_with(~ db0_name, "term")
+    dplyr::rename_with(~db0_name, "term")
 
   colnames(database) <- c("term", "gene")
 
   list(db0 = db0, database = database)
 }
-

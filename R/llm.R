@@ -49,18 +49,29 @@ wrong_llm <- function() {
 }
 
 
-llm_warning <- function(){
-  cli::cli_alert_warning("EnrichGT's LLM function is sophisticated hypothesis generation system rather than an authoritative biological knowledge source.
-                         LLM-generated interpretations should be subject to expert review and literature validation, as is standard practice in computational biology workflows.")
+llm_warning <- function() {
+  cli::cli_alert_warning(
+    "EnrichGT's LLM function is sophisticated hypothesis generation system rather than an authoritative biological knowledge source.
+                         LLM-generated interpretations should be subject to expert review and literature validation, as is standard practice in computational biology workflows."
+  )
 }
 
-`%inject%` <- function(promptList, bg){
-  if(!is.null(bg)){
-    if(length(bg) == 1 | identical((!is.character(bg)), F)){
-      promptList <- lapply(promptList, function(x) paste0("You are a professional biologist. These below are biological background you can refer: \n[Ref Start]\n", bg, "\n[Ref END]\n\n===\n"))
-    }
-    else {
-      cli::cli_abort("Please check your background input. A single char is required. You can use `paste` to paste every paragraph together. ")
+`%inject%` <- function(promptList, bg) {
+  if (!is.null(bg)) {
+    if (length(bg) == 1 | identical((!is.character(bg)), F)) {
+      promptList <- lapply(promptList, function(x) {
+        paste0(
+          "You are a professional biologist. These below are biological background you can refer: \n[Ref Start]\n",
+          bg,
+          "\n[Ref END]\n\n===\n",
+          "\nAfter reading above, BELOW is what you should do: \n",
+          x
+        )
+      })
+    } else {
+      cli::cli_abort(
+        "Please check your background input. A single char is required. You can use `paste` to paste every paragraph together. "
+      )
     }
   }
   promptList
@@ -251,22 +262,32 @@ summarize_genes <- function(x, y, chat, prompt_type = "English", bg = NULL) {
 #'
 #' @seealso \code{\link{egt_recluster_analysis}} to create the input object.
 #' @export
-egt_llm_summary <- function(x, chat, lang = "English", model_name = NULL, background_knowledges = NULL) {
+egt_llm_summary <- function(
+  x,
+  chat,
+  lang = "English",
+  model_name = NULL,
+  background_knowledges = NULL
+) {
   if (sum(lang %in% c("English", "Chinese")) != 1) {
     cli::cli_abort("Invalid prompt_type, must be 'English' or 'Chinese'")
   }
-  if (class(x) != "EnrichGT_obj")
+  if (class(x) != "EnrichGT_obj") {
     cli::cli_abort("Please run `egt_recluster_analysis()` before summarizing. ")
+  }
   llm_warning()
   # Detect model name if not provided
   if (is.null(model_name)) {
-    model_name <- tryCatch({
-      if (exists("model", envir = chat)) {
-        chat$model
-      } else {
-        "Unknown_Model"
-      }
-    }, error = function(e) "Unknown_Model")
+    model_name <- tryCatch(
+      {
+        if (exists("model", envir = chat)) {
+          chat$model
+        } else {
+          "Unknown_Model"
+        }
+      },
+      error = function(e) "Unknown_Model"
+    )
   }
 
   a1 <- summarize_clusters(x, chat, lang, bg = background_knowledges)
@@ -291,12 +312,20 @@ egt_llm_summary <- function(x, chat, lang = "English", model_name = NULL, backgr
 #'
 #' @return EnrichGT_obj with LLM_Comparison slot filled
 #' @export
-egt_llm_multi_summary <- function(x, chat_list, lang = "English",background_knowledges = NULL, comparison_prompt = NULL) {
-  if (class(x) != "EnrichGT_obj")
+egt_llm_multi_summary <- function(
+  x,
+  chat_list,
+  lang = "English",
+  background_knowledges = NULL,
+  comparison_prompt = NULL
+) {
+  if (class(x) != "EnrichGT_obj") {
     cli::cli_abort("Please run `egt_recluster_analysis()` before summarizing.")
+  }
 
-  if (!is.list(chat_list) || is.null(names(chat_list)))
+  if (!is.list(chat_list) || is.null(names(chat_list))) {
     cli::cli_abort("chat_list must be a named list of LLM chat objects.")
+  }
   llm_warning()
   cli::cli_alert_info("Starting multi-LLM comparison...")
 
@@ -310,13 +339,27 @@ egt_llm_multi_summary <- function(x, chat_list, lang = "English",background_know
 
     cli::cli_alert_info(paste0("Generating summary with ", model_name, "..."))
 
-    tryCatch({
-      temp_result <- egt_llm_summary(x, chat, lang, model_name, background_knowledges = background_knowledges)
-      llm_results[[model_name]] <- temp_result@LLM_Annotation
-    }, error = function(e) {
-      cli::cli_alert_warning(paste0("Failed to generate summary with ", model_name, ": ", e$message))
-      llm_results[[model_name]] <- NULL
-    })
+    tryCatch(
+      {
+        temp_result <- egt_llm_summary(
+          x,
+          chat,
+          lang,
+          model_name,
+          background_knowledges = background_knowledges
+        )
+        llm_results[[model_name]] <- temp_result@LLM_Annotation
+      },
+      error = function(e) {
+        cli::cli_alert_warning(paste0(
+          "Failed to generate summary with ",
+          model_name,
+          ": ",
+          e$message
+        ))
+        llm_results[[model_name]] <- NULL
+      }
+    )
   }
 
   # Remove failed results
@@ -335,19 +378,37 @@ egt_llm_multi_summary <- function(x, chat_list, lang = "English",background_know
   # For single LLM, store the result directly without comparison summary
   if (length(llm_results) == 1) {
     comp_obj@comparison_summary <- list()
-    cli::cli_alert_success(paste0("Single LLM summary completed with ", model_names[1], "."))
+    cli::cli_alert_success(paste0(
+      "Single LLM summary completed with ",
+      model_names[1],
+      "."
+    ))
   } else {
     # For multiple LLMs, generate comparison summary
-    comparison_summary <- generate_comparison_summary(llm_results, model_names, lang, comparison_prompt)
+    comparison_summary <- generate_comparison_summary(
+      llm_results,
+      model_names,
+      lang,
+      comparison_prompt
+    )
     comp_obj@comparison_summary <- comparison_summary
-    cli::cli_alert_success(paste0("Multi-LLM comparison completed with ", length(model_names), " models."))
+    cli::cli_alert_success(paste0(
+      "Multi-LLM comparison completed with ",
+      length(model_names),
+      " models."
+    ))
   }
 
   x@LLM_Comparison <- comp_obj
   return(x)
 }
 
-generate_comparison_summary <- function(llm_results, model_names, lang, comparison_prompt = NULL) {
+generate_comparison_summary <- function(
+  llm_results,
+  model_names,
+  lang,
+  comparison_prompt = NULL
+) {
   cluster_names <- llm_results[[1]]@pathways$cluster_names
   comparison_summary <- list()
 
@@ -364,7 +425,9 @@ generate_comparison_summary <- function(llm_results, model_names, lang, comparis
       if (length(model_idx) > 0) {
         cluster_comparison[[model]] <- list(
           pathway_summary = llm_results[[model]]@pathways$results[[i]],
-          gene_summary = llm_results[[model]]@genes_and_title$results[[model_idx]],
+          gene_summary = llm_results[[model]]@genes_and_title$results[[
+            model_idx
+          ]],
           title = llm_results[[model]]@genes_and_title$resultsTitle[[model_idx]]
         )
       } else {

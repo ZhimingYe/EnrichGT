@@ -119,7 +119,7 @@ egt_summary <- function(x, name) {
   } else {
     r1 <- summary_use_local_html(x, name)
   }
-  if(!getOption("knitr.in.progress", default = FALSE)){
+  if (!getOption("knitr.in.progress", default = FALSE)) {
     htmltools::html_print(r1)
   }
   invisible(r1)
@@ -634,7 +634,10 @@ summary_use_single_llm_comparison_html <- function(x, name) {
 
           htmltools::div(
             style = "background-color: white; padding: 15px; border-radius: 5px; margin-bottom: 15px; border-left: 4px solid #17a2b8;",
-            htmltools::h4(style = "color: #17a2b8; margin-bottom: 10px;", "Gene Analysis"),
+            htmltools::h4(
+              style = "color: #17a2b8; margin-bottom: 10px;",
+              "Gene Analysis"
+            ),
             htmltools::p(
               style = "color: #495057; line-height: 1.6; white-space: pre-wrap;",
               htmltools::HTML(gsub("\n", "<br>", gene_summary))

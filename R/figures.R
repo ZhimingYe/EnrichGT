@@ -71,8 +71,9 @@ egt_plot_results <- function(
             dplyr::filter(Cluster %in% names(ttt0)[ttt0 > maskNoise])
         }
       },
-      error = function(e)
+      error = function(e) {
         cli::cli_abort("Not an EnrichGT_obj. or `maskNoise` param is too big")
+      }
     )
 
     if (sum(colnames(x@enriched_result) == "absNES") == 0) {
@@ -211,8 +212,10 @@ egt_plot_results <- function(
 shorten_labels_words <- function(label, max_length = 40) {
   shorten_one <- function(l) {
     words <- base::strsplit(l, " ")[[1]]
-    cum   <- base::cumsum(nchar(words) + 1)
-    if (max(cum) <= max_length) return(l)
+    cum <- base::cumsum(nchar(words) + 1)
+    if (max(cum) <= max_length) {
+      return(l)
+    }
     cut <- max(which(cum <= max_length))
     paste(paste(words[1:cut], collapse = " "), "...")
   }

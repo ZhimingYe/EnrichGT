@@ -1,4 +1,4 @@
-# Function export from gtExtra with litte modifying  
+# Function export from gtExtra with litte modifying
 # copyright Thomas Mock
 # MIT license
 # https://jthomasmock.github.io/gtExtras/index.html
@@ -76,7 +76,9 @@ gt_hulk_col_numeric2 <- function(
   trim = FALSE
 ) {
   pal_hex <- pal
-  if (isTRUE(trim)) pal_hex <- pal_hex[2:6]
+  if (isTRUE(trim)) {
+    pal_hex <- pal_hex[2:6]
+  }
   hulk_pal <- function(x) {
     (scales::col_numeric(pal_hex, domain = domain, ...))(x)
   }

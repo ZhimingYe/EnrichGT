@@ -163,12 +163,14 @@ setMethod("doEnrichGT", signature(x = "list"), function(x, ...) {
     clsObj[[3]],
     clsObj[[2]],
     InnerDF_000,
-    list(ClusterNum = ClusterNum, 
+    list(
+      ClusterNum = ClusterNum,
       P.adj = P.adj,
       force = force,
       objname = "CleanedObj",
       nTop = nTop,
-      method = method),
+      method = method
+    ),
     obj0RAW
   )
   return(objA)
@@ -256,12 +258,14 @@ remove_more_updownInfo <- function(x) {
     clsObj[[3]],
     clsObj[[2]],
     InnerDF_000,
-    list(ClusterNum = ClusterNum, 
+    list(
+      ClusterNum = ClusterNum,
       P.adj = P.adj,
       force = force,
       objname = "CleanedObj",
       nTop = nTop,
-      method = method),
+      method = method
+    ),
     obj0RAW
   )
   return(objA)

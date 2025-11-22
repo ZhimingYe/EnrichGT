@@ -86,7 +86,7 @@ egt_web_interface_internal <- function(
 
   # UI Definition
   ui <- dashboardPage(
-    dashboardHeader(title = "EnrichGT Web Interface"),
+    dashboardHeader(title = "EnrichGT"),
 
     dashboardSidebar(
       sidebarMenu(
@@ -624,8 +624,16 @@ egt_web_interface_internal <- function(
           }
 
           # Get database
-          showNotification("Preparing database and database cache. Would take few seconds for the first time to prepare the cache...", type = "message", duration = 3)
-          showNotification("If cache is hitted, this database will be completed ~ 0.5 seconds...", type = "message", duration = 3)
+          showNotification(
+            "Preparing database and database cache. Would take few seconds for the first time to prepare the cache...",
+            type = "message",
+            duration = 3
+          )
+          showNotification(
+            "If cache is hitted, this database will be completed ~ 0.5 seconds...",
+            type = "message",
+            duration = 3
+          )
           database <- get_database(input$ora_database, input$ora_species)
 
           # Run analysis
@@ -818,8 +826,10 @@ egt_web_interface_internal <- function(
                 )
                 # Get background knowledge if provided
                 bg_knowledge <- NULL
-                if (!is.null(input$recluster_background_knowledge) &&
-                    nzchar(trimws(input$recluster_background_knowledge))) {
+                if (
+                  !is.null(input$recluster_background_knowledge) &&
+                    nzchar(trimws(input$recluster_background_knowledge))
+                ) {
                   bg_knowledge <- input$recluster_background_knowledge
                 }
 

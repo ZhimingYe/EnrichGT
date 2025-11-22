@@ -1,4 +1,3 @@
-
 #'
 #' Framework for comparing and analyzing enrichment results
 #' across multiple groups
@@ -128,19 +127,22 @@ comparison_reactor_base <- R6::R6Class(
       tdf$CPRID <- tdf$Description
 
       private$latest_added_item_names -> latestTerm
-      if(length(latestTerm) == 1 & latestTerm[1] == "FirstItem"){
+      if (length(latestTerm) == 1 & latestTerm[1] == "FirstItem") {
         private$latest_added_item_names <- tdf$CPRID
       } else {
         overlapNum <- sum(tdf$CPRID %in% latestTerm)
         latestTotal <- length(latestTerm)
-        pctOverlap <- round(((overlapNum/latestTotal) * 100), 2)
-        cli::cli_alert_info(glue::glue("Overlap rate of new added data and the latest data:{pctOverlap}%.\n Please ensure there are overlaps among appended data. "))
-        if(pctOverlap < 25){
-          cli::cli_alert_danger("Less than 25% overlap terms. Please ensure you are using same source and same param in these series of data")
+        pctOverlap <- round(((overlapNum / latestTotal) * 100), 2)
+        cli::cli_alert_info(glue::glue(
+          "Overlap rate of new added data and the latest data:{pctOverlap}%.\n Please ensure there are overlaps among appended data. "
+        ))
+        if (pctOverlap < 25) {
+          cli::cli_alert_danger(
+            "Less than 25% overlap terms. Please ensure you are using same source and same param in these series of data"
+          )
         }
         private$latest_added_item_names <- tdf$CPRID
       }
-
 
       bb[[new_info$Index[1]]] <- tdf
 
@@ -154,7 +156,9 @@ comparison_reactor_base <- R6::R6Class(
     #' Print summary of groups in reactor
     summarize = function() {
       tbl0 <- private$group_name
-      tbl0 <- tbl0 |> dplyr::filter(Group != "Initial") |> dplyr::select(-Included)
+      tbl0 <- tbl0 |>
+        dplyr::filter(Group != "Initial") |>
+        dplyr::select(-Included)
       print(tbl0)
       cli::cli_alert_info(glue::glue(
         "Will make comparasion of multiple {private$type} results. "
@@ -194,10 +198,9 @@ comparison_reactor_base <- R6::R6Class(
       hclust_method = "ward.D2",
       ...
     ) {
-
       # Get data from agg_df
       mat <- as.matrix(private$agg_df[, -1]) # Remove CPRID column
-      if(is.null(Num)){
+      if (is.null(Num)) {
         Num <- 3 * ncol(mat) + 1
       }
       rownames(mat) <- private$agg_df$CPRID
@@ -224,9 +227,9 @@ comparison_reactor_base <- R6::R6Class(
       print(table(clusters))
       tbl0 <- private$group_name
       tbl0 <- tbl0 |> dplyr::filter(Group != "Initial")
-      for(i in 1:length(colnames(mat))){
-        for(j in tbl0$Index){
-          if(grepl(j, colnames(mat)[i])){
+      for (i in 1:length(colnames(mat))) {
+        for (j in tbl0$Index) {
+          if (grepl(j, colnames(mat)[i])) {
             NAME0 <- tbl0$Group[which(tbl0$Index == j)]
             colnames(mat)[i] <- gsub(j, NAME0, colnames(mat)[i])
             break
@@ -294,7 +297,9 @@ comparison_reactor_base <- R6::R6Class(
         }
       })
       figlist <- lapply(df_export2_list, wordcloud_generator2)
-      cli::cli_alert_info("Will return a figure list.\nPlease assign to any value use `figlist <- reactor$fetch_biological_theme()`, and draw individual by printing them inside this list. ")
+      cli::cli_alert_info(
+        "Will return a figure list.\nPlease assign to any value use `figlist <- reactor$fetch_biological_theme()`, and draw individual by printing them inside this list. "
+      )
       invisible(figlist)
     },
     #' @description
@@ -365,7 +370,7 @@ comparison_reactor_base <- R6::R6Class(
       resList <- private$final_result
       resList2 <- lapply(
         resList,
-        function(x)
+        function(x) {
           tryCatch(
             {
               egt_recluster_analysis(
@@ -380,6 +385,7 @@ comparison_reactor_base <- R6::R6Class(
             },
             error = function(e) list()
           )
+        }
       )
       names(resList2) <- names(resList)
       private$recluster_result <- resList2
@@ -445,10 +451,11 @@ comparison_reactor_base <- R6::R6Class(
         type = private$type
       )
       a1 <- lapply(x, function(q) {
-        if (sum(colnames(list0[[q]]) %in% use_what0) < 1)
+        if (sum(colnames(list0[[q]]) %in% use_what0) < 1) {
           cli::cli_abort(glue::glue(
             "Please check the input, can't find column: {use_what0}"
           ))
+        }
         d1 <- list0[[q]] |> dplyr::select(CPRID, !!dplyr::sym(use_what0))
         colnames(d1)[2] <- paste0(q, "|", use_what0)
         d1
@@ -464,7 +471,9 @@ comparison_reactor_base <- R6::R6Class(
       )
       a2[is.na(a2)] <- 0 # may have bugs
       private$agg_df <- a2
-      cli::cli_alert_info("Successed. \nIf the result is strange, please remember do prefiltering by `reactor$prefilter_by...()`")
+      cli::cli_alert_info(
+        "Successed. \nIf the result is strange, please remember do prefiltering by `reactor$prefilter_by...()`"
+      )
       # invisible(self)
     }
   )
@@ -556,7 +565,9 @@ comparison_reactor_gsea <- R6::R6Class(
     #' }
     prefilter_by_NES = function(x = 1) {
       private$check_appended_data()
-      if (private$type != "GSEA") cli::cli_abort("Not GSEA! ")
+      if (private$type != "GSEA") {
+        cli::cli_abort("Not GSEA! ")
+      }
       private$raw_enriched_result -> list0
       list1 <- lapply(list0, function(q) q |> dplyr::filter(abs(NES) > x))
       names(list1) <- names(list0)
@@ -717,7 +728,9 @@ wordcloud_generator2 <- function(
   words <- words[nzchar(words)]
   freq <- sort(table(words), decreasing = TRUE)
   freq <- freq[freq >= min_freq]
-  if (length(freq) > max_words) freq <- head(freq, max_words)
+  if (length(freq) > max_words) {
+    freq <- head(freq, max_words)
+  }
   df <- data.frame(word = names(freq), freq = as.numeric(freq))
 
   ggplot(df, aes(label = word, size = freq, colour = freq)) +

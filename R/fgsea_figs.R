@@ -57,9 +57,6 @@ egt_plot_gsea <- function(x, genes, database) {
   } else {
     figure <- fgsea::plotEnrichment(ref[[1]][[x]], ref[[2]]) # not sure why 2[[]]?
     figure <- figure + ggplot2::theme_bw() + ggplot2::labs(title = x)
-    figure$layers[[1]]$aes_params$colour <- "#4975ae"
-    figure$layers[[3]]$aes_params$colour <- "grey"
-    figure$layers[[4]]$aes_params$colour <- "grey" # some hack of colors.
   }
   return(figure)
 }

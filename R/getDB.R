@@ -177,10 +177,14 @@ database_RA <- function(OrgDB, ...) {
   relevant_extids <- intersect(names(extid_to_path), entrez_keys)
   extid_to_path <- extid_to_path[relevant_extids]
 
-  path_names_clean <- vapply(path_to_name, function(x) {
-    name <- x[1L]
-    sub("^[A-Za-z]+\\s+[A-Za-z]+:\\s*", "", name)
-  }, character(1L))
+  path_names_clean <- vapply(
+    path_to_name,
+    function(x) {
+      name <- x[1L]
+      sub("^[A-Za-z]+\\s+[A-Za-z]+:\\s*", "", name)
+    },
+    character(1L)
+  )
   pathway_ids <- unique(unlist(extid_to_path, use.names = FALSE))
 
   valid_paths <- intersect(pathway_ids, names(path_to_extid))
@@ -217,7 +221,8 @@ database_RA <- function(OrgDB, ...) {
   if (requireNamespace("cli", quietly = TRUE)) {
     cli::cli_alert_success(paste0(
       "success loaded database, time used : ",
-      time_diff, " sec."
+      time_diff,
+      " sec."
     ))
   } else {
     message(paste0("Success: database loaded in ", time_diff, " seconds"))

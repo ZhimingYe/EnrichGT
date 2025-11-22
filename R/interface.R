@@ -197,7 +197,11 @@ egt_generate_quarto_report <- function(
       '```{r, comment = ""}',
       '#| echo: false',
       '#| output: asis',
-      paste0("a <- EnrichGT:::egt_summary(re_enrichment_results, '", cluster, "')"),
+      paste0(
+        "a <- EnrichGT:::egt_summary(re_enrichment_results, '",
+        cluster,
+        "')"
+      ),
       'a',
       '```',
       '',

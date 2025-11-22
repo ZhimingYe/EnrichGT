@@ -18,7 +18,7 @@ setMethod(
 )
 
 
-cpres_internal_getter_do <- function(y, ...){
+cpres_internal_getter_do <- function(y, ...) {
   if (sum(colnames(y) == "NES") == 0) {
     if (
       sum(
