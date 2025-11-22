@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -21,8 +21,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -64,15 +65,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f4e4fdd956c7a26aa55d25c6f42ca246.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-06d22339cf1bae60befde528b0c36036.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -105,7 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar docked nav-fixed">
+<body class="nav-sidebar docked nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -136,10 +138,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link" href="https://github.com/ZhimingYe/EnrichGT/"> 
 <span class="menu-text">Github</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./preface.html"> 
-<span class="menu-text">Motivation</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./acknowledgement.html"> 
@@ -182,6 +180,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./interfaceshiny.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Web Interface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./enrichment_core.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Core Enrichment Functions</span></a>
   </div>
@@ -201,13 +205,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./visualize.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Visualize results through HTML reports or figures</span></a>
+ <span class="menu-text">Visualize and Create Reports</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./llm.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Large language models integration</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./compare.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Compare Multiple Enrichment Results</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -230,9 +240,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#access-re-enriched-data-table" id="toc-access-re-enriched-data-table" class="nav-link" data-scroll-target="#access-re-enriched-data-table">Access re-enriched data table</a></li>
   <li><a href="#access-re-enriched-html-report" id="toc-access-re-enriched-html-report" class="nav-link" data-scroll-target="#access-re-enriched-html-report">Access re-enriched HTML report</a></li>
-  <li><a href="#glance-details-of-each-module" id="toc-glance-details-of-each-module" class="nav-link" data-scroll-target="#glance-details-of-each-module">Glance details of each module</a></li>
+  <li><a href="#glance-details-of-each-module" id="toc-glance-details-of-each-module" class="nav-link" data-scroll-target="#glance-details-of-each-module">Glance details of each module</a>
+  <ul class="collapse">
+  <li><a href="#through-word-cloud" id="toc-through-word-cloud" class="nav-link" data-scroll-target="#through-word-cloud">Through Word Cloud</a></li>
+  <li><a href="#through-morden-ides" id="toc-through-morden-ides" class="nav-link" data-scroll-target="#through-morden-ides">Through Morden IDEs</a></li>
+  <li><a href="#through-r-console" id="toc-through-r-console" class="nav-link" data-scroll-target="#through-r-console">Through R Console</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#mask-unnecessary-results" id="toc-mask-unnecessary-results" class="nav-link" data-scroll-target="#mask-unnecessary-results">Mask unnecessary results</a></li>
+  <li><a href="#manual-visualize-the-relationship-of-specific-terms-intra-database" id="toc-manual-visualize-the-relationship-of-specific-terms-intra-database" class="nav-link" data-scroll-target="#manual-visualize-the-relationship-of-specific-terms-intra-database">Manual visualize the relationship of specific terms intra database</a></li>
   <li><a href="#infering-tfs-or-pathway-activity-and-more-based-on-meta-gene-modules" id="toc-infering-tfs-or-pathway-activity-and-more-based-on-meta-gene-modules" class="nav-link" data-scroll-target="#infering-tfs-or-pathway-activity-and-more-based-on-meta-gene-modules">Infering TFs or pathway activity and more based on meta-gene modules</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/re_enrichment.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -275,38 +291,12 @@ Why the <code>re-enrichment</code> is necessary?
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<section id="challenges-in-biological-gene-enrichment-analysis" class="level5">
+<section id="challenges-in-biological-gene-enrichment-analysis" class="level5 callout-body-container callout-body">
 <h5 class="anchored" data-anchor-id="challenges-in-biological-gene-enrichment-analysis">Challenges in Biological Gene Enrichment Analysis</h5>
 <p>Gene enrichment analysis can often be misleading due to the redundancy within gene set databases and the limitations of most enrichment tools. Many tools, by default, only display a few top results and fail to filter out redundancy. This can result in both biological misinterpretation and valuable information being overlooked.</p>
-<p>For instance, high expression of certain immune genes can cause many immune-related gene sets to appear overrepresented. However, a closer look often reveals that these gene sets are derived from the same group of genes, which might represent only a small fraction (less than 10%) of the differentially expressed genes (DEGs). What about the other 90%? Do they hold no biological significance?</p>
+<p>For instance, high expression of certain immune genes can cause many immune-related gene sets to appear overrepresented. However, a closer look often reveals that these gene sets are derived from the same group of genes, which might represent only a small fraction (less than 10%) of the differential expressed genes (DEGs). What about the other 90%? Do they hold no biological significance?</p>
+<p>The main purpose of developing this package is to provide a lightweight and practical solution to the problems mentioned above. Specifically, this package can cluster enrichment results based on hit genes or core enrichment from GSEA using term frequency analysis (from the output of the powerful <code>clusterProfiler</code>). This provides a clearer view of biological relevance by focusing on the genes that matter most.</p>
 </section>
-<section id="current-solutions" class="level5">
-<h5 class="anchored" data-anchor-id="current-solutions">Current Solutions</h5>
-<p><strong>clusterProfiler</strong> is one of the most powerful tools in R for enrichment analysis. It’s designed with pathway redundancy in mind and includes the <code>clusterProfiler::simplify</code> function to address this issue. This method, based on <strong>GOSemSim</strong> for GO similarity evaluation, is scientifically robust and highly effective.</p>
-<p>However, there are some drawbacks:</p>
-<ul>
-<li><p>GOSemSim is not fast, particularly when dealing with large or complex gene sets.</p></li>
-<li><p>It doesn’t support databases like KEGG or Reactome.</p></li>
-</ul>
-<p>Using GOSemSim to measure the semantic similarity between pathways is, theoretically, the best way to tackle redundancy. However, in practical cases—especially in experimental bioinformatics validation—researchers are more focused on the genes behind these pathways rather than the pathways themselves.</p>
-</section>
-<section id="alternative-approaches" class="level5">
-<h5 class="anchored" data-anchor-id="alternative-approaches">Alternative Approaches</h5>
-<p>Although clustering pathways based on gene overlap has received some criticism, it remains a viable approach in many situations. For this reason, I developed <strong>BioThemeFinder</strong> a few years ago to solve this problem. However, the tool is so awful (I am poor in coding…)</p>
-<p>Today, two excellent alternatives exist:</p>
-<ul>
-<li><strong>simplifyEnrichment</strong>: This package is more scientifically rigorous (based on semantic similarity) and creates beautiful visualizations. It also doesn’t support databases like KEGG or Reactome.</li>
-<li><strong>aPEAR</strong>: A simpler and faster tool that better aligns with practical needs, making it my preferred choice.</li>
-</ul>
-<p>However, both of these tools have a common limitation: their visualizations are optimized for publication purposes rather than for exploratory research. I often find myself exporting CSV files or struggling with RStudio’s preview pane to fully explore enrichment tables. This inspired me to develop a more efficient solution. Also, they are slow.</p>
-</section>
-<section id="goals-of-this-package" class="level5">
-<h5 class="anchored" data-anchor-id="goals-of-this-package">Goals of This Package</h5>
-<p>The main purpose of developing this package is to provide a <strong>lightweight and practical solution</strong> to the problems mentioned above. Specifically, this package aims to:</p>
-<p><strong>Cluster enrichment results</strong> based on hit genes or core enrichment from GSEA using term frequency analysis (from the output of the powerful <code>clusterProfiler</code>). This provides a clearer view of biological relevance by focusing on the genes that matter most.</p>
-</section>
-</div>
 </div>
 </div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From results generated before</span></span>
@@ -325,18 +315,27 @@ Why the <code>re-enrichment</code> is necessary?
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(re_enrich,<span class="at">max.level =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Formal class 'EnrichGT_obj' [package "EnrichGT"] with 10 slots
-  ..@ enriched_result     : tibble [67 × 7] (S3: tbl_df/tbl/data.frame)
-  ..@ tinytable_obj       :Formal class 'tinytable' [package "tinytable"] with 33 slots
-  ..@ gene_modules        :List of 10
-  ..@ pathway_clusters    :List of 10
+<pre><code>Formal class 'EnrichGT_obj' [package "EnrichGT"] with 12 slots
+  ..@ enriched_result     : tibble [65 × 7] (S3: tbl_df/tbl/data.frame)
+  ..@ gt_object           :List of 17
+  .. ..- attr(*, "class")= chr [1:2] "gt_tbl" "list"
+  ..@ gt_object_noHTML    :List of 17
+  .. ..- attr(*, "class")= chr [1:2] "gt_tbl" "list"
+  ..@ gene_modules        :List of 9
+  ..@ pathway_clusters    :List of 9
   ..@ document_term_matrix:Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
   ..@ clustering_tree     :List of 7
   .. ..- attr(*, "class")= chr "hclust"
-  ..@ raw_enriched_result : tibble [2,979 × 9] (S3: tbl_df/tbl/data.frame)
+  ..@ raw_enriched_result : tibble [3,003 × 9] (S3: tbl_df/tbl/data.frame)
+  .. ..- attr(*, "Package")= chr "EnrichGT"
+  .. ..- attr(*, "Input")= chr [1:465] "MT-ND4" "VAMP8" "PLAAT4" "LGALS1" ...
+  .. ..- attr(*, "Database")='data.frame':  1284869 obs. of  2 variables:
+  .. ..- attr(*, "Other_Params")=List of 5
+  .. ..- attr(*, "Time")= POSIXct[1:1], format: "2025-11-23 02:56:33"
   ..@ fused               : logi FALSE
   ..@ param               :List of 6
-  ..@ LLM_Annotation      :Formal class 'egt_llm' [package "EnrichGT"] with 2 slots</code></pre>
+  ..@ LLM_Annotation      :Formal class 'egt_llm' [package "EnrichGT"] with 3 slots
+  ..@ LLM_Comparison      :Formal class 'egt_llm_comparison' [package "EnrichGT"] with 3 slots</code></pre>
 </div>
 </div>
 <section id="access-re-enriched-data-table" class="level2">
@@ -345,43 +344,68 @@ Why the <code>re-enrichment</code> is necessary?
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>re_enrich<span class="sc">@</span>enriched_result <span class="co"># Get the re-enrichment result table</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 67 × 7
+<pre><code># A tibble: 65 × 7
    Description                          ID    Count Cluster   PCT    Padj geneID
    &lt;chr&gt;                                &lt;chr&gt; &lt;int&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; 
- 1 synaptic transmission, glutamatergic GO:0…    19 Cluste…   4.2 8.10e-8 ATP1A…
- 2 regulation of synaptic transmission… GO:0…    16 Cluste…   3.5 8.10e-8 ATP1A…
- 3 modulation of chemical synaptic tra… GO:0…    39 Cluste…   8.5 8.10e-8 ACHE,…
- 4 regulation of trans-synaptic signal… GO:0…    39 Cluste…   8.5 8.10e-8 ACHE,…
- 5 synapse organization                 GO:0…    36 Cluste…   7.9 2.10e-6 ACHE,…
- 6 regulation of neuronal synaptic pla… GO:0…    12 Cluste…   2.6 4.20e-6 APOE,…
- 7 glutamate receptor signaling pathway GO:0…    11 Cluste…   2.4 5.20e-6 GRIA4…
- 8 ionotropic glutamate receptor signa… GO:0…     8 Cluste…   1.8 1.10e-5 GRIA4…
- 9 regulation of synaptic plasticity    GO:0…    20 Cluste…   4.4 4.50e-5 APOE,…
-10 regulation of postsynaptic membrane… GO:0…    16 Cluste…   3.5 8.5 e-5 GABRD…
-# ℹ 57 more rows</code></pre>
+ 1 synaptic transmission, glutamatergic GO:0…    18 Cluste…   3.9 1   e-6 ATP1A…
+ 2 regulation of synaptic transmission… GO:0…    15 Cluste…   3.2 1.20e-6 ATP1A…
+ 3 glutamate receptor signaling pathway GO:0…    12 Cluste…   2.6 1.10e-5 GRIA4…
+ 4 regulation of neuronal synaptic pla… GO:0…    12 Cluste…   2.6 1.20e-5 APOE,…
+ 5 ionotropic glutamate receptor signa… GO:0…     8 Cluste…   1.7 4.1 e-5 GRIA4…
+ 6 ligand-gated ion channel signaling … GO:1…     9 Cluste…   1.9 9.8 e-5 GRIA4…
+ 7 regulation of postsynaptic membrane… GO:0…    16 Cluste…   3.4 1.6 e-4 GABRD…
+ 8 regulation of membrane potential     GO:0…    30 Cluste…   6.5 2.5 e-4 AGT, …
+ 9 locomotory behavior                  GO:0…    19 Cluste…   4.1 2.5 e-4 ALK, …
+10 transmission of nerve impulse        GO:0…    11 Cluste…   2.4 4.3 e-4 ATP1A…
+# ℹ 55 more rows</code></pre>
 </div>
 </div>
 </section>
 <section id="access-re-enriched-html-report" class="level2">
 <h2 class="anchored" data-anchor-id="access-re-enriched-html-report">Access re-enriched HTML report</h2>
-<p>EnrichGT offers <strong>more than</strong> data frames. Please see <a href="./visualize.html">HTML reports (tinytable table)</a> for further visualization.</p>
+<p>EnrichGT offers <strong>more than</strong> data frames. Please see <a href="./visualize.html">HTML reports (gt table table)</a> for further visualization.</p>
 </section>
 <section id="glance-details-of-each-module" class="level2">
 <h2 class="anchored" data-anchor-id="glance-details-of-each-module">Glance details of each module</h2>
+<section id="through-word-cloud" class="level3">
+<h3 class="anchored" data-anchor-id="through-word-cloud">Through Word Cloud</h3>
+<p><code>egt_fetch_biological_theme</code> function can do this. Just execute:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_fetch_biological_theme</span>(re_enrich, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="re_enrichment_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="through-morden-ides" class="level3">
+<h3 class="anchored" data-anchor-id="through-morden-ides">Through Morden IDEs</h3>
+<p>EnrichGT works well with IDEs <code>RStudio</code> and <code>Positron</code>. You can use <code>egt_summary()</code> function to see the LLM summaries.</p>
+<p>For example, if you want to view <code>cluster 1</code>, you can use one of below:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_summary</span>(deepseekAnno, <span class="st">"1"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_summary</span>(deepseekAnno, <span class="dv">1</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_summary</span>(deepseekAnno, <span class="st">"Cluster_1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="images/clipboard-657879404.png" class="img-fluid" width="800"></p>
+</section>
+<section id="through-r-console" class="level3">
+<h3 class="anchored" data-anchor-id="through-r-console">Through R Console</h3>
 <p>The re-enriched object from EnrichGT supports the <code>$</code> subset operator. You can use it to glance details inside each cluster. In morden IDE like <code>Positron</code>, type <code>$</code>, and then press the <code>Tab</code> key for auto-completion, as shown in the figure.</p>
 <p><img src="images/paste-1.png" class="img-fluid" width="700"></p>
 <p>But when you are still using <code>RStudio</code> (which auto-complete function is poor than <code>ARK</code> LSP), you can use <code>names</code> to get the cluster names.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(re_enrich)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(re_enrich)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "Cluster_1"  "Cluster_10" "Cluster_2"  "Cluster_3"  "Cluster_4" 
- [6] "Cluster_5"  "Cluster_6"  "Cluster_7"  "Cluster_8"  "Cluster_9" </code></pre>
+<pre><code>[1] "Cluster_1" "Cluster_2" "Cluster_3" "Cluster_4" "Cluster_5" "Cluster_6"
+[7] "Cluster_7" "Cluster_8" "Cluster_9"</code></pre>
 </div>
 </div>
 <p>In this example, all results haven’t got any extra annotation. But <code>EnrichGT</code> supports Large language models (LLMs) based enrichment result annotations, you can refer to <a href="./llm.html">large language models integration of EnrichGT</a> page for more details. After performed LLM annotations, this step will display more information and insights about enrichment results. If you feel typing full names is bored, you can use <code>c1</code> or <code>C1</code> and even <code>"1"</code> to access it.</p>
 <p>For example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>re_enrich<span class="sc">$</span>Cluster_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>re_enrich<span class="sc">$</span>Cluster_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code></code></pre>
 </div>
@@ -390,24 +414,31 @@ Why the <code>re-enrichment</code> is necessary?
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>• This cluster contains synaptic transmission, glutamatergic, regulation of
-synaptic transmission, glutamatergic, modulation of chemical synaptic
-transmission, regulation of trans-synaptic signaling, synapse organization ...</code></pre>
+synaptic transmission, glutamatergic, glutamate receptor signaling pathway,
+regulation of neuronal synaptic plasticity, ionotropic glutamate receptor
+signaling pathway ...</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>• Candidate genes includes ACHE, ADGRF1, APOE, ATP1A2, BCAN, CA2, CACNG5,
-CAMK2B, CDC20, CDH6, CNTN2, CTNNA2, DGKI, DLGAP1, DNER, DSCAM, ERC2, GABRD,
-GAP43, GFAP, GRIA4, GRID2, GRIK2, GRIK3, GRIN1, GRIN2A, GRIN2B, GRIN2D, GRM1,
-GRM5, GRM8, HCN1, HRAS, HTR3A, IGSF9, IL1RAPL2, INA, KIF1A, LHFPL4, LRFN2,
-MAP1B, MAPK8IP2, NLGN1, NMU, NRCAM, NRXN1, NTRK2, RAC3, RIMS3, SEZ6L2, SHISA9,
-SIX1, SLC6A1, SYNDIG1, TREM2, UNC13A, UNC13C, VGF, WNT5A (We will print all
-genes. Please stroll to top to read)</code></pre>
+<pre><code>• Candidate genes includes ACHE, ADGRF1, AGT, ALK, ANKFN1, ANKH, APLP1, APOE,
+ASPM, ATP1A2, ATP8B3, AVPR1A, BCAN, C4BPB, CA2, CACNG5, CAMK1D, CAMK2B, CDC20,
+CELSR3, CIART, CNTN2, CNTNAP2, CPNE4, CPNE7, CTNNA2, DAAM2, DLX5, DNAJB1, DNER,
+DPP4, DPYSL5, DSCAM, E2F1, EMX2, EPHA10, FOLR2, FOXD1, FSTL4, GABRD, GAD1,
+GAP43, GFAP, GIPR, GPR37, GRIA4, GRID2, GRIK2, GRIK3, GRIN1, GRIN2A, GRIN2B,
+GRIN2D, GRM1, GRM5, GRM8, HCN1, HCN2, HMOX1, HRAS, HTR3A, IGSF9, IL1RAPL2,
+IMPA2, INA, KCNC3, KCNE4, KCNK2, KIAA1755, KIF1A, KIF5C, LHFPL4, LOXL2, LRFN2,
+MAG, MAP1B, MAPK8IP2, MEGF10, MSX1, MT-CYB, MYO3B, NKX6-1, NLGN1, NMU, NQO1,
+NRCAM, NRXN1, NTRK2, NUDT1, OPCML, PPP1R1B, PTPRH, PYCR1, RAC3, RASD2, RIMS3,
+RNF207, RYR1, SCN8A, SDC1, SDC2, SEMA5B, SEZ6L2, SFRP2, SHISA9, SIX1, SLC30A10,
+SLC30A3, SLC6A1, SLC6A3, SPOCK1, SRD5A1, STRA6, SYNDIG1, TBX18, TF, TFAP2A,
+TREM2, TRPM2, TRPV4, TWIST1, UCHL1, UNC13A, UNC13C, VGF, WDR62, WNT4, WNT5A,
+ZAN, ZIC1 (We will print all genes. Please stroll to top to read)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "cli-92167-17"</code></pre>
+<pre><code>[1] "cli-33595-15"</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>re_enrich<span class="sc">$</span>c3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>re_enrich<span class="sc">$</span>c3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code></code></pre>
 </div>
@@ -415,26 +446,24 @@ genes. Please stroll to top to read)</code></pre>
 <pre><code>── Enrichment Result of Cluster_3 (Local Summary) ──────────────────────────────</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>• This cluster contains locomotory behavior, startle response, neuron
-recognition, cell recognition, gas transport ...</code></pre>
+<pre><code>• This cluster contains regulation of neuron differentiation, positive
+regulation of nervous system development, regulation of nervous system
+development, regulation of developmental growth, negative regulation of neuron
+differentiation ...</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>• Candidate genes includes AKR1B1, ALK, ANKH, APLP1, APOE, ATP1A2, ATP8B3,
-BCAN, C4BPB, CA2, CAMK2B, CDC20, CIART, CNTN2, CNTNAP2, COL1A1, CRYAB, CTNNA2,
-DLX5, DPP4, DPYSL5, DSCAM, ENPP1, EPHA10, FOLR2, FOXD1, FOXS1, FSTL4, GAD1,
-GAP43, GPR37, GPX1, GRID2, GRIN2A, GRIN2D, GRM1, GRM5, HBA1, HBA2, HBB, HCN1,
-HCN2, HMOX1, IGSF9, KIAA1755, KIF5C, MAG, MAP1B, MB, MEGF10, NKX6-1, NLGN1,
-NQO1, NRCAM, NRXN1, NTRK2, OPCML, PPP1R1B, RAC3, RASD2, RYR1, SDC1, SEMA5B,
-SEZ6L2, SLC5A5, SLC6A1, SLC6A3, SOX8, SRD5A1, STAC2, STRA6, TDRD5, TFCP2L1,
-TNNT1, TREM2, TRPM2, UCHL1, UNC13A, UNC13C, VGF, WNT5A, ZAN, ZIC1 (We will
-print all genes. Please stroll to top to read)</code></pre>
+<pre><code>• Candidate genes includes AGR2, ALK, APOE, ASPM, CAMK2B, CNTN2, DAAM2, DPYSL5,
+DSCAM, FOXC2, FOXS1, FSTL4, GFAP, GPAM, GRID2, GRM5, HEY2, IL34, JAG1, KCNK2,
+MAG, MAP1B, NKX6-1, NLGN1, NRCAM, NRXN1, NTRK2, RAC3, SFRP2, SIX1, SLC6A3,
+SOX8, SYNDIG1, TP73, TREM2, UNC13A, WDR62, WNT5A, ZNF536 (We will print all
+genes. Please stroll to top to read)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "cli-92167-22"</code></pre>
+<pre><code>[1] "cli-33595-20"</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>re_enrich<span class="sc">$</span><span class="st">"5"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>re_enrich<span class="sc">$</span><span class="st">"5"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code></code></pre>
 </div>
@@ -442,19 +471,19 @@ print all genes. Please stroll to top to read)</code></pre>
 <pre><code>── Enrichment Result of Cluster_5 (Local Summary) ──────────────────────────────</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>• This cluster contains ear development, sensory organ morphogenesis, ear
-morphogenesis, cochlea development, muscle tissue development ...</code></pre>
+<pre><code>• This cluster contains ATP synthesis coupled electron transport, mitochondrial
+ATP synthesis coupled electron transport, aerobic electron transport chain,
+aerobic respiration, respiratory electron transport chain ...</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>• Candidate genes includes AGT, ALPK2, BARX2, CELSR3, CENPF, COL11A1, CTHRC1,
-DLX5, DNER, DSCAM, EYA2, FJX1, FOXC2, GPX1, GSDME, HCN1, HEY2, JAG1, KCNK2,
-MEGF10, MSX1, MYLK2, MYO18B, MYO3B, NOX4, NTRK2, RYR1, SAPCD2, SDC1, SFRP2,
-SGCZ, SIX1, SIX2, SOX8, STRA6, TBX15, TBX18, TFAP2A, TNNT1, TP73, TWIST1,
-UCHL1, WFIKKN1, WNT4, WNT5A, ZIC1 (We will print all genes. Please stroll to
-top to read)</code></pre>
+<pre><code>• Candidate genes includes ADGRF1, AK5, ALDH1L1, ANGPTL4, ATP1A2, ATP6V1C2,
+AVPR1A, CA9, CCNB1, CD24, COL1A1, CRYAB, DPP4, ENO1, ENPP1, GIPR, HSPA1A, IDH1,
+KCNK2, LOXL2, MB, MT-ATP6, MT-CO2, MT-CO3, MT-CYB, MT-ND1, MT-ND2, MT-ND3,
+MT-ND4, NDUFB2, NDUFS6, OGDHL, PGF, RYR1, SLC15A1, TREM2, TRPV4, TWIST1, UCHL1,
+UQCR10, VGF (We will print all genes. Please stroll to top to read)</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "cli-92167-27"</code></pre>
+<pre><code>[1] "cli-33595-25"</code></pre>
 </div>
 </div>
 <p>Further more, you can can use <code>@</code> to get objects in S4. Like <code>result@gene_modules</code> returns genes in cluster.</p>
@@ -468,9 +497,10 @@ How to get objects inside the S4 object?
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>You can use <code>@</code>, for example, <code>x &lt;- re_enrich@enriched_result</code> returns a result table and <code>x &lt;- re_enrich@tinytable_obj</code> returns a <code>gt</code> object.</p>
+<p>You can use <code>@</code>, for example, <code>x &lt;- re_enrich@enriched_result</code> returns a result table and <code>x &lt;- re_enrich@gt_object</code> returns a <code>gt</code> object.</p>
 </div>
 </div>
+</section>
 </section>
 </section>
 <section id="mask-unnecessary-results" class="level1">
@@ -479,12 +509,33 @@ How to get objects inside the S4 object?
 <p>Clearly, neither ORA nor GSEA is capable of correcting for such biases—let alone account for rare cell types or unique tissue microenvironments. In such cases, filtering out certain pathways isn’t falsification; it’s a way to minimize potential misunderstandings for readers or collaborators.</p>
 <p>That said, I must emphasize: although this is a useful feature, please don’t use it to blindly dismiss pathways—existence implies relevance. It’s an art of trade-off. Nevertheless, every pathway with an FDR less than 0.05 deserves careful consideration.</p>
 <p>In <code>EnrichGT</code>, you can simply use <code>%-delete-&gt;%</code> operator to achieve this:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter out "ribosome" related terms in re-enriched object</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>filtered_results <span class="ot">&lt;-</span> reenrichment_obj <span class="sc">%-delete-&gt;%</span> <span class="st">"ribosome"</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter data.frame directly from ORA/GSEA result is also OK</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> df <span class="sc">%-delete-&gt;%</span> <span class="st">"metabolism"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter out "ribosome" related terms in re-enriched object</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>filtered_results <span class="ot">&lt;-</span> reenrichment_obj <span class="sc">%-delete-&gt;%</span> <span class="st">"ribosome"</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter data.frame directly from ORA/GSEA result is also OK</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> df <span class="sc">%-delete-&gt;%</span> <span class="st">"metabolism"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>It uses regular expression to help you remove them. Regular expression have many high-level ways to use, you can ask for Google for more details.</p>
+</section>
+<section id="manual-visualize-the-relationship-of-specific-terms-intra-database" class="level1">
+<h1>Manual visualize the relationship of specific terms intra database</h1>
+<p><code>egt_fetch_termwise_relationship</code> is designed for this. This directly call the cluster function internal and show you the result. The purpose of designing this function is to encourage you to explore more freely.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(org.Hs.eg.db)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_fetch_termwise_relationship</span>(ora_result<span class="sc">$</span>Description[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>],<span class="at">database =</span> <span class="fu">database_GO_BP</span>(org.Hs.eg.db),<span class="at">ClusterNum =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ success loaded database, time used : 10.1783771514893 sec.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(label)`</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="re_enrichment_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="infering-tfs-or-pathway-activity-and-more-based-on-meta-gene-modules" class="level1">
 <h1>Infering TFs or pathway activity and more based on meta-gene modules</h1>
@@ -496,57 +547,48 @@ How to get objects inside the S4 object?
 </ul>
 <p>Now let’s see this example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>re_enrich_smaller_clusterNum <span class="ot">&lt;-</span> </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">egt_recluster_analysis</span>(</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  ora_result,</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ClusterNum =</span> <span class="dv">6</span>, <span class="co"># reduce the cluster nums. </span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">P.adj =</span> <span class="fl">0.05</span>,</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">force =</span> F,</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">nTop =</span> <span class="dv">10</span>,</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"ward.D2"</span></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>TF_Act <span class="ot">&lt;-</span> <span class="fu">egt_infer_act</span>(re_enrich,<span class="at">DB =</span> <span class="st">"collectri"</span>, <span class="at">species =</span> <span class="st">"human"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ re-enrichment done.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>ℹ You can adjust the param of egt_recluster_analysis() for better results. Please refer to the help page. </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>TF_Act <span class="ot">&lt;-</span> <span class="fu">egt_infer_act</span>(re_enrich_smaller_clusterNum,<span class="at">DB =</span> <span class="st">"collectri"</span>, <span class="at">species =</span> <span class="st">"human"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>! If when doing re-enrichment, you select a high number of clusters, that may cause low gene number in each meta-gene module, and then can't be infered sucessfully. So if result is empty, please increase the number of re-clustering when doing it. </code></pre>
+<pre><code>! If when doing re-enrichment, you select a high number of clusters, that may cause low gene number in each meta-gene module, and then can't be infered sucessfully. So if result is empty, please increase the cut off of pvalue.  </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>✔ success loaded self-contained database</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ Done ORA in 0.0181510448455811 sec.</code></pre>
+<pre><code>✔ Done ORA in 0.0166840553283691 sec.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ Done ORA in 0.0142009258270264 sec.</code></pre>
+<pre><code>✔ Done ORA in 0.0125110149383545 sec.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ Done ORA in 0.0143129825592041 sec.</code></pre>
+<pre><code>✔ Done ORA in 0.0122601985931396 sec.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ Done ORA in 0.0139079093933105 sec.</code></pre>
+<pre><code>✔ Done ORA in 0.016308069229126 sec.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ Done ORA in 0.014354944229126 sec.</code></pre>
+<pre><code>✔ Done ORA in 0.0119631290435791 sec.</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>✔ Done ORA in 0.0136799812316895 sec.</code></pre>
+<pre><code>✔ Done ORA in 0.013624906539917 sec.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(TF_Act<span class="sc">$</span>Cluster_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>ℹ Use Default P-adjust cut-off 0.05. You can pass `P.adj=xxx` arugument to filter. </code></pre>
+<pre><code>✔ Done ORA in 0.0245451927185059 sec.</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Done ORA in 0.0154321193695068 sec.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Done ORA in 0.0112709999084473 sec.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_plot_results</span>(TF_Act<span class="sc">$</span>Cluster_1,<span class="at">P.adj =</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>! You are drawing origin results, for better result you can re-cluster it by egt_recluster_analysis()</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="re_enrichment_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="re_enrichment_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -563,8 +605,8 @@ Wants to interpret the regulator of whole inputted genes?
 <div class="callout-body-container callout-body">
 <p><code>PROGENy</code> and <code>CollecTRI</code> can be used just like other database in ORA or GSEA enrichment, for example, the <code>database_GO_BP()</code>. See [Progeny Database] and [CollecTRI Database] page for detail.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>TFActivity <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_CollecTRI_human</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>TFActivity <span class="ot">&lt;-</span> <span class="fu">egt_enrichment_analysis</span>(<span class="at">genes =</span> DEGtable<span class="sc">$</span>Genes,</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="at">database =</span> <span class="fu">database_CollecTRI_human</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="callout callout-style-default callout-important callout-titled">
@@ -586,236 +628,242 @@ Why many inferred results are empty?
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
         }
       }
+      return false;
     }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
         }
-        return container.innerHTML
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -823,196 +871,172 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Developed by Zhiming Ye</p>
+<p>EnrichGT</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
     <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/re_enrichment.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
-<p>Corresponding to EnrichGT Version 1.0.3</p>
+<p>Version 2.2</p>
 </div>
   </div>
 </footer>

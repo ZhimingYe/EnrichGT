@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Zhiming Ye">
-<meta name="dcterms.date" content="2024-12-21">
 
-<title>Valedictory of Enrichment – EnrichGT</title>
+<title>Web Interface – EnrichGT</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -41,7 +74,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-960cc9eac5395d1658253b679c30d018.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-06d22339cf1bae60befde528b0c36036.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -74,7 +107,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-sidebar docked nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -95,7 +128,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -116,40 +149,111 @@ ul.task-list li input[type="checkbox"] {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./interfaceshiny.html">Web Interface</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">EnrichGT: all-in-one enrichment analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./basic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Basic Workflow</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./interfaceshiny.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Web Interface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./enrichment_core.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Core Enrichment Functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./re_enrichment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Second enrichment of enriched Results</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fusing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Functions to FUSING results</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./visualize.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Visualize and Create Reports</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./llm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Large language models integration</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./compare.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Compare Multiple Enrichment Results</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./database.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Select your databases for enrichment or annotation</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#basic-launch" id="toc-basic-launch" class="nav-link active" data-scroll-target="#basic-launch">Basic Launch</a></li>
+  <li><a href="#launch-with-llm-powered-features" id="toc-launch-with-llm-powered-features" class="nav-link" data-scroll-target="#launch-with-llm-powered-features">Launch with LLM-Powered Features</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/interfaceshiny.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Valedictory of Enrichment</h1>
-<p class="subtitle lead">Enrichment did not made me rich</p>
+<h1 class="title">Web Interface</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Zhiming Ye </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">December 21, 2024</p>
-    </div>
-  </div>
   
     
   </div>
@@ -159,14 +263,58 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Engaged in bioinformatics analysis for over five years, I’ve come to realize that no matter which methods are used, understanding the function of identified genes inevitably requires enrichment analysis. It’s like a gateway that you can never avoid. Behind this gateway lie countless biological insights, waiting to be discovered. I will never forget the first time I encountered the clusterProfiler package four and a half years ago. Rich in features, timelessly innovative, concise, and powerful, it has been my guiding light among R packages—a true favorite in my analyses.</p>
-<p>About two and a half years ago, after learning to develop R packages myself, I always wanted to create a lightweight replication of such tools. However, the initial attempts resulted in packages with ever-increasing dependencies, making them cumbersome and inefficient, the very opposite of my intentions.</p>
-<p>After numerous analysis projects, I’ve come to a deeper understanding: the wealth of information from high-throughput sequencing often stands at odds with the simplicity of a single chart. Most top-tier journal articles today feature highly customized figures tailored to highlight important findings. In other words, the complexity of biology means that default plots generated by any tool might fail to convey all the underlying information. Default dot plots, for instance, might even lead you to overlook subtle biological stories hidden in the data.</p>
-<p>Moreover, most of the time, you need to report results to supervisors or clients. Busy with experiments, there’s often no time for custom visualizations, leaving you reliant on default plots. Over the years, I’ve pondered how to resolve this paradox—until I discovered the gt package developed by Posit. That’s when I realized: the time has come.</p>
-<p>Two and a half years later, I’ve matured significantly, gaining a deeper understanding of R’s underlying logic and embracing the philosophy of “less is more” and “bad is good.” Now, it’s time to develop EnrichGT, which I consider my farewell gift to R. It’s a tool I take pride in—one that reveals the beauty of statistics—but life moves on. My research group is facing uncertain times, and the road ahead is unclear. Perhaps some things must inevitably come to an end.</p>
-<p>In the wave of advancements in Python, machine learning, and artificial intelligence, it feels like the time to explore unknown horizons—if I still have the chance, though such opportunities may no longer be guaranteed.</p>
+<p>The EnrichGT Web Interface is an interactive tool that allows you to perform gene enrichment analysis through a user-friendly graphical interface, without writing code. As this tool is primarily designed for clinicians’ research tasks and clinical practice, this interface provides prioritized support only for human and mouse. For other species, analysis is only available through code (in R console) or by using orthologous genes (if you still want to use webpage).</p>
+<p><img src="images/clipboard-2948553640.png" class="img-fluid"></p>
+<section id="basic-launch" class="level3">
+<h3 class="anchored" data-anchor-id="basic-launch">Basic Launch</h3>
+<p>Simply run the following command in R:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(EnrichGT)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_web_interface</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will open the web interface in your default browser automatically.</p>
+</section>
+<section id="launch-with-llm-powered-features" class="level3">
+<h3 class="anchored" data-anchor-id="launch-with-llm-powered-features">Launch with LLM-Powered Features</h3>
+<p>The LLM function is based on package <code>ellmer</code> (<a href="https://ellmer.tidyverse.org/index.html" class="uri">https://ellmer.tidyverse.org/index.html</a>). It provides a uniform interface for most of LLMs in R.</p>
+<p><code>ellmer</code> supports a wide variety of model providers:</p>
+<ul>
+<li>Anthropic’s Claude: <code>chat_anthropic()</code>.</li>
+<li>AWS Bedrock: <code>chat_aws_bedrock()</code>.</li>
+<li>Azure OpenAI: <code>chat_azure_openai()</code>.</li>
+<li>Databricks: <code>chat_databricks()</code>.</li>
+<li>DeepSeek: <code>chat_deepseek()</code>.</li>
+<li>GitHub model marketplace: <code>chat_github()</code>.</li>
+<li>Google Gemini: <code>chat_google_gemini()</code>.</li>
+<li>Groq: <code>chat_groq()</code>.</li>
+<li>Ollama: <code>chat_ollama()</code>.</li>
+<li>OpenAI: <code>chat_openai()</code>.</li>
+<li>OpenRouter: <code>chat_openrouter()</code>.</li>
+<li>perplexity.ai: <code>chat_perplexity()</code>.</li>
+<li>Snowflake Cortex: <code>chat_snowflake()</code> and <code>chat_cortex_analyst()</code>.</li>
+<li>VLLM: <code>chat_vllm()</code>.</li>
+</ul>
+<p>You can generate a model in R environment like this (Please refer to <code>ellmer</code> website):</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ellmer)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dsAPI <span class="ot">&lt;-</span> <span class="st">"sk-**********"</span> <span class="co"># your API key</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">chat_deepseek</span>(<span class="at">api_key =</span> dsAPI, <span class="at">model =</span> <span class="st">"deepseek-chat"</span>, <span class="at">system_prompt =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Some suggestions:</p>
+<ol type="1">
+<li>You may choose a cost-effective LLM model, as this type of annotation requires multiple calls. Also, make sure that both the LLM and the network are as stable as possible in order to obtain all the results (although <code>EnrichGT</code> has already been set to automatically retry multiple times).</li>
+<li>Non-reflective models or fast-thinking models are generally better. Slow-thinking models (such as <code>DeepSeek-R1</code>) may result in long waiting times.</li>
+<li>It is best to choose an LLM model that is relatively intelligent, has a substantial knowledge base, and exhibits low hallucination rates. In our (albeit limited) experience, although <code>GPT-4o</code> performs worse than <code>DeepSeek-V3-0324</code> in most benchmark tests, it may produce more reliable results in some cases due to the latter’s higher hallucination rate. You are free to choose whichever large model you prefer.</li>
+<li><strong>NO</strong> system prompts. And please adjust your LLM’s tempretures according to your provider carefully.</li>
+</ol>
+<p>If you want to enable LLM-assisted result interpretation:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ellmer)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up your LLM chat (e.g., DeepSeek)</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">chat_deepseek</span>(<span class="at">api_key =</span> <span class="st">"your_api_key"</span>, <span class="at">model =</span> <span class="st">"deepseek-chat"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Launch with LLM support</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">egt_web_interface</span>(<span class="at">LLM =</span> chat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For detailed function documentation, see <code>?egt_web_interface</code></p>
 
 
+</section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -576,7 +724,7 @@ ul.task-list li input[type="checkbox"] {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/preface.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ZhimingYe/EnrichGT_website/blob/main/interfaceshiny.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/ZhimingYe/EnrichGT_website/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Version 2.2</p>
 </div>
