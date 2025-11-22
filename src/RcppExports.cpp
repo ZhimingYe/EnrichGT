@@ -10,6 +10,19 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// gseaScores2
+List gseaScores2(NumericVector stats, IntegerVector hitIndices, double exponent);
+RcppExport SEXP _EnrichGT_gseaScores2(SEXP statsSEXP, SEXP hitIndicesSEXP, SEXP exponentSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type stats(statsSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type hitIndices(hitIndicesSEXP);
+    Rcpp::traits::input_parameter< double >::type exponent(exponentSEXP);
+    rcpp_result_gen = Rcpp::wrap(gseaScores2(stats, hitIndices, exponent));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ora_analysis
 DataFrame ora_analysis(std::vector<std::vector<std::string>> gene_sets, std::vector<std::string> input_genes, std::vector<std::string> background_genes);
 RcppExport SEXP _EnrichGT_ora_analysis(SEXP gene_setsSEXP, SEXP input_genesSEXP, SEXP background_genesSEXP) {
@@ -25,6 +38,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_EnrichGT_gseaScores2", (DL_FUNC) &_EnrichGT_gseaScores2, 3},
     {"_EnrichGT_ora_analysis", (DL_FUNC) &_EnrichGT_ora_analysis, 3},
     {NULL, NULL, 0}
 };

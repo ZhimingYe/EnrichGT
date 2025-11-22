@@ -356,7 +356,7 @@ egt_gsea_analysis <- function(
       return(output)
     })
   }
-  if(is.data.frame(res)){
+  if (is.data.frame(res)) {
     res <- tibble::as_tibble(res) # better printing
   }
   return(res)
@@ -374,7 +374,6 @@ egt_gsea_analysis_internal <- function(
   suppressPackageStartupMessages({
     requireNamespace("fgsea")
   })
-
 
   dblist <- prepare_database(database, "pathway")
   dblist$db0 -> db0
@@ -422,15 +421,48 @@ egt_gsea_analysis_internal <- function(
       cli::cli_abort("No useable result!")
     }
   )
+  cli::cli_alert_info("Performing leading edge analysis...")
+  geneSets_le <- database2[fgseaRes2$Description]
+
+  le <- egt_leading_edge(
+    geneList = genes,
+    geneSets = geneSets_le,
+    exponent = gseaParam
+  )
+
+  fgseaRes2$rank <- le$rank
+  fgseaRes2$tags <- le$tags
+  fgseaRes2$list <- le$list
+  fgseaRes2$signal <- le$signal
+  fgseaRes2$leading_edge <- le$leading_edge
+
+  fgseaRes2$core_enrichment <- vapply(
+    le$core_enrichment,
+    function(x) paste(x, collapse = "/"),
+    character(1L)
+  )
+
   attr(fgseaRes2, "Package") <- "EnrichGT"
   attr(fgseaRes2, "Input") <- genes
   attr(fgseaRes2, "Database") <- database
-  attr(fgseaRes2, "Other_Params") <- list(p_val_cut_off,
-                                    min_geneset_size,
-                                    max_geneset_size,
-                                    gseaParam)
+  attr(fgseaRes2, "Other_Params") <- list(
+    p_val_cut_off,
+    min_geneset_size,
+    max_geneset_size,
+    gseaParam
+  )
   attr(fgseaRes2, "Time") <- Sys.time()
+
   return(fgseaRes2)
+  # attr(fgseaRes2, "Package") <- "EnrichGT"
+  # attr(fgseaRes2, "Input") <- genes
+  # attr(fgseaRes2, "Database") <- database
+  # attr(fgseaRes2, "Other_Params") <- list(p_val_cut_off,
+  #                                   min_geneset_size,
+  #                                   max_geneset_size,
+  #                                   gseaParam)
+  # attr(fgseaRes2, "Time") <- Sys.time()
+  # return(fgseaRes2)
 }
 
 message_wrong_db <- function() {
